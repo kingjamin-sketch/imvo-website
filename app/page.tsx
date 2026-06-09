@@ -80,14 +80,14 @@ function CinematicHero() {
       label: "DESIGN",
       title: "Spatial clarity before form.",
       text: "Every line begins with purpose, proportion, context, and buildable intent.",
-      image: "/project-10.png",
+      image: "/project-97.png",
       zIndex: 2,
     },
     {
       label: "STRATEGY",
       title: "Better decisions before construction.",
       text: "We connect design ambition with feasibility, planning, risk, and development value.",
-      image: "/project-22.png",
+      image: "/project-99.png",
       zIndex: 3,
     },
     {
