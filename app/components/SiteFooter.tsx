@@ -1,108 +1,89 @@
-import { BRAND, SOCIALS, THEME } from "./Brand";
+"use client";
 
-function SocialIconLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
+import Brand from "./Brand";
+import { motion } from "framer-motion";
+
+function Icon({ children }: { children: React.ReactNode }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={label}
-      title={label}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/85 hover:border-white/30 hover:text-white"
+    <motion.span
+      whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.12)" }}
+      whileTap={{ scale: 0.95 }}
+      style={{
+        width: 42,
+        height: 42,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 999,
+        border: "1px solid rgba(255,255,255,0.14)",
+        background: "rgba(255,255,255,0.06)",
+        cursor: "pointer",
+        transition: "border-color 0.3s ease",
+      }}
     >
       {children}
-    </a>
+    </motion.span>
   );
 }
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-black text-white">
-      <div className="mx-auto max-w-[1400px] px-6 py-12">
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div>
-            <img src="/imvo-white.png" alt="IMVO" className="h-8 w-auto" />
-            <div className="mt-3 text-xs tracking-[0.35em] text-white/70">{BRAND.tagline}</div>
-            <div className="mt-4 text-sm text-white/70">
-              {BRAND.nameOfficial} · {BRAND.location}
-            </div>
-            <div className="mt-2 text-sm text-white/70">
-              {BRAND.email} · {BRAND.phone}
-            </div>
-          </div>
+    <footer className="sectionBlack" style={{ padding: "38px 0 28px" }}>
+      <div className="containerWide">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
+          <Brand variant="light" size="md" />
 
-          <div className="flex flex-wrap gap-3">
-            <SocialIconLink href={SOCIALS.linkedin} label="LinkedIn">
-              <LinkedInIcon />
-            </SocialIconLink>
-            <SocialIconLink href={SOCIALS.x} label="X">
-              <XIcon />
-            </SocialIconLink>
-            <SocialIconLink href={SOCIALS.instagram} label="Instagram">
-              <InstagramIcon />
-            </SocialIconLink>
-            <SocialIconLink href={SOCIALS.facebook} label="Facebook">
-              <FacebookIcon />
-            </SocialIconLink>
-            <SocialIconLink href={SOCIALS.youtube} label="YouTube">
-              <YouTubeIcon />
-            </SocialIconLink>
-          </div>
-        </div>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <a href="https://www.linkedin.com/company/imvo-design-group" target="_blank" rel="noreferrer">
+              <Icon>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M6.94 8.5V21H3.5V8.5h3.44ZM5.22 3C6.32 3 7.2 3.9 7.2 5s-.88 2-1.98 2S3.25 6.1 3.25 5 4.12 3 5.22 3ZM21 21h-3.44v-6.4c0-1.52-.03-3.47-2.12-3.47-2.12 0-2.45 1.66-2.45 3.36V21H9.55V8.5h3.3v1.7h.05c.46-.87 1.6-1.78 3.3-1.78 3.53 0 4.18 2.32 4.18 5.35V21Z" fill="white" />
+                </svg>
+              </Icon>
+            </a>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/60">
-          © {new Date().getFullYear()} {BRAND.nameOfficial}. All rights reserved.
-          <span className="ml-3 inline-flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: THEME.ACCENT }} />
-            {BRAND.tagline}
-          </span>
+            <a href="https://www.instagram.com/imvo_group/" target="_blank" rel="noreferrer">
+              <Icon>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9A3.5 3.5 0 0 0 20 16.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm10.75 1.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" fill="white"/>
+                </svg>
+              </Icon>
+            </a>
+
+            <a href="https://x.com/Imvogroupafrica" target="_blank" rel="noreferrer">
+              <Icon>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M18.9 2H22l-6.8 7.8L23 22h-6.9l-5.4-7-6.1 7H1.5l7.3-8.3L1 2h7.1l4.9 6.3L18.9 2Zm-1.2 18h1.7L7.1 3.9H5.3L17.7 20Z" fill="white"/>
+                </svg>
+              </Icon>
+            </a>
+
+            <a href="https://www.facebook.com/people/IMVO-GROUP-Africa/100087615605183/" target="_blank" rel="noreferrer">
+              <Icon>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.87.24-1.46 1.49-1.46h1.63V5.02c-.28-.04-1.24-.12-2.36-.12-2.34 0-3.94 1.43-3.94 4.05V11H7.8v3h2.57v8h3.13Z" fill="white"/>
+                </svg>
+              </Icon>
+            </a>
+
+            <a href="https://www.youtube.com/@Imvogroupafrica" target="_blank" rel="noreferrer">
+              <Icon>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M21.6 7.2a3 3 0 0 0-2.12-2.12C17.6 4.5 12 4.5 12 4.5s-5.6 0-7.48.58A3 3 0 0 0 2.4 7.2 31.4 31.4 0 0 0 2 12a31.4 31.4 0 0 0 .4 4.8 3 3 0 0 0 2.12 2.12C6.4 19.5 12 19.5 12 19.5s5.6 0 7.48-.58a3 3 0 0 0 2.12-2.12A31.4 31.4 0 0 0 22 12a31.4 31.4 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z" fill="white"/>
+                </svg>
+              </Icon>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-/* Inline SVG icons */
-function LinkedInIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 23.5h4V7.98h-4V23.5zM8.5 7.98h3.83v2.12h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v9.36h-4v-8.3c0-1.98-.04-4.53-2.76-4.53-2.76 0-3.18 2.15-3.18 4.39v8.44h-4V7.98z"/>
-    </svg>
-  );
-}
-function XIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18.9 2H22l-6.77 7.73L23.2 22h-6.6l-5.17-6.6L5.6 22H2.5l7.3-8.34L1 2h6.7l4.67 6.02L18.9 2zm-1.16 18h1.72L6.77 3.9H4.93L17.74 20z"/>
-    </svg>
-  );
-}
-function InstagramIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5zM18 6.3a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/>
-    </svg>
-  );
-}
-function FacebookIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.25-1.5 1.55-1.5h1.65V4.9c-.29-.04-1.27-.12-2.42-.12-2.4 0-4.03 1.46-4.03 4.14V11H7.6v3h2.6v8h3.3z"/>
-    </svg>
-  );
-}
-function YouTubeIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M23.5 6.2a3.1 3.1 0 0 0-2.18-2.2C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.32.5A3.1 3.1 0 0 0 .5 6.2 32.6 32.6 0 0 0 0 12a32.6 32.6 0 0 0 .5 5.8 3.1 3.1 0 0 0 2.18 2.2c1.82.5 9.32.5 9.32.5s7.5 0 9.32-.5a3.1 3.1 0 0 0 2.18-2.2A32.6 32.6 0 0 0 24 12a32.6 32.6 0 0 0-.5-5.8zM9.7 15.5v-7l6.1 3.5-6.1 3.5z"/>
-    </svg>
   );
 }

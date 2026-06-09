@@ -1,126 +1,227 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { BRAND, THEME } from "./Brand";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import Brand from "./Brand";
 
 export default function SiteHeader() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+
+    if (latest > 50) {
+      setIsScrolled(true);
+
+      if (latest > previous && latest > 150 && !mobileMenuOpen) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+    } else {
+      setIsScrolled(false);
+      setHidden(false);
+    }
+  });
+
+  const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const closeMenu = () => setMobileMenuOpen(false);
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/25 backdrop-blur">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-4">
-            <Link href="/" aria-label="Go home" className="inline-flex items-center">
-              <img src="/imvo-white.png" alt="IMVO" className="h-8 w-auto" />
-            </Link>
-            <div className="hidden text-[11px] tracking-[0.35em] text-white/75 md:block">
-              {BRAND.tagline}
-            </div>
-          </div>
+      <motion.header
+        variants={{
+          visible: { y: "0%" },
+          hidden: { y: "-100%" },
+        }}
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 99999,
+          padding: isScrolled ? "16px 0" : "20px 0",
+          background: isScrolled || mobileMenuOpen
+            ? "linear-gradient(to bottom, rgba(5,5,5,0.58), rgba(5,5,5,0.28))"
+            : "linear-gradient(to bottom, rgba(5,5,5,0.2), rgba(5,5,5,0.045))",
+          backdropFilter: isScrolled || mobileMenuOpen
+            ? "blur(24px) saturate(180%)"
+            : "blur(12px) saturate(135%)",
+          WebkitBackdropFilter: isScrolled || mobileMenuOpen
+            ? "blur(24px) saturate(180%)"
+            : "blur(12px) saturate(135%)",
+          borderBottom: isScrolled || mobileMenuOpen
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "1px solid rgba(255,255,255,0.035)",
+          boxShadow: isScrolled
+            ? "0 12px 40px rgba(0,0,0,0.28)"
+            : "none",
+          transition:
+            "padding 0.35s ease, background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.045), transparent 65%)",
+            pointerEvents: "none",
+          }}
+        />
 
-          <nav className="hidden items-center gap-10 text-sm text-white/75 md:flex">
-            <Link className="hover:text-white" href="/projects">Projects</Link>
-            <Link className="hover:text-white" href="/services">Services</Link>
-            <Link className="hover:text-white" href="/about">About</Link>
-            <Link className="hover:text-white" href="/contact">Contact</Link>
+        <div
+          className="containerWide"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "0 32px",
+            maxWidth: 1440,
+            margin: "0 auto",
+          }}
+        >
+          <Link href="/" style={{ textDecoration: "none" }} onClick={closeMenu}>
+            <Brand size="lg" variant="light" />
+          </Link>
+
+          {/* DESKTOP NAV (Hidden on Mobile) */}
+          <nav className="desktopNav" style={{ display: "flex", alignItems: "center", gap: 32 }}>
+            {["Projects", "Services", "About", "Contact"].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  opacity: 0.92,
+                  textShadow: "0 1px 18px rgba(0,0,0,0.35)",
+                  transition: "opacity 0.2s ease, transform 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = "0.62";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = "0.92";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                {item}
+              </Link>
+            ))}
+
+            <a
+              href="/contact#quote"
+              style={{
+                background: "rgba(255,255,255,0.96)",
+                color: "black",
+                padding: isScrolled ? "10px 24px" : "11px 26px",
+                borderRadius: 99,
+                fontWeight: 800,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 10px 28px rgba(0,0,0,0.18)",
+                transition:
+                  "transform 0.2s ease, background 0.2s ease, padding 0.35s ease",
+              }}
+              onClick={(e) => {
+                if (window.location.pathname === "/contact") {
+                  e.preventDefault();
+                  document.getElementById("quote")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.045)";
+                e.currentTarget.style.background = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.96)";
+              }}
+            >
+              Request a Quote
+            </a>
           </nav>
 
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="rounded-full border border-white/35 px-4 py-2 text-sm text-white hover:border-white"
-            aria-label="Open menu"
-          >
-            More
+          {/* MOBILE HAMBURGER BUTTON (Hidden on Desktop) */}
+          <button className="mobileMenuBtn" onClick={toggleMenu} aria-label="Toggle Menu">
+            <span style={{ transform: mobileMenuOpen ? "rotate(45deg) translate(5px, 6px)" : "none" }} />
+            <span style={{ opacity: mobileMenuOpen ? 0 : 1 }} />
+            <span style={{ transform: mobileMenuOpen ? "rotate(-45deg) translate(5px, -6px)" : "none" }} />
           </button>
         </div>
-      </header>
+      </motion.header>
 
-      {/* MORE PANEL */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-[60]">
-          <div className="absolute inset-0 bg-black/55" onClick={() => setMenuOpen(false)} />
-          <div
-            className="absolute right-0 top-0 h-full w-full max-w-md shadow-2xl"
-            style={{ backgroundColor: THEME.PAPER }}
+      {/* MOBILE FULLSCREEN MENU */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: "0%" }}
+            exit={{ opacity: 0, y: "-100%" }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 99998, // Just below the header
+              background: "#050505",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 40,
+            }}
           >
-            <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
-              <div>
-                <div className="text-xs tracking-[0.35em] text-black/55">IMVO MENU</div>
-                <div className="mt-1 text-lg font-semibold">Quick access</div>
-              </div>
-              <button
-                className="rounded-full border border-black/20 px-3 py-1 text-sm hover:border-black/40"
-                onClick={() => setMenuOpen(false)}
+            {["Projects", "Services", "About", "Contact"].map((item, i) => (
+              <motion.div key={item} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }}>
+                <Link
+                  href={`/${item.toLowerCase()}`}
+                  onClick={closeMenu}
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    fontSize: 32,
+                    fontWeight: 900,
+                  }}
+                >
+                  {item}
+                </Link>
+              </motion.div>
+            ))}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+              <Link
+                href="/contact#quote"
+                onClick={closeMenu}
+                style={{
+                  background: "white",
+                  color: "black",
+                  padding: "16px 36px",
+                  borderRadius: 99,
+                  fontWeight: 800,
+                  fontSize: 16,
+                  textDecoration: "none",
+                }}
               >
-                Close
-              </button>
-            </div>
-
-            <div className="px-6 py-6">
-              <div className="rounded-3xl border border-black/10 bg-white/70 p-5">
-                <div className="text-xs tracking-[0.25em] text-black/55">STUDIO</div>
-                <p className="mt-2 text-sm leading-relaxed text-black/70">
-                  IMVO is a Kigali-based architectural & planning practice delivering sustainable design,
-                  strategic planning, and supervision — with engineering-aware execution.
-                </p>
-
-                <div className="mt-4 grid gap-3 text-sm">
-                  <Link
-                    className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 hover:border-black/25"
-                    href="/projects"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Explore Projects
-                  </Link>
-                  <Link
-                    className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 hover:border-black/25"
-                    href="/services"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Service Pillars & Deliverables
-                  </Link>
-                  <Link
-                    className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 hover:border-black/25"
-                    href="/about"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Studio Story & Approach
-                  </Link>
-                  <Link
-                    className="rounded-2xl border border-black/10 bg-white/70 px-4 py-3 hover:border-black/25"
-                    href="/contact"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Start a Project
-                  </Link>
-                </div>
-              </div>
-
-              <div className="mt-6 rounded-3xl border border-black/10 bg-white/70 p-5">
-                <div className="text-xs tracking-[0.25em] text-black/55">CONTACT</div>
-                <div className="mt-3 text-sm text-black/70">
-                  <div><span className="text-black/50">Email:</span> {BRAND.email}</div>
-                  <div className="mt-1"><span className="text-black/50">Phone:</span> {BRAND.phone}</div>
-                  <div className="mt-1"><span className="text-black/50">Location:</span> {BRAND.location}</div>
-                </div>
-              </div>
-
-              <div className="mt-6 text-xs text-black/50">
-                Next upgrades: project detail pages, PDF company profile download, and testimonials.
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+                Request a Quote
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
