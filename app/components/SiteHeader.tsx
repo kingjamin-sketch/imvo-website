@@ -89,9 +89,18 @@ export default function SiteHeader() {
             margin: "0 auto",
           }}
         >
-          <Link href="/" style={{ textDecoration: "none" }} onClick={closeMenu}>
-            <Brand size="lg" variant="light" />
-          </Link>
+          <Link
+  href="/"
+  style={{ textDecoration: "none" }}
+  onClick={(e) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }}
+>
+  <Brand size="lg" variant="light" />
+</Link>
 
           {/* DESKTOP NAV (Hidden on Mobile) */}
           <nav className="desktopNav" style={{ display: "flex", alignItems: "center", gap: 32 }}>

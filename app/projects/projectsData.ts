@@ -5,6 +5,11 @@ export type ProjectCategory =
   | "Urban"
   | "Hospitality";
 
+export type ProjectTimelineItem = {
+  year: string;
+  title: string;
+};
+
 export type Project = {
   id: string;
   slug: string;
@@ -15,12 +20,39 @@ export type Project = {
   cover: string;
   images: string[];
   summary: string;
-  // Architectural Metadata
+
   bedrooms?: number;
   bathrooms?: number;
-  area?: string; 
-  mapUrl?: string; 
+  area?: string;
+  mapUrl?: string;
+
+  status?: string;
+  scope?: string;
+
+  // Use drawing for one plan, or drawings for two or more plans.
+  drawing?: string;
+  drawings?: string[];
+
+  timeline?: ProjectTimelineItem[];
 };
+
+const conceptTimeline: ProjectTimelineItem[] = [
+  { year: "2024", title: "Concept Design" },
+  { year: "2024", title: "Spatial Development" },
+  { year: "2024", title: "Visualization Study" },
+];
+
+const developmentTimeline: ProjectTimelineItem[] = [
+  { year: "2024", title: "Concept Design" },
+  { year: "2024", title: "Design Development" },
+  { year: "2025", title: "Documentation" },
+];
+
+const deliveryTimeline: ProjectTimelineItem[] = [
+  { year: "2024", title: "Concept Design" },
+  { year: "2024", title: "Technical Coordination" },
+  { year: "2025", title: "Supervision & Delivery" },
+];
 
 export const PROJECTS: Project[] = [
   {
@@ -31,12 +63,20 @@ export const PROJECTS: Project[] = [
     location: "Kigali, Rwanda",
     year: "2024",
     cover: "/p01-1.png",
-    images: ["/p01-2.png", "/p01-3.png", "/p01-4.png"], 
-    summary: "A residential design study focused on spatial clarity, proportion, privacy, and long-term architectural value.",
+    images: ["/p01-2.png", "/p01-3.png", "/p01-4.png"],
+    summary:
+      "A residential design study focused on spatial clarity, proportion, privacy, and long-term architectural value.",
     bedrooms: 5,
     bathrooms: 6,
     area: "620 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Visualization",
+    drawings: [
+      "/drawings/project-01-ground-floor.png",
+      "/drawings/project-01-first-floor.png",
+    ],
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p02",
@@ -47,11 +87,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p02-1.png",
     images: ["/project-14.png", "/project-21.png", "/project-22.png"],
-    summary: "A private residential project shaped through context, material logic, and refined living experience.",
+    summary:
+      "A private residential project shaped through context, material logic, and refined living experience.",
     bedrooms: 4,
     bathrooms: 4,
     area: "450 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "In Development",
+    scope: "Architecture + Supervision",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p03",
@@ -62,11 +106,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p03-1.png",
     images: ["/project-21.png", "/project-22.png", "/project-10.png"],
-    summary: "A contemporary villa study balancing architectural identity, landscape, and practical buildability.",
+    summary:
+      "A contemporary villa study balancing architectural identity, landscape, and practical buildability.",
     bedrooms: 6,
     bathrooms: 7,
     area: "850 sqm",
-    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Visualization",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed",
   },
   {
     id: "p04",
@@ -77,9 +125,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p04-1.png",
     images: ["/project-22.png", "/project-10.png", "/project-36.png"],
-    summary: "A commercial project environment focused on visibility, circulation, usability, and development value.",
+    summary:
+      "A commercial project environment focused on visibility, circulation, usability, and development value.",
     area: "2,400 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "In Development",
+    scope: "Architecture + Consultancy",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p05",
@@ -90,11 +142,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p05-1.png",
     images: ["/project-10.png", "/project-36.png", "/project-23.png"],
-    summary: "A hospitality-oriented study shaped around atmosphere, comfort, guest experience, and spatial flow.",
+    summary:
+      "A hospitality-oriented study shaped around atmosphere, comfort, guest experience, and spatial flow.",
     bedrooms: 45,
     bathrooms: 45,
     area: "3,200 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Hospitality Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed",
   },
   {
     id: "p06",
@@ -105,9 +161,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p06-1.png",
     images: ["/project-36.png", "/project-23.png", "/project-9.png"],
-    summary: "A mixed-use development study combining commercial logic, urban presence, and planning awareness.",
+    summary:
+      "A mixed-use development study combining commercial logic, urban presence, and planning awareness.",
     area: "1.2 Hectares",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=12&output=embed"
+    status: "Planning Study",
+    scope: "Urban Planning + Development Advisory",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=12&output=embed",
   },
   {
     id: "p07",
@@ -118,11 +178,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p07-1.png",
     images: ["/project-23.png", "/project-9.png", "/project-8.png"],
-    summary: "A residential project responding to topography, views, climate, and long-term living comfort.",
+    summary:
+      "A residential project responding to topography, views, climate, and long-term living comfort.",
     bedrooms: 3,
     bathrooms: 3,
     area: "320 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Site Strategy",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p08",
@@ -133,11 +197,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p08-1.png",
     images: ["/project-9.png", "/project-8.png", "/project-45.png"],
-    summary: "A private estate concept developed through landscape integration, privacy, and architectural restraint.",
+    summary:
+      "A private estate concept developed through landscape integration, privacy, and architectural restraint.",
     bedrooms: 7,
     bathrooms: 8,
     area: "1,100 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "In Development",
+    scope: "Architecture + Landscape Integration",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p09",
@@ -148,11 +216,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p09-1.png",
     images: ["/project-8.png", "/project-45.png", "/project-46.png"],
-    summary: "An urban residential study focused on density, privacy, frontage, and contextual development.",
+    summary:
+      "An urban residential study focused on density, privacy, frontage, and contextual development.",
     bedrooms: 4,
     bathrooms: 4,
     area: "800 sqm",
-    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Urban Strategy",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed",
   },
   {
     id: "p10",
@@ -163,9 +235,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p10-1.png",
     images: ["/project-45.png", "/project-46.png", "/project-30.png"],
-    summary: "An institutional planning study shaped by circulation, durability, public use, and clear organization.",
+    summary:
+      "An institutional planning study shaped by circulation, durability, public use, and clear organization.",
     area: "4,500 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Institutional Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p11",
@@ -176,9 +252,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p11-1.png",
     images: ["/project-46.png", "/project-30.png", "/project-28.png"],
-    summary: "A planning-oriented development study focused on site logic, access, density, and future value.",
+    summary:
+      "A planning-oriented development study focused on site logic, access, density, and future value.",
     area: "3.5 Hectares",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Planning Study",
+    scope: "Urban Planning + Development Advisory",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p12",
@@ -189,9 +269,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p12-1.png",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "1,800 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p13",
@@ -201,12 +285,16 @@ export const PROJECTS: Project[] = [
     location: "Kigali, Rwanda",
     year: "2024",
     cover: "/p13-1.png",
-    images: ["/p01-2.png", "/p01-3.png", "/p01-4.png"], 
-    summary: "A residential design study focused on spatial clarity, proportion, privacy, and long-term architectural value.",
+    images: ["/p01-2.png", "/p01-3.png", "/p01-4.png"],
+    summary:
+      "A residential design study focused on spatial clarity, proportion, privacy, and long-term architectural value.",
     bedrooms: 5,
     bathrooms: 5,
     area: "580 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Visualization",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p14",
@@ -217,11 +305,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p14-1.png",
     images: ["/project-14.png", "/project-21.png", "/project-22.png"],
-    summary: "A private residential project shaped through context, material logic, and refined living experience.",
+    summary:
+      "A private residential project shaped through context, material logic, and refined living experience.",
     bedrooms: 4,
     bathrooms: 5,
     area: "420 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "In Development",
+    scope: "Architecture + Supervision",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p15",
@@ -232,11 +324,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p15-1.png",
     images: ["/project-21.png", "/project-22.png", "/project-10.png"],
-    summary: "A contemporary villa study balancing architectural identity, landscape, and practical buildability.",
+    summary:
+      "A contemporary villa study balancing architectural identity, landscape, and practical buildability.",
     bedrooms: 5,
     bathrooms: 6,
     area: "600 sqm",
-    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Visualization",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed",
   },
   {
     id: "p16",
@@ -247,9 +343,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p16-1.png",
     images: ["/project-22.png", "/project-10.png", "/project-36.png"],
-    summary: "A commercial project environment focused on visibility, circulation, usability, and development value.",
+    summary:
+      "A commercial project environment focused on visibility, circulation, usability, and development value.",
     area: "3,100 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "In Development",
+    scope: "Architecture + Consultancy",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p17",
@@ -260,11 +360,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/project-100.png",
     images: ["/project-10.png", "/project-36.png", "/project-23.png"],
-    summary: "A hospitality-oriented study shaped around atmosphere, comfort, guest experience, and spatial flow.",
+    summary:
+      "A hospitality-oriented study shaped around atmosphere, comfort, guest experience, and spatial flow.",
     bedrooms: 60,
     bathrooms: 65,
     area: "4,800 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Hospitality Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed",
   },
   {
     id: "p18",
@@ -275,9 +379,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/project-08.png",
     images: ["/project-36.png", "/project-23.png", "/project-9.png"],
-    summary: "A mixed-use development study combining commercial logic, urban presence, and planning awareness.",
+    summary:
+      "A mixed-use development study combining commercial logic, urban presence, and planning awareness.",
     area: "2.4 Hectares",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed"
+    status: "Planning Study",
+    scope: "Urban Planning + Development Advisory",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=10&output=embed",
   },
   {
     id: "p19",
@@ -288,11 +396,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/project-09.png",
     images: ["/project-23.png", "/project-9.png", "/project-8.png"],
-    summary: "A residential project responding to topography, views, climate, and long-term living comfort.",
+    summary:
+      "A residential project responding to topography, views, climate, and long-term living comfort.",
     bedrooms: 4,
     bathrooms: 4,
     area: "380 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Site Strategy",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p20",
@@ -303,11 +415,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p20-1.png",
     images: ["/project-9.png", "/project-8.png", "/project-45.png"],
-    summary: "A private estate concept developed through landscape integration, privacy, and architectural restraint.",
+    summary:
+      "A private estate concept developed through landscape integration, privacy, and architectural restraint.",
     bedrooms: 8,
     bathrooms: 9,
     area: "1,500 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "In Development",
+    scope: "Architecture + Supervision",
+    timeline: developmentTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p21",
@@ -318,11 +434,15 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p21-1.jpg",
     images: ["/project-8.png", "/project-45.png", "/project-46.png"],
-    summary: "An urban residential study focused on density, privacy, frontage, and contextual development.",
+    summary:
+      "An urban residential study focused on density, privacy, frontage, and contextual development.",
     bedrooms: 3,
     bathrooms: 4,
     area: "950 sqm",
-    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Urban Strategy",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=East+Africa&z=6&output=embed",
   },
   {
     id: "p22",
@@ -333,9 +453,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p22-1.jpg",
     images: ["/project-45.png", "/project-46.png", "/project-30.png"],
-    summary: "An institutional planning study shaped by circulation, durability, public use, and clear organization.",
+    summary:
+      "An institutional planning study shaped by circulation, durability, public use, and clear organization.",
     area: "5,200 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Institutional Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Rwanda&z=12&output=embed",
   },
   {
     id: "p23",
@@ -346,9 +470,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p23-1.jpg",
     images: ["/project-46.png", "/project-30.png", "/project-28.png"],
-    summary: "A planning-oriented development study focused on site logic, access, density, and future value.",
+    summary:
+      "A planning-oriented development study focused on site logic, access, density, and future value.",
     area: "1.8 Hectares",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Planning Study",
+    scope: "Urban Planning + Development Advisory",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p24",
@@ -359,9 +487,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p24-1.jpg",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p25",
@@ -372,9 +504,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p25-1.jpg",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p26",
@@ -385,9 +521,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p26-1.png",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p27",
@@ -398,9 +538,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p27-1.png",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p28",
@@ -411,9 +555,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p28-1.jpg",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p29",
@@ -424,9 +572,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/project-44.jpg",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p30",
@@ -437,9 +589,13 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/project-030.jpg",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
   {
     id: "p31",
@@ -450,8 +606,12 @@ export const PROJECTS: Project[] = [
     year: "2024",
     cover: "/p31-1.png",
     images: ["/project-30.png", "/project-28.png", "/project-14.png"],
-    summary: "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
+    summary:
+      "A commercial block concept exploring frontage, public interface, tenant flexibility, and buildability.",
     area: "2,000 sqm",
-    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed"
+    status: "Concept Design",
+    scope: "Architecture + Commercial Planning",
+    timeline: conceptTimeline,
+    mapUrl: "https://maps.google.com/maps?q=Kigali,Rwanda&z=14&output=embed",
   },
 ];

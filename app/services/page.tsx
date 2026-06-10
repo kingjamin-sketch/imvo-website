@@ -96,12 +96,12 @@ const strategicPartners = [
   {
     name: "BM Engineering",
     logo: "/partners/partner-2.png",
-    href: "https://YOUR-LINK-HERE.com",
+    href: "https://bminvestmentsltd.com/",
   },
   {
     name: "Show Makerz",
     logo: "/partners/partner-3.png",
-    href: "https://YOUR-LINK-HERE.com",
+    href: "https://showmakerzpaint.rw/",
   },
   {
     name: "Optimus Anchor",

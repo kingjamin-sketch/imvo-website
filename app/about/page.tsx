@@ -36,13 +36,13 @@ const BlueprintBackground = () => (
 // COMBINED TEAM ARRAY
 const teamMembers = [
   {
-    name: "Arch. ASINGIZWE BENJAMIN MARIE MERCI",
+    name: "ASINGIZWE BENJAMIN MARIE MERCI",
     role: "Principal Architect & Design Lead",
     image: "/team1.png",
     description: "Experienced in architectural design, urbanism, and environmentally responsive development — focused on spatial clarity.",
   },
   {
-    name: "Phd. Eng. RUKUNDO Prince",
+    name: "RUKUNDO Prince",
     role: "Principal Engineer & Execution Lead",
     image: "/team3.png",
     description: "PhD holder in Civil Engineering with expertise in roads, infrastructure systems, and urbanism.",
@@ -85,6 +85,281 @@ const testimonials = [
 ];
 
 const transition = { duration: 1.4, ease: [0.16, 1, 0.3, 1] as const };
+const regionalCountries = [
+  { name: "Rwanda", left: 58.3, top: 34.2, main: true },
+  { name: "Uganda", left: 66.8, top: 22.8 },
+  { name: "Kenya", left: 76.2, top: 28.4 },
+  { name: "Tanzania", left: 70.5, top: 49.5 },
+  { name: "Burundi", left: 59.5, top: 42.0 },
+  { name: "DRC", left: 42.5, top: 37.5 },
+  { name: "Zambia", left: 53.5, top: 78.5 },
+  { name: "Angola", left: 21.5, top: 60.5 },
+  { name: "Mozambique", left: 68.5, top: 72.5 },
+];
+
+const expansionRoutes = [
+  { name: "Cameroon", left: 22.5, top: 10.5 },
+  { name: "Central African Republic", left: 37.5, top: 12.5 },
+  { name: "South Sudan", left: 58.5, top: 12.5 },
+  { name: "Ethiopia", left: 78.5, top: 12.5 },
+  { name: "Malawi", left: 67.5, top: 70.0 },
+  { name: "Zimbabwe", left: 60.5, top: 88.0 },
+  { name: "Republic of Congo", left: 30.0, top: 36.0 },
+];
+
+const RegionalReach = () => {
+  const rwanda = regionalCountries.find((item) => item.name === "Rwanda")!;
+
+  const curvedPath = (to: { left: number; top: number }, curve = 10) => {
+    const midX = (rwanda.left + to.left) / 2;
+    const midY = (rwanda.top + to.top) / 2 - curve;
+
+    return `M ${rwanda.left} ${rwanda.top} Q ${midX} ${midY} ${to.left} ${to.top}`;
+  };
+
+  return (
+    <section
+      className="mobilePad"
+      style={{
+        padding: "130px 0",
+        background: "#050505",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        position: "relative",
+        overflow: "hidden",
+        zIndex: 10,
+      }}
+    >
+      <BlueprintBackground />
+
+      <div
+        className="containerWide mobileStack"
+        style={{
+          position: "relative",
+          zIndex: 10,
+          display: "grid",
+          gridTemplateColumns: "0.8fr 1.2fr",
+          gap: 70,
+          alignItems: "center",
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={transition}
+        >
+          <div
+            style={{
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              fontSize: 12,
+              opacity: 0.6,
+              fontWeight: 800,
+            }}
+          >
+            Regional Reach
+          </div>
+
+          <h2
+            style={{
+              marginTop: 20,
+              fontSize: "clamp(42px, 5vw, 78px)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.065em",
+              fontWeight: 900,
+            }}
+          >
+            Designed from Kigali.
+            <br />
+            Connected across Africa.
+          </h2>
+
+          <p
+            style={{
+              marginTop: 34,
+              maxWidth: 560,
+              fontSize: 18,
+              lineHeight: 1.85,
+              color: "rgba(255,255,255,0.64)",
+            }}
+          >
+            IMVO operates from Rwanda while supporting design, consultancy,
+            supervision, and development-oriented work across East, Central, and
+            Southern African corridors.
+          </p>
+
+          <div
+            style={{
+              marginTop: 34,
+              display: "flex",
+              gap: 10,
+              flexWrap: "wrap",
+              maxWidth: 620,
+            }}
+          >
+            {regionalCountries.map((country) => (
+              <span
+                key={country.name}
+                style={{
+                  padding: "10px 14px",
+                  borderRadius: 999,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.035)",
+                  fontSize: 12,
+                  fontWeight: 800,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.68)",
+                }}
+              >
+                {country.name}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ ...transition, delay: 0.15 }}
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "3/2",
+            border: "1px solid rgba(255,255,255,0.14)",
+            background: "#050505",
+            overflow: "hidden",
+          }}
+        >
+          <img
+            src="/regional-map.png"
+            alt="IMVO regional reach map"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              filter:
+                "grayscale(100%) invert(100%) contrast(1.45) brightness(1.25)",
+              opacity: 0.82,
+            }}
+          />
+
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(circle at 58% 34%, transparent 0%, rgba(5,5,5,0.04) 32%, rgba(5,5,5,0.22) 100%)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 3,
+              pointerEvents: "none",
+            }}
+          >
+            {expansionRoutes.map((country, index) => (
+              <motion.path
+                key={country.name}
+                d={curvedPath(country, index % 2 === 0 ? 11 : -8)}
+                fill="none"
+                stroke="rgba(255,255,255,0.28)"
+                strokeWidth="0.11"
+                strokeDasharray="1.2 1.7"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.9, delay: 0.25 + index * 0.08 }}
+              />
+            ))}
+
+            {regionalCountries
+              .filter((country) => country.name !== "Rwanda")
+              .map((country, index) => (
+                <motion.path
+                  key={country.name}
+                  d={curvedPath(country, index % 2 === 0 ? 5 : -5)}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.72)"
+                  strokeWidth="0.16"
+                  strokeDasharray="1.1 1.2"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  whileInView={{ pathLength: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.6, delay: index * 0.1 }}
+                />
+              ))}
+          </svg>
+
+          {[...regionalCountries, ...expansionRoutes].map((country) => {
+            const isPrimary = "main" in country || regionalCountries.some((item) => item.name === country.name);
+
+            return (
+              <div
+                key={country.name}
+                style={{
+                  position: "absolute",
+                  left: `${country.left}%`,
+                  top: `${country.top}%`,
+                  zIndex: 4,
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <div
+                  style={{
+                    width: country.name === "Rwanda" ? 12 : isPrimary ? 8 : 5,
+                    height: country.name === "Rwanda" ? 12 : isPrimary ? 8 : 5,
+                    borderRadius: "50%",
+                    background: "white",
+                    opacity: country.name === "Rwanda" ? 1 : isPrimary ? 0.9 : 0.55,
+                    boxShadow:
+                      country.name === "Rwanda"
+                        ? "0 0 30px rgba(255,255,255,0.95)"
+                        : isPrimary
+                          ? "0 0 16px rgba(255,255,255,0.62)"
+                          : "0 0 10px rgba(255,255,255,0.35)",
+                  }}
+                />
+              </div>
+            );
+          })}
+
+          <div
+            style={{
+              position: "absolute",
+              left: 24,
+              bottom: 24,
+              zIndex: 5,
+              padding: "10px 14px",
+              borderRadius: 999,
+              background: "rgba(0,0,0,0.62)",
+              border: "1px solid rgba(255,255,255,0.18)",
+              backdropFilter: "blur(10px)",
+              fontSize: 11,
+              fontWeight: 900,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.84)",
+            }}
+          >
+            Kigali Base · Regional Horizon
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 export default function AboutPage() {
   return (
@@ -133,7 +408,8 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-
+{/* REGIONAL REACH */}
+<RegionalReach />
       {/* 4. STUDIO CULTURE & TEAM PHOTO */}
       <section className="mobilePad" style={{ padding: "120px 0", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
         <div className="containerWide">

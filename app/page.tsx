@@ -16,7 +16,7 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
 
 const teamMembers = [
   {
-    name: "Arch. ASINGIZWE BENJAMIN MARIE MERCI",
+    name: "Arch. Dsgnr ASINGIZWE BENJAMIN MARIE MERCI",
     role: "Architecture & Design",
     image: "/team1.png",
     description: "Experienced in architectural design, urbanism, and environmentally responsive development — focused on spatial clarity, sustainable thinking, contextual integration, and long-term architectural value.",
@@ -53,7 +53,7 @@ function AnimatedNumber({ from, to, suffix = "", pad = false }: { from: number; 
   const [value, setValue] = useState(from);
 
   useEffect(() => {
-    const duration = 1600;
+    const duration = 5000;
     const start = performance.now();
     const animate = (time: number) => {
       const progress = Math.min((time - start) / duration, 1);
@@ -152,7 +152,72 @@ function CinematicHero() {
     </div>
   );
 }
+const HomeRegionalReachTeaser = () => (
+  <section
+    className="mobilePad"
+    style={{
+      padding: "100px 0",
+      background: "#050505",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+      borderBottom: "1px solid rgba(255,255,255,0.06)",
+    }}
+  >
+    <div
+      className="containerWide mobileStack"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1.2fr",
+        gap: 60,
+        alignItems: "center",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={transition}
+      >
+        <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6 }}>
+          Regional Reach
+        </div>
 
+        <h2 style={{ marginTop: 18, fontSize: "clamp(34px, 4vw, 56px)", lineHeight: 1.02, letterSpacing: "-0.05em", fontWeight: 900 }}>
+          Kigali based.
+          <br />
+          East & Central Africa focused.
+        </h2>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ ...transition, delay: 0.15 }}
+      >
+        <p style={{ margin: 0, maxWidth: 680, fontSize: 18, lineHeight: 1.8, color: "rgba(255,255,255,0.64)" }}>
+          IMVO supports projects across Rwanda, Uganda, Kenya, Tanzania, Burundi, DRC, Zambia, Angola, and selected parts of Mozambique.
+        </p>
+
+        <Link
+          href="/about"
+          style={{
+            display: "inline-block",
+            marginTop: 28,
+            color: "white",
+            textDecoration: "none",
+            borderBottom: "1px solid white",
+            paddingBottom: 5,
+            fontSize: 14,
+            fontWeight: 800,
+            letterSpacing: "0.05em",
+          }}
+        >
+          EXPLORE THE STUDIO ↗
+        </Link>
+      </motion.div>
+    </div>
+  </section>
+);
 export default function HomePage() {
   return (
     <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>
@@ -161,7 +226,7 @@ export default function HomePage() {
       <ClientOnly>
         <CinematicHero />
       </ClientOnly>
-
+<HomeRegionalReachTeaser />
       {/* The rest of the page flows naturally underneath */}
       <div style={{ position: "relative", zIndex: 10, background: "#050505" }}>
         
