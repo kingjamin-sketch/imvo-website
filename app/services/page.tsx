@@ -114,22 +114,22 @@ const strategicPartners = [
     href: "https://YOUR-LINK-HERE.com",
   },
   {
-    name: "Partner 6",
+    name: "Select food africa",
     logo: "/partners/partner-6.png",
     href: "https://YOUR-LINK-HERE.com",
   },
   {
-    name: "Partner 7",
+    name: "Ad Agency",
     logo: "/partners/partner-7.png",
     href: "https://YOUR-LINK-HERE.com",
   },
   {
-    name: "Partner 8",
+    name: "Baho holdings",
     logo: "/partners/partner-8.png",
     href: "https://YOUR-LINK-HERE.com",
   },
   {
-    name: "Partner 9",
+    name: "Mette",
     logo: "/partners/partner-9.png",
     href: "https://YOUR-LINK-HERE.com",
   },

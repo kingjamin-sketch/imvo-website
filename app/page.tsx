@@ -16,7 +16,7 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
 
 const teamMembers = [
   {
-    name: "Arch. Dsgnr ASINGIZWE BENJAMIN MARIE MERCI",
+    name: "ASINGIZWE BENJAMIN MARIE MERCI",
     role: "Architecture & Design",
     image: "/team1.png",
     description: "Experienced in architectural design, urbanism, and environmentally responsive development — focused on spatial clarity, sustainable thinking, contextual integration, and long-term architectural value.",
@@ -28,7 +28,7 @@ const teamMembers = [
     description: "Combines expertise in IT development, strategic consultancy, and project coordination — supporting digital systems, operational planning, client advisory, and development-focused decision-making.",
   },
   {
-    name: "Phd. Eng. RUKUNDO Prince",
+    name: "RUKUNDO Prince",
     role: "Supervision & Execution",
     image: "/team3.png",
     description: "PhD holder in Civil Engineering with expertise in roads, infrastructure systems, and urbanism — contributing technical supervision, execution coordination, and planning-oriented engineering insight.",
