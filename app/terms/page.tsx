@@ -47,7 +47,7 @@ export default function TermsPage() {
 
           <h2>Contact</h2>
           <p>
-            For questions about these terms, contact us at imvodesign@gmail.com.
+            For questions about these terms, contact us at info@imvogroup.com.
           </p>
 
           <p style={{ marginTop: 50, color: "rgba(255,255,255,0.38)", fontSize: 14 }}>

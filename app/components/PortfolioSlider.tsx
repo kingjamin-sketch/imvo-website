@@ -41,12 +41,15 @@ export default function PortfolioSlider() {
   return (
     <section style={{ backgroundColor: "#050505", color: "white", padding: "120px 0", overflow: "hidden" }}>
       <div
-        className="containerWide"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "0.65fr 1.35fr",
-          gap: "60px",
-          alignItems: "center",
+         className="containerWide"
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      typeof window !== "undefined" && window.innerWidth < 900
+        ? "1fr"
+        : "0.65fr 1.35fr",
+    gap: "40px",
+    alignItems: "center",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", minHeight: "500px" }}>
@@ -138,7 +141,13 @@ export default function PortfolioSlider() {
           </div>
         </div>
 
-        <div style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden" }}>
+       <div
+  style={{
+    position: "relative",
+    width: "100%",
+    overflow: "hidden",
+  }}
+>
           <motion.div
             key={index}
             initial={{ opacity: 0, x: 80, scale: 0.985 }}
@@ -146,12 +155,15 @@ export default function PortfolioSlider() {
             exit={{ opacity: 0, x: -80 }}
             transition={transition}
             style={{
-              position: "relative",
-              width: "100%",
-              aspectRatio: "16/10",
-              background: "#111",
-              overflow: "hidden",
-            }}
+  position: "relative",
+  width: "100%",
+  aspectRatio:
+    typeof window !== "undefined" && window.innerWidth < 900
+      ? "4/3"
+      : "16/10",
+  background: "#111",
+  overflow: "hidden",
+}}
           >
             <Link href="/projects" style={{ display: "block", position: "relative", width: "100%", height: "100%" }}>
               <motion.div

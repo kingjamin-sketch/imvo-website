@@ -21,9 +21,14 @@ const contactDetails = [
     href: "https://wa.me/250787349257",
   },
   {
-    label: "Email",
-    value: "imvodesign@gmail.com",
-    href: "mailto:imvodesign@gmail.com?subject=Project Inquiry - IMVO",
+    label: "General Enquiries",
+    value: "info@imvogroup.com",
+    href: "mailto:info@imvogroup.com?subject=General Inquiry - IMVO",
+  },
+  {
+    label: "Project Discussions",
+    value: "projects@imvogroup.com",
+    href: "mailto:projects@imvogroup.com?subject=Project Discussion - IMVO",
   },
   {
     label: "Location",
@@ -36,6 +41,97 @@ const contactDetails = [
     href: "/projects",
   },
 ];
+
+const phoneCountryCodes = [
+  { label: "Rwanda", code: "+250", short: "RW" },
+  { label: "Uganda", code: "+256", short: "UG" },
+  { label: "Kenya", code: "+254", short: "KE" },
+  { label: "Tanzania", code: "+255", short: "TZ" },
+  { label: "Burundi", code: "+257", short: "BI" },
+  { label: "DRC", code: "+243", short: "CD" },
+  { label: "Zambia", code: "+260", short: "ZM" },
+  { label: "Angola", code: "+244", short: "AO" },
+  { label: "Mozambique", code: "+258", short: "MZ" },
+  { label: "South Africa", code: "+27", short: "ZA" },
+  { label: "Nigeria", code: "+234", short: "NG" },
+  { label: "Ghana", code: "+233", short: "GH" },
+  { label: "Ethiopia", code: "+251", short: "ET" },
+  { label: "United Arab Emirates", code: "+971", short: "AE" },
+  { label: "United Kingdom", code: "+44", short: "GB" },
+  { label: "United States / Canada", code: "+1", short: "US" },
+  { label: "France", code: "+33", short: "FR" },
+  { label: "Germany", code: "+49", short: "DE" },
+  { label: "China", code: "+86", short: "CN" },
+  { label: "India", code: "+91", short: "IN" },
+  { label: "Other", code: "OTHER", short: "🌍" },
+];
+
+const countryOptions = [
+  "Rwanda",
+  "Uganda",
+  "Kenya",
+  "Tanzania",
+  "Burundi",
+  "Democratic Republic of the Congo",
+  "Zambia",
+  "Angola",
+  "Mozambique",
+  "South Africa",
+  "Nigeria",
+  "Ghana",
+  "Ethiopia",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "France",
+  "Germany",
+  "China",
+  "India",
+  "Other",
+];
+
+const rwandaProvinces = [
+  "Kigali City",
+  "Northern Province",
+  "Southern Province",
+  "Eastern Province",
+  "Western Province",
+];
+
+
+const districtsByProvince = {
+  "Kigali City": ["Gasabo", "Kicukiro", "Nyarugenge"],
+  "Northern Province": ["Burera", "Gakenke", "Gicumbi", "Musanze", "Rulindo"],
+  "Southern Province": [
+    "Gisagara",
+    "Huye",
+    "Kamonyi",
+    "Muhanga",
+    "Nyamagabe",
+    "Nyanza",
+    "Nyaruguru",
+    "Ruhango",
+  ],
+  "Eastern Province": [
+    "Bugesera",
+    "Gatsibo",
+    "Kayonza",
+    "Kirehe",
+    "Ngoma",
+    "Nyagatare",
+    "Rwamagana",
+  ],
+  "Western Province": [
+    "Karongi",
+    "Ngororero",
+    "Nyabihu",
+    "Nyamasheke",
+    "Rubavu",
+    "Rusizi",
+    "Rutsiro",
+  ],
+};
+
 
 const transition = { duration: 1.4, ease: [0.16, 1, 0.3, 1] as const };
 const fastTransition = { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const };
@@ -447,6 +543,9 @@ export default function ContactPage() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("Rwanda");
+  const [selectedPhoneCode, setSelectedPhoneCode] = useState("+250");
+  const [selectedProvince, setSelectedProvince] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -487,12 +586,36 @@ export default function ContactPage() {
     const firstName = String(sourceData.get("firstName") || "").trim();
     const lastName = String(sourceData.get("lastName") || "").trim();
     const email = String(sourceData.get("email") || "").trim();
+    const countryCode = String(sourceData.get("countryCode") || "").trim();
+    const customCountryCode = String(sourceData.get("customCountryCode") || "").trim();
     const phone = String(sourceData.get("phone") || "").trim();
-    const location = String(sourceData.get("location") || "").trim();
+    const country = String(sourceData.get("country") || selectedCountry || "").trim();
+    const province = String(sourceData.get("province") || "").trim();
+    const district = String(sourceData.get("district") || "").trim();
+    const sector = String(sourceData.get("sector") || "").trim();
+    const cell = String(sourceData.get("cell") || "").trim();
+    const village = String(sourceData.get("village") || "").trim();
+    const upi = String(sourceData.get("upi") || "").trim();
+    const internationalLocation = String(sourceData.get("internationalLocation") || "").trim();
     const budget = String(sourceData.get("budget") || "").trim();
     const message = String(sourceData.get("message") || "").trim();
 
     const fullName = `${firstName} ${lastName}`.trim() || "Website Visitor";
+    const resolvedCountryCode = countryCode === "OTHER" ? customCountryCode : countryCode;
+    const fullPhone = `${resolvedCountryCode} ${phone}`.trim();
+    const projectLocation =
+      country === "Rwanda"
+        ? [
+            "Rwanda",
+            province,
+            district ? `${district} District` : "",
+            sector ? `${sector} Sector` : "",
+            cell ? `${cell} Cell` : "",
+            village ? `${village} Village` : "",
+          ]
+            .filter(Boolean)
+            .join(" · ")
+        : [country, internationalLocation].filter(Boolean).join(" · ");
 
     const payload = new FormData();
 
@@ -502,14 +625,23 @@ export default function ContactPage() {
 
     payload.append("name", fullName);
     payload.append("email", email);
-    payload.append("phone", phone);
+    payload.append("phone", fullPhone);
     payload.append("message", message);
 
     payload.append("First Name", firstName || "Not provided");
     payload.append("Last Name", lastName || "Not provided");
     payload.append("Email Address", email || "Not provided");
-    payload.append("Phone / WhatsApp", phone || "Not provided");
-    payload.append("Project Location", location || "Not provided");
+    payload.append("Country Code", resolvedCountryCode || "Not provided");
+    payload.append("Phone / WhatsApp", fullPhone || "Not provided");
+    payload.append("Country", country || "Not provided");
+    payload.append("Project Location", projectLocation || "Not provided");
+    payload.append("Province", province || "Not provided");
+    payload.append("District", district || "Not provided");
+    payload.append("Sector", sector || "Not provided");
+    payload.append("Cell", cell || "Not provided");
+    payload.append("Village", village || "Not provided");
+    payload.append("UPI / Plot Reference", upi || "Not provided");
+    payload.append("International Location", internationalLocation || "Not provided");
     payload.append("Estimated Budget", budget || "Not provided");
     payload.append(
       "Required Disciplines",
@@ -531,21 +663,47 @@ export default function ContactPage() {
       if (result.success) {
         setIsSuccess(true);
         setSelectedServices([]);
+        setSelectedCountry("Rwanda");
+        setSelectedPhoneCode("+250");
+        setSelectedProvince("");
         form.reset();
       } else {
         console.error("Web3Forms error:", result);
         alert(
-          "Your inquiry could not be sent. Please email IMVO directly at imvodesign@gmail.com."
+          "Your inquiry could not be sent. Please email IMVO directly at info@imvogroup.com."
         );
       }
     } catch (error) {
       console.error("Form submission failed:", error);
       alert(
-        "Something went wrong. Please email IMVO directly at imvodesign@gmail.com."
+        "Something went wrong. Please email IMVO directly at info@imvogroup.com."
       );
     } finally {
       setIsSubmitting(false);
     }
+  };
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    height: 64,
+    border: "none",
+    borderBottom: "1px solid rgba(255,255,255,0.2)",
+    background: "transparent",
+    color: "white",
+    padding: "0 10px",
+    outline: "none",
+    fontSize: 16,
+    fontWeight: 600,
+  };
+
+  const selectStyle: React.CSSProperties = {
+    ...inputStyle,
+    cursor: "pointer",
+    colorScheme: "dark",
+  };
+
+  const optionStyle: React.CSSProperties = {
+    background: "#050505",
+    color: "white",
   };
 
   return (
@@ -897,36 +1055,174 @@ export default function ContactPage() {
                         marginBottom: 24,
                       }}
                     >
-                      {[
-                        ["firstName", "First Name", "text"],
-                        ["lastName", "Last Name", "text"],
-                        ["email", "Email Address", "email"],
-                        ["phone", "Phone / WhatsApp", "tel"],
-                        ["location", "Project Location", "text"],
-                        ["budget", "Estimated Budget (Optional)", "text"],
-                      ].map(([name, placeholder, type]) => (
+                      <input
+                        name="firstName"
+                        type="text"
+                        placeholder="First Name"
+                        required
+                        style={inputStyle}
+                      />
+
+                      <input
+                        name="lastName"
+                        type="text"
+                        placeholder="Last Name"
+                        style={inputStyle}
+                      />
+
+                      <input
+                        name="email"
+                        type="email"
+                        placeholder="Email Address"
+                        required
+                        style={inputStyle}
+                      />
+
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "125px 1fr",
+                          gap: 12,
+                        }}
+                      >
+                        <select
+                          name="countryCode"
+                          value={selectedPhoneCode}
+                          onChange={(event) => setSelectedPhoneCode(event.target.value)}
+                          style={selectStyle}
+                          aria-label="Phone country code"
+                        >
+                          {phoneCountryCodes.map((item) => (
+                            <option
+                              key={`${item.short}-${item.code}`}
+                              value={item.code}
+                              style={optionStyle}
+                            >
+                              {item.short} {item.code}
+                            </option>
+                          ))}
+                        </select>
+
                         <input
-                          key={name}
-                          name={name}
-                          type={type}
-                          placeholder={placeholder}
-                          required={name === "firstName" || name === "email"}
-                          style={{
-                            width: "100%",
-                            height: 64,
-                            border: "none",
-                            borderBottom:
-                              "1px solid rgba(255,255,255,0.2)",
-                            background: "transparent",
-                            color: "white",
-                            padding: "0 10px",
-                            outline: "none",
-                            fontSize: 16,
-                            fontWeight: 600,
-                            transition: "all 0.3s ease",
-                          }}
+                          name="phone"
+                          type="tel"
+                          placeholder="Phone / WhatsApp"
+                          style={inputStyle}
                         />
-                      ))}
+                      </div>
+
+                      {selectedPhoneCode === "OTHER" && (
+                        <input
+                          name="customCountryCode"
+                          type="text"
+                          placeholder="Enter Country Code e.g. +250"
+                          style={inputStyle}
+                        />
+                      )}
+
+                      <select
+                        name="country"
+                        value={selectedCountry}
+                        onChange={(event) => {
+                          setSelectedCountry(event.target.value);
+                          if (event.target.value !== "Rwanda") {
+                            setSelectedProvince("");
+                          }
+                        }}
+                        style={selectStyle}
+                        aria-label="Project country"
+                      >
+                        {countryOptions.map((country) => (
+                          <option key={country} value={country} style={optionStyle}>
+                            {country}
+                          </option>
+                        ))}
+                      </select>
+
+                      {selectedCountry === "Rwanda" ? (
+                        <>
+                          <select
+                            name="province"
+                            value={selectedProvince}
+                            onChange={(event) => setSelectedProvince(event.target.value)}
+                            style={selectStyle}
+                          >
+                            <option value="" style={optionStyle}>
+                              Province
+                            </option>
+                            {rwandaProvinces.map((province) => (
+                              <option
+                                key={province}
+                                value={province}
+                                style={optionStyle}
+                              >
+                                {province}
+                              </option>
+                            ))}
+                          </select>
+
+                          <select name="district" style={selectStyle}>
+                            <option value="" style={optionStyle}>
+                              District
+                            </option>
+                            {(
+                              districtsByProvince[
+                                selectedProvince as keyof typeof districtsByProvince
+                              ] || []
+                            ).map((district) => (
+                              <option
+                                key={district}
+                                value={district}
+                                style={optionStyle}
+                              >
+                                {district}
+                              </option>
+                            ))}
+                          </select>
+
+                          <input
+                            name="sector"
+                            type="text"
+                            placeholder="Sector"
+                            style={inputStyle}
+                          />
+
+                          <input
+                            name="cell"
+                            type="text"
+                            placeholder="Cell"
+                            style={inputStyle}
+                          />
+
+                          <input
+                            name="village"
+                            type="text"
+                            placeholder="Village (Optional)"
+                            style={inputStyle}
+                          />
+
+                          <input
+                            name="upi"
+                            type="text"
+                            placeholder="UPI / Plot Reference (Optional)"
+                            style={inputStyle}
+                          />
+                        </>
+                      ) : (
+                        <input
+                          name="internationalLocation"
+                          type="text"
+                          placeholder="City / Project Location"
+                          style={inputStyle}
+                        />
+                      )}
+
+                      <input
+                        name="budget"
+                        type="text"
+                        placeholder="Estimated Budget (Optional)"
+                        style={inputStyle}
+                      />
                     </div>
 
                     <textarea
@@ -1081,9 +1377,9 @@ export default function ContactPage() {
                         maxWidth: 560,
                       }}
                     >
-                      For urgent matters, you can also contact us directly at{" "}
+                      For project-related matters, contact us at projects@imvogroup.com.{" "}
                       <a
-                        href="mailto:imvodesign@gmail.com"
+                        href="mailto:info@imvogroup.com"
                         style={{
                           color: "white",
                           textDecoration: "none",
@@ -1091,7 +1387,7 @@ export default function ContactPage() {
                             "1px solid rgba(255,255,255,0.4)",
                         }}
                       >
-                        imvodesign@gmail.com
+                        info@imvogroup.com
                       </a>
                       .
                     </p>
@@ -1131,7 +1427,7 @@ export default function ContactPage() {
                       </button>
 
                       <a
-                        href="mailto:imvodesign@gmail.com?subject=Project Inquiry - IMVO"
+                        href="mailto:info@imvogroup.com?subject=Project Inquiry - IMVO"
                         style={{
                           background: "transparent",
                           color: "white",

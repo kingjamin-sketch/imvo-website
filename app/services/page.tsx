@@ -431,7 +431,18 @@ export default function ServicesPage() {
       </section>
 
       <section className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.35fr 0.9fr", minHeight: 680, background: "#111" }}>
-        <motion.div initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-80px" }} transition={transition} style={{ position: "relative", overflow: "hidden" }}>
+        <motion.div
+  initial={{ opacity: 0, scale: 0.96 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={transition}
+  style={{
+    position: "relative",
+    overflow: "hidden",
+    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 680,
+    background: "#111",
+  }}
+>
           <Image src="/service-site-1.png" alt="IMVO on-site supervision" fill style={hoverImageStyle} onMouseEnter={(e) => { e.currentTarget.style.filter = "grayscale(0%) contrast(1)"; e.currentTarget.style.transform = "scale(1.03)"; }} onMouseLeave={(e) => { e.currentTarget.style.filter = "grayscale(100%) contrast(1.05)"; e.currentTarget.style.transform = "scale(1)"; }} />
         </motion.div>
 
@@ -513,9 +524,41 @@ export default function ServicesPage() {
 
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
           <div className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 60, alignItems: "center" }}>
-            <motion.div initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-80px" }} transition={transition} style={{ position: "relative", height: 660, overflow: "hidden", background: "#111" }}>
-              <Image src="/service-process.png" alt="IMVO service process" fill style={hoverImageStyle} onMouseEnter={(e) => { e.currentTarget.style.filter = "grayscale(0%) contrast(1)"; e.currentTarget.style.transform = "scale(1.03)"; }} onMouseLeave={(e) => { e.currentTarget.style.filter = "grayscale(100%) contrast(1.05)"; e.currentTarget.style.transform = "scale(1)"; }} />
-            </motion.div>
+           <motion.div
+  initial={{ opacity: 0, scale: 0.96 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={transition}
+  style={{
+    position: "relative",
+    width: "100%",
+    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 660,
+    overflow: "hidden",
+    background: "#111",
+  }}
+>
+  <img
+    src="/service-process.png"
+    alt="IMVO service process"
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      filter: "grayscale(100%) contrast(1.05)",
+      transition: "filter 0.5s ease, transform 0.5s ease",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.filter = "grayscale(0%) contrast(1)";
+      e.currentTarget.style.transform = "scale(1.03)";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.filter = "grayscale(100%) contrast(1.05)";
+      e.currentTarget.style.transform = "scale(1)";
+    }}
+  />
+</motion.div>
 
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-80px" }} transition={transition}>
               <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, fontWeight: 800 }}>

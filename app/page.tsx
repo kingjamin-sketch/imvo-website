@@ -366,9 +366,38 @@ export default function HomePage() {
               <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>A studio shaped by collaboration,<br />technical focus, and shared responsibility.</h2>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ position: "relative", width: "100%", aspectRatio: "21/9", marginTop: 60, overflow: "hidden", background: "#111" }}>
-              <Image src="/team.png" alt="IMVO office team photo" fill sizes="100vw" style={{ objectFit: "contain", filter: "grayscale(100%)" }} />
-            </motion.div>
+            <motion.div
+  initial={{ opacity: 0, scale: 0.98 }}
+  whileInView={{ opacity: 1, scale: 1 }}
+  viewport={{ once: true, margin: "-100px" }}
+  transition={transition}
+  style={{
+    position: "relative",
+    width: "100%",
+    aspectRatio:
+      typeof window !== "undefined" && window.innerWidth < 768
+        ? "4/5"
+        : "21/9",
+    marginTop: 60,
+    overflow: "hidden",
+    background: "#111",
+  }}
+>
+  <Image
+    src="/team.png"
+    alt="IMVO office team photo"
+    fill
+    sizes="100vw"
+    style={{
+      objectFit:
+        typeof window !== "undefined" && window.innerWidth < 768
+          ? "cover"
+          : "contain",
+      objectPosition: "center top",
+      filter: "grayscale(100%)",
+    }}
+  />
+</motion.div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 40, marginTop: 40 }}>
               {teamMembers.map((member, index) => (

@@ -42,7 +42,7 @@ export default function CookiesPage() {
 
           <h2>Contact</h2>
           <p>
-            For cookie-related questions, contact us at imvodesign@gmail.com.
+            For cookie-related questions, contact us at info@imvogroup.com.
           </p>
 
           <p style={{ marginTop: 50, color: "rgba(255,255,255,0.38)", fontSize: 14 }}>

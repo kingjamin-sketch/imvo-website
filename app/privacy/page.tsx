@@ -42,7 +42,7 @@ export default function PrivacyPage() {
 
           <h2>Contact</h2>
           <p>
-            For privacy-related questions, contact us at imvodesign@gmail.com.
+            For privacy-related questions, contact us at info@imvogroup.com.
           </p>
 
           <p style={{ marginTop: 50, color: "rgba(255,255,255,0.38)", fontSize: 14 }}>
