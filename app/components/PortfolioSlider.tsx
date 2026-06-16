@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 const projects = [
   { image: "/prism-residences.png", title: "PRISM Residences", location: "Modern Apartments | Rwanda" },
   { image: "/verdea-hotel.png", title: "VERDÉA Boutique Hotel & Residences", location: "Kigali, Rwanda" },
-  { image: "/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern P." },
-  { image: "/project-hall.png", title: "SOLARA Hall", location: ", Kigali,Rwanda" },
+  { image: "/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern Province" },
+  { image: "/grand-horizon.png", title: "GRAND HORIZON Hotel", location: "Kigali,Rwanda" },
   { image: "/Photo-Axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
   { image: "/casa-palma.png", title: "CASA PALMA", location: "MOdern Villa, Kamonyi, Southern Province" },
   { image: "/casa-forma.png", title: "CASA FORMA", location: "Rwanda" },
