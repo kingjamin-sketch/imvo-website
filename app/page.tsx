@@ -47,19 +47,19 @@ const teamMembers = [
 
 const inProgressProjects = [
   {
-    title: "Golden Hill Estate",
+    title: "INZIIRA ESTATE DEVELOPMENT",
     type: "Residential Masterplan",
     concept: "Elevated foundations responding to wetland topography.",
     image: "/project-22.png",
   },
   {
-    title: "Rayon Sports FC Arena",
+    title: "VILLA LUME",
     type: "Sports Infrastructure",
     concept: "Crown-themed stadium concept and spatial identity.",
     image: "/project-10.png",
   },
   {
-    title: "AMAKUZA Experience",
+    title: "Amafu apartment Experience",
     type: "Commercial Environment",
     concept: "Integrated spatial branding and hospitality flow.",
     image: "/project-36.png",
@@ -676,13 +676,13 @@ const approachScenes = [
     label: "STRATEGY",
     title: "Better decisions before construction.",
     text: "We connect design ambition with feasibility, planning, risk, and development value.",
-    image: "/project-99.png",
+    image: "/project-100 - Copy.png",
   },
   {
     label: "EXECUTION",
     title: "Design value protected on site.",
     text: "From concept to supervision, IMVO keeps the work disciplined, coordinated, and accountable.",
-    image: "/project-36.png",
+    image: "/p01-01.png",
   },
 ];
 

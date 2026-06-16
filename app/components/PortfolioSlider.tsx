@@ -6,16 +6,16 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const projects = [
-  { image: "/project-00.jpg", title: "Casa Lume", location: "Modern Villa | Rwanda" },
-  { image: "/project-20.jpg", title: "Green Residence", location: "Kigali, Rwanda" },
-  { image: "/project-03.png", title: "Urban Villa", location: "East Africa" },
-  { image: "/project-4.jpg", title: "Private Estate", location: "Rwanda" },
-  { image: "/project-5.jpg", title: "Casa 88", location: "Urban Residence" },
-  { image: "/project-60.jpg", title: "Mixed-use Study", location: "Africa" },
-  { image: "/project-7.jpg", title: "Hill View House", location: "Rwanda" },
-  { image: "/project-08.png", title: "Commercial Block", location: "Kigali, Rwanda" },
-  { image: "/project-09.png", title: "Institutional Study", location: "Rwanda" },
-  { image: "/project-100.png", title: "Hospitality Concept", location: "Regional" },
+  { image: "/prism-residences.png", title: "PRISM Residences", location: "Modern Apartments | Rwanda" },
+  { image: "/verdea-hotel.png", title: "VERDÉA Boutique Hotel & Residences", location: "Kigali, Rwanda" },
+  { image: "/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern P." },
+  { image: "/project-hall.png", title: "SOLARA Hall", location: ", Kigali,Rwanda" },
+  { image: "/Photo-Axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
+  { image: "/casa-palma.png", title: "CASA PALMA", location: "MOdern Villa, Kamonyi, Southern Province" },
+  { image: "/casa-forma.png", title: "CASA FORMA", location: "Rwanda" },
+  { image: "/aurelian-villa.png", title: "The AURELIAN Residences", location: "Kigali,Kanombe - BUsanza" },
+  { image: "/brick-Vine.png", title: "The Brick & Vine Residence", location: "Kigali, Gishushu" },
+  { image: "/casa-lumara.png", title: "CASA LUMARA", location: "Rebero, Kigali" },
 ];
 
 const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
