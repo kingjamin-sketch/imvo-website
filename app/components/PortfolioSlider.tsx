@@ -10,11 +10,11 @@ const projects = [
   { image: "/verdea-hotel.png", title: "VERDÉA Boutique Hotel & Residences", location: "Kigali, Rwanda" },
   { image: "/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern Province" },
   { image: "/grand-horizon.png", title: "GRAND HORIZON Hotel", location: "Kigali,Rwanda" },
-  { image: "/Photo-Axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
+  { image: "/photo-axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
   { image: "/casa-palma.png", title: "CASA PALMA", location: "MOdern Villa, Kamonyi, Southern Province" },
   { image: "/casa-forma.png", title: "CASA FORMA", location: "Rwanda" },
   { image: "/aurelian-villa.png", title: "The AURELIAN Residences", location: "Kigali,Kanombe - BUsanza" },
-  { image: "/brick-Vine.png", title: "The Brick & Vine Residence", location: "Kigali, Gishushu" },
+  { image: "/brick-vine.png", title: "The Brick & Vine Residence", location: "Kigali, Gishushu" },
   { image: "/casa-lumara.png", title: "CASA LUMARA", location: "Rebero, Kigali" },
 ];
 
