@@ -6,16 +6,89 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const projects = [
-  { image: "/prism-residences.png", title: "PRISM Residences", location: "Modern Apartments | Rwanda" },
-  { image: "/verdea-hotel.png", title: "VERDÉA Boutique Hotel & Residences", location: "Kigali, Rwanda" },
-  { image: "/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern Province" },
-  { image: "/grand-horizon.png", title: "GRAND HORIZON Hotel", location: "Kigali,Rwanda" },
-  { image: "/photo-axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
-  { image: "/casa-palma.png", title: "CASA PALMA", location: "MOdern Villa, Kamonyi, Southern Province" },
-  { image: "/casa-forma.png", title: "CASA FORMA", location: "Rwanda" },
-  { image: "/aurelian-villa.png", title: "The AURELIAN Residences", location: "Kigali,Kanombe - BUsanza" },
-  { image: "/brick-vine.png", title: "The Brick & Vine Residence", location: "Kigali, Gishushu" },
-  { image: "/casa-lumara.png", title: "CASA LUMARA", location: "Rebero, Kigali" },
+  {
+    image: "/urban-villa.png",
+    title: "Urban Villa",
+    location: "Kamonyi, Southern Province",
+  },
+
+  {
+    image: "/verdea-hotel.png",
+    title: "VERDÉA Boutique Hotel & Residences",
+    location: "Kigali, Rwanda",
+  },
+
+  {
+    image: "/prism-residences.png",
+    title: "PRISM Residences",
+    location: "Modern Apartments | Rwanda",
+  },
+
+  {
+    image: "/grand-horizon.png",
+    title: "GRAND HORIZON Hotel",
+    location: "Kigali, Rwanda",
+  },
+
+  {
+    image: "/photo-axis.png",
+    title: "Axis Logistics Center",
+    location: "Musanze Industrial Park",
+  },
+
+  {
+    image: "/casa-palma.png",
+    title: "CASA PALMA",
+    location: "Kamonyi, Southern Province",
+  },
+
+  {
+    image: "/casa-forma.png",
+    title: "CASA FORMA",
+    location: "Rwanda",
+  },
+
+  {
+    image: "/aurelian-villa.png",
+    title: "The AURELIAN Residences",
+    location: "Kanombe, Kigali",
+  },
+
+  {
+    image: "/brick-vine.png",
+    title: "The Brick & Vine Residence",
+    location: "Gishushu, Kigali",
+  },
+
+  {
+    image: "/casa-lumara.png",
+    title: "CASA LUMARA",
+    location: "Rebero, Kigali",
+  },
+
+  {
+    image: "/atria-residence.png",
+    title: "ATRIA Residence",
+    location: "Kigali, Rwanda",
+  },
+
+  {
+    image: "/casa-vento.png",
+    title: "CASA VENTO",
+    location: "Kigali, Rwanda",
+  },
+
+  {
+    image: "/virunga-residence.png",
+    title: "VIRUNGA Residence",
+    location: "Musanze, Rwanda",
+  },
+
+  {
+    image: "/casa-siena.png",
+    title: "CASA SIENA",
+    location: "Kigali, Rwanda",
+  },
 ];
 
 const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
