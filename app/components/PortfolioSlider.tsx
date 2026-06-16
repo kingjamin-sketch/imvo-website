@@ -6,89 +6,20 @@ import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const projects = [
-  {
-    image: "/urban-villa.png",
-    title: "Urban Villa",
-    location: "Kamonyi, Southern Province",
-  },
-
-  {
-    image: "/verdea-hotel.png",
-    title: "VERDÉA Boutique Hotel & Residences",
-    location: "Kigali, Rwanda",
-  },
-
-  {
-    image: "/prism-residences.png",
-    title: "PRISM Residences",
-    location: "Modern Apartments | Rwanda",
-  },
-
-  {
-    image: "/grand-horizon.png",
-    title: "GRAND HORIZON Hotel",
-    location: "Kigali, Rwanda",
-  },
-
-  {
-    image: "/photo-axis.png",
-    title: "Axis Logistics Center",
-    location: "Musanze Industrial Park",
-  },
-
-  {
-    image: "/casa-palma.png",
-    title: "CASA PALMA",
-    location: "Kamonyi, Southern Province",
-  },
-
-  {
-    image: "/casa-forma.png",
-    title: "CASA FORMA",
-    location: "Rwanda",
-  },
-
-  {
-    image: "/aurelian-villa.png",
-    title: "The AURELIAN Residences",
-    location: "Kanombe, Kigali",
-  },
-
-  {
-    image: "/brick-vine.png",
-    title: "The Brick & Vine Residence",
-    location: "Gishushu, Kigali",
-  },
-
-  {
-    image: "/casa-lumara.png",
-    title: "CASA LUMARA",
-    location: "Rebero, Kigali",
-  },
-
-  {
-    image: "/atria-residence.png",
-    title: "ATRIA Residence",
-    location: "Kigali, Rwanda",
-  },
-
-  {
-    image: "/casa-vento.png",
-    title: "CASA VENTO",
-    location: "Kigali, Rwanda",
-  },
-
-  {
-    image: "/virunga-residence.png",
-    title: "VIRUNGA Residence",
-    location: "Musanze, Rwanda",
-  },
-
-  {
-    image: "/casa-siena.png",
-    title: "CASA SIENA",
-    location: "Kigali, Rwanda",
-  },
+  { image: "/chosen/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern Province" },
+  { image: "/chosen/verdea-hotel.png", title: "VERDÉA Boutique Hotel & Residences", location: "Kigali, Rwanda" },
+  { image: "/chosen/prism-residences.png", title: "PRISM Residences", location: "Modern Apartments | Rwanda" },
+  { image: "/chosen/grand-horizon.png", title: "GRAND HORIZON Hotel", location: "Kigali, Rwanda" },
+  { image: "/chosen/photo-axis.png", title: "Axis Logistics Center", location: "Musanze Industrial Park" },
+  { image: "/chosen/casa-palma.png", title: "CASA PALMA", location: "Kamonyi, Southern Province" },
+  { image: "/chosen/casa-forma.png", title: "CASA FORMA", location: "Rwanda" },
+  { image: "/chosen/aurelian-villa.png", title: "The AURELIAN Residences", location: "Kanombe, Kigali" },
+  { image: "/chosen/brick-vine.png", title: "The Brick & Vine Residence", location: "Gishushu, Kigali" },
+  { image: "/chosen/casa-lumara.png", title: "CASA LUMARA", location: "Rebero, Kigali" },
+  { image: "/chosen/atria-residence.png", title: "ATRIA Residence", location: "Kigali, Rwanda" },
+  { image: "/chosen/casa-vento.png", title: "CASA VENTO", location: "Kigali, Rwanda" },
+  { image: "/chosen/virunga-residence.png", title: "VIRUNGA Residence", location: "Musanze, Rwanda" },
+  { image: "/chosen/casa-siena.png", title: "CASA SIENA", location: "Kigali, Rwanda" },
 ];
 
 const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
