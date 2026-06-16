@@ -670,13 +670,13 @@ const approachScenes = [
     label: "DESIGN",
     title: "Spatial clarity before form.",
     text: "Every line begins with purpose, proportion, context, and buildable intent.",
-    image: "/project-97.png",
+    image: "/chosen/horizon-frame.png",
   },
   {
     label: "STRATEGY",
     title: "Better decisions before construction.",
     text: "We connect design ambition with feasibility, planning, risk, and development value.",
-    image: "/project-100 - Copy.png",
+    image: "/chosen/meridian-residence.png",
   },
   {
     label: "EXECUTION",
