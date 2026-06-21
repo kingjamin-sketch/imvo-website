@@ -2273,3 +2273,30 @@ body.intro-playing header {
   opacity: 0 !important;
   visibility: hidden !important;
 }
+/* =========================
+   IMVO Final Interaction Layer
+========================= */
+body.intro-playing {
+  overflow: hidden !important;
+}
+
+body.intro-playing header {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.88);
+  color: #050505;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -14,40 +14,125 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
   return hasMounted ? <>{children}</> : null;
 };
 
+
+const ArchitecturalDrawingLines = () => (
+  <div
+    aria-hidden="true"
+    style={{
+      position: "absolute",
+      inset: "-18% -8%",
+      zIndex: 3,
+      pointerEvents: "none",
+      opacity: 0.62,
+      mixBlendMode: "screen",
+    }}
+  >
+    <svg width="100%" height="100%" viewBox="0 0 1200 700" preserveAspectRatio="none">
+      <defs>
+        <pattern id="imvo-team-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+          <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+        </pattern>
+        <linearGradient id="imvo-line-fade" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+          <stop offset="45%" stopColor="rgba(255,255,255,0.42)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </linearGradient>
+      </defs>
+
+      <rect width="1200" height="700" fill="url(#imvo-team-grid)" />
+
+      {[0, 1, 2, 3].map((item) => (
+        <motion.path
+          key={`team-plan-line-${item}`}
+          d={`M ${-120 + item * 45} ${150 + item * 86} L ${1320 - item * 70} ${95 + item * 115}`}
+          stroke="url(#imvo-line-fade)"
+          strokeWidth={item === 0 ? 2 : 1}
+          strokeDasharray={item % 2 === 0 ? "12 18" : "5 14"}
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          whileInView={{ pathLength: 1, opacity: [0, 0.75, 0.28] }}
+          viewport={{ once: false }}
+          transition={{ duration: 7 + item * 1.2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: item * 0.45 }}
+        />
+      ))}
+
+      <motion.path
+        d="M 150 560 C 330 420 520 458 700 330 S 1040 220 1160 115"
+        stroke="rgba(255,255,255,0.22)"
+        strokeWidth="1.2"
+        strokeDasharray="7 12"
+        fill="none"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: false }}
+        transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+      />
+
+      <motion.rect
+        x="780"
+        y="120"
+        width="250"
+        height="180"
+        fill="none"
+        stroke="rgba(255,255,255,0.16)"
+        strokeWidth="1"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: false }}
+        transition={{ duration: 8, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.4 }}
+      />
+
+      <motion.circle
+        cx="245"
+        cy="255"
+        r="118"
+        fill="none"
+        stroke="rgba(255,255,255,0.18)"
+        strokeWidth="1"
+        strokeDasharray="8 14"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: false }}
+        transition={{ duration: 9, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 0.7 }}
+      />
+    </svg>
+  </div>
+);
+
 const teamMembers = [
   {
-    name: "ASINGIZWE BENJAMIN MARIE MERCI",
+    name: "ASINGIZWE Benjamin Marie  Merci",
     role: "Architecture & Design",
     image: "/team1.png",
     description:
-      "Experienced in architectural design, urbanism, and environmentally responsive development — focused on spatial clarity, sustainable thinking, contextual integration, and long-term architectural value.",
+      "Experienced in architectural design, urbanism, and environmentally responsive development, with a commitment to crafting contextually integrated, sustainable, and enduring spaces that combine spatial clarity, human-centered design, and long-term architectural value.",
   },
   {
     name: "SHEMA BAMBI Antonella M.",
     role: "Consultancy & Strategy",
     image: "/team2.png",
     description:
-      "Combines expertise in IT development, strategic consultancy, and project coordination — supporting digital systems, operational planning, client advisory, and development-focused decision-making.",
+      "Combines expertise in IT development, strategic consultancy, and project coordination to bridge technology, operations, and business strategy—supporting digital systems, client advisory, operational planning, and data-informed development decisions that create long-term value.",
   },
   {
     name: "RUKUNDO Prince",
     role: "Supervision & Execution",
     image: "/team3.png",
     description:
-      "PhD holder in Civil Engineering with expertise in roads, infrastructure systems, and urbanism — contributing technical supervision, execution coordination, and planning-oriented engineering insight.",
+      "Experienced in civil engineering, infrastructure systems, and urbanism, with a focus on technical supervision, project execution, coordinated delivery, and planning-oriented engineering solutions that support sustainable and resilient development.",
   },
   {
     name: "KANGWAGYE Sharon",
     role: "Project Coordination",
     image: "/team4.png",
     description:
-      "Experienced in digital commerce, market strategy, and growth coordination — supporting project organization through strategic planning, market understanding, and operational communication.",
+      "Experienced in digital commerce, market strategy, and growth coordination, with a focus on strategic planning, market insight, operational alignment, and the development of initiatives that create sustainable competitive advantage.",
   },
 ];
 
 const inProgressProjects = [
   {
-    title: "INZIIRA ESTATE DEVELOPMENT",
+    title: "INZIIRA ESTATE Development",
     type: "Residential Masterplan",
     concept: "Elevated foundations responding to wetland topography.",
     image: "/project-22.png",
@@ -94,6 +179,7 @@ const rwandaStudioHolidays: Record<string, string> = {
   "2026-04-07": "Genocide against the Tutsi Memorial Day",
   "2026-05-01": "Labour Day",
   "2026-05-27": "Eid al-Adha",
+  "2026-06-21": "Father's Day",
   "2026-07-01": "Independence Day",
   "2026-07-04": "Liberation Day",
   "2026-08-01": "Umuganura Day",
@@ -103,56 +189,116 @@ const rwandaStudioHolidays: Record<string, string> = {
 };
 
 const openHourMessages: Record<number, string[]> = {
-  8: [
-    "Studio open. Morning planning begins in Kigali.",
-    "Fresh briefs are being reviewed as the day starts.",
-    "The first drawings of the day are moving.",
-  ],
-  9: [
-    "Project reviews are active. New inquiries are welcome.",
-    "The studio is aligning briefs, sites, and next steps.",
-    "Design conversations are open for the day.",
-  ],
-  10: [
-    "Site context, feasibility, and design direction are under review.",
-    "The team is shaping decisions before drawings begin.",
-    "A good project starts with clear information.",
-  ],
-  11: [
-    "The studio is active. Project briefs are being studied.",
-    "Planning, drawings, and coordination are in motion.",
-    "If you have a site in mind, this is a good time to talk.",
-  ],
-  12: [
-    "Midday review is underway. The studio is still receiving inquiries.",
-    "Lunch may happen, but the buildings are still on our minds.",
-    "Do not eat before you call. Okay, maybe call first.",
-  ],
-  13: [
-    "Afternoon work is active. Project decisions are being refined.",
-    "The studio is back in full rhythm after midday review.",
-    "New project inquiries are open this afternoon.",
-  ],
-  14: [
-    "Design development and coordination are moving.",
-    "The studio is reviewing drawings, sites, and client direction.",
-    "Good architecture starts before construction begins.",
-  ],
-  15: [
-    "Project intelligence is active. Land, context, and feasibility matter.",
-    "The studio is connecting design ambition with buildable decisions.",
-    "Site visits and consultations can be scheduled by request.",
-  ],
-  16: [
-    "Late afternoon checks are in progress.",
-    "The studio is wrapping decisions into clearer next steps.",
-    "Today's project reviews are still moving.",
-  ],
-  17: [
-    "Closing soon. Today's reviews are being wrapped up.",
-    "Last checks before the studio closes for the day.",
-    "New inquiries will still be received after hours.",
-  ],
+ 8: [
+"Good morning. The studio is open and the day is taking shape.",
+"Fresh ideas, fresh coffee, and a full day of design ahead.",
+"Morning planning is underway across active projects.",
+"The first sketches of the day are finding their direction.",
+"Today's priorities are being mapped out in Kigali.",
+"A new day of architecture, planning, and development begins.",
+"The studio is awake. Let's build something meaningful today.",
+"Design conversations are starting across the team.",
+],
+
+9: [
+"Project reviews are active. New inquiries are welcome.",
+"The studio is fully in motion this morning.",
+"Design discussions are setting the direction for the day.",
+"Briefs, sites, and opportunities are being explored.",
+"Ideas are becoming clearer with every conversation.",
+"The day's momentum is building across active projects.",
+"Research, strategy, and creativity are working together.",
+"The team is turning questions into solutions.",
+],
+
+10: [
+"Research, planning, and design development are underway.",
+"Site context and project goals are being carefully aligned.",
+"Good projects begin with the right questions.",
+"Concepts are becoming clearer with every review.",
+"The team is shaping ideas before they become drawings.",
+"Design decisions are being tested and refined.",
+"Architecture starts long before construction begins.",
+"Vision is being translated into practical direction.",
+],
+
+11: [
+"The studio is active. Plans, meetings, and coordination continue.",
+"Drawings are progressing while strategies are refined.",
+"A good time to discuss your project vision.",
+"Design development is gaining momentum.",
+"Ideas are moving steadily toward implementation.",
+"Site planning and technical reviews are underway.",
+"The morning's work is taking visible shape.",
+"Collaboration is driving progress across the studio.",
+],
+
+12: [
+"Midday review is underway. The studio remains available.",
+"Lunch hour for some, design thinking for everyone.",
+"Projects continue moving between meetings and meals.",
+"Taking a short pause while keeping long-term visions in focus.",
+"The afternoon is already beginning to take shape.",
+"Ideas don't stop for lunch, and neither do project goals.",
+"The studio remains open while the team recharges.",
+"Halfway through the day, with plenty still ahead.",
+],
+
+13: [
+"The team is back in full rhythm for the afternoon.",
+"Fresh energy is driving the next round of project decisions.",
+"Design development and coordination continue across the studio.",
+"The afternoon session is focused and productive.",
+"New inquiries and consultations are welcome.",
+"Concepts are advancing into clearer project outcomes.",
+"The workday continues with purpose and momentum.",
+"Projects are moving steadily toward their next milestones.",
+],
+
+14: [
+"Drawings, reviews, and project coordination are in motion.",
+"Architecture happens through thousands of thoughtful decisions.",
+"The studio is translating ideas into actionable plans.",
+"Design ambition is being matched with technical clarity.",
+"Progress is building across active projects.",
+"Project teams are refining details and priorities.",
+"Good design is the result of careful coordination.",
+"Every revision brings the vision closer to reality.",
+],
+
+15: [
+"The day's work is reaching its most productive stretch.",
+"Project strategies are becoming clearer and more refined.",
+"Site conditions, feasibility, and design goals are being aligned.",
+"Good planning today creates better outcomes tomorrow.",
+"Consultations and project reviews remain open.",
+"The studio is balancing creativity with execution.",
+"Key decisions are shaping the future of active projects.",
+"Progress is measured one thoughtful step at a time.",
+],
+
+16: [
+"Late-afternoon reviews are underway.",
+"The studio is refining details and preparing next steps.",
+"Final decisions are being shaped before the day concludes.",
+"Progress continues across architecture, planning, and development.",
+"Today's work is being organized into tomorrow's momentum.",
+"The team is closing loops and clarifying priorities.",
+"Project updates and final reviews are in progress.",
+"Attention is shifting from ideas to action plans.",
+],
+
+17: [
+"Closing soon. Final reviews are being completed.",
+"The studio is wrapping up today's progress.",
+"Last conversations, last checks, and next steps.",
+"Today's ideas are being prepared for tomorrow's action.",
+"Thank you for spending part of your day with us.",
+"The workday is ending, but the projects continue forward.",
+"Final notes are being shared before the studio closes.",
+"Tomorrow's opportunities are already taking shape.",
+],
+
 };
 
 const openingSoonMessages = [
@@ -280,6 +426,7 @@ function StudioStatus() {
         `The studio is observing ${holidayToday} today.`,
         `${holidayToday} is being observed in Kigali. Project inquiries remain open online.`,
         `IMVO is out of office for ${holidayToday}. We resume on the next working day.`,
+        `Happy ${holidayToday}. We resume on the next working day.`,
       ]
     : [];
 
@@ -643,7 +790,7 @@ function AnimatedNumber({
   const [value, setValue] = useState(from);
 
   useEffect(() => {
-    const duration = 5000;
+    const duration = 10000;
     const start = performance.now();
     const animate = (time: number) => {
       const progress = Math.min((time - start) / duration, 1);
@@ -1654,7 +1801,8 @@ export default function HomePage() {
                     : "21/9",
                 marginTop: 60,
                 overflow: "hidden",
-                background: "#111",
+                background: "#090909",
+                border: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <Image
@@ -1668,7 +1816,20 @@ export default function HomePage() {
                       ? "cover"
                       : "contain",
                   objectPosition: "center top",
-                  filter: "grayscale(100%)",
+                  filter: "grayscale(100%) contrast(1.04) brightness(0.86)",
+                }}
+              />
+
+              <ArchitecturalDrawingLines />
+
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  zIndex: 4,
+                  background:
+                    "radial-gradient(circle at 25% 10%, rgba(255,255,255,0.1), transparent 28%), linear-gradient(to top, rgba(5,5,5,0.38), transparent 45%)",
+                  pointerEvents: "none",
                 }}
               />
             </motion.div>
