@@ -898,14 +898,16 @@ function CinematicHero() {
           INTELLECTU · MENS · VISIO · ORIGO
         </motion.div>
 
-        <motion.p
+        <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...transition, delay: 0.4 }}
           style={{
             marginTop: 24,
+            marginBottom: "1em",
             maxWidth: 800,
             fontSize: "clamp(18px, 2vw, 24px)",
+            fontWeight: 400,
             lineHeight: 1.6,
             color: "rgba(255,255,255,0.82)",
           }}
@@ -914,7 +916,7 @@ function CinematicHero() {
           through built-environment design, development consultancy, site
           coordination, and execution-aware planning — balancing spatial clarity, contextual
           sensitivity, technical discipline, and long-term architectural value.
-        </motion.p>
+        </motion.h1>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
