@@ -70,37 +70,50 @@ export const metadata: Metadata = {
   },
 };
 
-const organizationSchema = {
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "IMVO Group",
-  url: siteUrl,
-  logo: `${siteUrl}/imvo-black.png`,
-  image: `${siteUrl}/about-hero.png`,
-  description:
-    "Architecture, consultancy, supervision, and development guidance from Kigali, Rwanda.",
-  areaServed: [
-    "Rwanda",
-    "Uganda",
-    "Kenya",
-    "Tanzania",
-    "Burundi",
-    "Democratic Republic of the Congo",
-    "Zambia",
-    "Angola",
-    "Mozambique",
-  ],
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Kigali",
-    addressCountry: "RW",
-  },
-  sameAs: [
-    "https://www.linkedin.com/company/imvo-design-group",
-    "https://www.instagram.com/imvo_group/",
-    "https://x.com/Imvogroupafrica",
-    "https://www.facebook.com/people/IMVO-GROUP-Africa/100087615605183/",
-    "https://www.youtube.com/@Imvogroupafrica",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: "IMVO Group",
+      alternateName: "IMVO Design Group",
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#organization`,
+      name: "IMVO Group",
+      url: `${siteUrl}/`,
+      logo: `${siteUrl}/imvo-black.png`,
+      image: `${siteUrl}/about-hero.png`,
+      description:
+        "Architecture, consultancy, supervision, and development guidance from Kigali, Rwanda.",
+      areaServed: [
+        "Rwanda",
+        "Uganda",
+        "Kenya",
+        "Tanzania",
+        "Burundi",
+        "Democratic Republic of the Congo",
+        "Zambia",
+        "Angola",
+        "Mozambique",
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Kigali",
+        addressCountry: "RW",
+      },
+      sameAs: [
+        "https://www.linkedin.com/company/imvo-design-group",
+        "https://www.instagram.com/imvo_group/",
+        "https://x.com/Imvogroupafrica",
+        "https://www.facebook.com/people/IMVO-GROUP-Africa/100087615605183/",
+        "https://www.youtube.com/@Imvogroupafrica",
+      ],
+    },
   ],
 };
 
@@ -120,7 +133,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
         <SmoothScrollProvider>
