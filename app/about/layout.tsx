@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "About IMVO Group",
     description:
       "A Kigali-based architecture studio serving Rwanda and selected East and Central African markets.",
-    images: ["/about-hero.png"],
+    images: ["/about-hero.webp"],
   },
 };
 

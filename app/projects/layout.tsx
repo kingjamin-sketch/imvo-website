@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Selected Projects | IMVO Group",
     description:
       "Architecture developed through context, proportion, technical coordination, and execution-aware thinking.",
-    images: ["/chosen/verdea-hotel.png"],
+    images: ["/chosen/verdea-hotel.webp"],
   },
 };
 

@@ -43,7 +43,7 @@ export default function PortfolioSlider() {
   const activeProject = projects[index];
 
   return (
-    <section style={{ backgroundColor: "#050505", color: "white", padding: "120px 0", overflow: "hidden" }}>
+    <section className="mobilePad" style={{ backgroundColor: "#050505", color: "white", padding: "96px 0", overflow: "hidden" }}>
       <div
          className="containerWide portfolioSliderGrid"
   style={{

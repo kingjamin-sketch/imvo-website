@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "IMVO Group Services",
     description:
       "Architectural design, consultancy, supervision, and development guidance from vision to execution.",
-    images: ["/services-hero.png"],
+    images: ["/services-hero.webp"],
   },
 };
 

@@ -18,7 +18,7 @@ export default function ProjectsMasonry() {
   }, [active]);
 
   return (
-    <section className="mobilePad" style={{ paddingBottom: 120, paddingTop: 80, backgroundColor: "#050505", color: "white" }}>
+    <section className="mobilePad" style={{ paddingBottom: 96, paddingTop: 72, backgroundColor: "#050505", color: "white" }}>
       <div className="containerWide">
         <motion.div className="mobileStack" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={transition} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 30 }}>
           <div>

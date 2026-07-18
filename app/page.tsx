@@ -617,7 +617,7 @@ const ProjectIntelligence = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "120px 0",
+      padding: "96px 0",
       background: "#070707",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -946,7 +946,7 @@ const ApproachPrinciples = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "100px 0",
+      padding: "88px 0",
       background: "#050505",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -1125,7 +1125,7 @@ const HomeRegionalReachTeaser = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "105px 0",
+      padding: "92px 0",
       background: "#050505",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -1349,7 +1349,7 @@ export default function HomePage() {
         <ApproachPrinciples />
 
         {/* 2. MANIFESTO */}
-        <section className="mobilePad" style={{ padding: "80px 0 120px 0" }}>
+        <section className="mobilePad" style={{ padding: "72px 0 96px 0" }}>
           <div className="containerWide">
             <div
               style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}
@@ -1484,7 +1484,7 @@ export default function HomePage() {
         <section
           className="mobilePad"
           style={{
-            padding: "120px 0",
+            padding: "96px 0",
             background: "#080808",
             borderTop: "1px solid rgba(255,255,255,0.05)",
           }}
@@ -1640,7 +1640,7 @@ export default function HomePage() {
         {/* 4. SERVICES */}
         <section
           className="mobilePad"
-          style={{ padding: "120px 0", background: "#0a0a0a" }}
+          style={{ padding: "96px 0", background: "#0a0a0a" }}
         >
           <div className="containerWide">
             <motion.div
@@ -1766,7 +1766,7 @@ export default function HomePage() {
         </section>
 
         {/* 5. TEAM */}
-        <section className="mobilePad" style={{ padding: "120px 0" }}>
+        <section className="mobilePad" style={{ padding: "96px 0" }}>
           <div className="containerWide">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -1927,7 +1927,7 @@ export default function HomePage() {
         <section
           className="mobilePad"
           style={{
-            padding: "100px 0",
+            padding: "88px 0",
             background: "#111",
             borderTop: "1px solid rgba(255,255,255,0.1)",
           }}

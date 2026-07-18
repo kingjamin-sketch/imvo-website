@@ -350,7 +350,7 @@ export default function ServicesPage() {
         </motion.div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "160px 0", borderTop: "1px solid rgba(255,255,255,0.05)", textAlign: "center" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", borderTop: "1px solid rgba(255,255,255,0.05)", textAlign: "center" }}>
         <div className="containerWide" style={{ display: "flex", justifyContent: "center" }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={transition} style={{ maxWidth: 1000, display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
@@ -378,7 +378,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", overflow: "hidden", minHeight: "850px", display: "flex", alignItems: "center" }}>
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", overflow: "hidden", minHeight: "760px", display: "flex", alignItems: "center" }}>
         <OrbitBackground />
 
         <div className="containerWide" style={{ position: "relative", zIndex: 10, maxWidth: "1500px" }}>
@@ -486,7 +486,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <div className="containerWide">
           <div className="mobileStack" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: 80 }}>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
@@ -520,7 +520,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ position: "relative", padding: "150px 0", background: "#0a0a0a", overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "108px 0", background: "#0a0a0a", overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <BlueprintBackground />
 
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
@@ -587,7 +587,7 @@ export default function ServicesPage() {
 
       <StrategicPartners />
 
-      <section className="mobilePad" style={{ padding: "160px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
         <BlueprintBackground />
 
         <div style={{ position: "absolute", top: "-50%", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)", pointerEvents: "none", zIndex: 1 }} />

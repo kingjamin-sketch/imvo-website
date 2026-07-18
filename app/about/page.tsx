@@ -121,7 +121,7 @@ const RegionalReach = () => {
     <section
       className="mobilePad"
       style={{
-        padding: "130px 0",
+        padding: "100px 0",
         background: "#050505",
         borderTop: "1px solid rgba(255,255,255,0.06)",
         position: "relative",
@@ -377,7 +377,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. HERO IMAGE REVEAL */}
-      <section style={{ paddingBottom: "120px", position: "relative", zIndex: 10 }}>
+      <section style={{ paddingBottom: "96px", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ ...transition, delay: 0.4 }} style={{ position: "relative", width: "100%", aspectRatio: "21/9", background: "#111", overflow: "hidden" }}>
             <Image src="/about-hero.png" alt="IMVO Studio Philosophy" fill sizes="100vw" style={{ objectFit: "cover", filter: "brightness(0.8)" }} />
@@ -386,7 +386,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. MANIFESTO / ORIGIN STORY WITH ANIMATED BLUEPRINT */}
-      <section className="mobilePad" style={{ position: "relative", padding: "80px 0 160px 0" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "72px 0 108px 0" }}>
         <BlueprintBackground />
         <div className="containerWide mobileStack" style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "80px", alignItems: "start" }}>
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
@@ -409,7 +409,7 @@ export default function AboutPage() {
 {/* REGIONAL REACH */}
 <RegionalReach />
       {/* 4. STUDIO CULTURE & TEAM PHOTO */}
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <div className="mobileStack" style={{ display: "flex", flexWrap: "wrap", gap: "60px", alignItems: "center" }}>
             <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ flex: "1 1 350px", maxWidth: "500px" }}>
@@ -429,7 +429,7 @@ export default function AboutPage() {
       </section>
 
       {/* 5. PILLAR 01: ARCHITECTURAL DESIGN */}
-      <section className="mobilePad" style={{ padding: "160px 0", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "112px 0", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 01</div>
@@ -468,7 +468,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. TIMELINE & HISTORY */}
-      <section className="mobilePad" style={{ position: "relative", padding: "120px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "96px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
         <BlueprintBackground />
         <div className="containerWide mobileStack" style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: 80 }}>
           <div>
@@ -493,7 +493,7 @@ export default function AboutPage() {
       </section>
 
       {/* 7. PILLAR 02: CONSULTANCY & STRATEGY */}
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 02</div>
@@ -501,8 +501,8 @@ export default function AboutPage() {
           </motion.div>
           <div style={{ marginTop: 80, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px" }}>
             {[
-              { name: "Feasibility & Zoning Feasibility Studies", desc: "Strategic guidance before the concrete is poured. Analyzing land capability and regulatory constraints to ensure project viability.", icon: "M10 20 L50 20 M30 10 L30 30 M10 40 L50 40 M10 60 L50 60" },
-              { name: "Zoning Feasibility Feasibility Studies", desc: "Analyzing zoning regulations and spatial optimization for land capability.", icon: "M20 20 M10 10 L50 50 M10 50 L50 10" }
+              { name: "Development Feasibility", desc: "Assessing land capability, project viability, and development constraints before design investment begins.", icon: "M10 20 L50 20 M30 10 L30 30 M10 40 L50 40 M10 60 L50 60" },
+              { name: "Zoning & Regulatory Strategy", desc: "Interpreting planning controls and approval requirements to establish a clear, compliant development path.", icon: "M20 20 M10 10 L50 50 M10 50 L50 10" }
             ].map((service, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: index * 0.15 }} style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: 30 }}>
                 <div style={{ height: "60px", marginBottom: 30 }}>
@@ -517,7 +517,7 @@ export default function AboutPage() {
       </section>
 
       {/* 8. PILLAR 03: SUPERVISION & EXECUTION */}
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.1)", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.1)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 03</div>
@@ -541,7 +541,7 @@ export default function AboutPage() {
       </section>
 
       {/* 9. SINGLE LINE LEADERSHIP DIRECTORY */}
-      <section className="mobilePad" style={{ padding: "120px 0", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ textAlign: "center", marginBottom: 80 }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6 }}>The Studio</div>
@@ -565,7 +565,7 @@ export default function AboutPage() {
       </section>
 
       {/* 10. TESTIMONIALS SECTION */}
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#050505", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#050505", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ textAlign: "center", marginBottom: 60 }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6 }}>Client Perspectives</div>
@@ -595,7 +595,7 @@ export default function AboutPage() {
       </section>
 
       {/* 11. PREMIUM FINAL CTA (With Studio Deck Link) */}
-      <section className="mobilePad" style={{ padding: "160px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
         <BlueprintBackground />
         <div style={{ position: "absolute", top: "-50%", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
@@ -605,6 +605,7 @@ export default function AboutPage() {
             <div style={{ marginTop: 60, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/contact#quote" style={{ background: "white", color: "black", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>START A CONVERSATION ↗</Link>
               <Link href="/projects" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>EXPLORE PROJECTS ↗</Link>
+              <a href="/imvo-selected-works-2026.pdf" download="IMVO-Selected-Works-2026.pdf" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>DOWNLOAD STUDIO DECK ↓</a>
             </div>
           </motion.div>
         </div>

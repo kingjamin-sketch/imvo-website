@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: "Start a Project Conversation with IMVO",
     description:
       "Share your location, project type, timeline, and priorities with the IMVO Group team.",
-    images: ["/contact-hero.png"],
+    images: ["/contact-hero.webp"],
   },
 };
 
