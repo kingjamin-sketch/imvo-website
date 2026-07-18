@@ -52,7 +52,7 @@ select {
 
 .section {
   position: relative;
-  padding: 110px 0;
+  padding: 96px 0;
 }
 
 .sectionBlack {
@@ -2221,6 +2221,22 @@ select.pill {
    Mobile Responsiveness
 ========================= */
 @media (max-width: 900px) {
+  .portfolioSliderGrid {
+    grid-template-columns: 1fr !important;
+  }
+  .portfolioSliderMedia {
+    aspect-ratio: 4 / 3 !important;
+  }
+  .teamImageFrame {
+    aspect-ratio: 4 / 5 !important;
+  }
+  .teamImage {
+    object-fit: cover !important;
+  }
+  .serviceMediaTall,
+  .serviceProcessMedia {
+    min-height: 420px !important;
+  }
   .mobileStack {
     display: flex !important;
     flex-direction: column !important;
@@ -2297,6 +2313,7 @@ body.intro-playing header {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }

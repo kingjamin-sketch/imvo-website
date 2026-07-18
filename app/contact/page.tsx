@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import rwandaLocations from "./rwandaLocations.json";
 
 const inquiryTypes = [
-  "Architectural Design",
+  "Built Environment Design",
   "Planning & Design",
   "Consultancy",
-  "Supervision",
+  "Site Coordination & Delivery Support",
   "Property Development Guidance",
   "Property Acquisition Guidance",
   "Other / Custom Scope",
@@ -90,47 +91,86 @@ const countryOptions = [
   "Other",
 ];
 
-const rwandaProvinces = [
-  "Kigali City",
-  "Northern Province",
-  "Southern Province",
-  "Eastern Province",
-  "Western Province",
+type LocationOption = [code: string, name: string];
+type LocationGroups = Record<string, LocationOption[]>;
+
+const rwandaProvinces = rwandaLocations.provinces as unknown as LocationOption[];
+const districtsByProvince = rwandaLocations.districtsByProvince as unknown as LocationGroups;
+const sectorsByDistrict = rwandaLocations.sectorsByDistrict as unknown as LocationGroups;
+const cellsBySector = rwandaLocations.cellsBySector as unknown as LocationGroups;
+const villagesByCell = rwandaLocations.villagesByCell as unknown as LocationGroups;
+
+const locationNames = new Map<string, string>([
+  ...rwandaProvinces,
+  ...Object.values(districtsByProvince).flat(),
+  ...Object.values(sectorsByDistrict).flat(),
+  ...Object.values(cellsBySector).flat(),
+  ...Object.values(villagesByCell).flat(),
+]);
+
+const getLocationName = (code: string) => locationNames.get(code) || "";
+
+const preferredContactOptions = ["WhatsApp", "Phone Call", "Email"];
+
+const projectStageOptions = [
+  "Initial Idea",
+  "Site / Land Identified",
+  "Feasibility & Zoning",
+  "Concept Design",
+  "Detailed Design & Permit",
+  "BOQ & Tendering",
+  "Under Construction",
+  "Renovation / Refurbishment",
 ];
 
+const budgetOptions = [
+  "Not Yet Determined",
+  "Below RWF 10 Million",
+  "RWF 10–30 Million",
+  "RWF 30–75 Million",
+  "RWF 75–150 Million",
+  "RWF 150–300 Million",
+  "RWF 300–750 Million",
+  "Above RWF 750 Million",
+];
 
-const districtsByProvince = {
-  "Kigali City": ["Gasabo", "Kicukiro", "Nyarugenge"],
-  "Northern Province": ["Burera", "Gakenke", "Gicumbi", "Musanze", "Rulindo"],
-  "Southern Province": [
-    "Gisagara",
-    "Huye",
-    "Kamonyi",
-    "Muhanga",
-    "Nyamagabe",
-    "Nyanza",
-    "Nyaruguru",
-    "Ruhango",
-  ],
-  "Eastern Province": [
-    "Bugesera",
-    "Gatsibo",
-    "Kayonza",
-    "Kirehe",
-    "Ngoma",
-    "Nyagatare",
-    "Rwamagana",
-  ],
-  "Western Province": [
-    "Karongi",
-    "Ngororero",
-    "Nyabihu",
-    "Nyamasheke",
-    "Rubavu",
-    "Rusizi",
-    "Rutsiro",
-  ],
+const timelineOptions = [
+  "As Soon as Possible",
+  "Within 1–3 Months",
+  "Within 3–6 Months",
+  "Within 6–12 Months",
+  "More Than 12 Months",
+  "Still Planning",
+];
+
+const emailDomainCorrections: Record<string, string> = {
+  "gmial.com": "gmail.com",
+  "gmal.com": "gmail.com",
+  "gmail.co": "gmail.com",
+  "hotmial.com": "hotmail.com",
+  "outlok.com": "outlook.com",
+  "outlook.co": "outlook.com",
+  "yahho.com": "yahoo.com",
+  "yaho.com": "yahoo.com",
 };
+
+type FormErrors = Record<string, string>;
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? (
+    <div
+      style={{
+        marginTop: 7,
+        paddingLeft: 10,
+        color: "#ff9a9a",
+        fontSize: 12,
+        fontWeight: 700,
+        lineHeight: 1.4,
+      }}
+    >
+      {message}
+    </div>
+  ) : null;
 
 
 const transition = { duration: 1.4, ease: [0.16, 1, 0.3, 1] as const };
@@ -144,7 +184,7 @@ const ArchitecturalModel = () => {
     { title: "PERMIT", sub: "Regulatory Compliance", x: 500, y: 112 },
     { title: "SITE", sub: "Analysis Context", x: 585, y: 235 },
     { title: "CONSULTANCY", sub: "Feasibility Advisory", x: 505, y: 350 },
-    { title: "SUPERVISION", sub: "Site Monitoring", x: 95, y: 126 },
+    { title: "SITE DELIVERY", sub: "Coordination", x: 95, y: 126 },
     { title: "ZONING", sub: "Planning Strategy", x: 70, y: 255 },
   ];
 
@@ -543,9 +583,17 @@ export default function ContactPage() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [submissionError, setSubmissionError] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("Rwanda");
   const [selectedPhoneCode, setSelectedPhoneCode] = useState("+250");
+  const [siteStatus, setSiteStatus] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedSector, setSelectedSector] = useState("");
+  const [selectedCell, setSelectedCell] = useState("");
+  const [selectedVillage, setSelectedVillage] = useState("");
+  const successMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -564,6 +612,20 @@ export default function ContactPage() {
     }
   }, [mounted]);
 
+  useEffect(() => {
+    if (!isSuccess) return;
+
+    const frameId = window.requestAnimationFrame(() => {
+      successMessageRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      successMessageRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [isSuccess]);
+
   if (!mounted) {
     return <div style={{ background: "#050505", minHeight: "100vh" }} />;
   }
@@ -574,35 +636,156 @@ export default function ContactPage() {
         ? prev.filter((item) => item !== service)
         : [...prev, service]
     );
+    setFormErrors((previous) => {
+      if (!previous.services) return previous;
+      const next = { ...previous };
+      delete next.services;
+      return next;
+    });
+  };
+
+  const clearFieldError = (name: string) => {
+    setFormErrors((previous) => {
+      if (!previous[name]) return previous;
+      const next = { ...previous };
+      delete next[name];
+      return next;
+    });
+    setSubmissionError("");
+  };
+
+  const clearFieldErrors = (names: string[]) => {
+    setFormErrors((previous) => {
+      const next = { ...previous };
+      names.forEach((name) => delete next[name]);
+      return next;
+    });
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitting(true);
-
     const form = event.currentTarget;
     const sourceData = new FormData(form);
 
-    const firstName = String(sourceData.get("firstName") || "").trim();
-    const lastName = String(sourceData.get("lastName") || "").trim();
-    const email = String(sourceData.get("email") || "").trim();
-    const countryCode = String(sourceData.get("countryCode") || "").trim();
-    const customCountryCode = String(sourceData.get("customCountryCode") || "").trim();
-    const phone = String(sourceData.get("phone") || "").trim();
-    const country = String(sourceData.get("country") || selectedCountry || "").trim();
-    const province = String(sourceData.get("province") || "").trim();
-    const district = String(sourceData.get("district") || "").trim();
-    const sector = String(sourceData.get("sector") || "").trim();
-    const cell = String(sourceData.get("cell") || "").trim();
-    const village = String(sourceData.get("village") || "").trim();
-    const upi = String(sourceData.get("upi") || "").trim();
-    const internationalLocation = String(sourceData.get("internationalLocation") || "").trim();
-    const budget = String(sourceData.get("budget") || "").trim();
-    const message = String(sourceData.get("message") || "").trim();
+    const read = (name: string) => String(sourceData.get(name) || "").trim();
+    const errors: FormErrors = {};
+    const requireField = (name: string, message: string) => {
+      if (!read(name)) errors[name] = message;
+    };
+
+    if (selectedServices.length === 0) {
+      errors.services = "Select at least one required discipline.";
+    }
+
+    requireField("firstName", "Enter your first name.");
+    requireField("lastName", "Enter your last name.");
+    requireField("email", "Enter your email address.");
+    requireField("phone", "Enter your phone or WhatsApp number.");
+    requireField("preferredContact", "Select how you prefer IMVO to contact you.");
+    requireField("projectStage", "Select the current project stage.");
+    requireField("siteStatus", "Tell us whether the project site is identified.");
+    requireField("country", "Select the project country.");
+    requireField("budget", "Select an estimated project budget category.");
+    requireField("timeline", "Select the intended project timeline.");
+    requireField("message", "Provide a short project brief.");
+
+    const email = read("email").toLowerCase();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (email && !emailPattern.test(email)) {
+      errors.email = "Enter a complete email address, for example name@example.com.";
+    } else if (email) {
+      const [localPart, domain] = email.split("@");
+      const correctedDomain = emailDomainCorrections[domain];
+      if (correctedDomain) {
+        errors.email = `Check your email. Did you mean ${localPart}@${correctedDomain}?`;
+      }
+    }
+
+    const phoneDigits = read("phone").replace(/\D/g, "");
+    if (read("phone") && phoneDigits.length < 7) {
+      errors.phone = "Enter a valid phone number with at least 7 digits.";
+    }
+
+    if (read("countryCode") === "OTHER") {
+      requireField("customCountryCode", "Enter the international country code.");
+    }
+
+    const country = read("country") || selectedCountry;
+    const currentSiteStatus = read("siteStatus") || siteStatus;
+    if (country === "Rwanda") {
+      requireField("province", "Select the province.");
+      requireField("district", "Select the district.");
+
+      if (currentSiteStatus === "identified") {
+        requireField("sector", "Select the sector.");
+        requireField("cell", "Select the cell.");
+        requireField("village", "Select the village.");
+      }
+    } else {
+      requireField(
+        "internationalLocation",
+        "Enter the city or preferred project location.",
+      );
+    }
+
+    if (read("message") && read("message").length < 30) {
+      errors.message = "Add a little more detail—at least 30 characters.";
+    }
+
+    if (!sourceData.get("consent")) {
+      errors.consent = "Confirm that IMVO may use these details to respond.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      setSubmissionError("");
+
+      const firstField = Object.keys(errors)[0];
+      window.requestAnimationFrame(() => {
+        const target = form.querySelector<HTMLElement>(
+          `[name="${firstField}"], [data-field="${firstField}"]`,
+        );
+        target?.scrollIntoView({ behavior: "smooth", block: "center" });
+        target?.focus({ preventScroll: true });
+      });
+      return;
+    }
+
+    if (read("botcheck")) {
+      setIsSuccess(true);
+      return;
+    }
+
+    setFormErrors({});
+    setSubmissionError("");
+    setIsSubmitting(true);
+
+    const firstName = read("firstName");
+    const lastName = read("lastName");
+    const organization = read("organization");
+    const countryCode = read("countryCode");
+    const customCountryCode = read("customCountryCode");
+    const phone = read("phone");
+    const preferredContact = read("preferredContact");
+    const projectStage = read("projectStage");
+    const province = getLocationName(read("province"));
+    const district = getLocationName(read("district"));
+    const sector = getLocationName(read("sector"));
+    const cell = getLocationName(read("cell"));
+    const village = getLocationName(read("village"));
+    const upi = read("upi");
+    const internationalLocation = read("internationalLocation");
+    const budget = read("budget");
+    const timeline = read("timeline");
+    const message = read("message");
 
     const fullName = `${firstName} ${lastName}`.trim() || "Website Visitor";
     const resolvedCountryCode = countryCode === "OTHER" ? customCountryCode : countryCode;
     const fullPhone = `${resolvedCountryCode} ${phone}`.trim();
+    const siteStatusLabel =
+      currentSiteStatus === "identified"
+        ? "Site / land identified"
+        : "Still searching / planning location";
     const projectLocation =
       country === "Rwanda"
         ? [
@@ -630,9 +813,13 @@ export default function ContactPage() {
 
     payload.append("First Name", firstName || "Not provided");
     payload.append("Last Name", lastName || "Not provided");
+    payload.append("Company / Organization", organization || "Not provided");
     payload.append("Email Address", email || "Not provided");
     payload.append("Country Code", resolvedCountryCode || "Not provided");
     payload.append("Phone / WhatsApp", fullPhone || "Not provided");
+    payload.append("Preferred Contact Method", preferredContact);
+    payload.append("Current Project Stage", projectStage);
+    payload.append("Site Status", siteStatusLabel);
     payload.append("Country", country || "Not provided");
     payload.append("Project Location", projectLocation || "Not provided");
     payload.append("Province", province || "Not provided");
@@ -642,7 +829,9 @@ export default function ContactPage() {
     payload.append("Village", village || "Not provided");
     payload.append("UPI / Plot Reference", upi || "Not provided");
     payload.append("International Location", internationalLocation || "Not provided");
-    payload.append("Estimated Budget", budget || "Not provided");
+    payload.append("Estimated Project Budget", budget);
+    payload.append("Intended Project Timeline", timeline);
+    payload.append("Privacy Consent", "Provided");
     payload.append(
       "Required Disciplines",
       selectedServices.length > 0 ? selectedServices.join(", ") : "Not selected"
@@ -660,24 +849,33 @@ export default function ContactPage() {
 
       const result = await response.json();
 
-      if (result.success) {
+      if (response.ok && result.success) {
         setIsSuccess(true);
         setSelectedServices([]);
         setSelectedCountry("Rwanda");
         setSelectedPhoneCode("+250");
+        setSiteStatus("");
         setSelectedProvince("");
+        setSelectedDistrict("");
+        setSelectedSector("");
+        setSelectedCell("");
+        setSelectedVillage("");
+        setFormErrors({});
+        setSubmissionError("");
         form.reset();
       } else {
         console.error("Web3Forms error:", result);
-        alert(
-          "Your inquiry could not be sent. Please email IMVO directly at info@imvogroup.com."
+        setSubmissionError(
+          "Your inquiry was not sent. Please check your email and connection, then try again or contact IMVO through WhatsApp.",
         );
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     } catch (error) {
       console.error("Form submission failed:", error);
-      alert(
-        "Something went wrong. Please email IMVO directly at info@imvogroup.com."
+      setSubmissionError(
+        "Your inquiry was not sent. Please check your connection and try again, or contact IMVO through WhatsApp.",
       );
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
     } finally {
       setIsSubmitting(false);
     }
@@ -705,6 +903,17 @@ export default function ContactPage() {
     background: "#050505",
     color: "white",
   };
+
+  const fieldStyle = (
+    name: string,
+    base: React.CSSProperties = inputStyle,
+  ): React.CSSProperties => ({
+    ...base,
+    borderBottom: formErrors[name]
+      ? "1px solid #ff7777"
+      : "1px solid rgba(255,255,255,0.2)",
+    boxShadow: formErrors[name] ? "0 1px 0 rgba(255,119,119,0.2)" : "none",
+  });
 
   return (
     <div
@@ -782,7 +991,7 @@ export default function ContactPage() {
           >
             Tell us about your project, site, ambition, timeline, and current
             stage. We will help define whether you need design, consultancy,
-            supervision, planning support, or development guidance.
+            site coordination, planning support, or development guidance.
           </motion.p>
         </div>
 
@@ -835,7 +1044,7 @@ export default function ContactPage() {
         className="mobilePad"
         style={{
           scrollMarginTop: 120,
-          padding: "140px 0",
+          padding: "104px 0",
           background: "#0a0a0a",
           borderTop: "1px solid rgba(255,255,255,0.05)",
         }}
@@ -987,12 +1196,76 @@ export default function ContactPage() {
                   <motion.form
                     key="form"
                     onSubmit={handleSubmit}
+                    noValidate
+                    onChangeCapture={(event) => {
+                      const target = event.target;
+                      if (
+                        target instanceof HTMLInputElement ||
+                        target instanceof HTMLSelectElement ||
+                        target instanceof HTMLTextAreaElement
+                      ) {
+                        if (target.name) clearFieldError(target.name);
+                      }
+                    }}
                     initial={{ opacity: 0, filter: "blur(10px)" }}
                     animate={{ opacity: 1, filter: "blur(0px)" }}
                     exit={{ opacity: 0, filter: "blur(10px)", y: -20 }}
                     transition={fastTransition}
                   >
-                    <div style={{ marginBottom: 40 }}>
+                    <input
+                      name="botcheck"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ display: "none" }}
+                    />
+
+                    {(submissionError || Object.keys(formErrors).length > 0) && (
+                      <motion.div
+                        role="alert"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        style={{
+                          marginBottom: 34,
+                          padding: "18px 20px",
+                          border: "1px solid rgba(255,119,119,0.45)",
+                          background: "rgba(255,90,90,0.08)",
+                          color: "#ffd1d1",
+                          fontSize: 13,
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        <div style={{ fontWeight: 900 }}>
+                          {submissionError
+                            ? "Your inquiry was not sent."
+                            : "Please complete the highlighted information."}
+                        </div>
+                        {submissionError ? (
+                          <div style={{ marginTop: 5 }}>
+                            {submissionError}{" "}
+                            <a
+                              href="https://wa.me/250787349257"
+                              style={{ color: "white", fontWeight: 800 }}
+                            >
+                              Contact IMVO on WhatsApp ↗
+                            </a>
+                          </div>
+                        ) : (
+                          <ul style={{ margin: "8px 0 0", paddingLeft: 20 }}>
+                            {Object.values(formErrors).map((message) => (
+                              <li key={message}>{message}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </motion.div>
+                    )}
+
+                    <div
+                      data-field="services"
+                      tabIndex={-1}
+                      style={{ marginBottom: 40, outline: "none" }}
+                    >
                       <label
                         style={{
                           display: "block",
@@ -1044,6 +1317,20 @@ export default function ContactPage() {
                           );
                         })}
                       </div>
+                      <FieldError message={formErrors.services} />
+                    </div>
+
+                    <div
+                      style={{
+                        marginBottom: 10,
+                        fontSize: 12,
+                        fontWeight: 900,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: "rgba(255,255,255,0.46)",
+                      }}
+                    >
+                      Your Details
                     </div>
 
                     <div
@@ -1055,41 +1342,76 @@ export default function ContactPage() {
                         marginBottom: 24,
                       }}
                     >
-                      <input
-                        name="firstName"
-                        type="text"
-                        placeholder="First Name"
-                        required
-                        style={inputStyle}
-                      />
-
-                      <input
-                        name="lastName"
-                        type="text"
-                        placeholder="Last Name"
-                        style={inputStyle}
-                      />
-
-                      <input
-                        name="email"
-                        type="email"
-                        placeholder="Email Address"
-                        required
-                        style={inputStyle}
-                      />
-
                       <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "125px 1fr",
-                          gap: 12,
-                        }}
+                        style={{ minWidth: 0 }}
                       >
+                        <input
+                          name="firstName"
+                          type="text"
+                          placeholder="First Name *"
+                          autoComplete="given-name"
+                          aria-label="First name"
+                          aria-invalid={Boolean(formErrors.firstName)}
+                          style={fieldStyle("firstName")}
+                        />
+                        <FieldError message={formErrors.firstName} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <input
+                          name="lastName"
+                          type="text"
+                          placeholder="Last Name *"
+                          autoComplete="family-name"
+                          aria-label="Last name"
+                          aria-invalid={Boolean(formErrors.lastName)}
+                          style={fieldStyle("lastName")}
+                        />
+                        <FieldError message={formErrors.lastName} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <input
+                          name="organization"
+                          type="text"
+                          placeholder="Company / Organization (Optional)"
+                          autoComplete="organization"
+                          aria-label="Company or organization"
+                          style={inputStyle}
+                        />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <input
+                          name="email"
+                          type="email"
+                          placeholder="Email Address *"
+                          autoComplete="email"
+                          aria-label="Email address"
+                          aria-invalid={Boolean(formErrors.email)}
+                          style={fieldStyle("email")}
+                        />
+                        <FieldError message={formErrors.email} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "125px 1fr",
+                            gap: 12,
+                          }}
+                        >
                         <select
                           name="countryCode"
                           value={selectedPhoneCode}
-                          onChange={(event) => setSelectedPhoneCode(event.target.value)}
-                          style={selectStyle}
+                          onChange={(event) => {
+                            setSelectedPhoneCode(event.target.value);
+                            if (event.target.value !== "OTHER") {
+                              clearFieldErrors(["customCountryCode"]);
+                            }
+                          }}
+                          style={fieldStyle("countryCode", selectStyle)}
                           aria-label="Phone country code"
                         >
                           {phoneCountryCodes.map((item) => (
@@ -1106,145 +1428,462 @@ export default function ContactPage() {
                         <input
                           name="phone"
                           type="tel"
-                          placeholder="Phone / WhatsApp"
-                          style={inputStyle}
+                          placeholder="Phone / WhatsApp *"
+                          autoComplete="tel"
+                          aria-label="Phone or WhatsApp number"
+                          aria-invalid={Boolean(formErrors.phone)}
+                          style={fieldStyle("phone")}
                         />
+                        </div>
+                        <FieldError message={formErrors.phone} />
                       </div>
 
                       {selectedPhoneCode === "OTHER" && (
-                        <input
-                          name="customCountryCode"
-                          type="text"
-                          placeholder="Enter Country Code e.g. +250"
-                          style={inputStyle}
-                        />
+                        <div style={{ minWidth: 0 }}>
+                          <input
+                            name="customCountryCode"
+                            type="text"
+                            placeholder="International Country Code e.g. +250 *"
+                            aria-label="International country code"
+                            aria-invalid={Boolean(formErrors.customCountryCode)}
+                            style={fieldStyle("customCountryCode")}
+                          />
+                          <FieldError message={formErrors.customCountryCode} />
+                        </div>
                       )}
 
-                      <select
-                        name="country"
-                        value={selectedCountry}
-                        onChange={(event) => {
-                          setSelectedCountry(event.target.value);
-                          if (event.target.value !== "Rwanda") {
-                            setSelectedProvince("");
-                          }
-                        }}
-                        style={selectStyle}
-                        aria-label="Project country"
-                      >
-                        {countryOptions.map((country) => (
-                          <option key={country} value={country} style={optionStyle}>
-                            {country}
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="preferredContact"
+                          defaultValue=""
+                          aria-label="Preferred contact method"
+                          aria-invalid={Boolean(formErrors.preferredContact)}
+                          style={fieldStyle("preferredContact", selectStyle)}
+                        >
+                          <option value="" style={optionStyle}>
+                            Preferred Contact Method *
                           </option>
-                        ))}
-                      </select>
+                          {preferredContactOptions.map((method) => (
+                            <option key={method} value={method} style={optionStyle}>
+                              {method}
+                            </option>
+                          ))}
+                        </select>
+                        <FieldError message={formErrors.preferredContact} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="projectStage"
+                          defaultValue=""
+                          aria-label="Current project stage"
+                          aria-invalid={Boolean(formErrors.projectStage)}
+                          style={fieldStyle("projectStage", selectStyle)}
+                        >
+                          <option value="" style={optionStyle}>
+                            Current Project Stage *
+                          </option>
+                          {projectStageOptions.map((stage) => (
+                            <option key={stage} value={stage} style={optionStyle}>
+                              {stage}
+                            </option>
+                          ))}
+                        </select>
+                        <FieldError message={formErrors.projectStage} />
+                      </div>
+
+                      <div
+                        style={{
+                          gridColumn: "1 / -1",
+                          marginTop: 20,
+                          fontSize: 12,
+                          fontWeight: 900,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "rgba(255,255,255,0.46)",
+                        }}
+                      >
+                        Project Location
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="siteStatus"
+                          value={siteStatus}
+                          onChange={(event) => {
+                            setSiteStatus(event.target.value);
+                            if (event.target.value !== "identified") {
+                              setSelectedSector("");
+                              setSelectedCell("");
+                              setSelectedVillage("");
+                              clearFieldErrors(["sector", "cell", "village"]);
+                            }
+                          }}
+                          aria-label="Project site status"
+                          aria-invalid={Boolean(formErrors.siteStatus)}
+                          style={fieldStyle("siteStatus", selectStyle)}
+                        >
+                          <option value="" style={optionStyle}>
+                            Has the Project Site Been Identified? *
+                          </option>
+                          <option value="identified" style={optionStyle}>
+                            Yes — Site / Land Identified
+                          </option>
+                          <option value="searching" style={optionStyle}>
+                            Not Yet — Still Searching / Planning
+                          </option>
+                        </select>
+                        <FieldError message={formErrors.siteStatus} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="country"
+                          value={selectedCountry}
+                          onChange={(event) => {
+                            setSelectedCountry(event.target.value);
+                            setSelectedProvince("");
+                            setSelectedDistrict("");
+                            setSelectedSector("");
+                            setSelectedCell("");
+                            setSelectedVillage("");
+                            clearFieldErrors([
+                              "province",
+                              "district",
+                              "sector",
+                              "cell",
+                              "village",
+                              "internationalLocation",
+                            ]);
+                          }}
+                          style={fieldStyle("country", selectStyle)}
+                          aria-label="Project country"
+                          aria-invalid={Boolean(formErrors.country)}
+                        >
+                          {countryOptions.map((country) => (
+                            <option key={country} value={country} style={optionStyle}>
+                              {country}
+                            </option>
+                          ))}
+                        </select>
+                        <FieldError message={formErrors.country} />
+                      </div>
 
                       {selectedCountry === "Rwanda" ? (
                         <>
-                          <select
-                            name="province"
-                            value={selectedProvince}
-                            onChange={(event) => setSelectedProvince(event.target.value)}
-                            style={selectStyle}
-                          >
-                            <option value="" style={optionStyle}>
-                              Province
-                            </option>
-                            {rwandaProvinces.map((province) => (
-                              <option
-                                key={province}
-                                value={province}
-                                style={optionStyle}
-                              >
-                                {province}
+                          <div style={{ minWidth: 0 }}>
+                            <select
+                              name="province"
+                              value={selectedProvince}
+                              onChange={(event) => {
+                                setSelectedProvince(event.target.value);
+                                setSelectedDistrict("");
+                                setSelectedSector("");
+                                setSelectedCell("");
+                                setSelectedVillage("");
+                                clearFieldErrors(["district", "sector", "cell", "village"]);
+                              }}
+                              style={fieldStyle("province", selectStyle)}
+                              aria-label="Province"
+                              aria-invalid={Boolean(formErrors.province)}
+                            >
+                              <option value="" style={optionStyle}>
+                                Province *
                               </option>
-                            ))}
-                          </select>
+                              {rwandaProvinces.map(([code, name]) => (
+                                <option key={code} value={code} style={optionStyle}>
+                                  {name}
+                                </option>
+                              ))}
+                            </select>
+                            <FieldError message={formErrors.province} />
+                          </div>
 
-                          <select name="district" style={selectStyle}>
-                            <option value="" style={optionStyle}>
-                              District
-                            </option>
-                            {(
-                              districtsByProvince[
-                                selectedProvince as keyof typeof districtsByProvince
-                              ] || []
-                            ).map((district) => (
-                              <option
-                                key={district}
-                                value={district}
-                                style={optionStyle}
-                              >
-                                {district}
+                          <div style={{ minWidth: 0 }}>
+                            <select
+                              name="district"
+                              value={selectedDistrict}
+                              onChange={(event) => {
+                                setSelectedDistrict(event.target.value);
+                                setSelectedSector("");
+                                setSelectedCell("");
+                                setSelectedVillage("");
+                                clearFieldErrors(["sector", "cell", "village"]);
+                              }}
+                              disabled={!selectedProvince}
+                              style={{
+                                ...fieldStyle("district", selectStyle),
+                                opacity: selectedProvince ? 1 : 0.42,
+                              }}
+                              aria-label="District"
+                              aria-invalid={Boolean(formErrors.district)}
+                            >
+                              <option value="" style={optionStyle}>
+                                District *
                               </option>
-                            ))}
-                          </select>
+                              {(districtsByProvince[selectedProvince] || []).map(
+                                ([code, name]) => (
+                                  <option key={code} value={code} style={optionStyle}>
+                                    {name}
+                                  </option>
+                                ),
+                              )}
+                            </select>
+                            <FieldError message={formErrors.district} />
+                          </div>
 
-                          <input
-                            name="sector"
-                            type="text"
-                            placeholder="Sector"
-                            style={inputStyle}
-                          />
+                          {siteStatus === "identified" && (
+                            <>
+                              <div style={{ minWidth: 0 }}>
+                                <select
+                                  name="sector"
+                                  value={selectedSector}
+                                  onChange={(event) => {
+                                    setSelectedSector(event.target.value);
+                                    setSelectedCell("");
+                                    setSelectedVillage("");
+                                    clearFieldErrors(["cell", "village"]);
+                                  }}
+                                  disabled={!selectedDistrict}
+                                  style={{
+                                    ...fieldStyle("sector", selectStyle),
+                                    opacity: selectedDistrict ? 1 : 0.42,
+                                  }}
+                                  aria-label="Sector"
+                                  aria-invalid={Boolean(formErrors.sector)}
+                                >
+                                  <option value="" style={optionStyle}>
+                                    Sector *
+                                  </option>
+                                  {(sectorsByDistrict[selectedDistrict] || []).map(
+                                    ([code, name]) => (
+                                      <option key={code} value={code} style={optionStyle}>
+                                        {name}
+                                      </option>
+                                    ),
+                                  )}
+                                </select>
+                                <FieldError message={formErrors.sector} />
+                              </div>
 
-                          <input
-                            name="cell"
-                            type="text"
-                            placeholder="Cell"
-                            style={inputStyle}
-                          />
+                              <div style={{ minWidth: 0 }}>
+                                <select
+                                  name="cell"
+                                  value={selectedCell}
+                                  onChange={(event) => {
+                                    setSelectedCell(event.target.value);
+                                    setSelectedVillage("");
+                                    clearFieldErrors(["village"]);
+                                  }}
+                                  disabled={!selectedSector}
+                                  style={{
+                                    ...fieldStyle("cell", selectStyle),
+                                    opacity: selectedSector ? 1 : 0.42,
+                                  }}
+                                  aria-label="Cell"
+                                  aria-invalid={Boolean(formErrors.cell)}
+                                >
+                                  <option value="" style={optionStyle}>
+                                    Cell *
+                                  </option>
+                                  {(cellsBySector[selectedSector] || []).map(
+                                    ([code, name]) => (
+                                      <option key={code} value={code} style={optionStyle}>
+                                        {name}
+                                      </option>
+                                    ),
+                                  )}
+                                </select>
+                                <FieldError message={formErrors.cell} />
+                              </div>
 
-                          <input
-                            name="village"
-                            type="text"
-                            placeholder="Village (Optional)"
-                            style={inputStyle}
-                          />
+                              <div style={{ minWidth: 0 }}>
+                                <select
+                                  name="village"
+                                  value={selectedVillage}
+                                  onChange={(event) =>
+                                    setSelectedVillage(event.target.value)
+                                  }
+                                  disabled={!selectedCell}
+                                  style={{
+                                    ...fieldStyle("village", selectStyle),
+                                    opacity: selectedCell ? 1 : 0.42,
+                                  }}
+                                  aria-label="Village"
+                                  aria-invalid={Boolean(formErrors.village)}
+                                >
+                                  <option value="" style={optionStyle}>
+                                    Village *
+                                  </option>
+                                  {(villagesByCell[selectedCell] || []).map(
+                                    ([code, name]) => (
+                                      <option key={code} value={code} style={optionStyle}>
+                                        {name}
+                                      </option>
+                                    ),
+                                  )}
+                                </select>
+                                <FieldError message={formErrors.village} />
+                              </div>
 
-                          <input
-                            name="upi"
-                            type="text"
-                            placeholder="UPI / Plot Reference (Optional)"
-                            style={inputStyle}
-                          />
+                              <div style={{ minWidth: 0 }}>
+                                <input
+                                  name="upi"
+                                  type="text"
+                                  placeholder="UPI / Plot Reference (Optional)"
+                                  aria-label="UPI or plot reference"
+                                  style={inputStyle}
+                                />
+                              </div>
+                            </>
+                          )}
                         </>
                       ) : (
-                        <input
-                          name="internationalLocation"
-                          type="text"
-                          placeholder="City / Project Location"
-                          style={inputStyle}
-                        />
+                        <div style={{ minWidth: 0 }}>
+                          <input
+                            name="internationalLocation"
+                            type="text"
+                            placeholder="City / Preferred Project Location *"
+                            aria-label="City or preferred project location"
+                            aria-invalid={Boolean(formErrors.internationalLocation)}
+                            style={fieldStyle("internationalLocation")}
+                          />
+                          <FieldError message={formErrors.internationalLocation} />
+                        </div>
                       )}
 
-                      <input
-                        name="budget"
-                        type="text"
-                        placeholder="Estimated Budget (Optional)"
-                        style={inputStyle}
-                      />
+                      <div
+                        style={{
+                          gridColumn: "1 / -1",
+                          marginTop: 20,
+                          fontSize: 12,
+                          fontWeight: 900,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "rgba(255,255,255,0.46)",
+                        }}
+                      >
+                        Planning Information
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="budget"
+                          defaultValue=""
+                          aria-label="Estimated total project budget"
+                          aria-invalid={Boolean(formErrors.budget)}
+                          style={fieldStyle("budget", selectStyle)}
+                        >
+                          <option value="" style={optionStyle}>
+                            Estimated Total Project Budget *
+                          </option>
+                          {budgetOptions.map((budget) => (
+                            <option key={budget} value={budget} style={optionStyle}>
+                              {budget}
+                            </option>
+                          ))}
+                        </select>
+                        <FieldError message={formErrors.budget} />
+                      </div>
+
+                      <div style={{ minWidth: 0 }}>
+                        <select
+                          name="timeline"
+                          defaultValue=""
+                          aria-label="Intended project timeline"
+                          aria-invalid={Boolean(formErrors.timeline)}
+                          style={fieldStyle("timeline", selectStyle)}
+                        >
+                          <option value="" style={optionStyle}>
+                            Intended Project Timeline *
+                          </option>
+                          {timelineOptions.map((timeline) => (
+                            <option key={timeline} value={timeline} style={optionStyle}>
+                              {timeline}
+                            </option>
+                          ))}
+                        </select>
+                        <FieldError message={formErrors.timeline} />
+                      </div>
                     </div>
 
-                    <textarea
-                      name="message"
-                      placeholder="Tell us about the site context, goals, and current phase..."
-                      rows={5}
-                      required
-                      style={{
-                        width: "100%",
-                        border: "none",
-                        borderBottom: "1px solid rgba(255,255,255,0.2)",
-                        background: "transparent",
-                        color: "white",
-                        padding: "20px 10px",
-                        outline: "none",
-                        resize: "vertical",
-                        fontSize: 16,
-                        fontWeight: 600,
-                        fontFamily: "inherit",
-                        transition: "all 0.3s ease",
-                      }}
-                    />
+                    <div style={{ marginTop: 34 }}>
+                      <div
+                        style={{
+                          marginBottom: 8,
+                          fontSize: 12,
+                          fontWeight: 900,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "rgba(255,255,255,0.46)",
+                        }}
+                      >
+                        Project Brief
+                      </div>
+                      <textarea
+                        name="message"
+                        placeholder="Tell us about the site context, goals, and current phase... *"
+                        rows={5}
+                        minLength={30}
+                        aria-label="Project brief"
+                        aria-invalid={Boolean(formErrors.message)}
+                        style={fieldStyle("message", {
+                          width: "100%",
+                          border: "none",
+                          borderBottom: "1px solid rgba(255,255,255,0.2)",
+                          background: "transparent",
+                          color: "white",
+                          padding: "20px 10px",
+                          outline: "none",
+                          resize: "vertical",
+                          fontSize: 16,
+                          fontWeight: 600,
+                          fontFamily: "inherit",
+                          transition: "all 0.3s ease",
+                        })}
+                      />
+                      <FieldError message={formErrors.message} />
+                    </div>
+
+                    <div
+                      data-field="consent"
+                      tabIndex={-1}
+                      style={{ marginTop: 28, outline: "none" }}
+                    >
+                      <label
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 12,
+                          color: formErrors.consent
+                            ? "#ffd1d1"
+                            : "rgba(255,255,255,0.62)",
+                          fontSize: 13,
+                          lineHeight: 1.6,
+                          cursor: "pointer",
+                        }}
+                      >
+                        <input
+                          name="consent"
+                          type="checkbox"
+                          value="yes"
+                          aria-invalid={Boolean(formErrors.consent)}
+                          style={{ marginTop: 4, accentColor: "white" }}
+                        />
+                        <span>
+                          I agree that IMVO Group may use these details to respond to
+                          my project inquiry.{" "}
+                          <a
+                            href="/privacy"
+                            style={{ color: "white", fontWeight: 800 }}
+                          >
+                            View Privacy Policy
+                          </a>
+                          .
+                        </span>
+                      </label>
+                      <FieldError message={formErrors.consent} />
+                    </div>
 
                     <button
                       type="submit"
@@ -1271,6 +1910,8 @@ export default function ContactPage() {
                 ) : (
                   <motion.div
                     key="success"
+                    ref={successMessageRef}
+                    tabIndex={-1}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={fastTransition}
@@ -1281,6 +1922,8 @@ export default function ContactPage() {
                       justifyContent: "center",
                       alignItems: "flex-start",
                       padding: "40px 0",
+                      scrollMarginTop: 112,
+                      outline: "none",
                     }}
                   >
                     <div
@@ -1344,11 +1987,10 @@ export default function ContactPage() {
                         maxWidth: 560,
                       }}
                     >
-                      Thank you for reaching out to IMVO. Your project inquiry
-                      has been received by our studio. We will review the
-                      project scope, location, timeline, and requested
-                      disciplines, then respond with the most appropriate next
-                      step.
+                      Your inquiry has been received by IMVO Group. Our team
+                      will review the project information and contact you
+                      through your preferred method with the most appropriate
+                      next step.
                     </p>
 <div
   style={{
@@ -1366,7 +2008,7 @@ export default function ContactPage() {
     color: "rgba(255,255,255,0.75)",
   }}
 >
-  ⏱ We typically respond within 1–2 business days
+  ⏱ We typically respond within one business day
 </div>
                     <p
                       style={{
@@ -1470,7 +2112,7 @@ export default function ContactPage() {
         style={{
           background: "#050505",
           color: "white",
-          paddingTop: 110,
+          paddingTop: 88,
           position: "relative",
           overflow: "hidden",
         }}
@@ -1480,7 +2122,7 @@ export default function ContactPage() {
           style={{
             position: "relative",
             zIndex: 10,
-            paddingBottom: 80,
+            paddingBottom: 64,
           }}
         >
           <motion.div
@@ -1525,7 +2167,7 @@ export default function ContactPage() {
               }}
             >
               IMVO Group operates from Kigali, Rwanda, supporting design,
-              consultancy, supervision, planning, and development-oriented
+              consultancy, site coordination, planning, and development-oriented
               projects across Rwanda and the wider East African region.
             </p>
           </motion.div>

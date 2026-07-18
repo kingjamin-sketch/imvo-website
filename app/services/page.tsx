@@ -59,10 +59,10 @@ const OrbitBackground = () => {
 const SERVICES_DATA = [
   {
     number: "01",
-    title: "Architectural Design",
-    description: "We translate ambition into buildable architecture through concept design, spatial planning, technical documentation, and execution-aware detailing.",
+    title: "Built Environment Design",
+    description: "We translate ambition into buildable environments through concept design, spatial planning, design documentation, and execution-aware detailing.",
     icon: "M10 10 L50 10 L50 50 L10 50 Z M25 10 L25 50 M10 25 L50 25",
-    bricks: ["Concept Design", "Schematic Design", "Detailed Design", "Construction Documentation", "Design Development", "Architectural Renovation & Extensions", "Interior Architecture", "Interior Space Planning", "Workplace Design", "Hospitality Interiors", "Residential Interiors", "Material & Finish Selection", "Digital Design & Visualization", "BIM Modeling", "3D Visualization", "Photorealistic Rendering", "Virtual Walkthroughs", "Design Coordination", "Sustainable Design", "Climate-Responsive Design", "Wellbeing-Oriented Environments", "Daylighting Strategies", "Passive Design Solutions", "Landscape Integration", "Site Design", "Outdoor Space Planning", "Landscape Coordination"],
+    bricks: ["Concept Design", "Schematic Design", "Detailed Design", "Construction Documentation", "Design Development", "Renovation & Extension Design", "Interior & Spatial Design", "Interior Space Planning", "Workplace Design", "Hospitality Interiors", "Residential Interiors", "Material & Finish Selection", "Digital Design & Visualization", "BIM Modeling", "3D Visualization", "Photorealistic Rendering", "Virtual Walkthroughs", "Design Coordination", "Sustainable Design", "Climate-Responsive Design", "Wellbeing-Oriented Environments", "Daylighting Strategies", "Passive Design Solutions", "Landscape Integration", "Site Design", "Outdoor Space Planning", "Landscape Coordination"],
   },
   {
     number: "02",
@@ -73,10 +73,10 @@ const SERVICES_DATA = [
   },
   {
     number: "03",
-    title: "Supervision & Execution",
-    description: "We protect design intent through disciplined site observation, contractor coordination, quality control, and implementation oversight.",
+    title: "Site Coordination & Delivery",
+    description: "We support design intent through disciplined site observation, contractor coordination, quality review, and implementation support.",
     icon: "M30 10 L30 60 M15 25 L45 25 M15 45 L45 45 M10 60 L50 60",
-    bricks: ["Construction Supervision", "Site Supervision", "Construction Monitoring", "Design Compliance Verification", "Technical Site Inspections", "Quality Assurance", "Quality Control Reviews", "Material Compliance Checks", "Workmanship Assessment", "Defect Identification", "Contract Administration", "Progress Certification", "Payment Certification", "Variation Assessment", "Claims Review", "Contractor Performance Monitoring", "Project Delivery Oversight", "Construction Progress Reporting", "Schedule Monitoring", "Budget Monitoring", "Stakeholder Coordination", "Risk Management", "Snagging Inspections", "Practical Completion Reviews", "Final Compliance Verification", "Handover Coordination", "As-Built Documentation Review"],
+    bricks: ["Construction Coordination", "Site Observation", "Construction Monitoring", "Design Intent Review", "Technical Site Reviews", "Quality Assurance Support", "Quality Control Reviews", "Material Review", "Workmanship Assessment", "Defect Identification", "Contract Coordination", "Progress Review Support", "Payment Review Support", "Variation Assessment", "Claims Review", "Contractor Performance Monitoring", "Project Delivery Support", "Construction Progress Reporting", "Schedule Monitoring", "Budget Monitoring", "Stakeholder Coordination", "Risk Management", "Snagging Reviews", "Practical Completion Support", "Final Delivery Review", "Handover Coordination", "As-Built Documentation Review"],
   },
 ];
 
@@ -84,7 +84,7 @@ const processSteps = [
   ["01", "Discover", "We study goals, site conditions, constraints, budget realities, and stakeholder priorities."],
   ["02", "Define", "We clarify project direction, scope, planning logic, risks, and the strategic path forward."],
   ["03", "Develop", "We translate direction into spatial concepts, documentation, and buildable design."],
-  ["04", "Deliver", "We support implementation through supervision, coordination, and execution discipline."],
+  ["04", "Deliver", "We support implementation through site coordination, delivery review, and execution discipline."],
 ];
 
 const strategicPartners = [
@@ -313,11 +313,11 @@ export default function ServicesPage() {
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ ...transition, delay: 0.2 }} style={{ margin: "24px 0 0", fontSize: "clamp(54px,7vw,118px)", lineHeight: 0.88, letterSpacing: "-0.08em", fontWeight: 900 }}>
-            Design.<br />Consult.<br />Supervise.
+            Design.<br />Advise.<br />Coordinate.
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ ...transition, delay: 0.35 }} style={{ marginTop: 30, maxWidth: 720, fontSize: 19, lineHeight: 1.8, color: "rgba(255,255,255,0.72)" }}>
-            IMVO guides purposeful development through architectural design, strategic consultancy, and disciplined supervision — connecting vision, planning, technical clarity, and execution.
+            IMVO guides purposeful development through built-environment design, strategic consultancy, and disciplined site coordination — connecting vision, planning, technical clarity, and execution.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ ...transition, delay: 0.45 }} style={{ marginTop: 38, display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -334,7 +334,7 @@ export default function ServicesPage() {
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ ...transition, delay: 0.25 }} style={{ position: "relative", minHeight: "calc(100vh - 88px)", overflow: "hidden" }}>
           <Image
             src="/services-hero.png"
-            alt="IMVO architectural services"
+            alt="IMVO built-environment design services"
             fill
             priority
             style={{ objectFit: "cover", filter: "grayscale(100%) brightness(0.75)", transition: "filter 0.8s ease, transform 0.8s ease" }}
@@ -350,7 +350,7 @@ export default function ServicesPage() {
         </motion.div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "160px 0", borderTop: "1px solid rgba(255,255,255,0.05)", textAlign: "center" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", borderTop: "1px solid rgba(255,255,255,0.05)", textAlign: "center" }}>
         <div className="containerWide" style={{ display: "flex", justifyContent: "center" }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={transition} style={{ maxWidth: 1000, display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, fontWeight: 800 }}>
@@ -378,7 +378,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", overflow: "hidden", minHeight: "850px", display: "flex", alignItems: "center" }}>
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", overflow: "hidden", minHeight: "760px", display: "flex", alignItems: "center" }}>
         <OrbitBackground />
 
         <div className="containerWide" style={{ position: "relative", zIndex: 10, maxWidth: "1500px" }}>
@@ -432,6 +432,7 @@ export default function ServicesPage() {
 
       <section className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.35fr 0.9fr", minHeight: 680, background: "#111" }}>
         <motion.div
+  className="serviceMediaTall"
   initial={{ opacity: 0, scale: 0.96 }}
   whileInView={{ opacity: 1, scale: 1 }}
   viewport={{ once: true, margin: "-80px" }}
@@ -439,11 +440,11 @@ export default function ServicesPage() {
   style={{
     position: "relative",
     overflow: "hidden",
-    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 680,
+    minHeight: 680,
     background: "#111",
   }}
 >
-          <Image src="/service-site-1.png" alt="IMVO on-site supervision" fill style={hoverImageStyle} onMouseEnter={(e) => { e.currentTarget.style.filter = "grayscale(0%) contrast(1)"; e.currentTarget.style.transform = "scale(1.03)"; }} onMouseLeave={(e) => { e.currentTarget.style.filter = "grayscale(100%) contrast(1.05)"; e.currentTarget.style.transform = "scale(1)"; }} />
+          <Image src="/service-site-1.png" alt="IMVO on-site coordination" fill style={hoverImageStyle} onMouseEnter={(e) => { e.currentTarget.style.filter = "grayscale(0%) contrast(1)"; e.currentTarget.style.transform = "scale(1.03)"; }} onMouseLeave={(e) => { e.currentTarget.style.filter = "grayscale(100%) contrast(1.05)"; e.currentTarget.style.transform = "scale(1)"; }} />
         </motion.div>
 
         <div style={{ padding: "70px 44px", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
@@ -485,7 +486,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <div className="containerWide">
           <div className="mobileStack" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: 80 }}>
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
@@ -519,12 +520,13 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="mobilePad" style={{ position: "relative", padding: "150px 0", background: "#0a0a0a", overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "108px 0", background: "#0a0a0a", overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <BlueprintBackground />
 
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
           <div className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 60, alignItems: "center" }}>
            <motion.div
+  className="serviceProcessMedia"
   initial={{ opacity: 0, scale: 0.96 }}
   whileInView={{ opacity: 1, scale: 1 }}
   viewport={{ once: true, margin: "-80px" }}
@@ -532,19 +534,17 @@ export default function ServicesPage() {
   style={{
     position: "relative",
     width: "100%",
-    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 660,
+    minHeight: 660,
     overflow: "hidden",
     background: "#111",
   }}
 >
-  <img
+  <Image
     src="/service-process.png"
     alt="IMVO service process"
+    fill
+    sizes="(max-width: 900px) 100vw, 50vw"
     style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
       objectFit: "cover",
       filter: "grayscale(100%) contrast(1.05)",
       transition: "filter 0.5s ease, transform 0.5s ease",
@@ -587,7 +587,7 @@ export default function ServicesPage() {
 
       <StrategicPartners />
 
-      <section className="mobilePad" style={{ padding: "160px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
         <BlueprintBackground />
 
         <div style={{ position: "absolute", top: "-50%", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
@@ -599,7 +599,7 @@ export default function ServicesPage() {
             </h2>
 
             <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.55)", maxWidth: "560px", margin: "24px auto" }}>
-              Whether you need design, consultancy, supervision, development guidance, or acquisition support, IMVO helps structure decisions before they become costly.
+              Whether you need design, consultancy, site coordination, development guidance, or acquisition support, IMVO helps structure decisions before they become costly.
             </p>
 
             <div style={{ marginTop: 60, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>

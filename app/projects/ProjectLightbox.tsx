@@ -22,7 +22,10 @@ export default function ProjectLightbox({
   const [index, setIndex] = useState(startIndex);
 
   useEffect(() => {
-    if (open) setIndex(startIndex);
+    if (!open) return;
+
+    const frameId = requestAnimationFrame(() => setIndex(startIndex));
+    return () => cancelAnimationFrame(frameId);
   }, [open, startIndex]);
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function ProjectLightbox({
   const src = safeImages[index];
 
   return (
-    <div className="lbBackdrop" role="dialog" aria-modal="true">
+    <div className="lbBackdrop" role="dialog" aria-modal="true" aria-label={`${title} image gallery`}>
       <button className="lbClose" onClick={onClose} aria-label="Close gallery">
         ✕
       </button>

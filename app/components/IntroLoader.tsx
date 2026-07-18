@@ -1,29 +1,46 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-const letters = ["I", "M", "V", "O"];
+const constructionNodes = [
+  { startX: -430, startY: -190, endX: -142, endY: -54, delay: 0.05 },
+  { startX: 390, startY: -235, endX: -48, endY: 58, delay: 0.14 },
+  { startX: -360, startY: 230, endX: 50, endY: -58, delay: 0.22 },
+  { startX: 445, startY: 185, endX: 145, endY: 54, delay: 0.3 },
+  { startX: 0, startY: -300, endX: 0, endY: -74, delay: 0.12 },
+  { startX: 0, startY: 290, endX: 0, endY: 74, delay: 0.26 },
+];
 
 export default function IntroLoader() {
-  const [show, setShow] = useState(true);
+  const pathname = usePathname();
+  const shouldReduceMotion = useReducedMotion();
+  const [isDirectHomeEntry] = useState(() => pathname === "/");
+  const [show, setShow] = useState(isDirectHomeEntry);
+  const [isFinishing, setIsFinishing] = useState(false);
 
   useEffect(() => {
-    const played = sessionStorage.getItem("imvo-loader");
+    if (!isDirectHomeEntry) return;
 
-    if (played) {
-      setShow(false);
-      return;
-    }
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
 
-    sessionStorage.setItem("imvo-loader", "true");
+    const finishTimer = window.setTimeout(
+      () => setIsFinishing(true),
+      shouldReduceMotion ? 1200 : 4000,
+    );
+    const removeTimer = window.setTimeout(
+      () => setShow(false),
+      shouldReduceMotion ? 1450 : 4550,
+    );
 
-    const timer = setTimeout(() => {
-      setShow(false);
-    }, 7200);
-
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+      window.clearTimeout(finishTimer);
+      window.clearTimeout(removeTimer);
+      document.documentElement.style.overflow = previousOverflow;
+    };
+  }, [isDirectHomeEntry, shouldReduceMotion]);
 
   return (
     <AnimatePresence>
@@ -31,147 +48,229 @@ export default function IntroLoader() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: shouldReduceMotion ? 0.2 : 0.78,
+            ease: [0.45, 0, 0.55, 1],
+          }}
+          aria-label="IMVO Group introduction"
+          role="status"
           style={{
             position: "fixed",
             inset: 0,
             zIndex: 999999,
             background: "#050505",
             color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: "grid",
+            placeItems: "center",
             overflow: "hidden",
-            pointerEvents: "none",
           }}
         >
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 1200 800"
-            preserveAspectRatio="xMidYMid slice"
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <motion.path
-              d="M390 400 H810"
-              stroke="rgba(255,255,255,0.24)"
-              strokeWidth="1"
-              fill="none"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 0.28] }}
-              transition={{ duration: 2.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            />
+          {!shouldReduceMotion && (
+            <motion.div
+              animate={{ opacity: isFinishing ? 0 : 1 }}
+              transition={{
+                duration: 0.42,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0 }}
+            >
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 1200 800"
+                preserveAspectRatio="xMidYMid slice"
+                style={{ position: "absolute", inset: 0 }}
+              >
+                <motion.path
+                  d="M260 400 H940"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.14)"
+                  strokeWidth="1"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{
+                    pathLength: [0, 1, 1],
+                    opacity: [0, 0.48, 0.12],
+                  }}
+                  transition={{
+                    duration: 2.55,
+                    times: [0, 0.48, 1],
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                />
+                <motion.path
+                  d="M600 205 V595"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="1"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: [0, 1, 1], opacity: [0, 0.42, 0.08] }}
+                  transition={{
+                    duration: 2.5,
+                    delay: 0.16,
+                    times: [0, 0.48, 1],
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                />
 
-            <motion.path
-              d="M600 315 V485"
-              stroke="rgba(255,255,255,0.14)"
-              strokeWidth="1"
-              fill="none"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: [0, 1, 1], opacity: [0, 1, 0.2] }}
-              transition={{ duration: 2.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            />
+                {[
+                  "M350 330 V280 H440",
+                  "M850 330 V280 H760",
+                  "M350 470 V520 H440",
+                  "M850 470 V520 H760",
+                ].map((path, index) => (
+                  <motion.path
+                    key={path}
+                    d={path}
+                    fill="none"
+                    stroke="rgba(255,255,255,0.2)"
+                    strokeWidth="1"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: [0, 1, 1], opacity: [0, 0.52, 0] }}
+                    transition={{
+                      duration: 2.2,
+                      delay: 0.35 + index * 0.07,
+                      times: [0, 0.5, 1],
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                  />
+                ))}
+              </svg>
 
-            <motion.circle
-              cx="600"
-              cy="400"
-              r="96"
-              stroke="rgba(255,255,255,0.07)"
-              strokeWidth="1"
-              fill="none"
-              initial={{ pathLength: 0, rotate: -30, opacity: 0 }}
-              animate={{ pathLength: 1, rotate: 0, opacity: [0, 1, 0.2] }}
-              transition={{ duration: 3, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              style={{ transformOrigin: "600px 400px" }}
-            />
-          </svg>
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  top: "50%",
+                  width: 1,
+                  height: 1,
+                }}
+              >
+                {constructionNodes.map((node, index) => (
+                  <motion.span
+                    key={`${node.startX}-${node.startY}`}
+                    initial={{
+                      x: node.startX,
+                      y: node.startY,
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                    animate={{
+                      x: [node.startX, node.startX, node.endX, node.endX],
+                      y: [node.startY, node.startY, node.endY, node.endY],
+                      opacity: [0, 0.58, 0.58, 0],
+                      scale: [0, 0.78, 0.68, 0],
+                    }}
+                    transition={{
+                      duration: 2.15,
+                      delay: node.delay,
+                      times: [0, 0.18, 0.78, 1],
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    style={{
+                      position: "absolute",
+                      width: index > 3 ? 6 : 8,
+                      height: index > 3 ? 6 : 8,
+                      margin: index > 3 ? -3 : -4,
+                      borderRadius: "50%",
+                      background: "white",
+                      boxShadow: "0 0 18px rgba(255,255,255,0.22)",
+                    }}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           <motion.div
-            initial={{ y: 14, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            animate={{
+              opacity: isFinishing ? 0 : 1,
+              scale: isFinishing ? 0.992 : 1,
+            }}
             transition={{
-              duration: 1,
-              delay: 0.95,
-              ease: [0.16, 1, 0.3, 1],
+              duration: shouldReduceMotion ? 0.15 : 0.5,
+              ease: [0.4, 0, 0.2, 1],
             }}
             style={{
               position: "relative",
+              zIndex: 2,
               textAlign: "center",
-              padding: "0 44px",
-              maxWidth: "100vw",
+              padding: "0 28px",
+              transformOrigin: "center",
             }}
           >
-            <div
+            <motion.div
+              initial={{
+                opacity: 0,
+                scale: shouldReduceMotion ? 1 : 0.985,
+                letterSpacing: shouldReduceMotion ? "0.075em" : "0.16em",
+                filter: shouldReduceMotion ? "none" : "blur(2px)",
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                letterSpacing: "0.075em",
+                filter: "blur(0px)",
+              }}
+              transition={{
+                duration: shouldReduceMotion ? 0.2 : 1.15,
+                delay: shouldReduceMotion ? 0 : 0.82,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "0.12em",
-                fontSize: "clamp(34px, 5vw, 66px)",
+                display: "inline-block",
+                padding: "0.12em 0.2em",
+                marginRight: "-0.075em",
+                fontSize: "clamp(52px, 7.2vw, 98px)",
                 lineHeight: 1,
-                letterSpacing: "-0.015em",
                 fontWeight: 900,
                 whiteSpace: "nowrap",
+                transformOrigin: "center",
               }}
             >
-              {letters.map((letter, index) => (
-                <motion.span
-                  key={letter}
-                  initial={{ opacity: 0, y: 14, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{
-                    duration: 0.9,
-                    delay: 1.45 + index * 0.26,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  style={{
-                    display: "inline-block",
-                    padding: "0 0.04em",
-                    overflow: "visible",
-                  }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </div>
+              IMVO
+            </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{
+                duration: shouldReduceMotion ? 0.15 : 0.75,
+                delay: shouldReduceMotion ? 0.1 : 1.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              aria-hidden="true"
+              style={{
+                width: "min(270px, 54vw)",
+                height: 1,
+                margin: "22px auto 0",
+                background:
+                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.48), transparent)",
+                transformOrigin: "center",
+              }}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 9 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.9,
-                delay: 3.0,
+                duration: shouldReduceMotion ? 0.15 : 0.7,
+                delay: shouldReduceMotion ? 0.15 : 1.62,
                 ease: [0.16, 1, 0.3, 1],
               }}
               style={{
                 marginTop: 18,
-                fontSize: "clamp(8px, 0.8vw, 11px)",
-                fontWeight: 900,
+                fontSize: "clamp(8px, 1.15vw, 11px)",
+                fontWeight: 800,
                 letterSpacing: "0.24em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.56)",
+                color: "rgba(255,255,255,0.58)",
                 whiteSpace: "nowrap",
               }}
             >
               Intellectu · Mens · Visio · Origo
             </motion.div>
-
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: [0, 1, 1.1], opacity: [0, 0.55, 0] }}
-              transition={{
-                duration: 1.4,
-                delay: 3.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{
-                width: "56%",
-                height: 1,
-                background: "rgba(255,255,255,0.32)",
-                margin: "22px auto 0",
-                transformOrigin: "center",
-              }}
-            />
           </motion.div>
         </motion.div>
       )}

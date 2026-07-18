@@ -78,7 +78,19 @@ export default function SiteFooter() {
                 fontSize: 14,
               }}
             >
-              Architecture · Consultancy · Supervision · Development Guidance
+              A built-environment design and development consultancy
+            </p>
+            <p
+              style={{
+                marginTop: 8,
+                maxWidth: 520,
+                color: "rgba(255,255,255,0.32)",
+                lineHeight: 1.6,
+                fontSize: 11,
+              }}
+            >
+              Regulated professional services and statutory sign-off are
+              undertaken only by appropriately registered practitioners.
             </p>
           </div>
 

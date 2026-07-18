@@ -7,14 +7,6 @@ import { motion } from "framer-motion";
 import HeroRotatingVideo from "./components/HeroRotatingVideo";
 import PortfolioSlider from "./components/PortfolioSlider";
 
-// --- CLIENT-ONLY WRAPPER ---
-const ClientOnly = ({ children }: { children: React.ReactNode }) => {
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => setHasMounted(true), []);
-  return hasMounted ? <>{children}</> : null;
-};
-
-
 const ArchitecturalDrawingLines = () => (
   <div
     aria-hidden="true"
@@ -102,28 +94,28 @@ const ArchitecturalDrawingLines = () => (
 const teamMembers = [
   {
     name: "ASINGIZWE Benjamin Marie  Merci",
-    role: "Architecture & Design",
+    role: "Built Environment Design & Development Lead",
     image: "/team1.png",
     description:
-      "Experienced in architectural design, urbanism, and environmentally responsive development, with a commitment to crafting contextually integrated, sustainable, and enduring spaces that combine spatial clarity, human-centered design, and long-term architectural value.",
+      "Leads spatial strategy, concept design, and development direction with a commitment to contextually integrated, sustainable, and enduring environments.",
   },
   {
     name: "SHEMA BAMBI Antonella M.",
-    role: "Consultancy & Strategy",
+    role: "Strategy & Digital Systems Lead",
     image: "/team2.png",
     description:
       "Combines expertise in IT development, strategic consultancy, and project coordination to bridge technology, operations, and business strategy—supporting digital systems, client advisory, operational planning, and data-informed development decisions that create long-term value.",
   },
   {
     name: "RUKUNDO Prince",
-    role: "Supervision & Execution",
+    role: "Technical Delivery Lead",
     image: "/team3.png",
     description:
-      "Experienced in civil engineering, infrastructure systems, and urbanism, with a focus on technical supervision, project execution, coordinated delivery, and planning-oriented engineering solutions that support sustainable and resilient development.",
+      "Experienced in civil engineering, infrastructure systems, and urbanism, with a focus on technical coordination, project execution, coordinated delivery, and planning-oriented solutions that support sustainable and resilient development.",
   },
   {
     name: "KANGWAGYE Sharon",
-    role: "Project Coordination",
+    role: "Project Coordination & Growth Lead",
     image: "/team4.png",
     description:
       "Experienced in digital commerce, market strategy, and growth coordination, with a focus on strategic planning, market insight, operational alignment, and the development of initiatives that create sustainable competitive advantage.",
@@ -135,7 +127,7 @@ const inProgressProjects = [
     title: "INZIIRA ESTATE Development",
     type: "Residential Masterplan",
     concept: "Elevated foundations responding to wetland topography.",
-    image: "/project-22.png",
+    image: "/project-22.jpg",
   },
   {
     title: "VILLA LUME",
@@ -164,7 +156,7 @@ const projectIntelligenceItems = [
   },
   {
     title: "Project direction",
-    text: "Turning ambition into a clear development path across architecture, planning, supervision, and delivery strategy.",
+    text: "Turning ambition into a clear development path across design, planning, site coordination, and delivery strategy.",
   },
 ];
 
@@ -625,7 +617,7 @@ const ProjectIntelligence = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "120px 0",
+      padding: "96px 0",
       background: "#070707",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -787,26 +779,50 @@ function AnimatedNumber({
   suffix?: string;
   pad?: boolean;
 }) {
-  const [value, setValue] = useState(from);
+  // Render the verified final value in the initial HTML for search engines,
+  // then begin the approved count-up animation after hydration.
+  const [value, setValue] = useState(to);
 
   useEffect(() => {
-    const duration = 10000;
-    const start = performance.now();
-    const animate = (time: number) => {
-      const progress = Math.min((time - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(from + (to - from) * eased));
-      if (progress < 1) requestAnimationFrame(animate);
+    let animationFrame = 0;
+
+    const kickoffFrame = requestAnimationFrame(() => {
+      setValue(from);
+      const duration = 10000;
+      const start = performance.now();
+
+      const animate = (time: number) => {
+        const progress = Math.min((time - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setValue(Math.round(from + (to - from) * eased));
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      };
+
+      animationFrame = requestAnimationFrame(animate);
+    });
+
+    return () => {
+      cancelAnimationFrame(kickoffFrame);
+      cancelAnimationFrame(animationFrame);
     };
-    requestAnimationFrame(animate);
   }, [from, to]);
 
   const formatted = pad ? String(value).padStart(2, "0") : String(value);
+  const finalFormatted = pad ? String(to).padStart(2, "0") : String(to);
 
   return (
-    <div style={{ fontSize: 42, fontWeight: 900, letterSpacing: "-0.04em" }}>
-      {formatted}
-      {suffix}
+    <div
+      aria-label={`${finalFormatted}${suffix}`}
+      data-final-value={`${finalFormatted}${suffix}`}
+      style={{ fontSize: 42, fontWeight: 900, letterSpacing: "-0.04em" }}
+    >
+      <span aria-hidden="true">
+        {formatted}
+        {suffix}
+      </span>
     </div>
   );
 }
@@ -828,7 +844,7 @@ const approachScenes = [
   {
     label: "EXECUTION",
     title: "Design value protected on site.",
-    text: "From concept to supervision, IMVO keeps the work disciplined, coordinated, and accountable.",
+    text: "From concept to site delivery, IMVO keeps the work disciplined, coordinated, and accountable.",
     image: "/p01-01.png",
   },
 ];
@@ -895,8 +911,8 @@ function CinematicHero() {
           }}
         >
           IMVO develops residential, commercial, and institutional environments
-          through architectural design, consultancy, supervision, and
-          execution-aware planning — balancing spatial clarity, contextual
+          through built-environment design, development consultancy, site
+          coordination, and execution-aware planning — balancing spatial clarity, contextual
           sensitivity, technical discipline, and long-term architectural value.
         </motion.p>
 
@@ -930,7 +946,7 @@ const ApproachPrinciples = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "100px 0",
+      padding: "88px 0",
       background: "#050505",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -988,9 +1004,9 @@ const ApproachPrinciples = () => (
             color: "rgba(255,255,255,0.62)",
           }}
         >
-          The same three ideas from the cinematic opening remain, but now they
-          work as a tighter statement — so visitors reach proof, projects, and
-          contact faster.
+          Design, strategy, and execution work as one — moving every project
+          from early vision toward coordinated, buildable, and enduring
+          outcomes.
         </p>
       </motion.div>
 
@@ -1109,7 +1125,7 @@ const HomeRegionalReachTeaser = () => (
   <section
     className="mobilePad"
     style={{
-      padding: "105px 0",
+      padding: "92px 0",
       background: "#050505",
       borderTop: "1px solid rgba(255,255,255,0.06)",
       borderBottom: "1px solid rgba(255,255,255,0.06)",
@@ -1194,9 +1210,7 @@ export default function HomePage() {
   return (
     <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>
       {/* 1. NATIVE STICKY HERO */}
-      <ClientOnly>
-        <CinematicHero />
-      </ClientOnly>
+      <CinematicHero />
       <HomeRegionalReachTeaser />
       {/* The rest of the page flows naturally underneath */}
       <div style={{ position: "relative", zIndex: 10, background: "#050505" }}>
@@ -1335,7 +1349,7 @@ export default function HomePage() {
         <ApproachPrinciples />
 
         {/* 2. MANIFESTO */}
-        <section className="mobilePad" style={{ padding: "80px 0 120px 0" }}>
+        <section className="mobilePad" style={{ padding: "72px 0 96px 0" }}>
           <div className="containerWide">
             <div
               style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}
@@ -1464,15 +1478,13 @@ export default function HomePage() {
         </section>
 
         {/* 3. PORTFOLIO SLIDER */}
-        <ClientOnly>
-          <PortfolioSlider />
-        </ClientOnly>
+        <PortfolioSlider />
 
         {/* 3.5 ON THE BOARDS */}
         <section
           className="mobilePad"
           style={{
-            padding: "120px 0",
+            padding: "96px 0",
             background: "#080808",
             borderTop: "1px solid rgba(255,255,255,0.05)",
           }}
@@ -1628,7 +1640,7 @@ export default function HomePage() {
         {/* 4. SERVICES */}
         <section
           className="mobilePad"
-          style={{ padding: "120px 0", background: "#0a0a0a" }}
+          style={{ padding: "96px 0", background: "#0a0a0a" }}
         >
           <div className="containerWide">
             <motion.div
@@ -1672,18 +1684,18 @@ export default function HomePage() {
               {[
                 [
                   "01",
-                  "Architectural Design",
-                  "Concept development, spatial planning, residential and commercial design, documentation, and planning-oriented architectural solutions.",
+                  "Built Environment Design",
+                  "Concept development, spatial planning, residential and commercial design, documentation, and context-aware spatial solutions.",
                 ],
                 [
                   "02",
                   "Consultancy",
-                  "Feasibility guidance, architectural advisory, project development support, regulatory awareness, and strategic decision-making.",
+                  "Feasibility guidance, design advisory, project development support, regulatory awareness, and strategic decision-making.",
                 ],
                 [
                   "03",
-                  "Supervision",
-                  "Site monitoring, quality assurance, design implementation oversight, and coordination between client, consultants, and contractors.",
+                  "Site Coordination",
+                  "Site observation, quality review, design implementation support, and coordination between client, consultants, and contractors.",
                 ],
               ].map(([number, title, text], index) => (
                 <motion.div
@@ -1754,7 +1766,7 @@ export default function HomePage() {
         </section>
 
         {/* 5. TEAM */}
-        <section className="mobilePad" style={{ padding: "120px 0" }}>
+        <section className="mobilePad" style={{ padding: "96px 0" }}>
           <div className="containerWide">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -1788,6 +1800,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.div
+              className="teamImageFrame"
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -1795,10 +1808,7 @@ export default function HomePage() {
               style={{
                 position: "relative",
                 width: "100%",
-                aspectRatio:
-                  typeof window !== "undefined" && window.innerWidth < 768
-                    ? "4/5"
-                    : "21/9",
+                aspectRatio: "21/9",
                 marginTop: 60,
                 overflow: "hidden",
                 background: "#090909",
@@ -1806,15 +1816,13 @@ export default function HomePage() {
               }}
             >
               <Image
+                className="teamImage"
                 src="/team.png"
                 alt="IMVO office team photo"
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit:
-                    typeof window !== "undefined" && window.innerWidth < 768
-                      ? "cover"
-                      : "contain",
+                  objectFit: "contain",
                   objectPosition: "center top",
                   filter: "grayscale(100%) contrast(1.04) brightness(0.86)",
                 }}
@@ -1919,7 +1927,7 @@ export default function HomePage() {
         <section
           className="mobilePad"
           style={{
-            padding: "100px 0",
+            padding: "88px 0",
             background: "#111",
             borderTop: "1px solid rgba(255,255,255,0.1)",
           }}

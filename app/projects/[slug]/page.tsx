@@ -339,7 +339,7 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* 2. SUMMARY & SPECS */}
-      <section className="mobilePad" style={{ padding: "120px 0" }}>
+      <section className="mobilePad" style={{ padding: "96px 0" }}>
         <div className="containerWide">
           <motion.div
             className="mobileStack"
@@ -454,7 +454,7 @@ export default function ProjectDetailPage() {
 
       {/* 4. SELECTED FLOOR PLANS */}
       {floorPlans.length > 0 && (
-        <section className="mobilePad" style={{ padding: "0 0 120px" }}>
+        <section className="mobilePad" style={{ padding: "0 0 96px" }}>
           <div className="containerWide">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -609,7 +609,7 @@ export default function ProjectDetailPage() {
 
       {/* 5. TIMELINE */}
       {project.timeline && project.timeline.length > 0 && (
-        <section className="mobilePad" style={{ padding: "0 0 120px" }}>
+        <section className="mobilePad" style={{ padding: "0 0 96px" }}>
           <div className="containerWide">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -771,7 +771,7 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* 7. RELATED PROJECTS */}
-      <section className="mobilePad" style={{ padding: "0 0 120px" }}>
+      <section className="mobilePad" style={{ padding: "0 0 96px" }}>
         <div className="containerWide">
           <div
             style={{
@@ -863,7 +863,7 @@ export default function ProjectDetailPage() {
       <section
         className="mobilePad"
         style={{
-          padding: "120px 0",
+          padding: "96px 0",
           borderTop: "1px solid rgba(255,255,255,0.08)",
           textAlign: "center",
           position: "relative",
@@ -899,7 +899,7 @@ export default function ProjectDetailPage() {
             }}
           >
             Start a conversation with IMVO about design, consultancy,
-            supervision, or development guidance.
+            site coordination, or development guidance.
           </p>
 
           <Link

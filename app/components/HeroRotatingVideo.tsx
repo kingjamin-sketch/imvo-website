@@ -19,7 +19,7 @@ export default function HeroRotatingVideo() {
         loop
         playsInline
         preload="auto"
-        poster="/hero-1.jpg"
+        poster="/hero-2.png"
         style={{
           position: "absolute",
           inset: 0,

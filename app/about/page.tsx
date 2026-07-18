@@ -37,25 +37,25 @@ const BlueprintBackground = () => (
 const teamMembers = [
   {
     name: "ASINGIZWE BENJAMIN MARIE MERCI",
-    role: "Principal Architect & Design Lead",
+    role: "Built Environment Design & Development Lead",
     image: "/team1.png",
-    description: "Experienced in architectural design, urbanism, and environmentally responsive development — focused on spatial clarity.",
+    description: "Leads spatial strategy, concept design, and development direction — focused on clarity, context, and long-term value.",
   },
   {
     name: "RUKUNDO Prince",
-    role: "Principal Engineer & Execution Lead",
+    role: "Technical Delivery Lead",
     image: "/team3.png",
-    description: "PhD holder in Civil Engineering with expertise in roads, infrastructure systems, and urbanism.",
+    description: "Leads technical delivery, site coordination, and construction planning across the project lifecycle.",
   },
   {
     name: "SHEMA BAMBI Antonella M.",
-    role: "Consultancy & Strategy",
+    role: "Strategy & Digital Systems Lead",
     image: "/team2.png",
     description: "Combines expertise in IT development, strategic consultancy, and project coordination.",
   },
   {
     name: "KANGWAGYE Sharon",
-    role: "Project Coordination",
+    role: "Project Coordination & Growth Lead",
     image: "/team4.png",
     description: "Experienced in digital commerce, market strategy, and growth coordination.",
   }
@@ -63,23 +63,23 @@ const teamMembers = [
 
 const timeline = [
   { year: "2017", title: "Origins & Ideation", description: "Initial foundation of the studio's philosophy, establishing a core focus on structural integrity and context-driven design logic." },
-  { year: "2020", title: "Registration & Operations", description: "Official registration of the firm, moving from conceptual philosophy into active architectural modeling and professional operations." },
+  { year: "2020", title: "Registration & Operations", description: "Official registration of the company, moving from conceptual philosophy into active design modeling and structured operations." },
   { year: "2021", title: "Asian Architectural Exposure", description: "International study and immersion in major Chinese cities, including Xi'an, integrating broad urban masterplanning concepts into the firm's approach." },
   { year: "2022", title: "Middle Eastern Scaling", description: "Architectural exposure across Dubai, Sharjah, and Abu Dhabi. Absorbing advanced modernism, extreme structural scaling, and high-end commercial aesthetics." },
-  { year: "2023", title: "Rwandan Execution", description: "Official commencement of large-scale operations in Rwanda, translating global architectural exposure into contextually sensitive, local execution." },
+  { year: "2023", title: "Rwandan Execution", description: "Official commencement of large-scale operations in Rwanda, translating global design exposure into contextually sensitive, local execution." },
 ];
 
 const testimonials = [
   { text: "I had an excellent experience with IMVO GROUP AFRICA! Their team is professional, attentive, and dedicated to outstanding service. Communication was seamless, and their commitment to quality and sustainability is impressive. Highly recommended!", author: "Eric IRANKUNDA", date: "6 months ago" },
   { text: "Working with IMVO was a moving experience. They don't just focus on the commercial aspect; their designs genuinely empower people and elevate the built environment.", author: "Peace Aime HIRWA", date: "February 2022" },
   { text: "Thank you for the amazing work you have done for us. Your attention to detail is highly appreciated!", author: "Umutoni Leon Clement", date: "March 2020" },
-  { text: "IMVO offers exceptional architectural services. It was an absolute pleasure working with the team.", author: "Nkuliye Stewart", date: "February 2021" },
+  { text: "It was an absolute pleasure working with the team.", author: "Nkuliye Stewart", date: "February 2021" },
   { text: "A display of absolute professionalism from concept to execution.", author: "Bahiga Jean Claude", date: "August 2020" },
   { text: "The spatial clarity and execution-aware mindset of IMVO set them apart in the region.", author: "Ukiriho Rene J Felix", date: "Client Review" },
   { text: "Their technical discipline and understanding of structural proportion gave us complete confidence.", author: "Dushime Brown", date: "Client Review" },
   { text: "A brilliant studio. The team's ability to navigate complex zoning and environmental constraints is remarkable.", author: "Lishirabake Olivier", date: "Client Review" },
   { text: "IMVO delivered a contextually sensitive design that perfectly aligned with our operational ambitions.", author: "Shema Blaise Ally", date: "Client Review" },
-  { text: "High-end aesthetic merged with strict engineering standards. Truly a world-class architectural practice.", author: "Ndizihiwe Alain JS", date: "Client Review" },
+  { text: "High-end aesthetic merged with strict engineering standards.", author: "Ndizihiwe Alain JS", date: "Client Review" },
   { text: "From the initial site analysis to the final photorealistic visualizations, their communication was flawless.", author: "Staphord N.S", date: "Client Review" },
   { text: "A highly collaborative and innovative team. They protected the design intent through every phase of construction.", author: "Olivier Kamali", date: "Client Review" }
 ];
@@ -121,7 +121,7 @@ const RegionalReach = () => {
     <section
       className="mobilePad"
       style={{
-        padding: "130px 0",
+        padding: "100px 0",
         background: "#050505",
         borderTop: "1px solid rgba(255,255,255,0.06)",
         position: "relative",
@@ -184,7 +184,7 @@ const RegionalReach = () => {
             }}
           >
             IMVO operates from Rwanda while supporting design, consultancy,
-            supervision, and development-oriented work across East, Central, and
+            site coordination, and development-oriented work across East, Central, and
             Southern African corridors.
           </p>
 
@@ -232,14 +232,12 @@ const RegionalReach = () => {
             overflow: "hidden",
           }}
         >
-          <img
+          <Image
             src="/regional-map.png"
             alt="IMVO regional reach map"
+            fill
+            sizes="(max-width: 900px) 100vw, 50vw"
             style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
               objectFit: "cover",
               filter:
                 "grayscale(100%) invert(100%) contrast(1.45) brightness(1.25)",
@@ -379,7 +377,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. HERO IMAGE REVEAL */}
-      <section style={{ paddingBottom: "120px", position: "relative", zIndex: 10 }}>
+      <section style={{ paddingBottom: "96px", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ ...transition, delay: 0.4 }} style={{ position: "relative", width: "100%", aspectRatio: "21/9", background: "#111", overflow: "hidden" }}>
             <Image src="/about-hero.png" alt="IMVO Studio Philosophy" fill sizes="100vw" style={{ objectFit: "cover", filter: "brightness(0.8)" }} />
@@ -388,7 +386,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. MANIFESTO / ORIGIN STORY WITH ANIMATED BLUEPRINT */}
-      <section className="mobilePad" style={{ position: "relative", padding: "80px 0 160px 0" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "72px 0 108px 0" }}>
         <BlueprintBackground />
         <div className="containerWide mobileStack" style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "80px", alignItems: "start" }}>
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
@@ -400,7 +398,7 @@ export default function AboutPage() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ ...transition, delay: 0.2 }}>
             <p style={{ fontSize: "clamp(20px, 3vw, 32px)", lineHeight: 1.4, margin: 0, fontWeight: 500, color: "rgba(255,255,255,0.9)" }}>
-              The studio was not founded simply to draw. IMVO emerged from a rigorous technical need to merge deep contextual study (Intellectu) with execution-aware planning. We approach architecture as an integrated system of proportion, function, material logic, and regulatory discipline.
+              The studio was not founded simply to draw. IMVO emerged from a rigorous technical need to merge deep contextual study (Intellectu) with execution-aware planning. We approach the built environment as an integrated system of proportion, function, material logic, and regulatory discipline.
             </p>
             <p style={{ fontSize: 18, lineHeight: 1.8, color: "rgba(255,255,255,0.6)", marginTop: 40, maxWidth: 700 }}>
               Before form comes context. Our foundation is built on analyzing the regional landscape, the history of the site, and the operational ambition of the client. Through advanced BIM modeling and photorealistic visualization, we translate this raw data into technical documentation that guarantees sustainability, function, and long-term architectural value.
@@ -411,7 +409,7 @@ export default function AboutPage() {
 {/* REGIONAL REACH */}
 <RegionalReach />
       {/* 4. STUDIO CULTURE & TEAM PHOTO */}
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <div className="mobileStack" style={{ display: "flex", flexWrap: "wrap", gap: "60px", alignItems: "center" }}>
             <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ flex: "1 1 350px", maxWidth: "500px" }}>
@@ -420,7 +418,7 @@ export default function AboutPage() {
                 A collaborative space built for technical excellence.
               </h2>
               <p style={{ marginTop: 30, fontSize: 16, lineHeight: 1.8, color: "rgba(255,255,255,0.6)" }}>
-                Our studio operates as a highly integrated unit. We believe that the best architecture emerges when design, engineering, and project management happen concurrently rather than sequentially. Our team is dedicated to constant learning, utilizing industry-leading structural analysis and modeling tools to bring visionary concepts into reality.
+                Our studio operates as a highly integrated unit. We believe that the strongest built environments emerge when design, technical coordination, and project management happen concurrently rather than sequentially. Our team is dedicated to constant learning, using advanced analysis and modeling tools to bring visionary concepts into reality.
               </p>
             </motion.div>
             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "-100px" }} transition={{ ...transition, delay: 0.2 }} style={{ flex: "2 1 600px", position: "relative", width: "100%", aspectRatio: "16/10", background: "#111", overflow: "hidden" }}>
@@ -430,13 +428,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 5. PILLAR 01: ARCHITECTURAL DESIGN */}
-      <section className="mobilePad" style={{ padding: "160px 0", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
+      {/* 5. PILLAR 01: BUILT ENVIRONMENT DESIGN */}
+      <section className="mobilePad" style={{ padding: "112px 0", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 01</div>
             <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>
-              Architectural Design.<br/>
+              Built Environment Design.<br/>
               <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "clamp(24px, 3vw, 42px)" }}>The IMVO Framework from Stage 0 to Handover.</span>
             </h2>
           </motion.div>
@@ -449,7 +447,7 @@ export default function AboutPage() {
                 { step: "02", name: "Concept", desc: "Volumetric studies and spatial strategies.", icon: "M30 10 L50 20 L30 30 L10 20 Z M10 20 L10 50 L30 60 L30 30 Z M50 20 L50 50 L30 60 Z" },
                 { step: "03", name: "Schematic", desc: "Detailed floor plans and aesthetic language.", icon: "M10 10 L50 10 L50 50 L10 50 Z M25 10 L25 50 M10 25 L50 25" },
                 { step: "04", name: "Engineering", desc: "Structural, MEP, and regulatory BIM.", icon: "M30 10 A20 20 0 1 0 30 50 A20 20 0 1 0 30 10 M30 20 A10 10 0 1 0 30 40 A10 10 0 1 0 30 20" },
-                { step: "05", name: "Execution", desc: "Strict site supervision and quality assurance.", icon: "M15 10 L15 60 M45 10 L45 60 M15 25 L45 15 M15 45 L45 35 M15 60 L45 50" },
+                { step: "05", name: "Execution", desc: "Site coordination and quality review.", icon: "M15 10 L15 60 M45 10 L45 60 M15 25 L45 15 M15 45 L45 35 M15 60 L45 50" },
                 { step: "06", name: "Handover", desc: "Final delivery of the built environment ensuring absolute client satisfaction.", icon: "M30 10 L50 25 L50 60 L10 60 L10 25 Z" }
               ].map((phase, i) => (
                 <motion.div key={phase.step} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: i * 0.1 }} style={{ textAlign: "center" }}>
@@ -470,7 +468,7 @@ export default function AboutPage() {
       </section>
 
       {/* 6. TIMELINE & HISTORY */}
-      <section className="mobilePad" style={{ position: "relative", padding: "120px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ position: "relative", padding: "96px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.05)", overflow: "hidden" }}>
         <BlueprintBackground />
         <div className="containerWide mobileStack" style={{ position: "relative", zIndex: 10, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: 80 }}>
           <div>
@@ -495,7 +493,7 @@ export default function AboutPage() {
       </section>
 
       {/* 7. PILLAR 02: CONSULTANCY & STRATEGY */}
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.05)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 02</div>
@@ -503,8 +501,8 @@ export default function AboutPage() {
           </motion.div>
           <div style={{ marginTop: 80, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px" }}>
             {[
-              { name: "Feasibility & Zoning Feasibility Studies", desc: "Strategic guidance before the concrete is poured. Analyzing land capability and regulatory constraints to ensure project viability.", icon: "M10 20 L50 20 M30 10 L30 30 M10 40 L50 40 M10 60 L50 60" },
-              { name: "Zoning Feasibility Feasibility Studies", desc: "Analyzing zoning regulations and spatial optimization for land capability.", icon: "M20 20 M10 10 L50 50 M10 50 L50 10" }
+              { name: "Development Feasibility", desc: "Assessing land capability, project viability, and development constraints before design investment begins.", icon: "M10 20 L50 20 M30 10 L30 30 M10 40 L50 40 M10 60 L50 60" },
+              { name: "Zoning & Regulatory Strategy", desc: "Interpreting planning controls and approval requirements to establish a clear, compliant development path.", icon: "M20 20 M10 10 L50 50 M10 50 L50 10" }
             ].map((service, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: index * 0.15 }} style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: 30 }}>
                 <div style={{ height: "60px", marginBottom: 30 }}>
@@ -518,16 +516,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 8. PILLAR 03: SUPERVISION & EXECUTION */}
-      <section className="mobilePad" style={{ padding: "140px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.1)", position: "relative", zIndex: 10 }}>
+      {/* 8. PILLAR 03: SITE COORDINATION & DELIVERY */}
+      <section className="mobilePad" style={{ padding: "104px 0", background: "#050505", borderTop: "1px solid rgba(255,255,255,0.1)", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6, color: "white", fontWeight: 800 }}>Pillar 03</div>
-            <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>Supervision &<br/>Design Execution.</h2>
+            <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>Site Coordination &<br/>Design Delivery.</h2>
           </motion.div>
           <div style={{ marginTop: 80, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px" }}>
             {[
-              { name: "Strict Site Monitoring", desc: "Rigorous site presence overseeing material quality, structural integrity, and execution logic.", icon: "M30 10 L30 60 M15 25 L45 25 M15 45 L45 45 M10 60 L50 60" },
+              { name: "Site Monitoring & Quality Review", desc: "Disciplined site presence supporting material quality, workmanship review, and execution logic.", icon: "M30 10 L30 60 M15 25 L45 25 M15 45 L45 45 M10 60 L50 60" },
               { name: "Contractor Coordination", desc: "Acting as the bridge between the client's operational vision and construction teams, protecting design intent.", icon: "M10 20 L30 20 M10 30 L50 30 M30 10 L30 60 M10 40 L50 40" }
             ].map((service, index) => (
               <motion.div key={index} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: index * 0.15 }} style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: 30 }}>
@@ -543,11 +541,11 @@ export default function AboutPage() {
       </section>
 
       {/* 9. SINGLE LINE LEADERSHIP DIRECTORY */}
-      <section className="mobilePad" style={{ padding: "120px 0", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#0a0a0a", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ textAlign: "center", marginBottom: 80 }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6 }}>The Studio</div>
-            <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>The architects & strategists<br />behind the work.</h2>
+            <h2 style={{ marginTop: 20, fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.04em", fontWeight: 900 }}>The design and strategy team<br />behind the work.</h2>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "40px" }}>
             {teamMembers.map((member, index) => (
@@ -567,7 +565,7 @@ export default function AboutPage() {
       </section>
 
       {/* 10. TESTIMONIALS SECTION */}
-      <section className="mobilePad" style={{ padding: "120px 0", background: "#050505", position: "relative", zIndex: 10 }}>
+      <section className="mobilePad" style={{ padding: "96px 0", background: "#050505", position: "relative", zIndex: 10 }}>
         <div className="containerWide">
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={transition} style={{ textAlign: "center", marginBottom: 60 }}>
             <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, opacity: 0.6 }}>Client Perspectives</div>
@@ -584,7 +582,7 @@ export default function AboutPage() {
                         </svg>
                      ))}
                   </div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", margin: "0 0 30px 0" }}>"{testimonial.text}"</p>
+                  <p style={{ fontSize: 15, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", margin: "0 0 30px 0" }}>“{testimonial.text}”</p>
                 </div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 800 }}>{testimonial.author}</div>
@@ -597,16 +595,17 @@ export default function AboutPage() {
       </section>
 
       {/* 11. PREMIUM FINAL CTA (With Studio Deck Link) */}
-      <section className="mobilePad" style={{ padding: "160px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
+      <section className="mobilePad" style={{ padding: "112px 0", textAlign: "center", borderTop: "1px solid rgba(255,255,255,0.05)", background: "#050505", position: "relative", overflow: "hidden" }}>
         <BlueprintBackground />
         <div style={{ position: "absolute", top: "-50%", left: "50%", transform: "translateX(-50%)", width: "800px", height: "800px", background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
             <h2 style={{ fontSize: "clamp(40px, 5vw, 64px)", fontWeight: 900, letterSpacing: "-0.04em", margin: 0 }}>Ready to shape<br/>the future together?</h2>
-            <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.5)", maxWidth: "500px", margin: "24px auto" }}>Initiate the IMVO design process. Let's discuss how we can bring technical discipline and spatial clarity to your next vision.</p>
+            <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.5)", maxWidth: "500px", margin: "24px auto" }}>Initiate the IMVO design process. Let’s discuss how we can bring technical discipline and spatial clarity to your next vision.</p>
             <div style={{ marginTop: 60, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/contact#quote" style={{ background: "white", color: "black", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>START A CONVERSATION ↗</Link>
-              <a href="/studio-deck.pdf" download="IMVO_Studio_Deck.pdf" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>DOWNLOAD STUDIO DECK ↓</a>
+              <Link href="/projects" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>EXPLORE PROJECTS ↗</Link>
+              <a href="/imvo-selected-works-2026.pdf" download="IMVO-Selected-Works-2026.pdf" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>DOWNLOAD STUDIO DECK ↓</a>
             </div>
           </motion.div>
         </div>

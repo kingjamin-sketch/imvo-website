@@ -43,15 +43,12 @@ export default function PortfolioSlider() {
   const activeProject = projects[index];
 
   return (
-    <section style={{ backgroundColor: "#050505", color: "white", padding: "120px 0", overflow: "hidden" }}>
+    <section className="mobilePad" style={{ backgroundColor: "#050505", color: "white", padding: "96px 0", overflow: "hidden" }}>
       <div
-         className="containerWide"
+         className="containerWide portfolioSliderGrid"
   style={{
     display: "grid",
-    gridTemplateColumns:
-      typeof window !== "undefined" && window.innerWidth < 900
-        ? "1fr"
-        : "0.65fr 1.35fr",
+    gridTemplateColumns: "0.65fr 1.35fr",
     gap: "40px",
     alignItems: "center",
         }}
@@ -72,7 +69,7 @@ export default function PortfolioSlider() {
               A curated view of IMVO’s residential, commercial,
               institutional, and urban work — developed through
               clarity, proportion, context, and execution-aware
-              architectural thinking.
+              disciplined design thinking.
             </p>
 
             <div style={{ marginTop: "40px" }}>
@@ -99,6 +96,7 @@ export default function PortfolioSlider() {
           <div style={{ display: "flex", alignItems: "center", gap: "24px", marginTop: "60px" }}>
             <button
               onClick={goPrev}
+              aria-label="Previous portfolio project"
               style={{
                 background: "transparent",
                 border: "1px solid rgba(255,255,255,0.2)",
@@ -124,6 +122,7 @@ export default function PortfolioSlider() {
 
             <button
               onClick={goNext}
+              aria-label="Next portfolio project"
               style={{
                 background: "transparent",
                 border: "1px solid rgba(255,255,255,0.2)",
@@ -153,6 +152,7 @@ export default function PortfolioSlider() {
   }}
 >
           <motion.div
+            className="portfolioSliderMedia"
             key={index}
             initial={{ opacity: 0, x: 80, scale: 0.985 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -161,10 +161,7 @@ export default function PortfolioSlider() {
             style={{
   position: "relative",
   width: "100%",
-  aspectRatio:
-    typeof window !== "undefined" && window.innerWidth < 900
-      ? "4/3"
-      : "16/10",
+  aspectRatio: "16/10",
   background: "#111",
   overflow: "hidden",
 }}
