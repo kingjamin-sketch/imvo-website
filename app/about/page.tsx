@@ -232,14 +232,12 @@ const RegionalReach = () => {
             overflow: "hidden",
           }}
         >
-          <img
+          <Image
             src="/regional-map.png"
             alt="IMVO regional reach map"
+            fill
+            sizes="(max-width: 900px) 100vw, 50vw"
             style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
               objectFit: "cover",
               filter:
                 "grayscale(100%) invert(100%) contrast(1.45) brightness(1.25)",
@@ -584,7 +582,7 @@ export default function AboutPage() {
                         </svg>
                      ))}
                   </div>
-                  <p style={{ fontSize: 15, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", margin: "0 0 30px 0" }}>"{testimonial.text}"</p>
+                  <p style={{ fontSize: 15, lineHeight: 1.8, color: "rgba(255,255,255,0.8)", margin: "0 0 30px 0" }}>“{testimonial.text}”</p>
                 </div>
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 800 }}>{testimonial.author}</div>
@@ -603,10 +601,10 @@ export default function AboutPage() {
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={transition}>
             <h2 style={{ fontSize: "clamp(40px, 5vw, 64px)", fontWeight: 900, letterSpacing: "-0.04em", margin: 0 }}>Ready to shape<br/>the future together?</h2>
-            <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.5)", maxWidth: "500px", margin: "24px auto" }}>Initiate the IMVO design process. Let's discuss how we can bring technical discipline and spatial clarity to your next vision.</p>
+            <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.5)", maxWidth: "500px", margin: "24px auto" }}>Initiate the IMVO design process. Let’s discuss how we can bring technical discipline and spatial clarity to your next vision.</p>
             <div style={{ marginTop: 60, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/contact#quote" style={{ background: "white", color: "black", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>START A CONVERSATION ↗</Link>
-              <a href="/studio-deck.pdf" download="IMVO_Studio_Deck.pdf" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>DOWNLOAD STUDIO DECK ↓</a>
+              <Link href="/projects" style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "white", padding: "20px 48px", borderRadius: 99, fontWeight: 800, fontSize: 16, textDecoration: "none", display: "inline-block", transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}>EXPLORE PROJECTS ↗</Link>
             </div>
           </motion.div>
         </div>

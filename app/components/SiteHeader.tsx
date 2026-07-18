@@ -167,7 +167,13 @@ export default function SiteHeader() {
           </nav>
 
           {/* MOBILE HAMBURGER BUTTON (Hidden on Desktop) */}
-          <button className="mobileMenuBtn" onClick={toggleMenu} aria-label="Toggle Menu">
+          <button
+            className="mobileMenuBtn"
+            onClick={toggleMenu}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+          >
             <span style={{ transform: mobileMenuOpen ? "rotate(45deg) translate(5px, 6px)" : "none" }} />
             <span style={{ opacity: mobileMenuOpen ? 0 : 1 }} />
             <span style={{ transform: mobileMenuOpen ? "rotate(-45deg) translate(5px, -6px)" : "none" }} />
@@ -179,6 +185,7 @@ export default function SiteHeader() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, y: "-100%" }}
             animate={{ opacity: 1, y: "0%" }}
             exit={{ opacity: 0, y: "-100%" }}

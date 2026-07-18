@@ -7,14 +7,6 @@ import { motion } from "framer-motion";
 import HeroRotatingVideo from "./components/HeroRotatingVideo";
 import PortfolioSlider from "./components/PortfolioSlider";
 
-// --- CLIENT-ONLY WRAPPER ---
-const ClientOnly = ({ children }: { children: React.ReactNode }) => {
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => setHasMounted(true), []);
-  return hasMounted ? <>{children}</> : null;
-};
-
-
 const ArchitecturalDrawingLines = () => (
   <div
     aria-hidden="true"
@@ -135,7 +127,7 @@ const inProgressProjects = [
     title: "INZIIRA ESTATE Development",
     type: "Residential Masterplan",
     concept: "Elevated foundations responding to wetland topography.",
-    image: "/project-22.png",
+    image: "/project-22.jpg",
   },
   {
     title: "VILLA LUME",
@@ -787,26 +779,50 @@ function AnimatedNumber({
   suffix?: string;
   pad?: boolean;
 }) {
-  const [value, setValue] = useState(from);
+  // Render the verified final value in the initial HTML for search engines,
+  // then begin the approved count-up animation after hydration.
+  const [value, setValue] = useState(to);
 
   useEffect(() => {
-    const duration = 10000;
-    const start = performance.now();
-    const animate = (time: number) => {
-      const progress = Math.min((time - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(from + (to - from) * eased));
-      if (progress < 1) requestAnimationFrame(animate);
+    let animationFrame = 0;
+
+    const kickoffFrame = requestAnimationFrame(() => {
+      setValue(from);
+      const duration = 10000;
+      const start = performance.now();
+
+      const animate = (time: number) => {
+        const progress = Math.min((time - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setValue(Math.round(from + (to - from) * eased));
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      };
+
+      animationFrame = requestAnimationFrame(animate);
+    });
+
+    return () => {
+      cancelAnimationFrame(kickoffFrame);
+      cancelAnimationFrame(animationFrame);
     };
-    requestAnimationFrame(animate);
   }, [from, to]);
 
   const formatted = pad ? String(value).padStart(2, "0") : String(value);
+  const finalFormatted = pad ? String(to).padStart(2, "0") : String(to);
 
   return (
-    <div style={{ fontSize: 42, fontWeight: 900, letterSpacing: "-0.04em" }}>
-      {formatted}
-      {suffix}
+    <div
+      aria-label={`${finalFormatted}${suffix}`}
+      data-final-value={`${finalFormatted}${suffix}`}
+      style={{ fontSize: 42, fontWeight: 900, letterSpacing: "-0.04em" }}
+    >
+      <span aria-hidden="true">
+        {formatted}
+        {suffix}
+      </span>
     </div>
   );
 }
@@ -988,9 +1004,9 @@ const ApproachPrinciples = () => (
             color: "rgba(255,255,255,0.62)",
           }}
         >
-          The same three ideas from the cinematic opening remain, but now they
-          work as a tighter statement — so visitors reach proof, projects, and
-          contact faster.
+          Design, strategy, and execution work as one — moving every project
+          from early vision toward coordinated, buildable, and enduring
+          outcomes.
         </p>
       </motion.div>
 
@@ -1194,9 +1210,7 @@ export default function HomePage() {
   return (
     <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>
       {/* 1. NATIVE STICKY HERO */}
-      <ClientOnly>
-        <CinematicHero />
-      </ClientOnly>
+      <CinematicHero />
       <HomeRegionalReachTeaser />
       {/* The rest of the page flows naturally underneath */}
       <div style={{ position: "relative", zIndex: 10, background: "#050505" }}>
@@ -1464,9 +1478,7 @@ export default function HomePage() {
         </section>
 
         {/* 3. PORTFOLIO SLIDER */}
-        <ClientOnly>
-          <PortfolioSlider />
-        </ClientOnly>
+        <PortfolioSlider />
 
         {/* 3.5 ON THE BOARDS */}
         <section
@@ -1788,6 +1800,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.div
+              className="teamImageFrame"
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -1795,10 +1808,7 @@ export default function HomePage() {
               style={{
                 position: "relative",
                 width: "100%",
-                aspectRatio:
-                  typeof window !== "undefined" && window.innerWidth < 768
-                    ? "4/5"
-                    : "21/9",
+                aspectRatio: "21/9",
                 marginTop: 60,
                 overflow: "hidden",
                 background: "#090909",
@@ -1806,15 +1816,13 @@ export default function HomePage() {
               }}
             >
               <Image
+                className="teamImage"
                 src="/team.png"
                 alt="IMVO office team photo"
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit:
-                    typeof window !== "undefined" && window.innerWidth < 768
-                      ? "cover"
-                      : "contain",
+                  objectFit: "contain",
                   objectPosition: "center top",
                   filter: "grayscale(100%) contrast(1.04) brightness(0.86)",
                 }}

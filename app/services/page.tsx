@@ -432,6 +432,7 @@ export default function ServicesPage() {
 
       <section className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.35fr 0.9fr", minHeight: 680, background: "#111" }}>
         <motion.div
+  className="serviceMediaTall"
   initial={{ opacity: 0, scale: 0.96 }}
   whileInView={{ opacity: 1, scale: 1 }}
   viewport={{ once: true, margin: "-80px" }}
@@ -439,7 +440,7 @@ export default function ServicesPage() {
   style={{
     position: "relative",
     overflow: "hidden",
-    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 680,
+    minHeight: 680,
     background: "#111",
   }}
 >
@@ -525,6 +526,7 @@ export default function ServicesPage() {
         <div className="containerWide" style={{ position: "relative", zIndex: 10 }}>
           <div className="mobileStack" style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 60, alignItems: "center" }}>
            <motion.div
+  className="serviceProcessMedia"
   initial={{ opacity: 0, scale: 0.96 }}
   whileInView={{ opacity: 1, scale: 1 }}
   viewport={{ once: true, margin: "-80px" }}
@@ -532,19 +534,17 @@ export default function ServicesPage() {
   style={{
     position: "relative",
     width: "100%",
-    minHeight: typeof window !== "undefined" && window.innerWidth < 768 ? 420 : 660,
+    minHeight: 660,
     overflow: "hidden",
     background: "#111",
   }}
 >
-  <img
+  <Image
     src="/service-process.png"
     alt="IMVO service process"
+    fill
+    sizes="(max-width: 900px) 100vw, 50vw"
     style={{
-      position: "absolute",
-      inset: 0,
-      width: "100%",
-      height: "100%",
       objectFit: "cover",
       filter: "grayscale(100%) contrast(1.05)",
       transition: "filter 0.5s ease, transform 0.5s ease",

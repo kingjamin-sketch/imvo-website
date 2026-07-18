@@ -12,8 +12,8 @@ export default function IntroLoader() {
     const played = sessionStorage.getItem("imvo-loader");
 
     if (played) {
-      setShow(false);
-      return;
+      const frameId = requestAnimationFrame(() => setShow(false));
+      return () => cancelAnimationFrame(frameId);
     }
 
     sessionStorage.setItem("imvo-loader", "true");
