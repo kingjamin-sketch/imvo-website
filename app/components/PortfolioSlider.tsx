@@ -69,7 +69,7 @@ export default function PortfolioSlider() {
               A curated view of IMVO’s residential, commercial,
               institutional, and urban work — developed through
               clarity, proportion, context, and execution-aware
-              architectural thinking.
+              disciplined design thinking.
             </p>
 
             <div style={{ marginTop: "40px" }}>

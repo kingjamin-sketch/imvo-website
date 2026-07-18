@@ -6,10 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import rwandaLocations from "./rwandaLocations.json";
 
 const inquiryTypes = [
-  "Architectural Design",
+  "Built Environment Design",
   "Planning & Design",
   "Consultancy",
-  "Supervision",
+  "Site Coordination & Delivery Support",
   "Property Development Guidance",
   "Property Acquisition Guidance",
   "Other / Custom Scope",
@@ -184,7 +184,7 @@ const ArchitecturalModel = () => {
     { title: "PERMIT", sub: "Regulatory Compliance", x: 500, y: 112 },
     { title: "SITE", sub: "Analysis Context", x: 585, y: 235 },
     { title: "CONSULTANCY", sub: "Feasibility Advisory", x: 505, y: 350 },
-    { title: "SUPERVISION", sub: "Site Monitoring", x: 95, y: 126 },
+    { title: "SITE DELIVERY", sub: "Coordination", x: 95, y: 126 },
     { title: "ZONING", sub: "Planning Strategy", x: 70, y: 255 },
   ];
 
@@ -991,7 +991,7 @@ export default function ContactPage() {
           >
             Tell us about your project, site, ambition, timeline, and current
             stage. We will help define whether you need design, consultancy,
-            supervision, planning support, or development guidance.
+            site coordination, planning support, or development guidance.
           </motion.p>
         </div>
 
@@ -2167,7 +2167,7 @@ export default function ContactPage() {
               }}
             >
               IMVO Group operates from Kigali, Rwanda, supporting design,
-              consultancy, supervision, planning, and development-oriented
+              consultancy, site coordination, planning, and development-oriented
               projects across Rwanda and the wider East African region.
             </p>
           </motion.div>

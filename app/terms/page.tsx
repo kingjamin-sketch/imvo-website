@@ -22,12 +22,12 @@ export default function TermsPage() {
 
           <h2>No Professional Agreement</h2>
           <p>
-            Submitting an inquiry, sending an email, or using this website does not create a client relationship, consultancy agreement, architectural appointment, or supervision contract with IMVO Group.
+            Submitting an inquiry, sending an email, or using this website does not create a client relationship, consultancy agreement, professional appointment, or site-coordination agreement with IMVO Group.
           </p>
 
           <h2>Project Services</h2>
           <p>
-            All architectural design, consultancy, supervision, planning, or development guidance services are subject to separate written agreements, scope definitions, timelines, fees, and professional terms.
+            All design, consultancy, site coordination, planning, or development guidance services are subject to separate written agreements, scope definitions, timelines, fees, and professional terms. Where professional registration is legally required, statutory submissions, certifications, and professional sign-off are undertaken only by appropriately registered practitioners.
           </p>
 
           <h2>Accuracy</h2>

@@ -94,28 +94,28 @@ const ArchitecturalDrawingLines = () => (
 const teamMembers = [
   {
     name: "ASINGIZWE Benjamin Marie  Merci",
-    role: "Architecture & Design",
+    role: "Built Environment Design & Development Lead",
     image: "/team1.png",
     description:
-      "Experienced in architectural design, urbanism, and environmentally responsive development, with a commitment to crafting contextually integrated, sustainable, and enduring spaces that combine spatial clarity, human-centered design, and long-term architectural value.",
+      "Leads spatial strategy, concept design, and development direction with a commitment to contextually integrated, sustainable, and enduring environments.",
   },
   {
     name: "SHEMA BAMBI Antonella M.",
-    role: "Consultancy & Strategy",
+    role: "Strategy & Digital Systems Lead",
     image: "/team2.png",
     description:
       "Combines expertise in IT development, strategic consultancy, and project coordination to bridge technology, operations, and business strategy—supporting digital systems, client advisory, operational planning, and data-informed development decisions that create long-term value.",
   },
   {
     name: "RUKUNDO Prince",
-    role: "Supervision & Execution",
+    role: "Technical Delivery Lead",
     image: "/team3.png",
     description:
-      "Experienced in civil engineering, infrastructure systems, and urbanism, with a focus on technical supervision, project execution, coordinated delivery, and planning-oriented engineering solutions that support sustainable and resilient development.",
+      "Experienced in civil engineering, infrastructure systems, and urbanism, with a focus on technical coordination, project execution, coordinated delivery, and planning-oriented solutions that support sustainable and resilient development.",
   },
   {
     name: "KANGWAGYE Sharon",
-    role: "Project Coordination",
+    role: "Project Coordination & Growth Lead",
     image: "/team4.png",
     description:
       "Experienced in digital commerce, market strategy, and growth coordination, with a focus on strategic planning, market insight, operational alignment, and the development of initiatives that create sustainable competitive advantage.",
@@ -156,7 +156,7 @@ const projectIntelligenceItems = [
   },
   {
     title: "Project direction",
-    text: "Turning ambition into a clear development path across architecture, planning, supervision, and delivery strategy.",
+    text: "Turning ambition into a clear development path across design, planning, site coordination, and delivery strategy.",
   },
 ];
 
@@ -844,7 +844,7 @@ const approachScenes = [
   {
     label: "EXECUTION",
     title: "Design value protected on site.",
-    text: "From concept to supervision, IMVO keeps the work disciplined, coordinated, and accountable.",
+    text: "From concept to site delivery, IMVO keeps the work disciplined, coordinated, and accountable.",
     image: "/p01-01.png",
   },
 ];
@@ -911,8 +911,8 @@ function CinematicHero() {
           }}
         >
           IMVO develops residential, commercial, and institutional environments
-          through architectural design, consultancy, supervision, and
-          execution-aware planning — balancing spatial clarity, contextual
+          through built-environment design, development consultancy, site
+          coordination, and execution-aware planning — balancing spatial clarity, contextual
           sensitivity, technical discipline, and long-term architectural value.
         </motion.p>
 
@@ -1684,18 +1684,18 @@ export default function HomePage() {
               {[
                 [
                   "01",
-                  "Architectural Design",
-                  "Concept development, spatial planning, residential and commercial design, documentation, and planning-oriented architectural solutions.",
+                  "Built Environment Design",
+                  "Concept development, spatial planning, residential and commercial design, documentation, and context-aware spatial solutions.",
                 ],
                 [
                   "02",
                   "Consultancy",
-                  "Feasibility guidance, architectural advisory, project development support, regulatory awareness, and strategic decision-making.",
+                  "Feasibility guidance, design advisory, project development support, regulatory awareness, and strategic decision-making.",
                 ],
                 [
                   "03",
-                  "Supervision",
-                  "Site monitoring, quality assurance, design implementation oversight, and coordination between client, consultants, and contractors.",
+                  "Site Coordination",
+                  "Site observation, quality review, design implementation support, and coordination between client, consultants, and contractors.",
                 ],
               ].map(([number, title, text], index) => (
                 <motion.div

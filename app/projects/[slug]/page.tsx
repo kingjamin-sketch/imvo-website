@@ -899,7 +899,7 @@ export default function ProjectDetailPage() {
             }}
           >
             Start a conversation with IMVO about design, consultancy,
-            supervision, or development guidance.
+            site coordination, or development guidance.
           </p>
 
           <Link

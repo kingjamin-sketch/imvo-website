@@ -4,14 +4,14 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "About the Studio",
   description:
-    "Meet IMVO Group, a Kigali-based architecture studio shaped by contextual design, technical discipline, and execution awareness.",
+    "Meet IMVO Group, a Kigali-based built-environment design and development consultancy shaped by contextual thinking, technical discipline, and execution awareness.",
   alternates: { canonical: "/about" },
   openGraph: {
     url: "/about",
     title: "About IMVO Group",
     description:
-      "A Kigali-based architecture studio serving Rwanda and selected East and Central African markets.",
-    images: ["/about-hero.webp"],
+      "A Kigali-based built-environment design and development consultancy serving Rwanda and selected East and Central African markets.",
+    images: ["/about-hero.png"],
   },
 };
 

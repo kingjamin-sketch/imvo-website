@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Architecture, Consultancy & Supervision Services",
+  title: "Design, Development & Project Consultancy Services",
   description:
-    "Explore IMVO Group services across architectural design, feasibility and development consultancy, site supervision, and coordinated project delivery.",
+    "Explore IMVO Group services across built-environment design, feasibility and development consultancy, site coordination, and project delivery support.",
   alternates: { canonical: "/services" },
   openGraph: {
     url: "/services",
     title: "IMVO Group Services",
     description:
-      "Architectural design, consultancy, supervision, and development guidance from vision to execution.",
-    images: ["/services-hero.webp"],
+      "Built-environment design, consultancy, site coordination, and development guidance from vision to execution.",
+    images: ["/services-hero.png"],
   },
 };
 

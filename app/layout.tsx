@@ -13,24 +13,24 @@ const siteUrl = "https://www.imvogroup.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "IMVO Group | Architecture, Consultancy & Supervision",
+    default: "IMVO Group | Built Environment Design & Development",
     template: "%s | IMVO Group",
   },
   description:
-    "Kigali-based architecture studio delivering architectural design, feasibility consultancy, project supervision, and development guidance across Rwanda and East Africa.",
+    "A Kigali-based built-environment design and development consultancy supporting spatial design, feasibility, site coordination, and project direction across Rwanda and East Africa.",
   applicationName: "IMVO Group",
   authors: [{ name: "IMVO Group", url: siteUrl }],
   creator: "IMVO Group",
   publisher: "IMVO Group",
-  category: "Architecture",
+  category: "Built Environment Design & Development",
   keywords: [
-    "architecture Rwanda",
-    "architect Kigali",
-    "architectural design",
-    "construction consultancy",
-    "project supervision",
+    "built environment design Rwanda",
+    "spatial design Kigali",
+    "development consultancy Rwanda",
+    "construction coordination",
+    "project delivery support",
     "feasibility studies Rwanda",
-    "East Africa architecture",
+    "East Africa built environment",
   ],
   alternates: {
     canonical: "/",
@@ -40,19 +40,19 @@ export const metadata: Metadata = {
     locale: "en_RW",
     url: siteUrl,
     siteName: "IMVO Group",
-    title: "IMVO Group | Architecture, Consultancy & Supervision",
+    title: "IMVO Group | Built Environment Design & Development",
     description:
       "Design, strategy, and execution for enduring environments across Rwanda and East Africa.",
     images: [
       {
         url: "/about-hero.png",
-        alt: "IMVO Group architecture and design studio",
+        alt: "IMVO Group built-environment design and development consultancy",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "IMVO Group | Architecture, Consultancy & Supervision",
+    title: "IMVO Group | Built Environment Design & Development",
     description:
       "Design, strategy, and execution for enduring environments across Rwanda and East Africa.",
     images: ["/about-hero.png"],
@@ -89,7 +89,7 @@ const structuredData = {
       logo: `${siteUrl}/imvo-black.png`,
       image: `${siteUrl}/about-hero.png`,
       description:
-        "Architecture, consultancy, supervision, and development guidance from Kigali, Rwanda.",
+        "A built-environment design and development consultancy based in Kigali, Rwanda.",
       areaServed: [
         "Rwanda",
         "Uganda",
