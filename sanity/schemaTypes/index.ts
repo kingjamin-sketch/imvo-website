@@ -1,3 +1,17 @@
+import { aboutPageType } from "./aboutPage";
+import { contactPageType } from "./contactPage";
+import { homePageType } from "./homePage";
+import { legalPageType } from "./legalPage";
 import { projectType } from "./project";
+import { servicesPageType } from "./servicesPage";
+import { siteSettingsType } from "./siteSettings";
 
-export const schemaTypes = [projectType];
+export const schemaTypes = [
+  siteSettingsType,
+  homePageType,
+  aboutPageType,
+  servicesPageType,
+  contactPageType,
+  legalPageType,
+  projectType,
+];

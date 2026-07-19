@@ -7,8 +7,15 @@ import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
+import type { SiteSettings } from "@/sanity/types/siteContent";
 
-export default function SiteShell({ children }: { children: ReactNode }) {
+export default function SiteShell({
+  children,
+  settings,
+}: {
+  children: ReactNode;
+  settings?: SiteSettings | null;
+}) {
   const pathname = usePathname();
 
   if (pathname.startsWith("/studio")) {
@@ -20,7 +27,7 @@ export default function SiteShell({ children }: { children: ReactNode }) {
       <IntroLoader />
       <SiteHeader />
       <main>{children}</main>
-      <SiteFooter />
+      <SiteFooter settings={settings} />
     </SmoothScrollProvider>
   );
 }

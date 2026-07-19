@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Brand from "./Brand";
+import type { SiteSettings } from "@/sanity/types/siteContent";
 
 const socials = [
   {
@@ -35,7 +36,17 @@ const legalLinks = [
   { label: "Cookie Policy", href: "/cookies" },
 ];
 
-export default function SiteFooter() {
+export default function SiteFooter({ settings }: { settings?: SiteSettings | null }) {
+  const activeSocials = settings?.socialLinks?.length
+    ? settings.socialLinks
+        .filter((item): item is { label: string; url: string } => Boolean(item.label && item.url))
+        .map((item) => ({
+          label: item.label,
+          href: item.url,
+          icon: socialIconFor(item.label),
+        }))
+    : socials;
+
   return (
     <footer
       style={{
@@ -78,7 +89,7 @@ export default function SiteFooter() {
                 fontSize: 14,
               }}
             >
-              A built-environment design and development consultancy
+              {settings?.tagline || "A built-environment design and development consultancy"}
             </p>
             <p
               style={{
@@ -89,13 +100,12 @@ export default function SiteFooter() {
                 fontSize: 11,
               }}
             >
-              Regulated professional services and statutory sign-off are
-              undertaken only by appropriately registered practitioners.
+              {settings?.legalNotice || "Regulated professional services and statutory sign-off are undertaken only by appropriately registered practitioners."}
             </p>
           </div>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            {socials.map((social) => (
+            {activeSocials.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
@@ -136,8 +146,8 @@ export default function SiteFooter() {
           }}
         >
           <div>
-            <p style={{ margin: 0 }}>© 2026 IMVO Group. All rights reserved.</p>
-            <p style={{ margin: "8px 0 0" }}>Intellectu · Mens · Visio · Origo</p>
+            <p style={{ margin: 0 }}>{settings?.copyright || "© 2026 IMVO Group. All rights reserved."}</p>
+            <p style={{ margin: "8px 0 0" }}>{settings?.motto || "Intellectu · Mens · Visio · Origo"}</p>
           </div>
 
           <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
@@ -159,6 +169,15 @@ export default function SiteFooter() {
       </div>
     </footer>
   );
+}
+
+function socialIconFor(label: string) {
+  const normalized = label.toLowerCase();
+  if (normalized.includes("linkedin")) return "in";
+  if (normalized.includes("instagram")) return "ig";
+  if (normalized === "x" || normalized.includes("twitter")) return "x";
+  if (normalized.includes("facebook")) return "fb";
+  return "yt";
 }
 
 function SocialIcon({ type }: { type: string }) {

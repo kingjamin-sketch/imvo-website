@@ -1,0 +1,60 @@
+IMVO FULL-SITE CMS UPDATE
+=========================
+
+This update adds editable Studio sections for:
+- Site Settings
+- Homepage
+- About Page
+- Services Page
+- Contact Page
+- Terms, Privacy and Cookie pages
+- Projects (already working)
+
+It does not change the visual design, form delivery logic, Rwanda location
+database, animations, project media, or existing project documents.
+
+INSTALL ON WINDOWS
+------------------
+1. Close the local development server.
+2. Extract this ZIP.
+3. Copy all extracted items into:
+     C:\Users\Hp\imvo-website
+   Choose "Replace" when Windows asks about files with the same name.
+4. Open PowerShell in C:\Users\Hp\imvo-website and run:
+
+     npm install
+     npm run build
+
+5. If the build succeeds, deploy through GitHub/Vercel:
+
+     git add app sanity scripts sanity.config.ts FULL-SITE-CMS-INSTALL.txt
+     git commit -m "Add full-site IMVO CMS editing"
+     git push origin main
+
+6. Wait for the Vercel deployment to finish.
+
+CREATE THE CURRENT PAGE CONTENT IN STUDIO
+-----------------------------------------
+Run this once from C:\Users\Hp\imvo-website:
+
+     npx sanity exec scripts/seed-site-content.ts --with-user-token -- --commit
+
+If Sanity asks you to sign in, use the same account that opens /studio.
+
+The command creates only missing page documents. It will not overwrite the
+project you already created or any existing page document.
+
+EDITING AFTER DEPLOYMENT
+------------------------
+Open:
+  https://www.imvogroup.com/studio
+
+Choose the page on the left, edit its wording or images, and click Publish.
+The public website normally refreshes within 60 seconds.
+
+SAFETY
+------
+- Blank CMS fields use the current coded content as a fallback.
+- Drafts do not appear publicly until Publish is clicked.
+- Projects remain independent from the page documents.
+- Never paste a Sanity token into website code or Vercel.

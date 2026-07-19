@@ -4,10 +4,11 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 import SiteShell from "./components/SiteShell";
+import { getSiteSettings } from "@/sanity/lib/siteContent";
 
 const siteUrl = "https://www.imvogroup.com";
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "IMVO Group | Built Environment Design & Development",
@@ -67,26 +68,54 @@ export const metadata: Metadata = {
   },
 };
 
-const structuredData = {
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const title = settings?.seoTitle || "IMVO Group | Built Environment Design & Development";
+  const description = settings?.seoDescription || defaultMetadata.description;
+  const shareImage = settings?.shareImage?.url || "/about-hero.png";
+
+  return {
+    ...defaultMetadata,
+    title: {
+      default: title,
+      template: `%s | ${settings?.companyName || "IMVO Group"}`,
+    },
+    description,
+    openGraph: {
+      ...defaultMetadata.openGraph,
+      title,
+      description: typeof description === "string" ? description : undefined,
+      images: [{ url: shareImage, alt: settings?.shareImage?.alt || "IMVO Group" }],
+    },
+    twitter: {
+      ...defaultMetadata.twitter,
+      title,
+      description: typeof description === "string" ? description : undefined,
+      images: [shareImage],
+    },
+  };
+}
+
+const structuredData = (settings: Awaited<ReturnType<typeof getSiteSettings>>) => ({
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: `${siteUrl}/`,
-      name: "IMVO Group",
+      name: settings?.companyName || "IMVO Group",
       alternateName: "IMVO Design Group",
       publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
       "@type": "ProfessionalService",
       "@id": `${siteUrl}/#organization`,
-      name: "IMVO Group",
+      name: settings?.companyName || "IMVO Group",
       url: `${siteUrl}/`,
       logo: `${siteUrl}/imvo-black.png`,
       image: `${siteUrl}/about-hero.png`,
       description:
-        "A built-environment design and development consultancy based in Kigali, Rwanda.",
+        settings?.tagline || "A built-environment design and development consultancy based in Kigali, Rwanda.",
       areaServed: [
         "Rwanda",
         "Uganda",
@@ -103,7 +132,7 @@ const structuredData = {
         addressLocality: "Kigali",
         addressCountry: "RW",
       },
-      sameAs: [
+      sameAs: settings?.socialLinks?.map((item) => item.url).filter(Boolean) || [
         "https://www.linkedin.com/company/imvo-design-group",
         "https://www.instagram.com/imvo_group/",
         "https://x.com/Imvogroupafrica",
@@ -112,13 +141,15 @@ const structuredData = {
       ],
     },
   ],
-};
+});
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const settings = await getSiteSettings();
+
   return (
     <html lang="en">
       <body
@@ -130,10 +161,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData(settings)).replace(/</g, "\\u003c"),
           }}
         />
-        <SiteShell>{children}</SiteShell>
+        <SiteShell settings={settings}>{children}</SiteShell>
       </body>
     </html>
   );

@@ -1,0 +1,56 @@
+import { defineArrayMember, defineField, defineType } from "sanity";
+
+export const contactPageType = defineType({
+  name: "contactPage",
+  title: "Contact Page",
+  type: "document",
+  groups: [
+    { name: "hero", title: "Hero", default: true },
+    { name: "contact", title: "Contact options" },
+    { name: "form", title: "Inquiry form" },
+    { name: "location", title: "Location" },
+  ],
+  fields: [
+    defineField({ name: "heroKicker", title: "Hero label", type: "string", group: "hero" }),
+    defineField({ name: "heroHeading", title: "Hero heading", type: "text", rows: 3, group: "hero" }),
+    defineField({ name: "heroIntro", title: "Hero introduction", type: "text", rows: 5, group: "hero" }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      group: "hero",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
+    }),
+    defineField({
+      name: "contactDetails",
+      title: "Contact options",
+      type: "array",
+      group: "contact",
+      of: [defineArrayMember({
+        type: "object",
+        fields: [
+          defineField({ name: "label", title: "Label", type: "string" }),
+          defineField({ name: "value", title: "Displayed value", type: "string" }),
+          defineField({ name: "href", title: "Link", description: "Use mailto:, tel:, https:// or a page path.", type: "string" }),
+        ],
+        preview: { select: { title: "label", subtitle: "value" } },
+      })],
+      validation: (rule) => rule.max(12),
+    }),
+    defineField({ name: "inquiryTypes", title: "Services visitors can select", type: "array", group: "form", of: [defineArrayMember({ type: "string" })], validation: (rule) => rule.max(20) }),
+    defineField({ name: "formKicker", title: "Form label", type: "string", group: "form" }),
+    defineField({ name: "formHeading", title: "Form heading", type: "string", group: "form" }),
+    defineField({ name: "formIntro", title: "Form introduction", type: "text", rows: 4, group: "form" }),
+    defineField({ name: "submitLabel", title: "Submit button", type: "string", group: "form" }),
+    defineField({ name: "successKicker", title: "Success label", type: "string", group: "form" }),
+    defineField({ name: "successHeading", title: "Success heading", type: "string", group: "form" }),
+    defineField({ name: "successText", title: "Success message", type: "text", rows: 5, group: "form" }),
+    defineField({ name: "responseTimeText", title: "Response-time message", type: "string", group: "form" }),
+    defineField({ name: "locationKicker", title: "Location label", type: "string", group: "location" }),
+    defineField({ name: "locationHeading", title: "Location heading", type: "text", rows: 2, group: "location" }),
+    defineField({ name: "locationText", title: "Location description", type: "text", rows: 4, group: "location" }),
+    defineField({ name: "mapUrl", title: "Google Maps embed URL", type: "url", group: "location" }),
+  ],
+  preview: { prepare: () => ({ title: "Contact Page", subtitle: "Contact details, form wording and map" }) },
+});
