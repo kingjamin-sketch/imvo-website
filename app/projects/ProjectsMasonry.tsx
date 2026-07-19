@@ -4,18 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { PROJECTS, type ProjectCategory } from "./projectsData";
+import type { Project, ProjectCategory } from "./projectsData";
 
 const FILTERS: Array<ProjectCategory | "All"> = ["All", "Residential", "Commercial", "Institutional", "Urban", "Hospitality"];
 const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
 
-export default function ProjectsMasonry() {
+export default function ProjectsMasonry({ projects: allProjects }: { projects: Project[] }) {
   const [active, setActive] = useState<ProjectCategory | "All">("All");
 
   const projects = useMemo(() => {
-    if (active === "All") return PROJECTS;
-    return PROJECTS.filter((project) => project.category === active);
-  }, [active]);
+    if (active === "All") return allProjects;
+    return allProjects.filter((project) => project.category === active);
+  }, [active, allProjects]);
 
   return (
     <section className="mobilePad" style={{ paddingBottom: 96, paddingTop: 72, backgroundColor: "#050505", color: "white" }}>

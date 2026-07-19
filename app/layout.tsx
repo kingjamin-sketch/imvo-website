@@ -3,10 +3,7 @@ import type { ReactNode } from "react";
 
 import "./globals.css";
 
-import SiteHeader from "./components/SiteHeader";
-import SiteFooter from "./components/SiteFooter";
-import SmoothScrollProvider from "./components/SmoothScrollProvider";
-import IntroLoader from "./components/IntroLoader";
+import SiteShell from "./components/SiteShell";
 
 const siteUrl = "https://www.imvogroup.com";
 
@@ -136,15 +133,7 @@ export default function RootLayout({
             __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
-        <SmoothScrollProvider>
-          <IntroLoader />
-
-          <SiteHeader />
-
-          <main>{children}</main>
-
-          <SiteFooter />
-        </SmoothScrollProvider>
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

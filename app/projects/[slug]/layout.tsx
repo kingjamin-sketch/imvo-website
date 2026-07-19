@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { PROJECTS } from "../projectsData";
+import { getProjectBySlug } from "@/sanity/lib/projects";
 
 type ProjectLayoutProps = {
   children: ReactNode;
@@ -11,7 +11,7 @@ export async function generateMetadata({
   params,
 }: Omit<ProjectLayoutProps, "children">): Promise<Metadata> {
   const { slug } = await params;
-  const project = PROJECTS.find((item) => item.slug === slug);
+  const project = await getProjectBySlug(slug);
 
   if (!project) {
     return {

@@ -34,6 +34,8 @@ export type Project = {
   drawings?: string[];
 
   timeline?: ProjectTimelineItem[];
+  featured?: boolean;
+  order?: number;
 };
 
 const conceptTimeline: ProjectTimelineItem[] = [
