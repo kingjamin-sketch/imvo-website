@@ -28,11 +28,12 @@ type SanityProjectRecord = {
   drawings?: Array<string | null> | null;
   timeline?: ProjectTimelineItem[] | null;
   featured?: boolean;
+  orderRank?: string;
   order?: number;
 };
 
 const projectsQuery = defineQuery(`
-  *[_type == "project"] | order(coalesce(order, 100) asc, year desc, _createdAt desc) {
+  *[_type == "project"] | order(coalesce(orderRank, "zzzzzz") asc, coalesce(order, 100) asc, year desc, _createdAt desc) {
     "id": _id,
     "slug": slug.current,
     title,
@@ -51,6 +52,7 @@ const projectsQuery = defineQuery(`
     "drawings": coalesce(drawings[].asset->url, []),
     timeline[]{year, title},
     featured,
+    orderRank,
     order
   }
 `);
@@ -99,6 +101,7 @@ function toProject(record: SanityProjectRecord): Project | null {
     ),
     timeline: record.timeline || undefined,
     featured: record.featured,
+    orderRank: record.orderRank,
     order: record.order,
   };
 }
@@ -138,11 +141,25 @@ export async function getAllProjects(): Promise<Project[]> {
   }
 
   return Array.from(merged.values()).sort((left, right) => {
+    if (left.orderRank && right.orderRank) {
+      const rankDifference = left.orderRank.localeCompare(right.orderRank);
+      if (rankDifference !== 0) return rankDifference;
+    } else if (left.orderRank) {
+      return -1;
+    } else if (right.orderRank) {
+      return 1;
+    }
+
     const orderDifference = (left.order ?? 100) - (right.order ?? 100);
 
     if (orderDifference !== 0) return orderDifference;
     return right.year.localeCompare(left.year);
   });
+}
+
+export async function getFeaturedProjects(limit = 3): Promise<Project[]> {
+  const projects = await getAllProjects();
+  return projects.filter((project) => project.featured).slice(0, limit);
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {

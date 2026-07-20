@@ -1,3 +1,4 @@
+import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import type { StructureResolver } from "sanity/structure";
 
 const singleton = (
@@ -10,7 +11,7 @@ const singleton = (
     .title(title)
     .child(S.document().title(title).schemaType(schemaType).documentId(documentId));
 
-export const structure: StructureResolver = (S) =>
+export const structure: StructureResolver = (S, context) =>
   S.list()
     .title("IMVO Website Content")
     .items([
@@ -32,5 +33,10 @@ export const structure: StructureResolver = (S) =>
               singleton(S, "Cookie Policy", "legalPage", "legal-cookies"),
             ]),
         ),
-      S.documentTypeListItem("project").title("Projects"),
+      orderableDocumentListDeskItem({
+        type: "project",
+        title: "Projects",
+        S,
+        context,
+      }),
     ]);

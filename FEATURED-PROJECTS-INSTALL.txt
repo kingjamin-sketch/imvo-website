@@ -1,0 +1,45 @@
+IMVO FEATURED PROJECTS + DRAG ORDER UPDATE
+==========================================
+
+WHAT THIS UPDATE DOES
+---------------------
+- Connects "Feature this project" to the homepage "On the boards" section.
+- Shows up to three featured projects, following the Projects list order.
+- Adds drag-and-drop ordering to the Projects list in Studio.
+- Uses the same manual order on the main Projects page.
+- Makes each featured homepage card open its project page.
+- Keeps the current homepage cards as fallback slots when fewer than three
+  projects are featured.
+
+INSTALL ON WINDOWS
+------------------
+1. Close the local development server.
+2. Extract this ZIP.
+3. Copy all extracted items into:
+     C:\Users\Hp\imvo-website
+   Choose "Replace" when Windows asks.
+4. Open PowerShell in C:\Users\Hp\imvo-website and run:
+
+     npm install
+     npm run build
+
+5. If the build succeeds, deploy through GitHub/Vercel:
+
+     git add app sanity package.json package-lock.json FEATURED-PROJECTS-INSTALL.txt
+     git commit -m "Connect featured projects and drag ordering"
+     git push origin main
+
+FIRST USE AFTER DEPLOYMENT
+--------------------------
+1. Open https://www.imvogroup.com/studio and choose Projects.
+2. Open the list menu at the top-right and choose "Reset Order" once. This
+   creates the initial drag order without changing project content.
+3. Drag projects upward or downward in the list.
+4. Open a project, enable "Feature this project", and Publish.
+
+HOMEPAGE RULE
+-------------
+The first three projects that have "Feature this project" enabled appear in
+the homepage "On the boards" section. Reorder them by dragging in Projects.
+If fewer than three projects are featured, the remaining slots use the current
+homepage cards. Website updates normally appear within 60 seconds.

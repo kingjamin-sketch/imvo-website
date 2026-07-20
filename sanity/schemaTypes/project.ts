@@ -1,3 +1,7 @@
+import {
+  orderRankField,
+  orderRankOrdering,
+} from "@sanity/orderable-document-list";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const projectCategories = [
@@ -19,6 +23,7 @@ export const projectType = defineType({
     { name: "publishing", title: "Publishing" },
   ],
   fields: [
+    orderRankField({ type: "project", hidden: true }),
     defineField({
       name: "title",
       title: "Project title",
@@ -206,22 +211,25 @@ export const projectType = defineType({
     defineField({
       name: "featured",
       title: "Feature this project",
-      description: "Marks the project for future homepage placement.",
+      description:
+        "Shows this project in the homepage 'On the boards' section when it is among the first three featured projects in the Projects list.",
       type: "boolean",
       group: "publishing",
       initialValue: false,
     }),
     defineField({
       name: "order",
-      title: "Display order",
-      description: "Lower numbers appear first.",
+      title: "Legacy display order",
+      description: "Projects are now reordered by dragging them in the Projects list.",
       type: "number",
       group: "publishing",
+      hidden: true,
       initialValue: 100,
       validation: (rule) => rule.integer().min(0).max(9999),
     }),
   ],
   orderings: [
+    orderRankOrdering,
     {
       title: "Display order",
       name: "displayOrder",

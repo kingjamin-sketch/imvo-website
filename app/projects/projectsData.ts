@@ -35,6 +35,7 @@ export type Project = {
 
   timeline?: ProjectTimelineItem[];
   featured?: boolean;
+  orderRank?: string;
   order?: number;
 };
 

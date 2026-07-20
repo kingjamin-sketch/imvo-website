@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import HeroRotatingVideo from "./components/HeroRotatingVideo";
 import PortfolioSlider from "./components/PortfolioSlider";
+import type { Project } from "./projects/projectsData";
 import type { HomePageContent } from "@/sanity/types/siteContent";
 
 const ArchitecturalDrawingLines = () => (
@@ -1221,15 +1222,39 @@ const HomeRegionalReachTeaser = ({ content }: { content?: HomePageContent | null
     </div>
   </section>
 );
-export default function HomePageClient({ content }: { content?: HomePageContent | null }) {
-  const activeProgressProjects = content?.progressProjects?.length
+export default function HomePageClient({
+  content,
+  featuredProjects,
+}: {
+  content?: HomePageContent | null;
+  featuredProjects?: Project[];
+}) {
+  const manualProgressProjects = content?.progressProjects?.length
     ? content.progressProjects.map((project, index) => ({
         title: project.title || "Project in progress",
         type: project.type || "Active study",
         concept: project.concept || "",
         image: project.image?.url || inProgressProjects[index]?.image || "/project-22.jpg",
+        badge: "Active Study",
+        href: "/projects",
       }))
-    : inProgressProjects;
+    : inProgressProjects.map((project) => ({
+        ...project,
+        badge: "Active Study",
+        href: "/projects",
+      }));
+  const featuredProgressProjects = (featuredProjects || []).map((project) => ({
+    title: project.title,
+    type: `${project.category} · ${project.location}`,
+    concept: project.summary,
+    image: project.cover,
+    badge: project.status || "Featured Project",
+    href: `/projects/${project.slug}`,
+  }));
+  const activeProgressProjects = [
+    ...featuredProgressProjects,
+    ...manualProgressProjects,
+  ].slice(0, 3);
   const activeServices = content?.services?.length
     ? content.services.map((service, index) => [
         String(index + 1).padStart(2, "0"),
@@ -1590,86 +1615,96 @@ export default function HomePageClient({ content }: { content?: HomePageContent 
             >
               {activeProgressProjects.map((project, index) => (
                 <motion.div
-                  key={project.title}
+                  key={`${project.href}-${project.title}`}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ ...transition, delay: index * 0.15 }}
                 >
-                  <div
+                  <Link
+                    href={project.href}
+                    aria-label={`View ${project.title}`}
                     style={{
-                      position: "relative",
-                      width: "100%",
-                      aspectRatio: "4/3",
-                      overflow: "hidden",
-                      background: "#111",
+                      color: "inherit",
+                      textDecoration: "none",
+                      display: "block",
                     }}
                   >
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 33vw"
-                      style={{
-                        objectFit: "cover",
-                        filter: "grayscale(100%) contrast(1.1) brightness(0.8)",
-                        transition: "filter 0.5s ease, transform 0.5s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.filter =
-                          "grayscale(0%) contrast(1) brightness(1)";
-                        e.currentTarget.style.transform = "scale(1.05)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.filter =
-                          "grayscale(100%) contrast(1.1) brightness(0.8)";
-                        e.currentTarget.style.transform = "scale(1)";
-                      }}
-                    />
                     <div
                       style={{
-                        position: "absolute",
-                        top: 20,
-                        left: 20,
-                        background: "rgba(0,0,0,0.8)",
-                        padding: "6px 12px",
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        backdropFilter: "blur(4px)",
+                        position: "relative",
+                        width: "100%",
+                        aspectRatio: "4/3",
+                        overflow: "hidden",
+                        background: "#111",
                       }}
                     >
-                      Active Study
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 33vw"
+                        style={{
+                          objectFit: "cover",
+                          filter: "grayscale(100%) contrast(1.1) brightness(0.8)",
+                          transition: "filter 0.5s ease, transform 0.5s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter =
+                            "grayscale(0%) contrast(1) brightness(1)";
+                          e.currentTarget.style.transform = "scale(1.05)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter =
+                            "grayscale(100%) contrast(1.1) brightness(0.8)";
+                          e.currentTarget.style.transform = "scale(1)";
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 20,
+                          left: 20,
+                          background: "rgba(0,0,0,0.8)",
+                          padding: "6px 12px",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                          backdropFilter: "blur(4px)",
+                        }}
+                      >
+                        {project.badge}
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ marginTop: 20 }}>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        letterSpacing: "0.1em",
-                        textTransform: "uppercase",
-                        color: "rgba(255,255,255,0.5)",
-                      }}
-                    >
-                      {project.type}
+                    <div style={{ marginTop: 20 }}>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                          color: "rgba(255,255,255,0.5)",
+                        }}
+                      >
+                        {project.type}
+                      </div>
+                      <h3
+                        style={{ margin: "8px 0", fontSize: 22, fontWeight: 800 }}
+                      >
+                        {project.title}
+                      </h3>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: 15,
+                          color: "rgba(255,255,255,0.7)",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {project.concept}
+                      </p>
                     </div>
-                    <h3
-                      style={{ margin: "8px 0", fontSize: 22, fontWeight: 800 }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: 15,
-                        color: "rgba(255,255,255,0.7)",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {project.concept}
-                    </p>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>

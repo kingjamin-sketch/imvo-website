@@ -1,7 +1,16 @@
 import HomePageClient from "./HomePageClient";
 import { getHomePageContent } from "@/sanity/lib/siteContent";
+import { getFeaturedProjects } from "@/sanity/lib/projects";
+
+export const revalidate = 60;
 
 export default async function HomePage() {
-  const content = await getHomePageContent();
-  return <HomePageClient content={content} />;
+  const [content, featuredProjects] = await Promise.all([
+    getHomePageContent(),
+    getFeaturedProjects(3),
+  ]);
+
+  return (
+    <HomePageClient content={content} featuredProjects={featuredProjects} />
+  );
 }
