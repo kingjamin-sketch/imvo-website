@@ -571,6 +571,8 @@ export default function ProjectDetailClient({
                             : `Plan ${index + 1}`}
                     </div>
 
+                    <div className="imvo-plan-status-label">NOT FOR CONSTRUCTION</div>
+
                     <div
                       style={{
                         position: "absolute",
@@ -1177,17 +1179,65 @@ function ProjectGallery({
               style={{
                 position: "relative",
                 width: "min(1200px, 92vw)",
-                height: "min(760px, 78vh)",
-                background: "#111",
+                maxHeight: "86vh",
+                display: "grid",
+                gridTemplateRows: "auto minmax(0, 1fr) auto",
+                gap: 12,
               }}
             >
-              <Image
-                src={activeImage}
-                alt={`${title} enlarged image`}
-                fill
-                sizes="100vw"
-                style={{ objectFit: "contain" }}
-              />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 16,
+                  color: "white",
+                  fontSize: 13,
+                  fontWeight: 900,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{title}</span>
+                <span style={{ color: "rgba(255,255,255,0.62)", whiteSpace: "nowrap" }}>
+                  {String((activeIndex ?? 0) + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+                </span>
+              </div>
+
+              <div
+                className="imvo-public-watermark"
+                style={{
+                  position: "relative",
+                  minHeight: 0,
+                  height: "min(720px, 68vh)",
+                  background: "#111",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={activeImage}
+                  alt={`${title} enlarged image`}
+                  fill
+                  sizes="100vw"
+                  style={{ objectFit: "contain" }}
+                />
+              </div>
+
+              <div
+                style={{
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(0,0,0,0.42)",
+                  color: "rgba(255,255,255,0.72)",
+                  padding: "12px 14px",
+                  fontSize: 12,
+                  lineHeight: 1.55,
+                }}
+              >
+                © IMVO Group. Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.{" "}
+                <Link href="/contact" style={{ color: "white", fontWeight: 900, textDecoration: "underline", textUnderlineOffset: 3 }}>
+                  Contact IMVO Group for permissions or project enquiries
+                </Link>
+              </div>
             </motion.div>
           </motion.div>
         )}
