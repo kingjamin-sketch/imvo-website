@@ -859,6 +859,8 @@ const approachScenes = [
 ];
 
 function CinematicHero({ content }: { content?: HomePageContent | null }) {
+  const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
+
   return (
     <section
       style={{
@@ -869,7 +871,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
         overflow: "hidden",
       }}
     >
-      <HeroRotatingVideo />
+      <HeroRotatingVideo onReady={() => setIsHeroVideoReady(true)} />
       <div
         style={{
           position: "absolute",
@@ -877,6 +879,8 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           background:
             "linear-gradient(to top, rgba(5,5,5,0.92), rgba(5,5,5,0.35), rgba(5,5,5,0.05))",
           pointerEvents: "none",
+          opacity: isHeroVideoReady ? 1 : 0,
+          transition: "opacity 700ms ease",
         }}
       />
 
@@ -890,11 +894,13 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           flexDirection: "column",
           justifyContent: "flex-end",
           paddingBottom: "10vh",
+          opacity: isHeroVideoReady ? 1 : 0,
+          transition: "opacity 700ms ease",
         }}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ ...transition, delay: 0.2 }}
           style={{
             fontSize: 12,
@@ -909,7 +915,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.4 }}
           style={{
             marginTop: 24,
@@ -926,7 +932,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.6 }}
           style={{ marginTop: 40 }}
         >

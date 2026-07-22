@@ -48,31 +48,32 @@ export default function ProjectLightbox({
   if (!open) return null;
 
   const src = safeImages[index];
+  const imageCount = safeImages.length;
 
   return (
-    <div className="lbBackdrop" role="dialog" aria-modal="true" aria-label={`${title} image gallery`}>
-      <button className="lbClose" onClick={onClose} aria-label="Close gallery">
+    <div className="lbBackdrop" role="dialog" aria-modal="true" aria-label={`${title} image gallery`} onClick={onClose}>
+      <button className="lbClose" onClick={(event) => { event.stopPropagation(); onClose(); }} aria-label="Close gallery">
         ✕
       </button>
 
-      <div className="lbTop">
+      <div className="lbTop" onClick={(event) => event.stopPropagation()}>
         <div className="lbTitle">{title}</div>
         <div className="lbCount">
-          {safeImages.length ? index + 1 : 0} / {safeImages.length}
+          {imageCount ? String(index + 1).padStart(2, "0") : "00"} / {String(imageCount).padStart(2, "0")}
         </div>
       </div>
 
-      <div className="lbStage">
+      <div className="lbStage" onClick={(event) => event.stopPropagation()}>
         <button
           className="lbNav lbLeft"
-          onClick={() => setIndex((i) => Math.max(i - 1, 0))}
+          onClick={(event) => { event.stopPropagation(); setIndex((i) => Math.max(i - 1, 0)); }}
           disabled={index <= 0}
           aria-label="Previous image"
         >
           ‹
         </button>
 
-        <div className="lbMedia">
+        <div className="imvo-public-watermark lbMedia">
           {src ? (
             <Image
               src={src}
@@ -89,7 +90,7 @@ export default function ProjectLightbox({
 
         <button
           className="lbNav lbRight"
-          onClick={() => setIndex((i) => Math.min(i + 1, safeImages.length - 1))}
+          onClick={(event) => { event.stopPropagation(); setIndex((i) => Math.min(i + 1, safeImages.length - 1)); }}
           disabled={index >= safeImages.length - 1}
           aria-label="Next image"
         >
@@ -97,12 +98,16 @@ export default function ProjectLightbox({
         </button>
       </div>
 
-      <div className="lbThumbs">
+      <div className="lbNotice" onClick={(event) => event.stopPropagation()}>
+© IMVO Group · Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.
+      </div>
+
+      <div className="lbThumbs" onClick={(event) => event.stopPropagation()}>
         {safeImages.map((img, i) => (
           <button
             key={`${img}-${i}`}
             className={`lbThumb ${i === index ? "lbThumbActive" : ""}`}
-            onClick={() => setIndex(i)}
+            onClick={(event) => { event.stopPropagation(); setIndex(i); }}
             aria-label={`Go to image ${i + 1}`}
           >
             <Image

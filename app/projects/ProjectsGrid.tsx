@@ -63,7 +63,7 @@ export default function ProjectsGrid() {
               }}
               aria-label={`Open gallery for ${p.title}`}
             >
-              <div className="projectMedia">
+              <div className="imvo-public-watermark projectMedia">
                 <Image
                   src={p.cover}
                   alt={p.title}
