@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import "./globals.css";
 
+import ImageCopyProtection from "./components/ImageCopyProtection";
 import SiteShell from "./components/SiteShell";
 import { getSiteSettings } from "@/sanity/lib/siteContent";
 
@@ -164,6 +165,7 @@ export default async function RootLayout({
             __html: JSON.stringify(structuredData(settings)).replace(/</g, "\\u003c"),
           }}
         />
+        <ImageCopyProtection />
         <SiteShell settings={settings}>{children}</SiteShell>
       </body>
     </html>

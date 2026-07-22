@@ -12,7 +12,7 @@ import { sanityClient } from "./client";
 
 const imageProjection = `{
   alt,
-  "url": asset->url
+  "url": asset->url + "?w=1920&fit=max&auto=format&q=78"
 }`;
 
 const siteSettingsQuery = defineQuery(`

@@ -530,6 +530,7 @@ export default function ProjectDetailClient({
                 {floorPlans.map((plan, index) => (
                   <div
                     key={plan}
+                    className="imvo-protected-plan"
                     onContextMenu={(event) => event.preventDefault()}
                     style={{
                       position: "relative",
@@ -594,7 +595,7 @@ export default function ProjectDetailClient({
                       style={{
                         position: "absolute",
                         inset: 0,
-                        zIndex: 5,
+                        zIndex: 8,
                         pointerEvents: "auto",
                         background:
                           "linear-gradient(135deg, rgba(255,255,255,0.015), transparent 45%, rgba(255,255,255,0.02))",

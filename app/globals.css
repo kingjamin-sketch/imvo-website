@@ -2317,3 +2317,49 @@ body.intro-playing header {
     scroll-behavior: auto !important;
   }
 }
+
+/* Public image-copy deterrence: preserve clicks on parent links/buttons while blocking direct image actions. */
+img,
+picture,
+.imvo-protected-media,
+.imvo-protected-media *,
+.imvo-protected-plan,
+.imvo-protected-plan * {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+
+.imvo-protected-plan::before {
+  content: "IMVO PREVIEW";
+  position: absolute;
+  inset: -20%;
+  z-index: 6;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.16);
+  font-size: clamp(44px, 10vw, 132px);
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: rotate(-24deg);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+}
+
+.imvo-protected-plan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: auto;
+  background-image:
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 34px),
+    linear-gradient(135deg, rgba(255,255,255,0.02), transparent 48%, rgba(255,255,255,0.035));
+}
