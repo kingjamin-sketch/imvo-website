@@ -2363,3 +2363,33 @@ picture,
     repeating-linear-gradient(135deg, rgba(255,255,255,0.045) 0 1px, transparent 1px 34px),
     linear-gradient(135deg, rgba(255,255,255,0.02), transparent 48%, rgba(255,255,255,0.035));
 }
+
+.imvo-public-watermark {
+  position: relative;
+}
+
+.imvo-public-watermark::after {
+  content: "IMVO GROUP";
+  position: absolute;
+  right: clamp(12px, 2vw, 28px);
+  bottom: clamp(10px, 1.6vw, 22px);
+  z-index: 6;
+  pointer-events: none;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.42);
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.imvo-protected-plan.imvo-public-watermark::after,
+.imvo-protected-plan .imvo-public-watermark::after {
+  content: "";
+}

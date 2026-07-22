@@ -40,8 +40,8 @@ const projectsQuery = defineQuery(`
     category,
     location,
     year,
-    "cover": cover.asset->url + "?w=1920&fit=max&auto=format&q=78",
-    "images": coalesce(gallery[].asset->url + "?w=1920&fit=max&auto=format&q=78", []),
+    "cover": cover.asset->url,
+    "images": coalesce(gallery[].asset->url, []),
     summary,
     bedrooms,
     bathrooms,
@@ -49,13 +49,68 @@ const projectsQuery = defineQuery(`
     mapUrl,
     status,
     scope,
-    "drawings": coalesce(drawings[].asset->url + "?w=1600&fit=max&auto=format&q=68", []),
+    "drawings": coalesce(drawings[].asset->url, []),
     timeline[]{year, title},
     featured,
     orderRank,
     order
   }
 `);
+
+
+const sanityImageHost = "cdn.sanity.io";
+
+type SanityImageTransform = {
+  width: number;
+  fit: "max";
+  auto: "format";
+  quality: number;
+};
+
+const projectImageTransform: SanityImageTransform = {
+  width: 1920,
+  fit: "max",
+  auto: "format",
+  quality: 78,
+};
+
+const drawingImageTransform: SanityImageTransform = {
+  width: 1600,
+  fit: "max",
+  auto: "format",
+  quality: 68,
+};
+
+function withSanityImageTransform(
+  imageUrl: string,
+  transform: SanityImageTransform,
+): string {
+  try {
+    const url = new URL(imageUrl);
+
+    if (url.hostname !== sanityImageHost) {
+      return imageUrl;
+    }
+
+    url.searchParams.set("w", String(transform.width));
+    url.searchParams.set("fit", transform.fit);
+    url.searchParams.set("auto", transform.auto);
+    url.searchParams.set("q", String(transform.quality));
+
+    return url.toString();
+  } catch {
+    return imageUrl;
+  }
+}
+
+function transformSanityImageList(
+  imageUrls: Array<string | null> | null | undefined,
+  transform: SanityImageTransform,
+): string[] {
+  return (imageUrls || [])
+    .filter((imageUrl): imageUrl is string => Boolean(imageUrl))
+    .map((imageUrl) => withSanityImageTransform(imageUrl, transform));
+}
 
 const categories = new Set<ProjectCategory>([
   "Residential",
@@ -87,8 +142,8 @@ function toProject(record: SanityProjectRecord): Project | null {
     category: record.category as ProjectCategory,
     location: record.location,
     year: record.year,
-    cover: record.cover,
-    images: (record.images || []).filter((image): image is string => Boolean(image)),
+    cover: withSanityImageTransform(record.cover, projectImageTransform),
+    images: transformSanityImageList(record.images, projectImageTransform),
     summary: record.summary,
     bedrooms: record.bedrooms,
     bathrooms: record.bathrooms,
@@ -96,9 +151,7 @@ function toProject(record: SanityProjectRecord): Project | null {
     mapUrl: record.mapUrl,
     status: record.status,
     scope: record.scope,
-    drawings: (record.drawings || []).filter(
-      (drawing): drawing is string => Boolean(drawing),
-    ),
+    drawings: transformSanityImageList(record.drawings, drawingImageTransform),
     timeline: record.timeline || undefined,
     featured: record.featured,
     orderRank: record.orderRank,

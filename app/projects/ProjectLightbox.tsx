@@ -72,7 +72,7 @@ export default function ProjectLightbox({
           ‹
         </button>
 
-        <div className="lbMedia">
+        <div className="imvo-public-watermark lbMedia">
           {src ? (
             <Image
               src={src}

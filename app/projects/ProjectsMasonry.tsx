@@ -37,7 +37,7 @@ export default function ProjectsMasonry({ projects: allProjects }: { projects: P
         <div className="mobileGrid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(450px, 1fr))", gap: "50px 40px", marginTop: "60px" }}>
           {projects.map((project, index) => (
             <motion.article key={project.slug} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: (index % 2) * 0.1 }} style={{ display: "flex", flexDirection: "column" }}>
-              <Link href={`/projects/${project.slug}`} style={{ overflow: "hidden", display: "block", position: "relative", width: "100%", aspectRatio: "16/9", background: "#111" }}>
+              <Link href={`/projects/${project.slug}`} className="imvo-public-watermark" style={{ overflow: "hidden", display: "block", position: "relative", width: "100%", aspectRatio: "16/9", background: "#111" }}>
                 <motion.div initial={{ scale: 1.1 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={transition} style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}>
                   <Image src={project.cover} alt={project.title} fill sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover", transition: "transform 0.5s ease" }} />
                 </motion.div>

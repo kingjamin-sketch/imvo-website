@@ -226,6 +226,7 @@ export default function ProjectDetailClient({
         <BackButton />
 
         <motion.div
+          className="imvo-public-watermark"
           style={{
             y: heroY,
             width: "100%",
@@ -805,7 +806,7 @@ export default function ProjectDetailClient({
                 <Link
                   key={related.slug}
                   href={`/projects/${related.slug}`}
-                  className="related-card"
+                  className="imvo-public-watermark related-card"
                   style={{
                     color: "white",
                     textDecoration: "none",
@@ -1029,7 +1030,7 @@ function ProjectGallery({
               <motion.button
                 key={`${src}-${index}`}
                 type="button"
-                className={`project-gallery-item ${layout}`}
+                className={`imvo-public-watermark project-gallery-item ${layout}`}
                 onClick={() => setActiveIndex(index)}
                 initial={{ opacity: 0, y: 80 }}
                 whileInView={{ opacity: 1, y: 0 }}
