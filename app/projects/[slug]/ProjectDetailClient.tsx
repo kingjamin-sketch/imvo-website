@@ -1233,10 +1233,7 @@ function ProjectGallery({
                   lineHeight: 1.55,
                 }}
               >
-                © IMVO Group. Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.{" "}
-                <Link href="/contact" style={{ color: "white", fontWeight: 900, textDecoration: "underline", textUnderlineOffset: 3 }}>
-                  Contact IMVO Group for permissions or project enquiries
-                </Link>
+© IMVO Group · Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.
               </div>
             </motion.div>
           </motion.div>

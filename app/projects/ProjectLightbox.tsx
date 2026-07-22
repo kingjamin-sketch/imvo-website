@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 type Props = {
@@ -100,8 +99,7 @@ export default function ProjectLightbox({
       </div>
 
       <div className="lbNotice" onClick={(event) => event.stopPropagation()}>
-        © IMVO Group. Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.{" "}
-        <Link href="/contact">Contact IMVO Group for permissions or project enquiries</Link>
+© IMVO Group · Portfolio preview only. Reproduction, redistribution, modification, or commercial use without written permission is prohibited.
       </div>
 
       <div className="lbThumbs" onClick={(event) => event.stopPropagation()}>
