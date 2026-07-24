@@ -7,6 +7,7 @@ import type {
   LegalPageContent,
   ServicesPageContent,
   SiteSettings,
+  TeamMember,
 } from "../types/siteContent";
 import { sanityClient } from "./client";
 
@@ -105,9 +106,58 @@ async function fetchSingleton<T>(
   }
 }
 
+const canonicalTeamImageByName = (name?: string) => {
+  const normalizedName = name?.toUpperCase().replace(/\s+/g, " ").trim() || "";
+
+  if (normalizedName.includes("ASINGIZWE") && normalizedName.includes("BENJAMIN")) {
+    return "/team1.png";
+  }
+
+  if (normalizedName.includes("RUKUNDO") && normalizedName.includes("PRINCE")) {
+    return "/team3.png";
+  }
+
+  if (normalizedName.includes("SHEMA BAMBI") || normalizedName.includes("ANTONELLA")) {
+    return "/team2.png";
+  }
+
+  if (normalizedName.includes("KANGWAGYE") && normalizedName.includes("SHARON")) {
+    return "/team4.png";
+  }
+
+  return undefined;
+};
+
+function withCanonicalTeamImageFallbacks<T extends { teamMembers?: TeamMember[] }>(
+  content: T | null,
+): T | null {
+  if (!content?.teamMembers?.length) return content;
+
+  return {
+    ...content,
+    teamMembers: content.teamMembers.map((member) => {
+      if (member.image?.url) return member;
+
+      const fallbackUrl = canonicalTeamImageByName(member.name);
+      if (!fallbackUrl) return member;
+
+      return {
+        ...member,
+        image: {
+          ...member.image,
+          alt: member.image?.alt || member.name,
+          url: fallbackUrl,
+        },
+      };
+    }),
+  } as T;
+}
+
 export const getSiteSettings = () => fetchSingleton<SiteSettings>(siteSettingsQuery);
-export const getHomePageContent = () => fetchSingleton<HomePageContent>(homePageQuery);
-export const getAboutPageContent = () => fetchSingleton<AboutPageContent>(aboutPageQuery);
+export const getHomePageContent = async () =>
+  withCanonicalTeamImageFallbacks(await fetchSingleton<HomePageContent>(homePageQuery));
+export const getAboutPageContent = async () =>
+  withCanonicalTeamImageFallbacks(await fetchSingleton<AboutPageContent>(aboutPageQuery));
 export const getServicesPageContent = () => fetchSingleton<ServicesPageContent>(servicesPageQuery);
 export const getContactPageContent = () => fetchSingleton<ContactPageContent>(contactPageQuery);
 export const getLegalPageContent = (kind: "terms" | "privacy" | "cookies") =>
