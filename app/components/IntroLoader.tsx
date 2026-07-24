@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
@@ -19,12 +19,10 @@ export default function IntroLoader() {
   const [isDirectHomeEntry] = useState(() => pathname === "/");
   const [show, setShow] = useState(isDirectHomeEntry);
   const [isFinishing, setIsFinishing] = useState(false);
+  const previousOverflowRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!isDirectHomeEntry) return;
-
-    const previousOverflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = "hidden";
 
     const finishTimer = window.setTimeout(
       () => setIsFinishing(true),
@@ -38,9 +36,32 @@ export default function IntroLoader() {
     return () => {
       window.clearTimeout(finishTimer);
       window.clearTimeout(removeTimer);
-      document.documentElement.style.overflow = previousOverflow;
     };
   }, [isDirectHomeEntry, shouldReduceMotion]);
+
+  useEffect(() => {
+    const html = document.documentElement;
+
+    const restoreOverflow = () => {
+      if (previousOverflowRef.current !== null) {
+        html.style.overflow = previousOverflowRef.current;
+        previousOverflowRef.current = null;
+      }
+    };
+
+    if (!isDirectHomeEntry || pathname !== "/" || !show) {
+      restoreOverflow();
+      return;
+    }
+
+    if (previousOverflowRef.current === null) {
+      previousOverflowRef.current = html.style.overflow;
+    }
+
+    html.style.overflow = "hidden";
+
+    return restoreOverflow;
+  }, [isDirectHomeEntry, pathname, show]);
 
   return (
     <AnimatePresence>
