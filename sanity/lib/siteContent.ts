@@ -180,9 +180,14 @@ function polishAboutPageContent(content: AboutPageContent | null): AboutPageCont
       name: polishAboutText(stage.name),
       description: polishAboutText(stage.description),
     })),
-    consultancyCards: content.consultancyCards?.map((card) => ({
+    consultancyCards: content.consultancyCards?.map((card, index) => ({
       ...card,
-      title: polishAboutText(card.title),
+      title:
+        index === 0
+          ? "Development Feasibility"
+          : index === 1
+            ? "Zoning & Regulatory Strategy"
+            : polishAboutText(card.title),
       text: polishAboutText(card.text),
     })),
     coordinationCards: content.coordinationCards?.map((card) => ({
