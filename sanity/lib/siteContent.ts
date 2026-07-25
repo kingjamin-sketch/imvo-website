@@ -153,11 +153,54 @@ function withCanonicalTeamImageFallbacks<T extends { teamMembers?: TeamMember[] 
   } as T;
 }
 
+const polishAboutText = (text?: string) => {
+  if (!text) return text;
+
+  return text
+    .replace(/Zoning Feasibility\s+Feasibility Studies/gi, "Zoning & Regulatory Strategy")
+    .replace(/Feasibility\s*&?\s*Zoning\s+Feasibility Studies/gi, "Development Feasibility & Zoning Strategy")
+    .replace(/guarantees sustainability,?\s*function,?\s*and long-term architectural value/gi, "supports sustainability, functionality, and long-term architectural value")
+    .replace(/ensuring absolute client satisfaction/gi, "supporting a clear, coordinated, and professionally completed handover")
+    .replace(/absolute client satisfaction/gi, "a professionally coordinated client handover")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+};
+
+function polishAboutPageContent(content: AboutPageContent | null): AboutPageContent | null {
+  if (!content) return content;
+
+  return {
+    ...content,
+    genesisLead: polishAboutText(content.genesisLead),
+    genesisText: polishAboutText(content.genesisText),
+    cultureText: polishAboutText(content.cultureText),
+    frameworkSubheading: polishAboutText(content.frameworkSubheading),
+    stages: content.stages?.map((stage) => ({
+      ...stage,
+      name: polishAboutText(stage.name),
+      description: polishAboutText(stage.description),
+    })),
+    consultancyCards: content.consultancyCards?.map((card) => ({
+      ...card,
+      title: polishAboutText(card.title),
+      text: polishAboutText(card.text),
+    })),
+    coordinationCards: content.coordinationCards?.map((card) => ({
+      ...card,
+      title: polishAboutText(card.title),
+      text: polishAboutText(card.text),
+    })),
+    ctaText: polishAboutText(content.ctaText),
+  };
+}
+
 export const getSiteSettings = () => fetchSingleton<SiteSettings>(siteSettingsQuery);
 export const getHomePageContent = async () =>
   withCanonicalTeamImageFallbacks(await fetchSingleton<HomePageContent>(homePageQuery));
-export const getAboutPageContent = async () =>
-  withCanonicalTeamImageFallbacks(await fetchSingleton<AboutPageContent>(aboutPageQuery));
+export const getAboutPageContent = async () => {
+  const content = await fetchSingleton<AboutPageContent>(aboutPageQuery);
+  return withCanonicalTeamImageFallbacks(polishAboutPageContent(content));
+};
 export const getServicesPageContent = () => fetchSingleton<ServicesPageContent>(servicesPageQuery);
 export const getContactPageContent = () => fetchSingleton<ContactPageContent>(contactPageQuery);
 export const getLegalPageContent = (kind: "terms" | "privacy" | "cookies") =>
