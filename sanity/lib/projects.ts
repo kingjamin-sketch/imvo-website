@@ -119,22 +119,39 @@ const categories = new Set<ProjectCategory>([
   "Hospitality",
 ]);
 
-const genericFallbackTitles = new Set([
-  "commercial block",
-  "commercial development",
-  "hospitality concept",
-  "institutional study",
-  "mixed-use study",
-  "planning study",
-  "private estate",
-  "private residence",
-  "residential concept",
-  "urban residence",
-  "urban villa",
-]);
+const localProjectTitleOverrides: Record<string, string> = {
+  "project-03": "Urban Villa Amani",
+  "project-04": "Axis Commercial Centre",
+  "project-05": "Nuru Hospitality Retreat",
+  "project-06": "Mji Mixed-Use Quarter",
+  "project-07": "Hillcrest House",
+  "project-08": "Umusozi Private Estate",
+  "project-09": "Courtyard Urban Residence",
+  "project-10": "Civic Learning Campus",
+  "project-11": "Kigali Growth Framework",
+  "project-12": "The Atrium Commercial Block",
+  "project-15": "Urban Villa Lumen",
+  "project-16": "Arcadia Business Hub",
+  "project-17": "Kivu Grand Hospitality",
+  "project-18": "Nexus Urban District",
+  "project-19": "Ridgeview Residence",
+  "project-20": "Terra Verde Estate",
+  "project-21": "Skyline Urban Residence",
+  "project-22": "Community Institutional Centre",
+  "project-23": "Urban Access Masterplan",
+  "project-24": "Gateway Retail Centre",
+  "project-25": "Terraces Business Centre",
+  "project-26": "Courtyard Commerce House",
+  "project-27": "Horizon Retail Pavilion",
+  "project-28": "Central Market Offices",
+  "project-29": "Meridian Commercial House",
+  "project-30": "Boulevard Business Centre",
+  "project-31": "Canopy Retail Complex",
+};
 
-function isGenericFallbackProject(project: Project): boolean {
-  return genericFallbackTitles.has(project.title.trim().toLowerCase());
+function withDistinctLocalTitle(project: Project): Project {
+  const title = localProjectTitleOverrides[project.slug];
+  return title ? { ...project, title } : project;
 }
 
 function toProject(record: SanityProjectRecord): Project | null {
@@ -197,12 +214,10 @@ async function getSanityProjects(): Promise<Project[]> {
 }
 
 export async function getAllProjects(): Promise<Project[]> {
-  const localProjects = PROJECTS.filter((project) => !isGenericFallbackProject(project)).map(
-    (project, index) => ({
-      ...project,
-      order: project.order ?? index + 1,
-    }),
-  );
+  const localProjects = PROJECTS.map((project, index) => ({
+    ...withDistinctLocalTitle(project),
+    order: project.order ?? index + 1,
+  }));
   const sanityProjects = await getSanityProjects();
   const merged = new Map<string, Project>(
     localProjects.map((project) => [project.slug, project]),
