@@ -2,7 +2,7 @@ import HomePageClient from "./HomePageClient";
 import { getHomePageContent } from "@/sanity/lib/siteContent";
 import { getFeaturedProjects } from "@/sanity/lib/projects";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const [content, featuredProjects] = await Promise.all([
