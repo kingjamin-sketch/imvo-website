@@ -1,4 +1,4 @@
-﻿import { defineQuery } from "next-sanity";
+import { defineQuery } from "next-sanity";
 
 import {
   PROJECTS,
@@ -253,4 +253,3 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const projects = await getAllProjects();
   return projects.find((project) => project.slug === slug) || null;
 }
-
