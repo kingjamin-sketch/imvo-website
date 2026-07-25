@@ -1,7 +1,7 @@
 import ProjectDetailClient from "./ProjectDetailClient";
 import { getAllProjects } from "@/sanity/lib/projects";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function ProjectDetailPage({
   params,
