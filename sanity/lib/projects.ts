@@ -57,7 +57,6 @@ const projectsQuery = defineQuery(`
   }
 `);
 
-
 const sanityImageHost = "cdn.sanity.io";
 
 type SanityImageTransform = {
@@ -120,6 +119,24 @@ const categories = new Set<ProjectCategory>([
   "Hospitality",
 ]);
 
+const genericFallbackTitles = new Set([
+  "commercial block",
+  "commercial development",
+  "hospitality concept",
+  "institutional study",
+  "mixed-use study",
+  "planning study",
+  "private estate",
+  "private residence",
+  "residential concept",
+  "urban residence",
+  "urban villa",
+]);
+
+function isGenericFallbackProject(project: Project): boolean {
+  return genericFallbackTitles.has(project.title.trim().toLowerCase());
+}
+
 function toProject(record: SanityProjectRecord): Project | null {
   if (
     !record.id ||
@@ -180,10 +197,12 @@ async function getSanityProjects(): Promise<Project[]> {
 }
 
 export async function getAllProjects(): Promise<Project[]> {
-  const localProjects = PROJECTS.map((project, index) => ({
-    ...project,
-    order: project.order ?? index + 1,
-  }));
+  const localProjects = PROJECTS.filter((project) => !isGenericFallbackProject(project)).map(
+    (project, index) => ({
+      ...project,
+      order: project.order ?? index + 1,
+    }),
+  );
   const sanityProjects = await getSanityProjects();
   const merged = new Map<string, Project>(
     localProjects.map((project) => [project.slug, project]),
