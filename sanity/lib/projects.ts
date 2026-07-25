@@ -1,4 +1,4 @@
-import { defineQuery } from "next-sanity";
+﻿import { defineQuery } from "next-sanity";
 
 import {
   PROJECTS,
@@ -172,7 +172,7 @@ function toProject(record: SanityProjectRecord): Project | null {
   return {
     id: record.id,
     slug: record.slug,
-    title: record.title,
+    title: localProjectTitleOverrides[record.slug] || record.title,
     category: record.category as ProjectCategory,
     location: record.location,
     year: record.year,
@@ -253,3 +253,4 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   const projects = await getAllProjects();
   return projects.find((project) => project.slug === slug) || null;
 }
+
