@@ -198,7 +198,7 @@ async function getSanityProjects(): Promise<Project[]> {
     const records = await sanityClient.fetch<SanityProjectRecord[]>(
       projectsQuery,
       {},
-      { next: { revalidate: 60, tags: ["sanity-projects"] } },
+      { cache: "no-store" },
     );
 
     return records
