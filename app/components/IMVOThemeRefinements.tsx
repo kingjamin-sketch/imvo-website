@@ -1,6 +1,47 @@
 "use client";
 
+import { useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
+
+const selectionLabels = new Set([
+  "BUILT ENVIRONMENT DESIGN",
+  "PLANNING & DESIGN",
+  "CONSULTANCY",
+  "SITE COORDINATION & DELIVERY SUPPORT",
+  "PROPERTY DEVELOPMENT GUIDANCE",
+  "PROPERTY ACQUISITION GUIDANCE",
+  "OTHER / CUSTOM SCOPE",
+]);
+
+const normalizeLabel = (value: string) => value.replace(/\s+/g, " ").trim().toUpperCase();
+
 export default function IMVOThemeRefinements() {
+  const pathname = usePathname();
+
+  useLayoutEffect(() => {
+    const markSelectionControls = () => {
+      document
+        .querySelectorAll<HTMLElement>("form button:not([type='submit']), button")
+        .forEach((button) => {
+          const label = normalizeLabel(button.textContent || "");
+          const isFormSelection =
+            button.closest("form") &&
+            !(button instanceof HTMLButtonElement && button.type === "submit");
+
+          if (isFormSelection || selectionLabels.has(label)) {
+            button.dataset.imvoJellySkip = "true";
+          }
+        });
+    };
+
+    markSelectionControls();
+
+    const observer = new MutationObserver(markSelectionControls);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [pathname]);
+
   return (
     <style>{`
       /* Keep the supplied jelly component intact; refine its rendered IMVO skin. */
@@ -18,11 +59,18 @@ export default function IMVOThemeRefinements() {
 
       [data-imvo-jelly-slot="true"] [class^="label-"] {
         color: #080808 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        box-sizing: border-box !important;
+        padding: 0 30px !important;
         font-size: 14px !important;
         font-weight: 750 !important;
-        letter-spacing: 0.035em !important;
+        letter-spacing: 0.025em !important;
         line-height: 1 !important;
-        text-align: center !important;
+        text-align: left !important;
         text-transform: uppercase !important;
         white-space: nowrap !important;
         filter: none !important;
@@ -58,8 +106,9 @@ export default function IMVOThemeRefinements() {
 
       @media (max-width: 720px) {
         [data-imvo-jelly-slot="true"] [class^="label-"] {
+          padding: 0 24px !important;
           font-size: 12px !important;
-          letter-spacing: 0.025em !important;
+          letter-spacing: 0.02em !important;
         }
       }
     `}</style>
