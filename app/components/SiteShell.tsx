@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
 import IMVOPreviewExperience from "./IMVOPreviewExperience";
+import IMVOStudioPhotography from "./IMVOStudioPhotography";
 import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
@@ -30,7 +31,10 @@ export default function SiteShell({
       <SiteHeader />
       <IMVOPreviewExperience />
       <IMVOPreviewCorrections />
-      <main>{children}</main>
+      <main>
+        {children}
+        <IMVOStudioPhotography />
+      </main>
       <SiteFooter settings={settings} />
     </SmoothScrollProvider>
   );
