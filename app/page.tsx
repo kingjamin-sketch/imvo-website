@@ -1,4 +1,5 @@
 import HomePageClient from "./HomePageClient";
+import PremiumHomeEnhancements from "./components/PremiumHomeEnhancements";
 import { getHomePageContent } from "@/sanity/lib/siteContent";
 import { getFeaturedProjects } from "@/sanity/lib/projects";
 
@@ -11,6 +12,9 @@ export default async function HomePage() {
   ]);
 
   return (
-    <HomePageClient content={content} featuredProjects={featuredProjects} />
+    <>
+      <HomePageClient content={content} featuredProjects={featuredProjects} />
+      <PremiumHomeEnhancements />
+    </>
   );
 }
