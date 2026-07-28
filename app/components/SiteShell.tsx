@@ -3,8 +3,7 @@
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
-import IMVOInteractiveEnhancements from "./IMVOInteractiveEnhancements";
-import IMVOThemeRefinements from "./IMVOThemeRefinements";
+import IMVOPreviewExperience from "./IMVOPreviewExperience";
 import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
@@ -28,8 +27,7 @@ export default function SiteShell({
     <SmoothScrollProvider>
       <IntroLoader />
       <SiteHeader />
-      <IMVOInteractiveEnhancements />
-      <IMVOThemeRefinements />
+      <IMVOPreviewExperience />
       <main>{children}</main>
       <SiteFooter settings={settings} />
     </SmoothScrollProvider>
