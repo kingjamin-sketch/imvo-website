@@ -3,12 +3,14 @@
 import { motion, type Variants } from "framer-motion";
 import type { CSSProperties } from "react";
 
+const premiumEase = [0.6, 0.01, -0.05, 0.9] as [number, number, number, number];
+
 const firstLineVariants: Variants = {
   initial: (index: number) => ({
     y: 0,
     transition: {
       duration: 0.34,
-      ease: [0.6, 0.01, -0.05, 0.9],
+      ease: premiumEase,
       delay: index * 0.018,
     },
   }),
@@ -16,7 +18,7 @@ const firstLineVariants: Variants = {
     y: "110%",
     transition: {
       duration: 0.34,
-      ease: [0.6, 0.01, -0.05, 0.9],
+      ease: premiumEase,
       delay: index * 0.018,
     },
   }),
@@ -27,7 +29,7 @@ const secondLineVariants: Variants = {
     y: "-110%",
     transition: {
       duration: 0.34,
-      ease: [0.6, 0.01, -0.05, 0.9],
+      ease: premiumEase,
       delay: index * 0.018,
     },
   }),
@@ -35,7 +37,7 @@ const secondLineVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.34,
-      ease: [0.6, 0.01, -0.05, 0.9],
+      ease: premiumEase,
       delay: index * 0.018,
     },
   }),
