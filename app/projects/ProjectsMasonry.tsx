@@ -99,8 +99,9 @@ export default function ProjectsMasonry({
 
         .projects-index-grid {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: minmax(0, 1fr);
           gap: 1px;
+          width: 100%;
           margin-top: 48px;
           border: 1px solid rgba(255,255,255,0.12);
           background: rgba(255,255,255,0.12);
@@ -108,14 +109,19 @@ export default function ProjectsMasonry({
 
         .projects-index-card {
           display: grid;
-          grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
-          min-height: 340px;
+          grid-template-columns: minmax(0, 1.32fr) minmax(340px, 0.68fr);
+          width: 100%;
+          min-height: clamp(430px, 36vw, 570px);
           background: #090909;
           overflow: hidden;
         }
 
         .projects-index-card--reverse {
-          grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+          grid-template-columns: minmax(340px, 0.68fr) minmax(0, 1.32fr);
+        }
+
+        .projects-index-card--reverse .projects-index-info {
+          order: 1;
         }
 
         .projects-index-card--reverse .projects-index-media {
@@ -125,7 +131,7 @@ export default function ProjectsMasonry({
         .projects-index-media {
           position: relative;
           display: block;
-          min-height: 340px;
+          min-height: 100%;
           overflow: hidden;
           background: #111;
         }
@@ -151,7 +157,7 @@ export default function ProjectsMasonry({
         .projects-index-info {
           position: relative;
           min-width: 0;
-          padding: 28px 28px 26px;
+          padding: clamp(34px, 4vw, 58px);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -165,7 +171,7 @@ export default function ProjectsMasonry({
 
         .projects-index-number {
           color: rgba(255,255,255,0.88);
-          font-size: clamp(48px, 4.4vw, 76px);
+          font-size: clamp(62px, 6vw, 100px);
           font-weight: 300;
           letter-spacing: -0.08em;
           line-height: 0.9;
@@ -182,9 +188,10 @@ export default function ProjectsMasonry({
         }
 
         .projects-index-title {
+          max-width: 520px;
           margin: 12px 0 0;
           color: #fff;
-          font-size: clamp(21px, 2vw, 30px);
+          font-size: clamp(28px, 3vw, 46px);
           font-weight: 850;
           letter-spacing: -0.045em;
           line-height: 1.02;
@@ -192,13 +199,14 @@ export default function ProjectsMasonry({
 
         .projects-index-summary {
           display: -webkit-box;
+          max-width: 540px;
           margin: 16px 0 0;
           overflow: hidden;
           color: rgba(255,255,255,0.58);
-          font-size: 13px;
-          line-height: 1.65;
+          font-size: 15px;
+          line-height: 1.72;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 4;
         }
 
         .projects-index-link {
@@ -237,13 +245,13 @@ export default function ProjectsMasonry({
             max-width: none;
           }
 
-          .projects-index-grid {
-            grid-template-columns: 1fr;
+          .projects-index-card {
+            grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+            min-height: 430px;
           }
 
-          .projects-index-card,
           .projects-index-card--reverse {
-            grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+            grid-template-columns: minmax(300px, 0.88fr) minmax(0, 1.12fr);
           }
         }
 
@@ -262,11 +270,16 @@ export default function ProjectsMasonry({
 
           .projects-index-card,
           .projects-index-card--reverse {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
+            min-height: 0;
           }
 
           .projects-index-card--reverse .projects-index-media {
             order: 0;
+          }
+
+          .projects-index-card--reverse .projects-index-info {
+            order: 1;
           }
 
           .projects-index-media {
@@ -276,7 +289,7 @@ export default function ProjectsMasonry({
 
           .projects-index-info {
             min-height: 280px;
-            padding: 22px 20px;
+            padding: 24px 20px 26px;
           }
 
           .projects-index-number {
@@ -335,7 +348,7 @@ export default function ProjectsMasonry({
                     src={project.cover}
                     alt={project.title}
                     fill
-                    sizes="(max-width: 700px) 100vw, (max-width: 1180px) 60vw, 28vw"
+                    sizes="(max-width: 700px) 100vw, (max-width: 1180px) 60vw, 68vw"
                     style={{ objectFit: "cover" }}
                   />
                 </Link>
