@@ -99,7 +99,7 @@ export default function ProjectsMasonry({
 
         .projects-index-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: 1px;
           width: 100%;
           margin-top: 48px;
@@ -109,15 +109,15 @@ export default function ProjectsMasonry({
 
         .projects-index-card {
           display: grid;
-          grid-template-columns: minmax(0, 1.32fr) minmax(340px, 0.68fr);
+          grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
           width: 100%;
-          min-height: clamp(430px, 36vw, 570px);
+          min-height: clamp(330px, 24vw, 410px);
           background: #090909;
           overflow: hidden;
         }
 
         .projects-index-card--reverse {
-          grid-template-columns: minmax(340px, 0.68fr) minmax(0, 1.32fr);
+          grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
         }
 
         .projects-index-card--reverse .projects-index-info {
@@ -157,7 +157,7 @@ export default function ProjectsMasonry({
         .projects-index-info {
           position: relative;
           min-width: 0;
-          padding: clamp(34px, 4vw, 58px);
+          padding: clamp(24px, 2.4vw, 38px);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -171,27 +171,27 @@ export default function ProjectsMasonry({
 
         .projects-index-number {
           color: rgba(255,255,255,0.88);
-          font-size: clamp(62px, 6vw, 100px);
+          font-size: clamp(48px, 4.4vw, 74px);
           font-weight: 300;
           letter-spacing: -0.08em;
           line-height: 0.9;
         }
 
         .projects-index-meta {
-          margin-top: 24px;
+          margin-top: 20px;
           color: rgba(255,255,255,0.42);
-          font-size: 10px;
+          font-size: 9px;
           font-weight: 800;
-          letter-spacing: 0.13em;
+          letter-spacing: 0.12em;
           line-height: 1.5;
           text-transform: uppercase;
         }
 
         .projects-index-title {
-          max-width: 520px;
-          margin: 12px 0 0;
+          max-width: 440px;
+          margin: 11px 0 0;
           color: #fff;
-          font-size: clamp(28px, 3vw, 46px);
+          font-size: clamp(21px, 2vw, 32px);
           font-weight: 850;
           letter-spacing: -0.045em;
           line-height: 1.02;
@@ -199,14 +199,14 @@ export default function ProjectsMasonry({
 
         .projects-index-summary {
           display: -webkit-box;
-          max-width: 540px;
-          margin: 16px 0 0;
+          max-width: 460px;
+          margin: 14px 0 0;
           overflow: hidden;
           color: rgba(255,255,255,0.58);
-          font-size: 15px;
-          line-height: 1.72;
+          font-size: 12px;
+          line-height: 1.65;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 4;
+          -webkit-line-clamp: 3;
         }
 
         .projects-index-link {
@@ -214,8 +214,8 @@ export default function ProjectsMasonry({
           align-items: center;
           justify-content: space-between;
           gap: 18px;
-          margin-top: 28px;
-          padding-top: 18px;
+          margin-top: 24px;
+          padding-top: 16px;
           border-top: 1px solid rgba(255,255,255,0.1);
           color: #fff;
           text-decoration: none;
@@ -245,13 +245,14 @@ export default function ProjectsMasonry({
             max-width: none;
           }
 
-          .projects-index-card {
-            grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
-            min-height: 430px;
+          .projects-index-grid {
+            grid-template-columns: minmax(0, 1fr);
           }
 
+          .projects-index-card,
           .projects-index-card--reverse {
-            grid-template-columns: minmax(300px, 0.88fr) minmax(0, 1.12fr);
+            grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+            min-height: 420px;
           }
         }
 
@@ -288,12 +289,12 @@ export default function ProjectsMasonry({
           }
 
           .projects-index-info {
-            min-height: 280px;
-            padding: 24px 20px 26px;
+            min-height: 270px;
+            padding: 22px 20px 24px;
           }
 
           .projects-index-number {
-            font-size: 50px;
+            font-size: 48px;
           }
         }
       `}</style>
@@ -328,7 +329,7 @@ export default function ProjectsMasonry({
         <div className="projects-index-grid">
           {projects.map((project, index) => {
             const number = String(index + 1).padStart(2, "0");
-            const reverse = index % 2 === 1;
+            const reverse = index % 4 === 1 || index % 4 === 2;
 
             return (
               <motion.article
@@ -348,7 +349,7 @@ export default function ProjectsMasonry({
                     src={project.cover}
                     alt={project.title}
                     fill
-                    sizes="(max-width: 700px) 100vw, (max-width: 1180px) 60vw, 68vw"
+                    sizes="(max-width: 700px) 100vw, (max-width: 1180px) 60vw, 27vw"
                     style={{ objectFit: "cover" }}
                   />
                 </Link>
