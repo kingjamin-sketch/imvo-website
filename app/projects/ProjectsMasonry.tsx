@@ -6,10 +6,25 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import type { Project, ProjectCategory } from "./projectsData";
 
-const FILTERS: Array<ProjectCategory | "All"> = ["All", "Residential", "Commercial", "Institutional", "Urban", "Hospitality"];
-const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
+const FILTERS: Array<ProjectCategory | "All"> = [
+  "All",
+  "Residential",
+  "Commercial",
+  "Institutional",
+  "Urban",
+  "Hospitality",
+];
 
-export default function ProjectsMasonry({ projects: allProjects }: { projects: Project[] }) {
+const transition = {
+  duration: 1,
+  ease: [0.16, 1, 0.3, 1] as const,
+};
+
+export default function ProjectsMasonry({
+  projects: allProjects,
+}: {
+  projects: Project[];
+}) {
   const [active, setActive] = useState<ProjectCategory | "All">("All");
 
   const projects = useMemo(() => {
@@ -18,44 +33,335 @@ export default function ProjectsMasonry({ projects: allProjects }: { projects: P
   }, [active, allProjects]);
 
   return (
-    <section className="mobilePad" style={{ paddingBottom: 96, paddingTop: 72, backgroundColor: "#050505", color: "white" }}>
+    <section className="projects-index-section mobilePad">
+      <style>{`
+        .projects-index-section {
+          padding: 82px 0 110px;
+          background: #050505;
+          color: #fff;
+        }
+
+        .projects-index-header {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 36px;
+          align-items: end;
+          padding-bottom: 34px;
+          border-bottom: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .projects-index-kicker {
+          color: rgba(255,255,255,0.44);
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+        }
+
+        .projects-index-heading {
+          max-width: 760px;
+          margin: 14px 0 0;
+          font-size: clamp(42px, 5.4vw, 78px);
+          font-weight: 900;
+          letter-spacing: -0.065em;
+          line-height: 0.96;
+        }
+
+        .projects-index-filters {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+          gap: 8px;
+          max-width: 620px;
+        }
+
+        .projects-index-filter {
+          min-height: 38px;
+          padding: 0 15px;
+          border: 1px solid rgba(255,255,255,0.18);
+          border-radius: 2px;
+          background: transparent;
+          color: rgba(255,255,255,0.72);
+          cursor: pointer;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.07em;
+          text-transform: uppercase;
+          transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+        }
+
+        .projects-index-filter:hover,
+        .projects-index-filter.is-active {
+          border-color: #fff;
+          background: #fff;
+          color: #050505;
+        }
+
+        .projects-index-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1px;
+          margin-top: 48px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.12);
+        }
+
+        .projects-index-card {
+          display: grid;
+          grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+          min-height: 340px;
+          background: #090909;
+          overflow: hidden;
+        }
+
+        .projects-index-card--reverse {
+          grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+        }
+
+        .projects-index-card--reverse .projects-index-media {
+          order: 2;
+        }
+
+        .projects-index-media {
+          position: relative;
+          display: block;
+          min-height: 340px;
+          overflow: hidden;
+          background: #111;
+        }
+
+        .projects-index-media img {
+          filter: grayscale(100%) brightness(0.78) contrast(1.04);
+          transition: transform 900ms cubic-bezier(0.16,1,0.3,1), filter 600ms ease;
+        }
+
+        .projects-index-card:hover .projects-index-media img {
+          transform: scale(1.035);
+          filter: grayscale(0%) brightness(0.88) contrast(1.03);
+        }
+
+        .projects-index-media::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.34), transparent 56%);
+          pointer-events: none;
+        }
+
+        .projects-index-info {
+          position: relative;
+          min-width: 0;
+          padding: 28px 28px 26px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          background: #0b0b0b;
+          transition: background 280ms ease;
+        }
+
+        .projects-index-card:hover .projects-index-info {
+          background: #111;
+        }
+
+        .projects-index-number {
+          color: rgba(255,255,255,0.88);
+          font-size: clamp(48px, 4.4vw, 76px);
+          font-weight: 300;
+          letter-spacing: -0.08em;
+          line-height: 0.9;
+        }
+
+        .projects-index-meta {
+          margin-top: 24px;
+          color: rgba(255,255,255,0.42);
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.13em;
+          line-height: 1.5;
+          text-transform: uppercase;
+        }
+
+        .projects-index-title {
+          margin: 12px 0 0;
+          color: #fff;
+          font-size: clamp(21px, 2vw, 30px);
+          font-weight: 850;
+          letter-spacing: -0.045em;
+          line-height: 1.02;
+        }
+
+        .projects-index-summary {
+          display: -webkit-box;
+          margin: 16px 0 0;
+          overflow: hidden;
+          color: rgba(255,255,255,0.58);
+          font-size: 13px;
+          line-height: 1.65;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+        }
+
+        .projects-index-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          margin-top: 28px;
+          padding-top: 18px;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          color: #fff;
+          text-decoration: none;
+          font-size: 10px;
+          font-weight: 850;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+        }
+
+        .projects-index-link span:last-child {
+          font-size: 16px;
+          transition: transform 260ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .projects-index-card:hover .projects-index-link span:last-child {
+          transform: translate(4px, -3px);
+        }
+
+        @media (max-width: 1180px) {
+          .projects-index-header {
+            grid-template-columns: 1fr;
+            align-items: start;
+          }
+
+          .projects-index-filters {
+            justify-content: flex-start;
+            max-width: none;
+          }
+
+          .projects-index-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-index-card,
+          .projects-index-card--reverse {
+            grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+          }
+        }
+
+        @media (max-width: 700px) {
+          .projects-index-section {
+            padding: 64px 0 82px;
+          }
+
+          .projects-index-header {
+            padding-bottom: 26px;
+          }
+
+          .projects-index-grid {
+            margin-top: 32px;
+          }
+
+          .projects-index-card,
+          .projects-index-card--reverse {
+            grid-template-columns: 1fr;
+          }
+
+          .projects-index-card--reverse .projects-index-media {
+            order: 0;
+          }
+
+          .projects-index-media {
+            min-height: 0;
+            aspect-ratio: 16 / 10;
+          }
+
+          .projects-index-info {
+            min-height: 280px;
+            padding: 22px 20px;
+          }
+
+          .projects-index-number {
+            font-size: 50px;
+          }
+        }
+      `}</style>
+
       <div className="containerWide">
-        <motion.div className="mobileStack" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={transition} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 30 }}>
+        <motion.header
+          className="projects-index-header"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={transition}
+        >
           <div>
-            <div style={{ textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 12, fontWeight: 800, color: "rgba(255,255,255,0.5)" }}>Archive</div>
-            <h2 style={{ fontSize: "clamp(34px, 4vw, 54px)", fontWeight: 900, letterSpacing: "-0.04em", margin: "10px 0 0", color: "white" }}>Selected project studies.</h2>
+            <div className="projects-index-kicker">Project Index</div>
+            <h2 className="projects-index-heading">Selected work, indexed.</h2>
           </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+
+          <div className="projects-index-filters" aria-label="Project categories">
             {FILTERS.map((filter) => (
-              <button key={filter} type="button" onClick={() => setActive(filter)} style={{ padding: "8px 16px", borderRadius: 99, border: "1px solid rgba(255,255,255,0.2)", background: active === filter ? "white" : "transparent", color: active === filter ? "black" : "white", fontWeight: 600, fontSize: 14, cursor: "pointer", transition: "all 0.3s ease" }}>
+              <button
+                key={filter}
+                type="button"
+                className={`projects-index-filter${active === filter ? " is-active" : ""}`}
+                onClick={() => setActive(filter)}
+                aria-pressed={active === filter}
+              >
                 {filter}
               </button>
             ))}
           </div>
-        </motion.div>
+        </motion.header>
 
-        <div className="mobileGrid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(450px, 1fr))", gap: "50px 40px", marginTop: "60px" }}>
-          {projects.map((project, index) => (
-            <motion.article key={project.slug} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ ...transition, delay: (index % 2) * 0.1 }} style={{ display: "flex", flexDirection: "column" }}>
-              <Link href={`/projects/${project.slug}`} className="imvo-public-watermark" style={{ overflow: "hidden", display: "block", position: "relative", width: "100%", aspectRatio: "16/9", background: "#111" }}>
-                <motion.div initial={{ scale: 1.1 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={transition} style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }}>
-                  <Image src={project.cover} alt={project.title} fill sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: "cover", transition: "transform 0.5s ease" }} />
-                </motion.div>
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent)", display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "30px", color: "white", opacity: 0, transition: "opacity 0.4s ease" }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "0")}>
-                  <div style={{ fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700 }}>View Project</div>
-                </div>
-              </Link>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginTop: "20px" }}>
-                <div>
-                  <h4 style={{ margin: 0, fontSize: 22, fontWeight: 900, letterSpacing: "-0.02em", color: "white" }}>{project.title}</h4>
-                  <p style={{ margin: "6px 0 0", color: "rgba(255,255,255,0.6)", fontSize: 15, fontWeight: 500 }}>{project.category} · {project.location}</p>
-                </div>
-                <Link href={`/projects/${project.slug}`} style={{ fontSize: 13, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em", textDecoration: "none", color: "white", borderBottom: "2px solid white", paddingBottom: "2px", marginTop: "6px", transition: "opacity 0.2s ease" }} onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.5")} onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}>
-                  Details
+        <div className="projects-index-grid">
+          {projects.map((project, index) => {
+            const number = String(index + 1).padStart(2, "0");
+            const reverse = index % 2 === 1;
+
+            return (
+              <motion.article
+                key={project.slug}
+                className={`projects-index-card${reverse ? " projects-index-card--reverse" : ""}`}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ ...transition, delay: (index % 4) * 0.06 }}
+              >
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="projects-index-media imvo-public-watermark"
+                  aria-label={`View ${project.title}`}
+                >
+                  <Image
+                    src={project.cover}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 700px) 100vw, (max-width: 1180px) 60vw, 28vw"
+                    style={{ objectFit: "cover" }}
+                  />
                 </Link>
-              </div>
-            </motion.article>
-          ))}
+
+                <div className="projects-index-info">
+                  <div>
+                    <div className="projects-index-number">{number}</div>
+                    <div className="projects-index-meta">
+                      {project.category} · {project.location} · {project.year}
+                    </div>
+                    <h3 className="projects-index-title">{project.title}</h3>
+                    <p className="projects-index-summary">{project.summary}</p>
+                  </div>
+
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="projects-index-link"
+                    aria-label={`Open ${project.title}`}
+                  >
+                    <span>View project</span>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>
