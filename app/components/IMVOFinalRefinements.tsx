@@ -91,8 +91,89 @@ export default function IMVOFinalRefinements() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const refineMetrics = () => {
+      const mount = document.querySelector<HTMLElement>('[data-imvo-studio-metrics-mount="true"]');
+      const section = mount?.querySelector<HTMLElement>(".imvo-studio-metrics");
+      const inner = section?.querySelector<HTMLElement>(".imvo-metrics-inner");
+      const row = section?.querySelector<HTMLElement>(".imvo-metrics-row");
+      if (!mount || !section || !inner || !row) return false;
+
+      mount.classList.add("imvo-metrics-full-bleed-mount");
+      section.classList.add("imvo-metrics-full-bleed");
+
+      Object.assign(mount.style, {
+        width: "100vw",
+        maxWidth: "none",
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
+      });
+
+      section.style.width = "100%";
+      section.style.maxWidth = "none";
+      section.style.padding = "clamp(38px, 4.6vw, 68px) clamp(18px, 2.6vw, 42px)";
+
+      inner.style.width = "100%";
+      inner.style.maxWidth = "none";
+      inner.style.margin = "0";
+
+      row.style.width = "100%";
+      row.style.maxWidth = "none";
+
+      return true;
+    };
+
+    refineMetrics();
+    const observer = new MutationObserver(refineMetrics);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const interval = window.setInterval(refineMetrics, 350);
+    const timeout = window.setTimeout(() => {
+      observer.disconnect();
+      window.clearInterval(interval);
+    }, 12000);
+
+    return () => {
+      observer.disconnect();
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
+    };
+  }, [pathname]);
+
   return (
     <style jsx global>{`
+      .imvo-metrics-full-bleed .imvo-metrics-row {
+        min-height: 0 !important;
+      }
+
+      .imvo-metrics-full-bleed .imvo-metric-card {
+        min-height: 230px !important;
+        padding: clamp(24px, 2vw, 34px) !important;
+      }
+
+      .imvo-metrics-full-bleed .imvo-metric-card p {
+        max-width: 220px !important;
+        font-size: 12px !important;
+        line-height: 1.58 !important;
+      }
+
+      .imvo-metrics-full-bleed .imvo-metric-value {
+        margin-bottom: 22px !important;
+      }
+
+      @media (max-width: 1450px) {
+        .imvo-metrics-full-bleed .imvo-metrics-row {
+          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        }
+      }
+
+      @media (min-width: 1451px) {
+        .imvo-metrics-full-bleed .imvo-metrics-row {
+          grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+        }
+      }
+
       @media (max-width: 900px) {
         .imvo-final-philosophy-layout {
           grid-template-columns: 1fr !important;
@@ -106,6 +187,10 @@ export default function IMVOFinalRefinements() {
           max-width: 620px !important;
           margin-left: 0 !important;
         }
+
+        .imvo-metrics-full-bleed .imvo-metrics-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
       }
 
       @media (max-width: 620px) {
@@ -116,6 +201,14 @@ export default function IMVOFinalRefinements() {
         .imvo-final-philosophy-layout > [data-imvo-photo="services-consultancy"] {
           aspect-ratio: 4 / 5 !important;
           width: 100% !important;
+        }
+
+        .imvo-metrics-full-bleed .imvo-metrics-row {
+          grid-template-columns: 1fr !important;
+        }
+
+        .imvo-metrics-full-bleed .imvo-metric-card {
+          min-height: 190px !important;
         }
       }
     `}</style>
