@@ -190,7 +190,7 @@ export default function IMVOStudioPhotography() {
             "contain",
             "center center",
           );
-          photo.style.marginTop = "48px";
+          photo.style.marginTop = "104px";
           photo.style.maxWidth = "480px";
           historyColumn.appendChild(photo);
         }
@@ -327,7 +327,7 @@ export default function IMVOStudioPhotography() {
 
         .imvo-history-photo-column [data-imvo-photo] {
           max-width: 100% !important;
-          margin-top: 30px !important;
+          margin-top: 56px !important;
         }
 
         .imvo-contact-photo-column [data-imvo-photo] {
