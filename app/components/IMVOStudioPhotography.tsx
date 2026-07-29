@@ -11,9 +11,14 @@ const baseImageStyle = {
   objectPosition: "center center",
 } as const;
 
-function textElement(text: string) {
-  return [...document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,div,span")].find((element) =>
-    element.textContent?.trim().toLowerCase().includes(text.toLowerCase()),
+function normalize(value: string | null | undefined) {
+  return (value || "").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function findHeading(text: string) {
+  const needle = normalize(text);
+  return [...document.querySelectorAll<HTMLElement>("h1,h2,h3,h4")].find((element) =>
+    normalize(element.textContent).includes(needle),
   );
 }
 
@@ -33,7 +38,7 @@ function makePhoto(
     aspectRatio: ratio,
     position: "relative",
     overflow: "hidden",
-    background: "#0a0a0a",
+    background: "#090909",
     border: "1px solid rgba(255,255,255,.09)",
   });
 
@@ -51,7 +56,7 @@ function makePhoto(
   return figure;
 }
 
-function replaceSectionImage(
+function replaceLargestImage(
   section: HTMLElement,
   src: string,
   alt: string,
@@ -64,8 +69,10 @@ function replaceSectionImage(
 ) {
   if (section.querySelector(`[data-imvo-replacement="${marker}"]`)) return;
 
-  const images = [...section.querySelectorAll<HTMLImageElement>("img")];
-  const target = images.sort((a, b) => b.clientWidth * b.clientHeight - a.clientWidth * a.clientHeight)[0];
+  const images = [...section.querySelectorAll<HTMLImageElement>("img")].filter(
+    (image) => !image.closest("[data-imvo-photo]"),
+  );
+  const target = images.sort((a, b) => b.getBoundingClientRect().width * b.getBoundingClientRect().height - a.getBoundingClientRect().width * a.getBoundingClientRect().height)[0];
   if (!target) return;
 
   const frame = target.parentElement as HTMLElement | null;
@@ -74,7 +81,7 @@ function replaceSectionImage(
   frame.setAttribute("data-imvo-replacement", marker);
   frame.style.position = "relative";
   frame.style.overflow = "hidden";
-  frame.style.background = "#0a0a0a";
+  frame.style.background = "#090909";
   if (options?.ratio) {
     frame.style.aspectRatio = options.ratio;
     frame.style.minHeight = "0";
@@ -98,18 +105,36 @@ function replaceSectionImage(
   frame.appendChild(replacement);
 }
 
+function nearestTwoColumnLayout(element: HTMLElement, section: HTMLElement) {
+  let node: HTMLElement | null = element.parentElement;
+  while (node && node !== section) {
+    const style = window.getComputedStyle(node);
+    if ((style.display === "grid" || style.display === "flex") && node.children.length >= 2) {
+      return node;
+    }
+    node = node.parentElement;
+  }
+  return section.querySelector<HTMLElement>(".containerWide");
+}
+
 export default function IMVOStudioPhotography() {
   const pathname = usePathname();
 
   useEffect(() => {
+    let stopped = false;
+
     const enhance = () => {
+      if (stopped) return;
+
       if (pathname === "/") {
         const frame = document.querySelector<HTMLElement>(".teamImageFrame");
         if (frame && !frame.querySelector("[data-imvo-team-main]")) {
           frame.style.position = "relative";
           frame.style.aspectRatio = "4 / 3";
           frame.style.minHeight = "0";
+          frame.style.height = "auto";
           frame.style.background = "#080808";
+          frame.style.overflow = "hidden";
           frame.querySelectorAll<HTMLElement>("img,picture").forEach((node) => {
             node.style.opacity = "0";
           });
@@ -123,33 +148,35 @@ export default function IMVOStudioPhotography() {
             position: "absolute",
             inset: "0",
             zIndex: "2",
-            objectFit: "cover",
+            objectFit: "contain",
             objectPosition: "center center",
+            background: "#080808",
           });
           frame.appendChild(image);
         }
       }
 
       if (pathname === "/about") {
-        const cultureHeading = textElement("A collaborative space built for technical excellence");
+        const cultureHeading = findHeading("A collaborative space built for technical excellence");
         const cultureSection = cultureHeading?.closest<HTMLElement>("section");
         if (cultureSection) {
-          replaceSectionImage(
+          replaceLargestImage(
             cultureSection,
             "/imvo-about-main.webp",
             "IMVO Group studio team",
             "about-culture",
-            { ratio: "4 / 5", objectFit: "cover", objectPosition: "center top" },
+            { ratio: "4 / 5", objectFit: "contain", objectPosition: "center center" },
           );
 
-          const replacementFrame = cultureSection.querySelector<HTMLElement>('[data-imvo-replacement="about-culture"]');
-          if (replacementFrame) {
-            replacementFrame.style.maxWidth = "720px";
-            replacementFrame.style.marginLeft = "auto";
+          const frame = cultureSection.querySelector<HTMLElement>('[data-imvo-replacement="about-culture"]');
+          if (frame) {
+            frame.classList.add("imvo-about-culture-photo");
+            frame.style.maxWidth = "720px";
+            frame.style.marginLeft = "auto";
           }
         }
 
-        const historyHeading = textElement("Firm History");
+        const historyHeading = findHeading("Firm History");
         const historySection = historyHeading?.closest<HTMLElement>("section");
         const historyLayout = historySection?.querySelector<HTMLElement>(".containerWide");
         const historyColumn = historyLayout?.firstElementChild as HTMLElement | null;
@@ -160,8 +187,8 @@ export default function IMVOStudioPhotography() {
             "IMVO technical team in the studio",
             "history",
             "4 / 5",
-            "cover",
-            "center top",
+            "contain",
+            "center center",
           );
           photo.style.marginTop = "48px";
           photo.style.maxWidth = "480px";
@@ -170,7 +197,7 @@ export default function IMVOStudioPhotography() {
       }
 
       if (pathname === "/services") {
-        const philosophyHeading = textElement("Architecture should do more than occupy land");
+        const philosophyHeading = findHeading("Architecture should do more than occupy land");
         const philosophySection = philosophyHeading?.closest<HTMLElement>("section");
         const philosophyContainer = philosophySection?.querySelector<HTMLElement>(".containerWide");
         if (philosophyContainer && !philosophyContainer.querySelector('[data-imvo-photo="services-consultancy"]')) {
@@ -187,39 +214,38 @@ export default function IMVOStudioPhotography() {
             copy.style.alignItems = "flex-start";
           }
 
-          philosophyContainer.appendChild(
-            makePhoto(
-              "/imvo-services-consultancy.webp",
-              "IMVO architectural consultancy review",
-              "services-consultancy",
-              "4 / 5",
-              "cover",
-              "center center",
-            ),
+          const photo = makePhoto(
+            "/imvo-services-consultancy.webp",
+            "IMVO architectural consultancy review",
+            "services-consultancy",
+            "4 / 5",
+            "cover",
+            "center center",
           );
+          philosophyContainer.appendChild(photo);
         }
 
-        const coordinationHeading = textElement("Design intent is protected through disciplined execution");
+        const coordinationHeading = findHeading("Design intent is protected through disciplined execution");
         const coordinationSection = coordinationHeading?.closest<HTMLElement>("section");
         if (coordinationSection) {
-          replaceSectionImage(
+          replaceLargestImage(
             coordinationSection,
             "/imvo-services-coordination.webp",
             "IMVO team coordinating architectural drawings",
             "services-coordination",
-            { objectFit: "cover", objectPosition: "center 28%" },
+            { objectFit: "cover", objectPosition: "center 25%" },
           );
         }
 
-        const processHeading = textElement("A structured process for clear decisions and responsible delivery");
+        const processHeading = findHeading("A structured process for clear decisions and responsible delivery");
         const processSection = processHeading?.closest<HTMLElement>("section");
         if (processSection) {
-          replaceSectionImage(
+          replaceLargestImage(
             processSection,
             "/imvo-services-technical.webp",
             "IMVO technical design review",
             "services-technical",
-            { ratio: "4 / 5", objectFit: "cover", objectPosition: "center top" },
+            { ratio: "4 / 5", objectFit: "contain", objectPosition: "center center" },
           );
         }
       }
@@ -228,13 +254,7 @@ export default function IMVOStudioPhotography() {
         const form = document.querySelector<HTMLFormElement>("form");
         const section = form?.closest<HTMLElement>("section");
         if (form && section && !section.querySelector('[data-imvo-photo="contact"]')) {
-          let layout: HTMLElement | null = form.parentElement;
-          while (layout && layout !== section) {
-            const display = window.getComputedStyle(layout).display;
-            if ((display === "grid" || display === "flex") && layout.children.length >= 2) break;
-            layout = layout.parentElement;
-          }
-
+          const layout = nearestTwoColumnLayout(form, section);
           const left = layout?.firstElementChild as HTMLElement | null;
           if (left) {
             left.classList.add("imvo-contact-photo-column");
@@ -260,10 +280,16 @@ export default function IMVOStudioPhotography() {
     enhance();
     const observer = new MutationObserver(enhance);
     observer.observe(document.body, { childList: true, subtree: true });
-    const timeout = window.setTimeout(() => observer.disconnect(), 14000);
+    const interval = window.setInterval(enhance, 500);
+    const timeout = window.setTimeout(() => {
+      window.clearInterval(interval);
+      observer.disconnect();
+    }, 16000);
 
     return () => {
+      stopped = true;
       observer.disconnect();
+      window.clearInterval(interval);
       window.clearTimeout(timeout);
     };
   }, [pathname]);
@@ -271,7 +297,8 @@ export default function IMVOStudioPhotography() {
   return (
     <style jsx global>{`
       [data-imvo-photo] img,
-      [data-imvo-overlay-image] {
+      [data-imvo-overlay-image],
+      [data-imvo-team-main] {
         filter: grayscale(1) contrast(1.03);
         transition: transform .8s cubic-bezier(.16,1,.3,1), filter .8s ease;
       }
@@ -294,7 +321,8 @@ export default function IMVOStudioPhotography() {
         }
 
         .imvo-services-philosophy-grid > [data-imvo-photo] {
-          max-width: 620px;
+          width: min(100%, 620px) !important;
+          max-width: 620px !important;
         }
 
         .imvo-history-photo-column [data-imvo-photo] {
@@ -310,12 +338,20 @@ export default function IMVOStudioPhotography() {
 
         .teamImageFrame {
           min-height: 0 !important;
+          height: auto !important;
           aspect-ratio: 4 / 3 !important;
         }
 
         .teamImageFrame [data-imvo-team-main] {
-          object-fit: cover !important;
+          object-fit: contain !important;
           object-position: center center !important;
+        }
+
+        [data-imvo-replacement="about-culture"],
+        [data-imvo-replacement="services-technical"] {
+          width: 100% !important;
+          max-width: 720px !important;
+          margin-left: 0 !important;
         }
       }
 
@@ -324,15 +360,15 @@ export default function IMVOStudioPhotography() {
           aspect-ratio: 4 / 3 !important;
         }
 
-        .imvo-services-philosophy-grid > [data-imvo-photo],
-        .imvo-contact-photo-column [data-imvo-photo] {
-          aspect-ratio: 4 / 5 !important;
+        .teamImageFrame [data-imvo-team-main] {
+          object-fit: contain !important;
         }
 
-        [data-imvo-replacement="about-culture"] {
+        .imvo-services-philosophy-grid > [data-imvo-photo],
+        .imvo-contact-photo-column [data-imvo-photo],
+        [data-imvo-replacement="about-culture"],
+        [data-imvo-replacement="services-technical"] {
           aspect-ratio: 4 / 5 !important;
-          width: 100% !important;
-          margin-left: 0 !important;
         }
       }
     `}</style>
