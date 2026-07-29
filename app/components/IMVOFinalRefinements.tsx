@@ -113,7 +113,7 @@ export default function IMVOFinalRefinements() {
 
       section.style.width = "100%";
       section.style.maxWidth = "none";
-      section.style.padding = "clamp(38px, 4.6vw, 68px) clamp(18px, 2.6vw, 42px)";
+      section.style.padding = "clamp(34px, 4.5vw, 64px) clamp(18px, 2.6vw, 42px)";
 
       inner.style.width = "100%";
       inner.style.maxWidth = "none";
@@ -145,33 +145,16 @@ export default function IMVOFinalRefinements() {
     <style jsx global>{`
       .imvo-metrics-full-bleed .imvo-metrics-row {
         min-height: 0 !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
       }
 
       .imvo-metrics-full-bleed .imvo-metric-card {
-        min-height: 230px !important;
-        padding: clamp(24px, 2vw, 34px) !important;
-      }
-
-      .imvo-metrics-full-bleed .imvo-metric-card p {
-        max-width: 220px !important;
-        font-size: 12px !important;
-        line-height: 1.58 !important;
+        min-height: 210px !important;
+        padding: clamp(28px, 3vw, 48px) !important;
       }
 
       .imvo-metrics-full-bleed .imvo-metric-value {
-        margin-bottom: 22px !important;
-      }
-
-      @media (max-width: 1450px) {
-        .imvo-metrics-full-bleed .imvo-metrics-row {
-          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        }
-      }
-
-      @media (min-width: 1451px) {
-        .imvo-metrics-full-bleed .imvo-metrics-row {
-          grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-        }
+        margin-bottom: 16px !important;
       }
 
       @media (max-width: 900px) {
@@ -208,7 +191,7 @@ export default function IMVOFinalRefinements() {
         }
 
         .imvo-metrics-full-bleed .imvo-metric-card {
-          min-height: 190px !important;
+          min-height: 170px !important;
         }
       }
     `}</style>
