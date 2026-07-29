@@ -190,7 +190,7 @@ export default function IMVOStudioPhotography() {
             "contain",
             "center center",
           );
-          photo.style.marginTop = "104px";
+          photo.style.marginTop = "220px";
           photo.style.maxWidth = "480px";
           historyColumn.appendChild(photo);
         }
