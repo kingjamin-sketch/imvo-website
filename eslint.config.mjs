@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // DŌMICILE is a separate Next.js application package and has its own CI/build target.
+    "domicile-app/**",
   ]),
 ]);
 
