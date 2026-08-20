@@ -1,9 +1,11 @@
-name: DŌMICILE App CI
+name: DŌMICILE + IMVO Isolation CI
 
 on:
   pull_request:
     paths:
       - "domicile-app/**"
+      - "tsconfig.json"
+      - "eslint.config.mjs"
       - ".github/workflows/domicile-app-ci.yml"
 
 concurrency:
@@ -11,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  domicile-build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,9 +25,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-      - name: Install dependencies
+      - name: Install DŌMICILE dependencies
         run: npm install --no-audit --no-fund
-      - name: Type and production build
+      - name: Build DŌMICILE
         env:
           NEXT_PUBLIC_ENABLE_DEMO_MODE: "true"
+        run: npm run build
+
+  imvo-isolation-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install IMVO dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build official IMVO site
         run: npm run build
