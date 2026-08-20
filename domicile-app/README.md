@@ -26,9 +26,11 @@ The official IMVO website must remain a separate Vercel project/build target and
 
 ## V1 roles
 
-- `admin` — full DŌMICILE access
-- `property_officer` — operational access to assigned/managed properties
+- `admin` — full DŌMICILE access and formal property onboarding
+- `property_officer` — operational access to managed properties
 - `owner` — access only to properties they belong to
+
+There is no open client registration. Owners enter the portal only after DŌMICILE has agreed to proceed, created the managed-property relationship and sent an invitation.
 
 ## V1 modules
 
@@ -47,13 +49,31 @@ Owner reports a property need → DŌMICILE reviews it → approval is requested
 
 - Separate Next.js application package
 - Team and Owner preview modes
+- Approved DŌMICILE no-tagline brand assets bundled inside the standalone app
 - Interactive new-property-request flow
 - Interactive approval/case-detail flow
-- Supabase-ready login and sign-out
+- Admin managed-property onboarding flow
+- Secure owner invitation Edge Function scaffold
+- Supabase-ready email/password login and sign-out
+- Password-recovery and password-update flow
 - Route protection that activates when demo mode is disabled
-- Core V1 schema and RLS policies in `001_domicile_v1.sql`
-- Security hardening, profile automation, notifications, management settings, private storage rules and indexes in `002_security_and_operations.sql`
-- Isolated GitHub Actions build check for the app
+- No-index/no-follow protection for the operational workspace
+- Health endpoint at `/api/health`
+- Security headers in Next.js configuration
+- Supabase browser/server client scaffolding and a live-data access layer
+- Private property-file upload helper
+- Dedicated deployment runbook
+- Isolated GitHub Actions production-build check
+
+## Database migrations
+
+Apply the migrations in order to the dedicated DŌMICILE Supabase project:
+
+1. `001_domicile_v1.sql` — core profiles, properties, property membership, cases, approvals, inspections, expenses, documents and activity history with RLS
+2. `002_security_and_operations.sql` — role protection, owner-case normalization, protected approvals, notifications, management settings, indexes and private storage rules
+3. `003_work_orders_and_references.sql` — work orders, service providers and database-generated case/expense/work-order references
+4. `004_audit_and_notifications.sql` — automatic case/work-order activity and owner/team notification records
+5. `005_property_codes.sql` — database-generated managed-property codes
 
 ## Environment
 
@@ -67,22 +87,25 @@ Copy `.env.example` to `.env.local` and provide:
 For development/visual review use `NEXT_PUBLIC_ENABLE_DEMO_MODE=true`.
 For live authenticated deployment use `NEXT_PUBLIC_ENABLE_DEMO_MODE=false`.
 
+Never expose a Supabase service-role key through a `NEXT_PUBLIC_` variable.
+
 ## Launch gates
 
 Do **not** treat the app as production-ready until all of the following are true:
 
-1. IMVO Group Supabase organization exists.
-2. Dedicated `domicile-production` project exists in that organization.
-3. Migrations 001 and 002 apply successfully.
-4. Supabase Security Advisor is checked and critical findings are resolved.
-5. Real owner and staff test accounts are created.
-6. Owner RLS is verified with two different owners/properties.
-7. Private storage access is verified for owner-visible vs staff-only paths.
-8. Separate Vercel project is configured with Root Directory `domicile-app`.
-9. Production environment variables are set only on the DŌMICILE app project.
-10. `app.imvogroup.com` is connected only after a successful preview test.
-11. Full workflow test passes: request → review → approval → update → expense/document → close.
-12. PR is reviewed before merge; official IMVO production must not be used as the first test environment.
+1. An IMVO Group Supabase organization exists.
+2. A dedicated `domicile-production` project exists in that organization.
+3. Migrations 001–005 apply successfully in order.
+4. The `invite-owner` Edge Function is deployed with JWT verification enabled.
+5. Supabase Security Advisor is checked and critical findings are resolved.
+6. Real owner and staff test accounts are created.
+7. Owner RLS is verified with two different owners/properties.
+8. Private storage access is verified for owner-visible vs staff-only paths.
+9. Separate Vercel project is configured with Root Directory `domicile-app`.
+10. Production environment variables are set only on the DŌMICILE app project.
+11. `app.imvogroup.com` is connected only after a successful preview test.
+12. Full workflow test passes: onboarding → request → review → approval → work order/update → expense/document → close.
+13. PR is reviewed before merge; official IMVO production must not be used as the first test environment.
 
 ## Run locally
 
@@ -97,4 +120,4 @@ npm run dev
 npm run build
 ```
 
-The GitHub Action `.github/workflows/domicile-app-ci.yml` performs the production build independently of Vercel so DŌMICILE development can continue even when the Vercel account is rate-limited.
+The GitHub Action `.github/workflows/domicile-app-ci.yml` performs the production build independently of Vercel, with concurrency enabled so superseded PR builds are cancelled rather than wasting build capacity.
