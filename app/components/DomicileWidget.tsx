@@ -66,10 +66,10 @@ export default function DomicileWidget() {
         aria-expanded={open}
       >
         <Image
-          src="/domicile/logo-icon-white.png"
+          src="/domicile/logo-icon-white.webp"
           alt=""
-          width={727}
-          height={919}
+          width={253}
+          height={320}
           priority={false}
         />
       </button>
