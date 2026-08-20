@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -90,6 +91,7 @@ export default function LoginPage() {
                 required
               />
             </label>
+            <div className="fieldAssist"><Link href="/forgot-password">Forgot password?</Link></div>
             {error ? <div className="formAlert">{error}</div> : null}
             <button className="loginButton" type="submit" disabled={loading}>
               {loading ? "Signing in…" : "Sign in"}
