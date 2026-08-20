@@ -5,12 +5,10 @@ on:
     paths:
       - "domicile-app/**"
       - ".github/workflows/domicile-app-ci.yml"
-  push:
-    branches:
-      - "feat/domicile-app-v1"
-    paths:
-      - "domicile-app/**"
-      - ".github/workflows/domicile-app-ci.yml"
+
+concurrency:
+  group: domicile-app-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
