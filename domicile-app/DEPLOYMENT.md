@@ -16,7 +16,7 @@ Create a dedicated project:
 - Region: choose the closest available stable region to Rwanda; `eu-central-1` is acceptable when no African region is available.
 - Auth: email/password enabled for V1
 - Database: dedicated only to DŌMICILE
-- Storage: dedicated private `property-files` bucket created by migration 002
+- Storage: dedicated private `property-files` bucket created by migration 002 and hardened by migration 006
 
 Apply migrations in order:
 
@@ -25,8 +25,16 @@ Apply migrations in order:
 3. `supabase/migrations/003_work_orders_and_references.sql`
 4. `supabase/migrations/004_audit_and_notifications.sql`
 5. `supabase/migrations/005_property_codes.sql`
+6. `supabase/migrations/006_security_hardening.sql`
 
-Deploy `supabase/functions/invite-owner/index.ts` with JWT verification enabled. Configure `DOMICILE_APP_URL=https://app.imvogroup.com` for the function.
+Deploy `supabase/functions/invite-owner/index.ts` with JWT verification enabled.
+
+Configure the function with:
+
+- `DOMICILE_APP_URL=https://app.imvogroup.com`
+- `DOMICILE_ALLOWED_ORIGINS=<comma-separated exact preview origins>` only while preview acceptance testing needs them
+
+Never use `*` for the owner-invitation CORS origin.
 
 After migrations and function deployment, run Supabase Security Advisor and resolve any critical warnings before real owner data is added.
 
@@ -36,7 +44,7 @@ Create two test owners and at least one DŌMICILE staff account.
 
 The auth trigger creates every new user as `owner`. Promote only the IMVO staff profile to `admin` or `property_officer` from a trusted administrative context.
 
-Never allow a public client to choose its own role. Formal owner onboarding should occur through the administrator onboarding flow after the management relationship is agreed.
+Never allow a public client to choose its own role. Formal owner onboarding occurs through the administrator onboarding flow after the management relationship is agreed.
 
 ## 4. RLS acceptance test
 
@@ -51,8 +59,10 @@ Verify:
 - Owners cannot promote their profile role.
 - Owners cannot assign or prematurely close their own cases.
 - Owners cannot change an approval amount, case, requester or commercial wording.
+- Owners can mark their own notifications read but cannot rewrite notification content or ownership.
 - Staff-only documents cannot be downloaded by owners.
 - Owner-visible property files can be read only by the relevant owner and staff.
+- Property-file uploads reject files above 15 MB and formats outside the approved bucket list.
 - Owner invitations can only be initiated by an `admin`.
 - Activity and notification records are generated when a case or approval changes.
 
@@ -78,7 +88,9 @@ Set only on the DŌMICILE Vercel project:
 - `NEXT_PUBLIC_APP_URL=https://app.imvogroup.com`
 - `NEXT_PUBLIC_ENABLE_DEMO_MODE=false`
 
-Never place a Supabase service-role key in a `NEXT_PUBLIC_` variable. The service-role key belongs only in the Supabase server/Edge Function environment.
+Demo mode is deliberately opt-in. If `NEXT_PUBLIC_ENABLE_DEMO_MODE` is absent or not exactly `true`, the app behaves as live mode. Missing Supabase configuration in live mode redirects protected routes to sign-in and `/api/health` returns HTTP 503 with `status: configuration_required`.
+
+Never place a Supabase service-role key in a `NEXT_PUBLIC_` variable. The service-role key belongs only in the Supabase/Edge Function environment.
 
 ## 7. Auth URL configuration
 
@@ -92,24 +104,25 @@ Password-recovery links return through that callback and then move to `/auth/upd
 
 ## 8. Preview before domain
 
-Deploy to a Vercel preview URL first with demo mode disabled and real test accounts.
+Deploy to a **separate DŌMICILE Vercel preview** first with demo mode disabled and real test accounts.
 
 Acceptance flow:
 
-1. Administrator signs in.
-2. Administrator creates a managed property and invites Owner A.
-3. Owner A accepts the invitation and sets a secure password.
-4. Owner A sees only Property A.
-5. Owner A creates a case.
-6. Team reviews the case and adds a visible update.
-7. Team creates an approval and/or work order.
-8. Owner A approves, declines or asks a question.
-9. Team records work, expense and supporting document.
-10. Owner A sees the update and relevant document.
-11. Case closes with activity history retained.
-12. Owner B is created for Property B and cannot access any Property A records or files.
-13. Password recovery succeeds for an owner test account.
-14. `/api/health` returns `status: ok` and `mode: live`.
+1. `/api/health` returns `status: ok`, `mode: live`, and `supabaseConfigured: true`.
+2. Administrator signs in and is routed to `/live`.
+3. Administrator creates a managed property and invites Owner A.
+4. Owner A accepts the invitation and sets a secure password.
+5. Owner A sees only Property A.
+6. Owner A creates a case from the live workspace.
+7. Team reviews the case and adds a visible update.
+8. Team creates an approval and/or work order.
+9. Owner A approves, declines or asks a question.
+10. Team records work, expense and supporting document.
+11. Owner A sees the relevant live records.
+12. Case closes with activity history retained.
+13. Owner B is created for Property B and cannot access any Property A records or files.
+14. Password recovery succeeds for an owner test account.
+15. File-size/type restrictions and owner/staff storage visibility are verified.
 
 Only connect the custom domain after this flow passes.
 
@@ -125,10 +138,11 @@ The app may link back to the public DŌMICILE page, but the public website must 
 
 - Demo mode disabled
 - Real login required
+- Authenticated users route to `/live`, not the demo workspace
 - No public registration
 - Password recovery checked
 - RLS verified with two owners
-- Storage private
+- Storage private and upload restrictions verified
 - Security Advisor reviewed
 - Operational app is noindex/nofollow
 - No HÖMNIA Supabase URLs/keys present
@@ -138,6 +152,8 @@ The app may link back to the public DŌMICILE page, but the public website must 
 - Backup/recovery settings reviewed
 - Support email/WhatsApp links checked
 - Health endpoint returns `status: ok` at `/api/health`
+- DŌMICILE CI build is green
+- IMVO isolation CI build is green
 
 ## 11. Rollback rule
 
