@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import DomicilePageClient from "./DomicilePageClient";
+import DomicileExperience from "./DomicileExperience";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
@@ -44,5 +44,5 @@ export const metadata: Metadata = {
 };
 
 export default function DomicilePage() {
-  return <DomicilePageClient />;
+  return <DomicileExperience />;
 }
