@@ -5,6 +5,14 @@ import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Brand from "./Brand";
 
+const primaryNav = [
+  { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
+  { label: "DŌMICILE", href: "/domicile" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
 export default function SiteHeader() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
@@ -90,24 +98,24 @@ export default function SiteHeader() {
           }}
         >
           <Link
-  href="/"
-  style={{ textDecoration: "none" }}
-  onClick={(e) => {
-    if (window.location.pathname === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }}
->
-  <Brand size="lg" variant="light" />
-</Link>
+            href="/"
+            style={{ textDecoration: "none" }}
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+          >
+            <Brand size="lg" variant="light" />
+          </Link>
 
           {/* DESKTOP NAV (Hidden on Mobile) */}
-          <nav className="desktopNav" style={{ display: "flex", alignItems: "center", gap: 32 }}>
-            {["Projects", "Services", "About", "Contact"].map((item) => (
+          <nav className="desktopNav" style={{ display: "flex", alignItems: "center", gap: 28 }}>
+            {primaryNav.map((item) => (
               <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}
+                key={item.label}
+                href={item.href}
                 style={{
                   color: "white",
                   textDecoration: "none",
@@ -126,7 +134,7 @@ export default function SiteHeader() {
                   e.currentTarget.style.transform = "translateY(0)";
                 }}
               >
-                {item}
+                {item.label}
               </Link>
             ))}
 
@@ -193,19 +201,19 @@ export default function SiteHeader() {
             style={{
               position: "fixed",
               inset: 0,
-              zIndex: 99998, // Just below the header
+              zIndex: 99998,
               background: "#050505",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: 40,
+              gap: 34,
             }}
           >
-            {["Projects", "Services", "About", "Contact"].map((item, i) => (
-              <motion.div key={item} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }}>
+            {primaryNav.map((item, i) => (
+              <motion.div key={item.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.08 }}>
                 <Link
-                  href={`/${item.toLowerCase()}`}
+                  href={item.href}
                   onClick={closeMenu}
                   style={{
                     color: "white",
@@ -214,11 +222,11 @@ export default function SiteHeader() {
                     fontWeight: 900,
                   }}
                 >
-                  {item}
+                  {item.label}
                 </Link>
               </motion.div>
             ))}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.64 }}>
               <Link
                 href="/contact#quote"
                 onClick={closeMenu}

@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
+import DomicileWidget from "./DomicileWidget";
 import IMVOFinalRefinements from "./IMVOFinalRefinements";
 import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
 import IMVOPreviewExperience from "./IMVOPreviewExperience";
@@ -23,7 +24,7 @@ export default function SiteShell({
 }) {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/studio")) {
+  if (pathname.startsWith("/studio") || pathname.startsWith("/domicile")) {
     return children;
   }
 
@@ -31,6 +32,7 @@ export default function SiteShell({
     <SmoothScrollProvider>
       <IntroLoader />
       <SiteHeader />
+      <DomicileWidget />
       <IMVOPreviewExperience />
       <IMVOPreviewCorrections />
       <main>
