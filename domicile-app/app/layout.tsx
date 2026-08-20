@@ -1,0 +1,15 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "DŌMICILE — Property Management by IMVO Group",
+  description: "DŌMICILE property management workspace for owners and the IMVO team.",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
