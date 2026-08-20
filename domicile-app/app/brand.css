@@ -1,0 +1,32 @@
+.sidebar .brand,
+.loginVisual .brand {
+  width: min(190px, 80%);
+  height: 38px;
+  background: url('/domicile/domicile-white-no-tagline.svg') left center / contain no-repeat;
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
+  color: transparent;
+}
+
+.standaloneTop .brand {
+  width: min(210px, 55vw);
+  height: 42px;
+  background: url('/domicile/domicile-black-no-tagline.svg') left center / contain no-repeat;
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
+  color: transparent;
+}
+
+.sidebar .brandSub,
+.loginVisual .brandSub,
+.standaloneTop .brandSub {
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .sidebar .brand { width: 148px; height: 30px; }
+  .loginVisual .brand { width: 180px; height: 36px; }
+  .standaloneTop .brand { width: 175px; height: 35px; }
+}
