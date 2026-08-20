@@ -2,15 +2,16 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-const appUrl = Deno.env.get("DOMICILE_APP_URL") ?? "https://app.imvogroup.com";
+const appUrl = (Deno.env.get("DOMICILE_APP_URL") ?? "https://app.imvogroup.com").replace(/\/$/, "");
+const authRedirectUrl = (Deno.env.get("DOMICILE_AUTH_REDIRECT_URL") ?? appUrl).replace(/\/$/, "");
 const configuredOrigins = (Deno.env.get("DOMICILE_ALLOWED_ORIGINS") ?? "")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
-const allowedOrigins = new Set([appUrl, ...configuredOrigins]);
+const allowedOrigins = new Set([appUrl, authRedirectUrl, ...configuredOrigins]);
 
 function corsHeaders(request: Request) {
-  const origin = request.headers.get("Origin") ?? "";
+  const origin = request.headers.get("Origin")?.replace(/\/$/, "") ?? "";
   return {
     "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : appUrl,
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -20,7 +21,7 @@ function corsHeaders(request: Request) {
 }
 
 Deno.serve(async (request: Request) => {
-  const origin = request.headers.get("Origin");
+  const origin = request.headers.get("Origin")?.replace(/\/$/, "");
   if (origin && !allowedOrigins.has(origin)) {
     return json(request, { error: "Origin not allowed" }, 403);
   }
@@ -100,7 +101,7 @@ Deno.serve(async (request: Request) => {
     return json(request, { error: "Property was not found" }, 404);
   }
 
-  const redirectTo = `${appUrl}/auth/callback?next=/auth/update-password`;
+  const redirectTo = `${authRedirectUrl}/auth/callback?next=/auth/update-password`;
   const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
     redirectTo,
     data: {

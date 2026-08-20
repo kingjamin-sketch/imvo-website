@@ -88,14 +88,17 @@ Copy `.env.example` to `.env.local` and provide:
 For an intentional visual preview use `NEXT_PUBLIC_ENABLE_DEMO_MODE=true`.
 For authenticated/live use `NEXT_PUBLIC_ENABLE_DEMO_MODE=false`.
 
-**Important:** demo mode is opt-in. If the flag is absent or anything other than `true`, the app behaves as live mode and fails closed when Supabase is missing.
+**Important:** demo mode is opt-in. If the flag is absent or anything other than `true`, the app behaves as live mode and fails closed when Supabase is missing. The committed `.env.example` therefore defaults to `false`.
 
 Never expose a Supabase service-role key through a `NEXT_PUBLIC_` variable.
 
 The `invite-owner` Edge Function also uses:
 
 - `DOMICILE_APP_URL=https://app.imvogroup.com`
-- `DOMICILE_ALLOWED_ORIGINS` — optional comma-separated exact preview origins used only during acceptance testing
+- `DOMICILE_AUTH_REDIRECT_URL` — exact trusted app origin that invitation/password setup should return to; set it to the preview origin during acceptance testing and to `https://app.imvogroup.com` before production launch
+- `DOMICILE_ALLOWED_ORIGINS` — optional comma-separated additional exact preview origins
+
+`DOMICILE_AUTH_REDIRECT_URL` is automatically treated as an allowed invitation origin. Never use a wildcard origin.
 
 ## Launch gates
 

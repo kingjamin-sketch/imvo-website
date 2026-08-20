@@ -32,7 +32,10 @@ Deploy `supabase/functions/invite-owner/index.ts` with JWT verification enabled.
 Configure the function with:
 
 - `DOMICILE_APP_URL=https://app.imvogroup.com`
-- `DOMICILE_ALLOWED_ORIGINS=<comma-separated exact preview origins>` only while preview acceptance testing needs them
+- `DOMICILE_AUTH_REDIRECT_URL=<exact trusted app origin for invite/password setup>`
+- `DOMICILE_ALLOWED_ORIGINS=<comma-separated additional exact preview origins>` only when needed during preview acceptance
+
+For preview acceptance, set `DOMICILE_AUTH_REDIRECT_URL` to the exact DŌMICILE preview origin so invited owners return to the preview app. Before production launch, change it to `https://app.imvogroup.com`. The auth redirect origin is automatically included in the function allow-list.
 
 Never use `*` for the owner-invitation CORS origin.
 
@@ -94,13 +97,15 @@ Never place a Supabase service-role key in a `NEXT_PUBLIC_` variable. The servic
 
 ## 7. Auth URL configuration
 
-In Supabase Auth URL settings, use the final app URL as the site URL and allow the required preview/callback URLs during testing.
+In Supabase Auth URL settings, use the final app URL as the production site URL and add only the exact preview/callback URLs needed during acceptance testing.
 
 Required production callback path:
 
 `https://app.imvogroup.com/auth/callback`
 
-Password-recovery links return through that callback and then move to `/auth/update-password`.
+For preview acceptance, the exact preview `/auth/callback` URL must also be in the Supabase redirect allow-list and must match `DOMICILE_AUTH_REDIRECT_URL`.
+
+Password-recovery links return through the callback and then move to `/auth/update-password`.
 
 ## 8. Preview before domain
 
@@ -111,7 +116,7 @@ Acceptance flow:
 1. `/api/health` returns `status: ok`, `mode: live`, and `supabaseConfigured: true`.
 2. Administrator signs in and is routed to `/live`.
 3. Administrator creates a managed property and invites Owner A.
-4. Owner A accepts the invitation and sets a secure password.
+4. Owner A accepts the invitation, returns to the preview app and sets a secure password.
 5. Owner A sees only Property A.
 6. Owner A creates a case from the live workspace.
 7. Team reviews the case and adds a visible update.
