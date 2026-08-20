@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 import styles from "./DomicilePage.module.css";
 
 type FormState = {
@@ -127,10 +127,10 @@ export default function DomicilePageClient() {
         <div className={styles.headerInner}>
           <Link href="/domicile" className={styles.brand} aria-label="DŌMICILE home">
             <Image
-              src="/domicile/domicile-white.png"
+              src="/domicile/domicile-white.webp"
               alt="DŌMICILE — Property Management by IMVO Group"
-              width={1495}
-              height={376}
+              width={600}
+              height={151}
               priority
             />
           </Link>
@@ -418,10 +418,10 @@ export default function DomicilePageClient() {
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
             <Image
-              src="/domicile/domicile-white.png"
+              src="/domicile/domicile-white.webp"
               alt="DŌMICILE — Property Management by IMVO Group"
-              width={1495}
-              height={376}
+              width={600}
+              height={151}
             />
             <p>Your property, handled.</p>
           </div>
