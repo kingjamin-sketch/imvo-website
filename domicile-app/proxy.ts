@@ -5,16 +5,29 @@ const publicPaths = [
   "/login",
   "/forgot-password",
   "/auth/callback",
+  "/auth/update-password",
   "/api/health",
 ];
 
 export async function proxy(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  const demoMode = process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE !== "false";
+  const demoMode = process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true";
+  const pathname = request.nextUrl.pathname;
+  const isPublic = publicPaths.some((path) => pathname.startsWith(path));
 
-  if (!url || !key || demoMode) {
+  // Explicit preview deployments may use demo data without Supabase.
+  if (demoMode) {
     return NextResponse.next();
+  }
+
+  // Live mode fails closed when authentication is not configured.
+  if (!url || !key) {
+    if (isPublic) return NextResponse.next();
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.searchParams.set("error", "configuration-required");
+    return NextResponse.redirect(loginUrl);
   }
 
   let response = NextResponse.next({ request });
@@ -34,8 +47,6 @@ export async function proxy(request: NextRequest) {
   });
 
   const { data: { user } } = await supabase.auth.getUser();
-  const pathname = request.nextUrl.pathname;
-  const isPublic = publicPaths.some((path) => pathname.startsWith(path));
 
   if (!user && !isPublic) {
     const loginUrl = request.nextUrl.clone();
@@ -45,8 +56,18 @@ export async function proxy(request: NextRequest) {
 
   if (user && pathname.startsWith("/login")) {
     const appUrl = request.nextUrl.clone();
-    appUrl.pathname = "/";
+    appUrl.pathname = "/live";
+    appUrl.search = "";
     return NextResponse.redirect(appUrl);
+  }
+
+  // In live mode the authenticated root always enters the real-data workspace,
+  // never the demo dashboard kept at / for visual preview deployments.
+  if (user && pathname === "/") {
+    const liveUrl = request.nextUrl.clone();
+    liveUrl.pathname = "/live";
+    liveUrl.search = "";
+    return NextResponse.redirect(liveUrl);
   }
 
   return response;

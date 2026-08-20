@@ -39,6 +39,38 @@ export type LiveApproval = {
   created_at: string;
 };
 
+export type LiveInspection = {
+  id: string;
+  property_id: string;
+  title: string;
+  scheduled_for: string | null;
+  completed_at: string | null;
+  overall_status: string;
+  summary: string | null;
+};
+
+export type LiveExpense = {
+  id: string;
+  reference: string;
+  property_id: string;
+  description: string;
+  category: string;
+  amount_rwf: number;
+  status: string;
+  expense_date: string;
+};
+
+export type LiveDocument = {
+  id: string;
+  property_id: string;
+  category: string;
+  title: string;
+  file_path: string;
+  mime_type: string | null;
+  visible_to_owner: boolean;
+  created_at: string;
+};
+
 export async function getCurrentProfile(): Promise<LiveProfile | null> {
   const supabase = createClient();
   const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -50,7 +82,6 @@ export async function getCurrentProfile(): Promise<LiveProfile | null> {
     .select("id, full_name, role")
     .eq("id", user.id)
     .single();
-
   if (error) throw error;
   return data as LiveProfile;
 }
@@ -61,7 +92,6 @@ export async function listAccessibleProperties(): Promise<LiveProperty[]> {
     .from("properties")
     .select("id, code, name, property_type, city, status, cover_image_path")
     .order("name");
-
   if (error) throw error;
   return (data || []) as LiveProperty[];
 }
@@ -73,7 +103,6 @@ export async function listAccessibleCases(): Promise<LiveCase[]> {
     .select("id, reference, property_id, category, title, description, urgency, status, created_at")
     .order("created_at", { ascending: false })
     .limit(100);
-
   if (error) throw error;
   return (data || []) as LiveCase[];
 }
@@ -85,9 +114,41 @@ export async function listMyApprovals(): Promise<LiveApproval[]> {
     .select("id, case_id, title, description, amount_rwf, status, owner_note, created_at")
     .order("created_at", { ascending: false })
     .limit(100);
-
   if (error) throw error;
   return (data || []) as LiveApproval[];
+}
+
+export async function listAccessibleInspections(): Promise<LiveInspection[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("inspections")
+    .select("id, property_id, title, scheduled_for, completed_at, overall_status, summary")
+    .order("scheduled_for", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return (data || []) as LiveInspection[];
+}
+
+export async function listAccessibleExpenses(): Promise<LiveExpense[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("expenses")
+    .select("id, reference, property_id, description, category, amount_rwf, status, expense_date")
+    .order("expense_date", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return (data || []) as LiveExpense[];
+}
+
+export async function listAccessibleDocuments(): Promise<LiveDocument[]> {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from("documents")
+    .select("id, property_id, category, title, file_path, mime_type, visible_to_owner, created_at")
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return (data || []) as LiveDocument[];
 }
 
 export async function createPropertyCase(input: {
@@ -98,10 +159,15 @@ export async function createPropertyCase(input: {
   urgency: "normal" | "urgent";
 }) {
   const supabase = createClient();
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError) throw userError;
+  if (!user) throw new Error("Authentication required");
+
   const { data, error } = await supabase
     .from("cases")
     .insert({
       property_id: input.propertyId,
+      opened_by: user.id,
       category: input.category,
       title: input.title,
       description: input.description,
@@ -109,7 +175,6 @@ export async function createPropertyCase(input: {
     })
     .select("id, reference, property_id, category, title, description, urgency, status, created_at")
     .single();
-
   if (error) throw error;
   return data as LiveCase;
 }
@@ -129,7 +194,6 @@ export async function respondToApproval(input: {
     .eq("id", input.approvalId)
     .select("id, case_id, title, description, amount_rwf, status, owner_note, created_at")
     .single();
-
   if (error) throw error;
   return data as LiveApproval;
 }
@@ -156,7 +220,6 @@ export async function uploadOwnerPropertyFile(input: {
       upsert: false,
       contentType: input.file.type || undefined,
     });
-
   if (error) throw error;
   return data.path;
 }

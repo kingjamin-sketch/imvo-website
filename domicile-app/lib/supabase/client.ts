@@ -5,8 +5,9 @@ export const supabaseConfigured = Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
 );
 
+// Demo access is opt-in. A missing flag must never expose preview data in production.
 export const demoModeEnabled =
-  process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE !== "false";
+  process.env.NEXT_PUBLIC_ENABLE_DEMO_MODE === "true";
 
 export function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;

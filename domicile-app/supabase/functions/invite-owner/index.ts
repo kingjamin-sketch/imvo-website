@@ -3,30 +3,43 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const appUrl = Deno.env.get("DOMICILE_APP_URL") ?? "https://app.imvogroup.com";
+const configuredOrigins = (Deno.env.get("DOMICILE_ALLOWED_ORIGINS") ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowedOrigins = new Set([appUrl, ...configuredOrigins]);
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": appUrl,
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Vary": "Origin",
-};
+function corsHeaders(request: Request) {
+  const origin = request.headers.get("Origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": allowedOrigins.has(origin) ? origin : appUrl,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
+  };
+}
 
 Deno.serve(async (request: Request) => {
+  const origin = request.headers.get("Origin");
+  if (origin && !allowedOrigins.has(origin)) {
+    return json(request, { error: "Origin not allowed" }, 403);
+  }
+
   if (request.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
+    return new Response("ok", { headers: corsHeaders(request) });
   }
 
   if (request.method !== "POST") {
-    return json({ error: "Method not allowed" }, 405);
+    return json(request, { error: "Method not allowed" }, 405);
   }
 
   if (!supabaseUrl || !serviceRoleKey) {
-    return json({ error: "Server configuration is incomplete" }, 500);
+    return json(request, { error: "Server configuration is incomplete" }, 500);
   }
 
   const authorization = request.headers.get("Authorization");
   if (!authorization?.startsWith("Bearer ")) {
-    return json({ error: "Unauthorized" }, 401);
+    return json(request, { error: "Unauthorized" }, 401);
   }
 
   const token = authorization.slice("Bearer ".length);
@@ -36,7 +49,7 @@ Deno.serve(async (request: Request) => {
 
   const { data: authData, error: authError } = await admin.auth.getUser(token);
   if (authError || !authData.user) {
-    return json({ error: "Unauthorized" }, 401);
+    return json(request, { error: "Unauthorized" }, 401);
   }
 
   const { data: callerProfile, error: callerError } = await admin
@@ -46,7 +59,7 @@ Deno.serve(async (request: Request) => {
     .single();
 
   if (callerError || callerProfile?.role !== "admin") {
-    return json({ error: "Only a DŌMICILE administrator can invite owners" }, 403);
+    return json(request, { error: "Only a DŌMICILE administrator can invite owners" }, 403);
   }
 
   let payload: {
@@ -60,7 +73,7 @@ Deno.serve(async (request: Request) => {
   try {
     payload = await request.json();
   } catch {
-    return json({ error: "Invalid JSON body" }, 400);
+    return json(request, { error: "Invalid JSON body" }, 400);
   }
 
   const email = payload.email?.trim().toLowerCase();
@@ -68,13 +81,13 @@ Deno.serve(async (request: Request) => {
   const propertyId = payload.property_id?.trim();
 
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-    return json({ error: "A valid owner email is required" }, 400);
+    return json(request, { error: "A valid owner email is required" }, 400);
   }
   if (!fullName || fullName.length < 2) {
-    return json({ error: "Owner name is required" }, 400);
+    return json(request, { error: "Owner name is required" }, 400);
   }
   if (!propertyId) {
-    return json({ error: "Property is required" }, 400);
+    return json(request, { error: "Property is required" }, 400);
   }
 
   const { data: property, error: propertyError } = await admin
@@ -84,7 +97,7 @@ Deno.serve(async (request: Request) => {
     .single();
 
   if (propertyError || !property) {
-    return json({ error: "Property was not found" }, 404);
+    return json(request, { error: "Property was not found" }, 404);
   }
 
   const redirectTo = `${appUrl}/auth/callback?next=/auth/update-password`;
@@ -98,7 +111,7 @@ Deno.serve(async (request: Request) => {
   });
 
   if (inviteError || !invited.user) {
-    return json({ error: inviteError?.message || "Could not invite owner" }, 400);
+    return json(request, { error: inviteError?.message || "Could not invite owner" }, 400);
   }
 
   const { error: membershipError } = await admin
@@ -114,7 +127,7 @@ Deno.serve(async (request: Request) => {
     );
 
   if (membershipError) {
-    return json({ error: "Owner was invited but property access could not be attached. Review the account before resending." }, 500);
+    return json(request, { error: "Owner was invited but property access could not be attached. Review the account before resending." }, 500);
   }
 
   await admin.from("activity_logs").insert({
@@ -129,18 +142,18 @@ Deno.serve(async (request: Request) => {
     },
   });
 
-  return json({
+  return json(request, {
     success: true,
     owner_id: invited.user.id,
     property_id: propertyId,
   });
 });
 
-function json(body: Record<string, unknown>, status = 200) {
+function json(request: Request, body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
-      ...corsHeaders,
+      ...corsHeaders(request),
       "Content-Type": "application/json",
       "Cache-Control": "no-store",
     },
