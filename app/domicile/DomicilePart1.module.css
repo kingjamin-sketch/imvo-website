@@ -1,31 +1,31 @@
-.heroContrast{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.50) 0%,rgba(0,0,0,.30) 38%,rgba(0,0,0,.07) 66%,rgba(0,0,0,.12) 100%)}
-.kicker{margin:0 0 10px;font-size:9px;line-height:1.2;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#877f72}
-.primaryButton{min-height:44px;padding:0 18px;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;border-radius:4px;font-size:10px;font-weight:900;background:#fff;color:#111!important;border:1px solid rgba(255,255,255,.9)}
-.servicesSection{width:min(1220px,calc(100% - 44px));margin:0 auto;padding:8px 0 54px}
+.heroContrast{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.42) 34%,rgba(0,0,0,.16) 66%,rgba(0,0,0,.24) 100%)}
+.kicker{margin:0 0 14px;font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#877f72}
+.primaryButton{min-height:50px;padding:0 22px;display:inline-flex;align-items:center;justify-content:space-between;gap:24px;border-radius:5px;font-size:11px;font-weight:900;background:#fff;color:#111!important;border:1px solid rgba(255,255,255,.9)}
+.servicesSection{width:min(1440px,calc(100% - 72px));margin:0 auto;padding:18px 0 88px}
 .engagementIntro{display:none}
-.imvoCopy h2,.contactIntro h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(28px,3.2vw,42px);line-height:1;letter-spacing:-.045em;font-weight:500}
-.propertyCard{background:#fff;border:1px solid #ddd8cf;border-radius:9px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
-.propertyCard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.07)}
-.propertyImage{position:relative;aspect-ratio:1.38;background:#ddd;overflow:hidden}
-.propertyImage img{object-fit:cover;filter:none!important;transition:transform .45s ease}
+.imvoCopy h2,.contactIntro h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(42px,4vw,60px);line-height:.98;letter-spacing:-.045em;font-weight:500}
+.propertyCard{background:#fff;border:1px solid #ddd8cf;border-radius:14px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
+.propertyCard:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.08)}
+.propertyImage{position:relative;aspect-ratio:16/10;background:#ddd;overflow:hidden}
+.propertyImage img{object-fit:cover;filter:none!important;transition:transform .5s ease}
 .propertyCard:hover .propertyImage img{transform:scale(1.025)}
 .away{background:#e0e9fa;color:#315f92}
-.sampleLabel{display:inline-block;margin-top:18px;padding:6px 8px;border:1px solid rgba(255,255,255,.14);border-radius:999px;color:rgba(255,255,255,.48);font-size:7px;letter-spacing:.1em;text-transform:uppercase}
-.dashboardCard{background:#fff;border:1px solid #ddd8cf;border-radius:10px;overflow:hidden;box-shadow:0 14px 32px rgba(0,0,0,.05)}
-.caseStory,.ownerValues{background:#fff;border:1px solid #ddd8cf;border-radius:10px;padding:20px}
-.caseStory>span{display:inline-block;margin-top:6px;padding:5px 7px;border-radius:999px;background:#f1efe9;color:#786f62;font-size:7px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-.caseStory h2,.ownerValues h2{font:500 28px/1 Georgia,"Times New Roman",serif;letter-spacing:-.04em;margin:12px 0}
-.caseStory>p:not(.kicker),.ownerValues>p:not(.kicker){font-size:10px;color:#6c675e;line-height:1.55}
-.caseStory>div{margin-top:15px;padding-top:12px;border-top:1px solid #ddd8cf;display:flex;gap:9px;align-items:center;flex-wrap:wrap;font-size:8px;font-weight:900;color:#6e685f}
+.sampleLabel{display:inline-block;margin-top:24px;padding:8px 10px;border:1px solid rgba(255,255,255,.14);border-radius:999px;color:rgba(255,255,255,.52);font-size:8px;letter-spacing:.1em;text-transform:uppercase}
+.dashboardCard{background:#fff;border:1px solid #ddd8cf;border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.06)}
+.caseStory,.ownerValues{background:#fff;border:1px solid #ddd8cf;border-radius:16px;padding:34px}
+.caseStory>span{display:inline-block;margin-top:8px;padding:7px 9px;border-radius:999px;background:#f1efe9;color:#786f62;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.caseStory h2,.ownerValues h2{font:500 40px/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.04em;margin:18px 0}
+.caseStory>p:not(.kicker),.ownerValues>p:not(.kicker){font-size:12px;color:#6c675e;line-height:1.65}
+.caseStory>div{margin-top:26px;padding-top:20px;border-top:1px solid #ddd8cf;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:10px;font-weight:900;color:#6e685f}
 .caseStory>div i{font-style:normal;color:#aaa49a}
-.valueGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.valueGrid article{background:#f4f2ed;border:1px solid #ddd8cf;border-radius:8px;padding:12px;min-height:118px}
-.valueGrid b{font:500 12px/1.2 Georgia,"Times New Roman",serif}
-.valueGrid p{font-size:8px;color:#6f6a61;margin:8px 0 0;line-height:1.45}
-.imvoCopy>p:not(.kicker){font-size:9px;color:#6e685f;line-height:1.55}.imvoCopy a{font-size:8px;font-weight:900;display:inline-block;margin-top:10px;color:#8a6731}
-.imvoPillars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.imvoPillars div{background:#f4f2ed;border:1px solid #ddd8cf;border-radius:8px;padding:11px}.imvoPillars b{font-size:8px}.imvoPillars span{font-size:7px;color:#777168;display:block;margin-top:4px}
-.contactIntro{padding:26px;background:#0d0d0d;color:#fff;border-radius:9px;min-height:100%}.contactIntro>img{width:145px;height:auto;margin-bottom:16px;filter:invert(1)}.contactIntro>p:not(.kicker){font-size:9px;line-height:1.55;color:rgba(255,255,255,.62)}
-.formFooter{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:13px;padding-top:13px;border-top:1px solid #e1ddd5}.formFooter p{font-size:8px;color:#817b72;max-width:650px}.formFooter p a{text-decoration:underline}.formFooter>button{height:38px;padding:0 16px;border:0;border-radius:4px;background:#111;color:#fff;font-size:9px;font-weight:900}.formFooter>button:disabled{opacity:.35;cursor:not-allowed}
-.imvoLabel{opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;transition:.2s;background:#fff;border:1px solid #d6d1c8;border-radius:999px;padding:9px 12px;box-shadow:0 12px 30px rgba(0,0,0,.12);font-size:9px;font-weight:900;white-space:nowrap}
-@media(max-width:900px){.valueGrid{grid-template-columns:1fr}.imvoPillars{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.servicesSection{width:min(100% - 22px,1220px)}.primaryButton{width:100%}.caseStory,.ownerValues{padding:17px}.caseStory h2,.ownerValues h2{font-size:24px}.imvoPillars{grid-template-columns:1fr}.formFooter{align-items:stretch;flex-direction:column}.imvoLabel{display:none}}
+.valueGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.valueGrid article{background:#f4f2ed;border:1px solid #ddd8cf;border-radius:11px;padding:20px;min-height:165px}
+.valueGrid b{font:500 15px/1.3 Georgia,"Times New Roman",serif}
+.valueGrid p{font-size:10px;color:#6f6a61;margin:14px 0 0;line-height:1.6}
+.imvoCopy>p:not(.kicker){font-size:12px;color:#6e685f;line-height:1.7}.imvoCopy a{font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:10px;margin-top:18px;color:#8a6731}
+.imvoPillars{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.imvoPillars div{background:#f4f2ed;border:1px solid #ddd8cf;border-radius:11px;padding:18px;min-height:104px}.imvoPillars b{font-size:11px}.imvoPillars span{font-size:9px;color:#777168;display:block;margin-top:7px;line-height:1.45}
+.contactIntro{position:relative;padding:40px;background:#0d0d0d;color:#fff;border-radius:15px;min-height:100%}.contactIntro:before{content:"";display:block;width:210px;height:42px;background:url('/domicile/domicile-white-no-tagline.svg') left center/contain no-repeat;margin-bottom:30px}.contactIntro>img{display:none}.contactIntro>p:not(.kicker){font-size:12px;line-height:1.7;color:rgba(255,255,255,.68);max-width:520px}
+.formFooter{display:flex;justify-content:space-between;gap:24px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid #e1ddd5}.formFooter p{font-size:9px;color:#817b72;max-width:680px;line-height:1.55}.formFooter p a{text-decoration:underline}.formFooter>button{min-height:48px;padding:0 20px;border:0;border-radius:5px;background:#111;color:#fff;font-size:10px;font-weight:900;white-space:nowrap}.formFooter>button:disabled{opacity:.35;cursor:not-allowed}
+.imvoLabel{position:absolute;left:58px;bottom:0;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;transition:.2s;background:#fff;border:1px solid #d6d1c8;border-radius:999px;padding:11px 14px;box-shadow:0 12px 30px rgba(0,0,0,.12);font-size:10px;font-weight:900;white-space:nowrap}
+@media(max-width:980px){.valueGrid{grid-template-columns:1fr}.imvoPillars{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.servicesSection{width:min(100% - 24px,1440px);padding-bottom:64px}.primaryButton{width:100%}.caseStory,.ownerValues{padding:24px}.caseStory h2,.ownerValues h2{font-size:34px}.imvoPillars{grid-template-columns:1fr}.contactIntro{padding:28px}.contactIntro:before{width:170px;height:34px;margin-bottom:24px}.imvoCopy h2,.contactIntro h2{font-size:40px}.formFooter{align-items:stretch;flex-direction:column}.imvoLabel{display:none}}
