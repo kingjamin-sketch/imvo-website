@@ -1,50 +1,7 @@
-.headerInner {width: min(1440px, calc(100% - 32px));
-  min-height: 84px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 250px 1fr auto;
-  align-items: center;
-  gap: 32px;}
-.heroActions {display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px;}
-.secondaryButton {min-height: 54px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border-radius: 999px; font-size: 12px; font-weight: 850;}
-.secondaryButton {color: #fff !important; border: 1px solid rgba(255,255,255,.5); background: rgba(255,255,255,.08); backdrop-filter: blur(12px);}
-.heroPrinciples {display: flex; flex-wrap: wrap; gap: 22px; margin-top: 28px; font-size: 11px; font-weight: 750; color: rgba(255,255,255,.75);}
-.heroPrinciples span {display: inline-flex; align-items: center; gap: 8px;}
-.heroPrinciples span::before {content: "✓"; width: 20px; height: 20px; border: 1px solid rgba(255,255,255,.42); border-radius: 50%; display: grid; place-items: center; font-size: 10px;}
-.quickTitle {display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; margin-bottom: 18px;}
-.quickTitle img {width: 34px; height: 44px; object-fit: contain;}
-.quickTitle small, .successBox small {display: block; color: #7a7a76; font-size: 9px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 7px;}
-.quickTitle h2 {margin: 0; font-size: 28px; line-height: 1.05; letter-spacing: -.04em;}
-.activityList {display: grid; gap: 8px;}
-.activityList button {border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.025); color: #fff; border-radius: 14px; padding: 14px; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 12px; text-align: left; transition: background .2s ease, border-color .2s ease;}
-.activityList button:hover, .activityList .activityActive {background: rgba(255,255,255,.075); border-color: rgba(255,255,255,.22);}
-.activityList button > span {color: #807f7a; font-size: 9px; font-weight: 900;}
-.activityList b {display: block; font-size: 11px; margin-bottom: 4px;}
-.activityList small {color: rgba(255,255,255,.45); font-size: 9px; line-height: 1.35;}
-.activityList time {color: rgba(255,255,255,.4); font-size: 9px;}
-.dashboardMetrics {display: grid; grid-template-columns: repeat(5,1fr); border-bottom: 1px solid #e2e2dd;}
-.dashboardMetrics div {padding: 18px; border-right: 1px solid #e2e2dd;}
-.dashboardMetrics div:last-child {border-right: 0;}
-.dashboardMetrics small {display: block; color: #8b8a84; font-size: 8px; text-transform: uppercase; font-weight: 900; letter-spacing: .08em; margin-bottom: 6px;}
-.dashboardMetrics strong {font-size: 12px;}
-.dashboardMetrics div:first-child strong {color: #34703a;}
-.assuranceSection {width: min(1480px, calc(100% - 32px)); margin: 110px auto 0; background: #0b0b0b; color: #fff; border-radius: 28px; padding: 26px;}
-.successBox h3 {margin: 0; font-size: 33px; letter-spacing: -.04em;}
-.successBox p {margin: 9px 0 0; color: #75746f; font-size: 12px; line-height: 1.6;}
-.messageField {grid-column: span 2;}
-.honeypot {position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important;}
-.successBox button {min-height: 48px; padding: 0 18px; border: 0; border-radius: 999px; background: #111; color: #fff; display: inline-flex; align-items: center; gap: 28px; font-size: 11px; font-weight: 850; white-space: nowrap;}
-.successBox {min-height: 430px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;}
-.successBox h3 {max-width: 560px;}
-.successBox p {max-width: 600px;}
-.successBox button {margin-top: 24px;}
-.footerLinks {display: grid; grid-template-columns: repeat(3,1fr); gap: 30px;}
-.footerLinks > div {display: flex; flex-direction: column; gap: 10px;}
-.footerLinks b {color: #b8b7b0; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 4px;}
-.footerLinks a, .footerLinks span {color: rgba(255,255,255,.58); font-size: 10px;}
-.imvoReturn {position: fixed; left: 20px; bottom: 20px; z-index: 110;}
-.imvoReturn a {display: flex; align-items: center; gap: 9px;}
-.assistant {position: fixed; right: 20px; bottom: 20px; z-index: 112; display: flex; align-items: flex-end; gap: 10px;}
-@media (max-width: 1180px) {.headerInner {grid-template-columns: 220px 1fr auto;}}
-@media (max-width: 900px) {.headerInner {min-height: 72px; grid-template-columns: 1fr auto;} .dashboardMetrics {grid-template-columns: repeat(3,1fr);} .dashboardMetrics div:nth-child(3) {border-right: 0;} .dashboardMetrics div:nth-child(-n/**/+3) {border-bottom: 1px solid #e2e2dd;}}
-@media (max-width: 680px) {.headerInner, .assuranceSection {width: calc(100% - 16px);} .headerInner {width: calc(100% - 20px);} .heroActions {flex-direction: column; align-items: stretch;} .secondaryButton {width: 100%;} .heroPrinciples {gap: 10px 16px;} .quickTitle h2 {font-size: 23px;} .activityList button {grid-template-columns: 22px 1fr;} .activityList time {display: none;} .dashboardMetrics {grid-template-columns: 1fr 1fr;} .dashboardMetrics div {border-right: 1px solid #e2e2dd !important; border-bottom: 1px solid #e2e2dd !important;} .dashboardMetrics div:nth-child(2n) {border-right: 0 !important;} .dashboardMetrics div:last-child {grid-column: span 2; border-right: 0 !important;} .assuranceSection {margin-top: 80px; padding: 14px;} .messageField {grid-column: auto;} .footerLinks {grid-template-columns: 1fr 1fr;} .imvoReturn {left: 10px; bottom: 10px;} .assistant {right: 10px; bottom: 10px;}}
+.headerInner{width:min(1220px,calc(100% - 44px));min-height:78px;margin:0 auto;display:grid;grid-template-columns:230px 1fr auto;align-items:center;gap:24px}.heroActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.secondaryButton{min-height:44px;padding:0 18px;display:inline-flex;align-items:center;justify-content:space-between;gap:18px;border-radius:4px;font-size:10px;font-weight:900;color:#fff!important;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.16)}.heroPrinciples{display:flex;gap:18px;flex-wrap:wrap;margin-top:24px;font-size:9px;font-weight:800;color:rgba(255,255,255,.82)}.heroPrinciples span{display:inline-flex;align-items:center;gap:6px}.heroPrinciples span:before{content:"✓";width:20px;height:20px;border:1px solid rgba(255,255,255,.45);border-radius:50%;display:grid;place-items:center;font-size:8px}
+.quickTitle{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;margin-bottom:14px}.quickTitle img{width:26px;height:34px;object-fit:contain}.quickTitle small,.successBox small{display:block;color:#8e8779;font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}.quickTitle h2{margin:0;font:500 28px/1.03 Georgia,"Times New Roman",serif;letter-spacing:-.04em}
+.activityList{display:flex;flex-direction:column;gap:6px}.activityList button{width:100%;display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:9px;padding:8px 10px;border:1px solid transparent;border-bottom-color:rgba(255,255,255,.09);background:transparent;color:#fff;text-align:left;font-size:9px;border-radius:6px}.activityList button:hover,.activityList .activityActive{background:rgba(201,170,109,.08);border-color:rgba(201,170,109,.34)}.activityList button>span{color:#d5b873;font-size:8px;font-weight:900}.activityList b{display:block;font-size:9px}.activityList small{display:block;color:rgba(255,255,255,.5);font-size:8px;margin-top:2px}.activityList time{color:#c9b07d;font-size:8px}
+.dashboardMetrics{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #ddd8cf}.dashboardMetrics div{padding:12px;border-right:1px solid #ddd8cf}.dashboardMetrics div:last-child{border-right:0}.dashboardMetrics small{display:block;color:#817b70;font-size:7px;text-transform:uppercase;letter-spacing:.08em}.dashboardMetrics strong{font-size:11px;display:block;margin-top:4px}.dashboardMetrics div:first-child strong{color:#4b8254}.assuranceSection{width:min(1220px,calc(100% - 44px));margin:0 auto;padding:0 0 58px}.successBox{padding:30px}.successBox h3{font:500 26px/1.05 Georgia,"Times New Roman",serif}.successBox p{font-size:10px;color:#6d685f}.successBox button{height:36px;padding:0 14px;border:0;background:#111;color:#fff;border-radius:4px;font-size:9px;font-weight:900}.messageField{grid-column:1/-1}.honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
+.footerLinks{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.footerLinks>div{display:flex;flex-direction:column;gap:6px}.footerLinks b{font-size:8px;text-transform:uppercase;letter-spacing:.14em;color:#c9ad78;margin-bottom:4px}.footerLinks a,.footerLinks span{font-size:8px;color:rgba(255,255,255,.58)}.imvoReturn{position:fixed;left:16px;bottom:16px;z-index:220}.imvoReturn a{height:46px;padding:0 12px;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #d3cec3;border-radius:99px;box-shadow:0 10px 24px rgba(0,0,0,.14)}.assistant{position:fixed;right:16px;bottom:16px;z-index:220;display:flex;align-items:flex-end;gap:10px}
+@media(max-width:980px){.headerInner{grid-template-columns:1fr auto}.dashboardMetrics{grid-template-columns:repeat(3,1fr)}.dashboardMetrics div:nth-child(3){border-right:0}.dashboardMetrics div:nth-child(-n+3){border-bottom:1px solid #ddd8cf}.assuranceSection{width:min(100% - 22px,1220px)}}
+@media(max-width:640px){.headerInner{width:min(100% - 22px,1220px);min-height:64px}.heroActions{flex-direction:column}.secondaryButton{width:100%}.heroPrinciples{gap:8px 12px}.quickTitle h2{font-size:23px}.activityList button{grid-template-columns:20px 1fr}.activityList time{display:none}.dashboardMetrics{grid-template-columns:1fr 1fr}.dashboardMetrics div{border-right:1px solid #ddd8cf!important;border-bottom:1px solid #ddd8cf!important}.dashboardMetrics div:nth-child(2n){border-right:0!important}.dashboardMetrics div:last-child{grid-column:span 2;border-right:0!important}.messageField{grid-column:auto}.footerLinks{grid-template-columns:1fr 1fr}.imvoReturn{left:9px;bottom:9px}.assistant{right:9px;bottom:9px}}
