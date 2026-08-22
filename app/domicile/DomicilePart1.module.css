@@ -1,0 +1,48 @@
+.heroContrast {position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(0,0,0,.52) 0%, rgba(0,0,0,.34) 34%, rgba(0,0,0,.08) 65%, rgba(0,0,0,.02) 100%);}
+.kicker {margin: 0 0 18px; font-size: 10px; line-height: 1.2; font-weight: 850; letter-spacing: .18em; text-transform: uppercase;}
+.primaryButton {min-height: 54px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border-radius: 999px; font-size: 12px; font-weight: 850;}
+.primaryButton {background: #fff; color: #111 !important;}
+.servicesSection {width: min(1400px, calc(100% - 64px)); margin: 110px auto 0;}
+.engagementIntro h2, .imvoCopy h2, .contactIntro h2 {margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(42px, 5vw, 78px); line-height: .98; letter-spacing: -.045em; font-weight: 500;}
+.kicker {color: #8f8d86;}
+.propertyCard {background: #fff; border: 1px solid #deded9; border-radius: 18px; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease;}
+.propertyCard:hover {transform: translateY(-4px); box-shadow: 0 22px 60px rgba(0,0,0,.08);}
+.propertyImage {position: relative; aspect-ratio: 16/10; background: #ddd; overflow: hidden;}
+.propertyImage img {object-fit: cover; filter: none !important; transition: transform .6s cubic-bezier(.16,1,.3,1);}
+.propertyCard:hover .propertyImage img {transform: scale(1.025);}
+.away {background: #e6edf8; color: #345b91;}
+.sampleLabel {display: inline-block; margin-top: 28px; padding: 8px 10px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; color: rgba(255,255,255,.46); font-size: 9px; letter-spacing: .08em; text-transform: uppercase;}
+.dashboardCard {margin-top: 34px; background: #fff; border: 1px solid #d8d8d3; border-radius: 20px; overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,.04);}
+.caseStory, .ownerValues {border: 1px solid #dadad5; border-radius: 22px; background: #fff; padding: 34px;}
+.caseStory > span {display: inline-block; padding: 7px 9px; border-radius: 999px; background: #efefec; color: #77756e; font-size: 8px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;}
+.caseStory h2, .ownerValues h2 {margin-top: 24px; font-size: clamp(34px,3.4vw,54px);}
+.caseStory > p:not(.kicker), .ownerValues > p:not(.kicker) {color: #6f6e69; font-size: 14px; line-height: 1.7;}
+.caseStory > div {margin-top: 30px; padding-top: 22px; border-top: 1px solid #e0e0dc; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;}
+.caseStory > div b {font-size: 10px;}
+.caseStory > div i {color: #aaa9a3; font-style: normal;}
+.valueGrid {margin-top: 28px; display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;}
+.valueGrid article {min-height: 185px; background: #f1f1ee; border: 1px solid #dfdfda; border-radius: 15px; padding: 20px;}
+.valueGrid b {font-size: 13px; line-height: 1.45;}
+.valueGrid p {margin: 16px 0 0; color: #6f6e69; font-size: 11px; line-height: 1.6;}
+.engagementIntro {max-width: 850px;}
+.imvoCopy h2 {font-size: clamp(36px,3.6vw,58px);}
+.imvoCopy > p:not(.kicker) {color: #6d6c67; font-size: 13px; line-height: 1.7;}
+.imvoCopy a {margin-top: 20px; display: inline-flex; align-items: center; gap: 14px; font-size: 11px; font-weight: 900;}
+.imvoPillars {display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;}
+.imvoPillars div {min-height: 104px; padding: 18px; background: #f1f1ee; border: 1px solid #dfdfda; border-radius: 14px;}
+.imvoPillars b {display: block; font-size: 11px; margin-bottom: 7px;}
+.imvoPillars span {color: #77766f; font-size: 10px; line-height: 1.45;}
+.contactIntro {padding: 22px;}
+.contactIntro > img {width: min(260px, 70%); height: auto; margin-bottom: 34px;}
+.contactIntro h2 {font-size: clamp(44px,4.2vw,70px);}
+.contactIntro > p:not(.kicker) {max-width: 560px; color: #6b6b66; font-size: 14px; line-height: 1.7;}
+.formFooter {margin-top: 18px; padding-top: 18px; border-top: 1px solid #e3e3de; display: flex; justify-content: space-between; gap: 24px; align-items: center;}
+.formFooter p {margin: 0; max-width: 620px; color: #85847e; font-size: 9px; line-height: 1.5;}
+.formFooter p a {text-decoration: underline;}
+.formFooter > button {min-height: 48px; padding: 0 18px; border: 0; border-radius: 999px; background: #111; color: #fff; display: inline-flex; align-items: center; gap: 28px; font-size: 11px; font-weight: 850; white-space: nowrap;}
+.formFooter > button:disabled {opacity: .3; cursor: not-allowed;}
+.imvoLabel {opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: none; transition: opacity .16s ease, transform .16s ease, visibility .16s ease;}
+.imvoLabel {background: #fff; border: 1px solid #d6d6d1; border-radius: 999px; padding: 11px 14px; box-shadow: 0 14px 40px rgba(0,0,0,.1); font-size: 10px; font-weight: 850;}
+@media (max-width: 900px) {.heroContrast {background: linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.18) 30%, rgba(0,0,0,.58) 70%, rgba(0,0,0,.75) 100%);} .propertyCard:last-child {grid-column: span 2;} .valueGrid {grid-template-columns: 1fr;}}
+@media (max-width: 680px) {.primaryButton {width: 100%;} .servicesSection {width: calc(100% - 24px);} .servicesSection {margin-top: 78px;} .engagementIntro h2, .imvoCopy h2, .contactIntro h2 {font-size: 42px;} .propertyCard:last-child {grid-column: auto;} .caseStory, .ownerValues {padding: 24px;} .caseStory h2, .ownerValues h2 {font-size: 36px;} .imvoPillars {grid-template-columns: 1fr;} .contactIntro {padding: 16px 8px;} .formFooter {align-items: stretch; flex-direction: column;} .formFooter > button {justify-content: space-between;} .imvoLabel {display: none;}}
+@media (prefers-reduced-motion: reduce) {.propertyCard, .propertyImage img, .imvoLabel {transition: none;}}

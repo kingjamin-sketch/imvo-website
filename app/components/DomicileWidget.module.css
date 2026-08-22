@@ -5,134 +5,45 @@
   z-index: 120;
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: 10px;
   pointer-events: none;
 }
-
 .icon {
-  width: 62px;
-  height: 62px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255,255,255,.25);
   background: #050505;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 16px 44px rgba(0,0,0,.24);
   display: grid;
   place-items: center;
-  padding: 11px 15px;
+  padding: 11px 14px;
   cursor: pointer;
   pointer-events: auto;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-
-.icon:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.3);
-}
-
-.icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
+.icon:hover { transform: translateY(-2px); box-shadow: 0 20px 52px rgba(0,0,0,.3); }
+.icon img { width: 100%; height: 100%; object-fit: contain; }
 .panel {
-  position: relative;
-  width: min(330px, calc(100vw - 104px));
-  padding: 24px;
-  background: rgba(5, 5, 5, 0.97);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+  width: min(300px, calc(100vw - 96px));
+  padding: 20px;
+  background: rgba(255,255,255,.98);
+  color: #111;
+  border: 1px solid rgba(17,17,17,.12);
+  border-radius: 16px;
+  box-shadow: 0 22px 65px rgba(0,0,0,.18);
   backdrop-filter: blur(18px);
   opacity: 0;
-  transform: translateY(10px) scale(0.98);
-  transform-origin: bottom right;
   visibility: hidden;
+  transform: translateY(8px) scale(.985);
+  transform-origin: bottom right;
   pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
 }
-
-.open .panel {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.panel strong {
-  display: block;
-  max-width: 260px;
-  font-size: 21px;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-}
-
-.panel p {
-  margin: 11px 0 18px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.link {
-  min-height: 46px;
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: white;
-  color: #050505;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.close {
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  width: 28px;
-  height: 28px;
-  border: 0;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 22px;
-  cursor: pointer;
-}
-
-@media (hover: hover) {
-  .widget:hover .panel {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    visibility: visible;
-    pointer-events: auto;
-    transition-delay: 0.45s;
-  }
-}
-
-@media (max-width: 640px) {
-  .widget {
-    right: 14px;
-    bottom: 14px;
-  }
-
-  .icon {
-    width: 56px;
-    height: 56px;
-  }
-
-  .panel {
-    width: min(320px, calc(100vw - 84px));
-    padding: 20px;
-  }
-
-  .panel strong {
-    font-size: 18px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .icon,
-  .panel {
-    transition: none;
-  }
-}
+.open .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+.panel strong { display: block; max-width: 250px; font-size: 19px; line-height: 1.1; letter-spacing: -.03em; }
+.panel p { margin: 8px 0 15px; color: #6f6f6b; font-size: 12px; line-height: 1.5; }
+.link { min-height: 42px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; border-radius: 999px; background: #111; color: #fff; font-size: 10px; font-weight: 850; }
+@media (hover: hover) { .widget:hover .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; } }
+@media (max-width: 640px) { .widget { right: 12px; bottom: 12px; } .icon { width: 54px; height: 54px; } .panel { width: min(280px, calc(100vw - 78px)); padding: 18px; } }
+@media (prefers-reduced-motion: reduce) { .icon, .panel { transition: none; } }

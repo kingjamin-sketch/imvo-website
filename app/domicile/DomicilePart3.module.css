@@ -1,0 +1,48 @@
+.page {--ink: #101010;
+  --muted: #6b6b68;
+  --line: #deded9;
+  --paper: #f6f6f3;
+  --paper-2: #ececea;
+  --white: #ffffff;
+  --black: #090909;
+  --warm: #b8976d;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;}
+.page *, .page *::before, .page *::after {box-sizing: border-box;}
+.page a {color: inherit; text-decoration: none;}
+.page button, .page input, .page select, .page textarea {font: inherit;}
+.page button {cursor: pointer;}
+.heroImage {object-fit: cover; object-position: center; filter: none !important;}
+.eyebrow {margin: 0 0 18px; font-size: 10px; line-height: 1.2; font-weight: 850; letter-spacing: .18em; text-transform: uppercase;}
+.eyebrow {color: rgba(255,255,255,.82);}
+.contactForm label > span {display: block; margin-bottom: 7px; font-size: 10px; font-weight: 800; color: #595956;}
+.contactForm input, .contactForm select, .contactForm textarea {width: 100%; border: 1px solid #d8d8d4; background: #fff; color: #111; border-radius: 12px; outline: none; transition: border-color .2s ease, box-shadow .2s ease;}
+.contactForm input:focus, .contactForm select:focus, .contactForm textarea:focus {border-color: #111; box-shadow: 0 0 0 3px rgba(17,17,17,.05);}
+.propertiesSection, .engagementSection {width: min(1400px, calc(100% - 64px)); margin: 110px auto 0;}
+.sectionHeaderCompact {display: grid; grid-template-columns: minmax(0,1.2fr) minmax(280px,.65fr); gap: 70px; align-items: end; margin-bottom: 42px;}
+.sectionHeaderCompact h2 {margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(42px, 5vw, 78px); line-height: .98; letter-spacing: -.045em; font-weight: 500;}
+.sectionHeaderCompact > p {margin: 0; color: var(--muted); font-size: 16px; line-height: 1.7;}
+.watch {background: #fff0c9; color: #825d00;}
+.actionSection {width: min(1400px, calc(100% - 64px)); margin: 96px auto 0; padding: 54px; background: #0b0b0b; color: #fff; border-radius: 26px; display: grid; grid-template-columns: .72fr 1.28fr; gap: 46px; box-shadow: 0 28px 80px rgba(0,0,0,.12);}
+.activityCurrent {min-height: 330px; position: relative; border: 1px solid rgba(255,255,255,.13); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; justify-content: flex-end; background: radial-gradient(circle at 70% 10%, rgba(184,151,109,.18), transparent 38%);}
+.activityCurrent small {color: #c5a77f; font-size: 9px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase;}
+.activityCurrent h3 {margin: 10px 0 8px; font-size: 29px; line-height: 1.05; letter-spacing: -.04em;}
+.activityCurrent p {margin: 0; color: rgba(255,255,255,.64); font-size: 13px; line-height: 1.6;}
+.activityCurrent time {position: absolute; top: 27px; right: 24px; color: rgba(255,255,255,.42); font-size: 10px;}
+.sectionHeaderCompact {margin-bottom: 34px;}
+.dashboardImage {position: relative; min-height: 610px; border-radius: 20px; overflow: hidden; background: #ddd;}
+.dashboardImage img {object-fit: cover; filter: none !important;}
+.imvoSection {width: min(1400px, calc(100% - 64px)); margin: 110px auto 0; padding: 40px; background: #fff; border: 1px solid #dcdcd7; border-radius: 24px; display: grid; grid-template-columns: .72fr 1.05fr 180px; gap: 44px; align-items: center;}
+.contactForm {background: #fff; border: 1px solid #d8d8d3; border-radius: 22px; padding: 28px;}
+.contactForm input, .contactForm select {min-height: 48px; padding: 0 13px;}
+.contactForm textarea {min-height: 140px; padding: 13px; resize: vertical;}
+.errorBox {margin-top: 16px; padding: 13px 14px; border: 1px solid #efbdb6; background: #fff1ef; color: #8d2e22; border-radius: 12px; font-size: 11px; line-height: 1.5;}
+.footer {width: min(1480px, calc(100% - 32px)); margin: 18px auto 28px; padding: 40px; background: #0a0a0a; color: #fff; border-radius: 26px; display: grid; grid-template-columns: .7fr 1.3fr; gap: 60px;}
+.footerBottom {grid-column: 1/-1; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); display: flex; justify-content: space-between; gap: 20px; color: rgba(255,255,255,.38); font-size: 9px;}
+.footerBottom div {display: flex; gap: 16px;}
+@media (max-width: 1180px) {.activityCurrent {min-height: 260px;} .dashboardImage {min-height: 420px;} .actionSection {grid-template-columns: 1fr;} .imvoSection {grid-template-columns: 1fr 1.3fr;}}
+@media (max-width: 900px) {.imvoSection {grid-template-columns: 1fr;} .footer {grid-template-columns: 1fr;} .footerBottom {grid-column: auto;}}
+@media (max-width: 680px) {.footer {width: calc(100% - 16px);} .heroImage {object-position: 56% center;} .propertiesSection, .engagementSection, .imvoSection {width: calc(100% - 24px);} .propertiesSection, .engagementSection {margin-top: 78px;} .sectionHeaderCompact {grid-template-columns: 1fr; gap: 20px; margin-bottom: 28px;} .sectionHeaderCompact h2 {font-size: 42px;} .sectionHeaderCompact > p {font-size: 13px;} .actionSection {width: calc(100% - 16px); margin-top: 74px; padding: 26px 18px; border-radius: 20px;} .activityCurrent {min-height: 220px; padding: 22px;} .dashboardImage {min-height: 320px; border-radius: 15px;} .imvoSection {margin-top: 80px; padding: 24px;} .contactForm {padding: 20px;} .footer {padding: 28px 22px 22px;} .footerBottom {flex-direction: column;}}

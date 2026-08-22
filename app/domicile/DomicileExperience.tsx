@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import styles from "./DomicileExperience.module.css";
 
 type FormState = {
@@ -17,6 +17,7 @@ type FormState = {
 };
 
 type QuickState = Pick<FormState, "location" | "propertyType" | "helpWith">;
+type DashboardTab = "Overview" | "Photos" | "Reports" | "Approvals" | "Expenses" | "Maintenance" | "History";
 
 const initialForm: FormState = {
   name: "",
@@ -29,16 +30,10 @@ const initialForm: FormState = {
   botcheck: "",
 };
 
-const initialQuick: QuickState = {
-  location: "",
-  propertyType: "",
-  helpWith: "",
-};
+const initialQuick: QuickState = { location: "", propertyType: "", helpWith: "" };
 
 const WEB3FORMS_ACCESS_KEY =
-  process.env.NEXT_PUBLIC_DOMICILE_WEB3FORMS_KEY ||
-  "566d4852-a822-4432-83ba-8d522618ee66";
-
+  process.env.NEXT_PUBLIC_DOMICILE_WEB3FORMS_KEY || "566d4852-a822-4432-83ba-8d522618ee66";
 const whatsappNumber = "250799409409";
 const whatsappMessage = encodeURIComponent(
   "Hello DŌMICILE, I would like to discuss property management with your team.",
@@ -47,122 +42,136 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const propertyTypes = ["House", "Apartment", "Commercial", "Other"];
 const helpOptions = [
-  "Property management",
+  "Ongoing property management",
   "Property care while away",
   "Maintenance or repair",
   "Property inspection",
-  "An existing property issue",
+  "An urgent property issue",
+  "One-off property support",
   "I would like to understand DŌMICILE",
   "Other",
 ];
 
+const managedProperties = [
+  {
+    title: "Private Residence",
+    area: "Kigali",
+    status: "All good",
+    tone: "good",
+    note: "Routine care active",
+    image: "/domicile/properties/property-c1.webp",
+  },
+  {
+    title: "Residential Estate",
+    area: "Kigali",
+    status: "Inspection due",
+    tone: "watch",
+    note: "Next visit scheduled",
+    image: "/domicile/properties/property-estate.webp",
+  },
+  {
+    title: "Private Home",
+    area: "Kigali",
+    status: "Owner away",
+    tone: "away",
+    note: "Owner-away care active",
+    image: "/domicile/properties/property-street.webp",
+  },
+];
+
+const activityFeed = [
+  { type: "Inspection", title: "Condition check completed", detail: "Photos and notes prepared for the owner", time: "09:42" },
+  { type: "Issue", title: "Water pressure concern logged", detail: "Matter triaged and response path opened", time: "09:47" },
+  { type: "Coordination", title: "Technician being coordinated", detail: "Scope shared and attendance being arranged", time: "09:53" },
+  { type: "Approval", title: "Owner approval received", detail: "Approved work moved into scheduling", time: "10:06" },
+  { type: "Report", title: "Property update issued", detail: "Owner received the latest photos and summary", time: "10:18" },
+];
+
 const services = [
-  {
-    number: "01",
-    title: "Property Oversight",
-    text: "Inspections, condition checks and ongoing attention to the property.",
-  },
-  {
-    number: "02",
-    title: "Maintenance & Repairs",
-    text: "Coordination of appropriate technicians and service providers for maintenance and repairs.",
-  },
-  {
-    number: "03",
-    title: "Property Works",
-    text: "Coordination of repairs, improvements and technical works affecting the property.",
-  },
-  {
-    number: "04",
-    title: "Owner Support",
-    text: "A reliable local point of contact when you are busy, travelling or living abroad.",
-  },
+  ["Property Oversight", "Inspections, condition checks and recurring attention to the property."],
+  ["Maintenance & Repairs", "Coordination of suitable technicians and follow-through on maintenance matters."],
+  ["Property Works", "Repairs, improvements and technical works coordinated within an agreed scope."],
+  ["Owner Support", "A reliable local point of contact for owners who cannot always be present."],
+  ["Owner-Away Care", "Routine checks and property readiness while you travel or live outside Rwanda."],
+  ["Urgent Response", "Urgent matters are triaged and handled within the authority agreed with the owner."],
 ];
 
 const processSteps = [
-  {
-    number: "01",
-    title: "Tell us what you need",
-    text: "Send a short enquiry about the property, where it is and what you would like help with.",
-    note: "No account or registration needed.",
-  },
-  {
-    number: "02",
-    title: "We speak with you",
-    text: "DŌMICILE contacts you to understand the property, the situation, access and the level of support you need.",
-    note: "This is where we clarify the real need.",
-  },
-  {
-    number: "03",
-    title: "We agree the scope",
-    text: "If you want to proceed, we define what DŌMICILE will coordinate, how approvals work and how you will stay informed.",
-    note: "You know the arrangement before onboarding.",
-  },
-  {
-    number: "04",
-    title: "DŌMICILE follows through",
-    text: "Within the agreed scope, DŌMICILE coordinates property matters, the appropriate response and the updates back to you.",
-    note: "One point of contact for the agreed property needs.",
-  },
+  ["01", "Tell us what you need", "Start with a short enquiry. No account or registration is required."],
+  ["02", "We understand the property", "We discuss the property, access, priorities and the level of support you need."],
+  ["03", "We agree the care plan", "Scope, approvals, reporting and responsibilities are made clear before onboarding."],
+  ["04", "DŌMICILE follows through", "We coordinate the agreed property matters and keep you informed through closure."],
 ];
 
-const ownerSituations = [
-  "Live outside Rwanda",
-  "Travel frequently",
-  "Own more than one property",
-  "Have limited time to coordinate property matters",
-  "Prefer professional local support",
+const dashboardContent: Record<DashboardTab, { title: string; body: string }> = {
+  Overview: { title: "Everything important, in one place.", body: "See current status, recent visits, open matters and the next action without chasing different people." },
+  Photos: { title: "Visual proof from the property.", body: "Visit and inspection photos stay attached to the relevant property record for clear owner visibility." },
+  Reports: { title: "Structured property updates.", body: "Inspection findings, completed actions and recommendations can be reviewed as a documented history." },
+  Approvals: { title: "Clear decisions before work proceeds.", body: "Where approval is required, the owner can see the matter, proposed action and decision status." },
+  Expenses: { title: "Costs stay visible.", body: "Approved property expenses can be recorded against the matter they relate to for easier reconciliation." },
+  Maintenance: { title: "Nothing disappears into a chat thread.", body: "Open maintenance matters remain trackable from request through coordination and closure." },
+  History: { title: "A property memory over time.", body: "Visits, reports, decisions and completed matters form a useful history for the property and owner." },
+};
+
+const faqItems = [
+  ["Do I need to live outside Rwanda to use DŌMICILE?", "No. DŌMICILE is for owners abroad, frequent travellers and Kigali-based owners who want reliable delegated property care."],
+  ["Can you manage only one property?", "Yes. The service can be shaped around one home, multiple properties or a defined one-off need."],
+  ["How are repairs approved?", "The approval process is agreed during onboarding. Work requiring owner approval is not treated as approved until the agreed authority is confirmed."],
+  ["What happens if something is urgent?", "The matter is triaged, the owner is contacted and DŌMICILE acts within any pre-agreed emergency authority where applicable."],
+  ["Will my property appear on the website?", "No, not by default. Client properties and identifying information are public only when the owner has explicitly agreed to it."],
+  ["Who performs maintenance work?", "DŌMICILE coordinates appropriate technicians, contractors and service providers for the agreed property need."],
+  ["How do payments and expenses work?", "The agreed scope, owner approvals and property-related costs are recorded so the owner can see what a payment relates to."],
+  ["Which areas do you serve?", "DŌMICILE is currently focused on properties across Kigali, Rwanda."],
 ];
+
+function ArrowIcon() {
+  return <span aria-hidden="true">↗</span>;
+}
 
 export default function DomicileExperience() {
-  const [form, setForm] = useState<FormState>(initialForm);
   const [quick, setQuick] = useState<QuickState>(initialQuick);
-  const [step, setStep] = useState(1);
+  const [form, setForm] = useState<FormState>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [activityIndex, setActivityIndex] = useState(0);
+  const [dashboardTab, setDashboardTab] = useState<DashboardTab>("Overview");
+  const [faqOpen, setFaqOpen] = useState<number | null>(0);
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [imvoOpen, setImvoOpen] = useState(false);
 
-  const updateField = (field: keyof FormState, value: string) => {
-    setForm((current) => ({ ...current, [field]: value }));
-  };
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActivityIndex((current) => (current + 1) % activityFeed.length);
+    }, 5200);
+    return () => window.clearInterval(timer);
+  }, []);
 
-  const updateQuick = (field: keyof QuickState, value: string) => {
-    setQuick((current) => ({ ...current, [field]: value }));
-  };
-
-  const stepOneReady = Boolean(form.location.trim() && form.propertyType && form.helpWith);
-  const stepTwoReady = Boolean(
-    form.name.trim() &&
-      form.phone.trim() &&
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()),
-  );
-  const stepThreeReady = form.message.trim().length >= 5;
+  const activeActivity = activityFeed[activityIndex];
   const quickReady = Boolean(quick.location.trim() && quick.propertyType && quick.helpWith);
+  const formReady = useMemo(
+    () =>
+      Boolean(
+        form.name.trim() &&
+          form.phone.trim() &&
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+          form.location.trim() &&
+          form.propertyType &&
+          form.helpWith &&
+          form.message.trim().length >= 5,
+      ),
+    [form],
+  );
 
   const beginFromHero = () => {
     if (!quickReady) return;
     setForm((current) => ({ ...current, ...quick }));
-    setStep(2);
-    window.setTimeout(() => {
-      document.getElementById("talk-to-us")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 20);
-  };
-
-  const nextStep = () => {
-    setError("");
-    if (step === 1 && stepOneReady) setStep(2);
-    if (step === 2 && stepTwoReady) setStep(3);
-  };
-
-  const previousStep = () => {
-    setError("");
-    setStep((current) => Math.max(1, current - 1));
+    document.getElementById("talk-to-us")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (step !== 3 || !stepThreeReady || form.botcheck) return;
-
+    if (!formReady || form.botcheck) return;
     setError("");
     setIsSubmitting(true);
 
@@ -185,18 +194,13 @@ export default function DomicileExperience() {
           botcheck: "",
         }),
       });
-
       const result = await response.json();
       if (!response.ok || !result?.success) throw new Error("Submission failed");
-
+      setIsSubmitted(true);
       setForm(initialForm);
       setQuick(initialQuick);
-      setStep(1);
-      setIsSubmitted(true);
     } catch {
-      setError(
-        "We could not send your request just now. Please try again, email domicile@imvogroup.com, or continue on WhatsApp.",
-      );
+      setError("We could not send the enquiry just now. Please try again, email domicile@imvogroup.com, or continue on WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
@@ -206,431 +210,235 @@ export default function DomicileExperience() {
     <main className={styles.page}>
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <Link href="/domicile" className={styles.headerBrand} aria-label="DŌMICILE home">
-            <Image
-              src="/domicile/domicile-white-no-tagline.svg"
-              alt="DŌMICILE"
-              width={1495}
-              height={292}
-              priority
-            />
+          <Link href="/domicile" className={styles.brand} aria-label="DŌMICILE home">
+            <Image src="/domicile/domicile-black-no-tagline.svg" alt="DŌMICILE" width={1495} height={292} priority />
+            <span>Property Management by IMVO Group</span>
           </Link>
 
           <nav className={styles.nav} aria-label="DŌMICILE navigation">
-            <a href="#what-we-handle">What we handle</a>
+            <a href="#properties">Under care</a>
+            <a href="#in-action">In action</a>
+            <a href="#services">Services</a>
             <a href="#how-it-works">How it works</a>
-            <a href="#for-owners">For owners</a>
-            <a href="#talk-to-us">Talk to us</a>
+            <a href="#faq">FAQ</a>
           </nav>
 
-          <div className={styles.headerActions}>
-            <Link href="/" className={styles.imvoBack}>← IMVO Group</Link>
-            <a className={styles.headerCta} href="#talk-to-us">Talk to DŌMICILE</a>
-          </div>
+          <a className={styles.headerCta} href="#talk-to-us">Talk to DŌMICILE <span>→</span></a>
         </div>
       </header>
 
       <section className={styles.hero}>
-        <Image
-          src="/casa-vento-2.png"
-          alt="Residential property in Kigali"
-          fill
-          priority
-          sizes="100vw"
-          className={styles.heroImage}
-        />
-        <div className={styles.heroShade} />
+        <Image src="/casa-vento-2.png" alt="Residential property in Kigali" fill priority sizes="100vw" className={styles.heroImage} />
+        <div className={styles.heroContrast} />
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
-            <Image
-              className={styles.heroWordmark}
-              src="/domicile/domicile-white-no-tagline.svg"
-              alt="DŌMICILE"
-              width={1495}
-              height={292}
-              priority
-            />
-            <p className={styles.heroDescriptor}>Property Management by IMVO Group</p>
+            <p className={styles.eyebrow}>Property management by IMVO Group · Kigali</p>
             <h1>Your property,<br />handled.</h1>
-            <p className={styles.heroText}>
-              One reliable point of contact for the ongoing care, maintenance and coordination of your property.
-            </p>
+            <p className={styles.heroLead}>A dependable local point of contact for the ongoing care, maintenance and coordination of your property.</p>
             <div className={styles.heroActions}>
               <a className={styles.primaryButton} href="#talk-to-us">Talk to DŌMICILE <span>→</span></a>
-              <a className={styles.secondaryButton} href="#how-it-works">See how it works <span>↓</span></a>
+              <a className={styles.secondaryButton} href="#in-action">See DŌMICILE in action <span>↓</span></a>
             </div>
-            <p className={styles.locationLine}>Currently serving properties across Kigali, Rwanda.</p>
+            <div className={styles.heroPrinciples}>
+              <span>Local presence</span><span>Proactive care</span><span>Private by default</span>
+            </div>
           </div>
 
           <aside className={styles.quickCard} aria-label="Start a DŌMICILE enquiry">
-            <div className={styles.quickCardTop}>
+            <div className={styles.quickTitle}>
               <Image src="/domicile/logo-icon-black.svg" alt="" width={727} height={919} />
-              <div>
-                <span>Start here</span>
-                <h2>What does your property need?</h2>
-              </div>
+              <div><small>Start here</small><h2>What does your property need?</h2></div>
             </div>
-            <label>
-              <span>Property location</span>
-              <input
-                value={quick.location}
-                onChange={(event) => updateQuick("location", event.target.value)}
-                placeholder="e.g. Kacyiru, Kigali"
-              />
-            </label>
-            <label>
-              <span>Property type</span>
-              <select value={quick.propertyType} onChange={(event) => updateQuick("propertyType", event.target.value)}>
-                <option value="">Select property type</option>
-                {propertyTypes.map((item) => <option key={item}>{item}</option>)}
-              </select>
-            </label>
-            <label>
-              <span>What do you need help with?</span>
-              <select value={quick.helpWith} onChange={(event) => updateQuick("helpWith", event.target.value)}>
-                <option value="">Select what you need</option>
-                {helpOptions.map((item) => <option key={item}>{item}</option>)}
-              </select>
-            </label>
-            <button type="button" className={styles.quickButton} onClick={beginFromHero} disabled={!quickReady}>
-              Start with DŌMICILE <span>→</span>
-            </button>
+            <label><span>Property location</span><input value={quick.location} onChange={(e) => setQuick((v) => ({ ...v, location: e.target.value }))} placeholder="e.g. Kacyiru, Kigali" /></label>
+            <label><span>Property type</span><select value={quick.propertyType} onChange={(e) => setQuick((v) => ({ ...v, propertyType: e.target.value }))}><option value="">Select property type</option>{propertyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <label><span>What do you need help with?</span><select value={quick.helpWith} onChange={(e) => setQuick((v) => ({ ...v, helpWith: e.target.value }))}><option value="">Select what you need</option>{helpOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
+            <button type="button" disabled={!quickReady} onClick={beginFromHero}>Start with DŌMICILE <span>→</span></button>
             <p>No account. No payment. Start with a conversation.</p>
           </aside>
         </div>
       </section>
 
       <section className={styles.trustStrip} aria-label="DŌMICILE service principles">
-        <span>Property Management by IMVO Group</span>
-        <span>Kigali-based coordination</span>
-        <span>One point of contact</span>
-        <span>Start without registration</span>
+        <div><b>01</b><span>Kigali-based coordination</span></div>
+        <div><b>02</b><span>One point of contact</span></div>
+        <div><b>03</b><span>Requests accepted 24/7</span></div>
+        <div><b>04</b><span>Private by default</span></div>
       </section>
 
-      <section className={styles.servicesSection} id="what-we-handle">
-        <div className={styles.innerWide}>
-          <div className={styles.sectionBrandRow}>
-            <Image
-              src="/domicile/domicile-black-no-tagline.svg"
-              alt="DŌMICILE"
-              width={1495}
-              height={292}
-              className={styles.lightWordmark}
-            />
-            <p className={styles.kicker}>What we handle</p>
+      <section className={styles.propertiesSection} id="properties">
+        <div className={styles.sectionHeader}>
+          <div><p className={styles.kicker}>Selected properties under care</p><h2>Real homes. Quietly looked after.</h2></div>
+          <p>Shown only as privacy-safe examples. Identifying details are not published without owner permission.</p>
+        </div>
+        <div className={styles.propertyGrid}>
+          {managedProperties.map((property) => (
+            <article className={styles.propertyCard} key={property.title}>
+              <div className={styles.propertyImage}><Image src={property.image} alt={`${property.title} in ${property.area}`} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+              <div className={styles.propertyMeta}>
+                <span className={`${styles.status} ${styles[property.tone]}`}>{property.status}</span>
+                <div><h3>{property.title}</h3><p>{property.area} · {property.note}</p></div>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div className={styles.serviceStandard}>
+          <span>Owner kept informed</span><span>Approval before work where required</span><span>Follow-through until closure</span><span>Reports & history retained</span>
+        </div>
+      </section>
+
+      <section className={styles.actionSection} id="in-action">
+        <div className={styles.actionIntro}>
+          <p className={styles.kickerLight}>DŌMICILE in action</p>
+          <h2>Property care should feel active, not invisible.</h2>
+          <p>A representative look at how DŌMICILE moves a property matter from detection to owner visibility.</p>
+          <span className={styles.sampleLabel}>Representative care flow · not a public client log</span>
+        </div>
+        <div className={styles.activityPanel}>
+          <div className={styles.activityCurrent}>
+            <div className={styles.activityPulse}><i /></div>
+            <small>{activeActivity.type}</small>
+            <h3>{activeActivity.title}</h3>
+            <p>{activeActivity.detail}</p>
+            <time>{activeActivity.time}</time>
           </div>
-          <div className={styles.sectionHeading}>
-            <div>
-              <h2>One property.<br />One point of contact.</h2>
-            </div>
-            <p className={styles.sectionAside}>
-              DŌMICILE is for owners who want someone local to help coordinate the everyday needs that keep a property cared for and moving properly.
-            </p>
-          </div>
-          <div className={styles.serviceGrid}>
-            {services.map((service) => (
-              <article className={styles.serviceCard} key={service.title}>
-                <span className={styles.cardNumber}>{service.number}</span>
-                <div>
-                  <h3>{service.title}</h3>
-                  <p>{service.text}</p>
-                </div>
-              </article>
+          <div className={styles.activityList}>
+            {activityFeed.map((item, index) => (
+              <button key={item.title} type="button" className={index === activityIndex ? styles.activityActive : ""} onClick={() => setActivityIndex(index)}>
+                <span>{String(index + 1).padStart(2, "0")}</span><div><b>{item.title}</b><small>{item.detail}</small></div><time>{item.time}</time>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      <section className={styles.differenceSection}>
-        <div className={styles.differenceGrid}>
-          <div className={styles.differenceImageWrap}>
-            <Image
-              src="/virunga-residence-2.png"
-              alt="Residential property managed with local coordination"
-              fill
-              sizes="(max-width: 900px) 100vw, 50vw"
-              className={styles.coverImage}
-            />
-          </div>
-          <div className={styles.differenceCopy}>
-            <Image src="/domicile/logo-icon-white.webp" alt="" width={727} height={919} className={styles.differenceIcon} />
-            <p className={styles.kickerLight}>The difference</p>
-            <h2>You do not have to coordinate everyone yourself.</h2>
-            <p>
-              You tell DŌMICILE what the property needs. We help coordinate the appropriate response, keep you informed and follow the matter through the agreed process.
-            </p>
-            <div className={styles.promiseLine}>
-              <span>Less coordination for you.</span>
-              <span>Better visibility over your property.</span>
-            </div>
-          </div>
+      <section className={styles.servicesSection} id="services">
+        <div className={styles.sectionHeaderCompact}>
+          <div><p className={styles.kicker}>What we handle</p><h2>One property.<br />One responsible point of contact.</h2></div>
+          <p>DŌMICILE coordinates the everyday matters that otherwise require an owner to chase several people.</p>
+        </div>
+        <div className={styles.servicesGrid}>
+          {services.map(([title, text], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{text}</p></article>)}
         </div>
       </section>
 
       <section className={styles.processSection} id="how-it-works">
-        <div className={styles.innerWide}>
-          <div className={styles.sectionBrandRow}>
-            <Image
-              src="/domicile/domicile-black-no-tagline.svg"
-              alt="DŌMICILE"
-              width={1495}
-              height={292}
-              className={styles.lightWordmark}
-            />
-            <p className={styles.kicker}>How it works</p>
-          </div>
-          <div className={styles.processIntro}>
-            <div>
-              <h2>From “something needs attention” to a clear next step.</h2>
-            </div>
-            <div className={styles.processExplanation}>
-              <strong>You do not register a property first.</strong>
-              <p>You start by telling us what you need. If DŌMICILE is right for you, onboarding comes after we have spoken and agreed the scope.</p>
-            </div>
-          </div>
+        <div className={styles.sectionHeaderCompact}>
+          <div><p className={styles.kicker}>How it works</p><h2>Clear from first message to ongoing care.</h2></div>
+          <p>You do not register a property first. We understand the need, agree the arrangement and onboard only when the scope is clear.</p>
+        </div>
+        <div className={styles.processGrid}>
+          {processSteps.map(([number, title, text]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}
+        </div>
+      </section>
 
-          <div className={styles.processGrid}>
-            {processSteps.map((item) => (
-              <article key={item.number}>
-                <span>{item.number}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-                <small>{item.note}</small>
-              </article>
-            ))}
-          </div>
-
-          <div className={styles.flowBand}>
-            <div><span>YOU</span><strong>Tell us the need</strong></div>
-            <i>→</i>
-            <div><span>DŌMICILE</span><strong>Understand & coordinate</strong></div>
-            <i>→</i>
-            <div><span>RESPONSE</span><strong>Appropriate action</strong></div>
-            <i>→</i>
-            <div><span>YOU</span><strong>Stay informed</strong></div>
+      <section className={styles.dashboardSection}>
+        <div className={styles.dashboardImage}><Image src="/virunga-residence-2.png" alt="Residential property in Kigali" fill sizes="(max-width: 900px) 100vw, 42vw" /></div>
+        <div className={styles.dashboardCopy}>
+          <p className={styles.kicker}>Your property, at a glance</p>
+          <h2>Visibility without chasing updates.</h2>
+          <div className={styles.dashboardCard}>
+            <div className={styles.dashboardMetrics}>
+              <div><small>Property status</small><strong>All good</strong></div>
+              <div><small>Last inspection</small><strong>Today, 09:42</strong></div>
+              <div><small>Open matters</small><strong>1</strong></div>
+              <div><small>Next visit</small><strong>27 Aug</strong></div>
+              <div><small>Latest report</small><strong>Ready</strong></div>
+            </div>
+            <div className={styles.dashboardTabs}>{(Object.keys(dashboardContent) as DashboardTab[]).map((tab) => <button key={tab} type="button" className={dashboardTab === tab ? styles.tabActive : ""} onClick={() => setDashboardTab(tab)}>{tab}</button>)}</div>
+            <div className={styles.dashboardBody}><div><small>Sample owner view</small><h3>{dashboardContent[dashboardTab].title}</h3><p>{dashboardContent[dashboardTab].body}</p></div><button type="button">View latest report <span>→</span></button></div>
           </div>
         </div>
       </section>
 
-      <section className={styles.awaySection} id="for-owners">
-        <Image
-          src="/casa-vento-5.png"
-          alt="Property cared for while the owner is away"
-          fill
-          sizes="100vw"
-          className={styles.awayImage}
-        />
-        <div className={styles.awayShade} />
-        <div className={styles.awayInner}>
-          <p className={styles.kickerLight}>For owners who cannot always be there</p>
-          <h2>Your property still needs attention when you are away.</h2>
-          <p className={styles.awayText}>DŌMICILE gives you someone local to talk to about it.</p>
-          <div className={styles.ownerList}>
-            {ownerSituations.map((item) => <span key={item}>{item}</span>)}
+      <section className={styles.proofSection}>
+        <div className={styles.caseStory}>
+          <p className={styles.kicker}>A property-care story</p>
+          <span>Anonymous example</span>
+          <h2>A small issue is cheaper when someone notices it early.</h2>
+          <p>During a routine visit, a developing water-related concern is identified, documented and brought to the owner before it becomes a larger property problem.</p>
+          <div><b>Detect</b><i>→</i><b>Inform</b><i>→</i><b>Approve</b><i>→</i><b>Resolve</b><i>→</i><b>Report</b></div>
+        </div>
+        <div className={styles.ownerValues}>
+          <p className={styles.kicker}>What owners value</p>
+          <h2>Less coordination. More confidence.</h2>
+          <div className={styles.valueGrid}>
+            <article><b>“Can someone local actually follow this through?”</b><p>DŌMICILE is designed around ownership of the coordination, not just passing along a contact.</p></article>
+            <article><b>“How do I know what happened?”</b><p>Photos, reports, approvals and property matters can be documented instead of disappearing inside separate chats.</p></article>
+            <article><b>“I do not want my home exposed.”</b><p>Privacy is treated as part of the service. Public visibility is optional, never assumed.</p></article>
           </div>
         </div>
+      </section>
+
+      <section className={styles.assuranceSection} id="for-owners">
+        <div className={styles.assuranceGrid}>
+          <article><small>For owners who are away</small><h3>Your property still needs attention when you are not there.</h3><p>Routine visits, owner-away care and a local point of contact help keep the property ready and visible to you.</p></article>
+          <article><small>When something cannot wait</small><h3>Urgent matter. Clear response path.</h3><p>Issue detected → owner contacted → authority checked → response coordinated → matter documented.</p></article>
+          <article><small>Private by default</small><h3>Your home is not marketing material.</h3><p>Client properties, access details and reports remain private unless the owner has explicitly agreed otherwise.</p></article>
+        </div>
+      </section>
+
+      <section className={styles.engagementSection}>
+        <div className={styles.engagementIntro}><p className={styles.kicker}>Ways to work with DŌMICILE</p><h2>Start with the level of care your property actually needs.</h2></div>
+        <div className={styles.engagementGrid}>
+          <article><span>01</span><h3>Ongoing Management</h3><p>Recurring oversight and coordination for owners who want a consistent property-care relationship.</p></article>
+          <article><span>02</span><h3>Owner-Away Care</h3><p>Checks, readiness and local support while the owner is travelling or living abroad.</p></article>
+          <article><span>03</span><h3>One-Off Property Support</h3><p>A defined inspection, maintenance need, repair coordination or property matter without a long-term commitment.</p></article>
+        </div>
+        <p className={styles.engagementNote}>Pricing is shaped by the property, access, frequency and agreed scope. Start with a conversation and we will recommend the right care arrangement.</p>
+      </section>
+
+      <section className={styles.imvoSection}>
+        <div className={styles.imvoCopy}><p className={styles.kicker}>Backed by IMVO Group</p><h2>Property care with built-environment thinking behind it.</h2><p>DŌMICILE combines property coordination with IMVO Group's design, technical and built-environment perspective.</p><Link href="/">Visit IMVO Group <ArrowIcon /></Link></div>
+        <div className={styles.imvoPillars}><div><b>Local team</b><span>Kigali-based coordination</span></div><div><b>Trusted network</b><span>Appropriate service providers</span></div><div><b>Professional records</b><span>Reports, approvals and history</span></div><div><b>Discretion</b><span>Privacy built into the service</span></div></div>
+        <div className={styles.imvoMark}><strong>IMVO</strong><span>GROUP</span></div>
+      </section>
+
+      <section className={styles.faqSection} id="faq">
+        <div className={styles.sectionHeaderCompact}><div><p className={styles.kicker}>Frequently asked questions</p><h2>Know how the care works.</h2></div><p>Clear expectations are part of good property management.</p></div>
+        <div className={styles.faqGrid}>{faqItems.map(([question, answer], index) => <article key={question} className={faqOpen === index ? styles.faqOpen : ""}><button type="button" onClick={() => setFaqOpen((current) => current === index ? null : index)}><span>{question}</span><b>{faqOpen === index ? "−" : "+"}</b></button><div><p>{answer}</p></div></article>)}</div>
       </section>
 
       <section className={styles.contactSection} id="talk-to-us">
-        <div className={styles.contactGrid}>
-          <div className={styles.contactIntro}>
-            <Image src="/domicile/logo-icon-black.svg" alt="DŌMICILE icon" width={727} height={919} className={styles.contactIcon} />
-            <p className={styles.kicker}>Talk to DŌMICILE</p>
-            <h2>Tell us about your property.</h2>
-            <p>
-              This is an enquiry, not a registration. Complete the short guided form and our team will contact you to understand the property and what you need.
-            </p>
-            <div className={styles.directContact}>
-              <a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a>
-              <a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a>
-            </div>
-          </div>
-
-          <div className={styles.formPanel}>
-            {isSubmitted ? (
-              <div className={styles.successState} role="status" aria-live="polite">
-                <Image src="/domicile/logo-icon-black.svg" alt="" width={727} height={919} className={styles.successIcon} />
-                <p className={styles.kicker}>Request received</p>
-                <h3>We&apos;ve received your request.</h3>
-                <p>
-                  Thank you for contacting DŌMICILE. A member of our team will contact you to understand your property and discuss what you need.
-                </p>
-                <div className={styles.successActions}>
-                  <a className={styles.submitButton} href={whatsappUrl} target="_blank" rel="noreferrer">Continue on WhatsApp <span>→</span></a>
-                  <Link className={styles.secondaryDarkButton} href="/">Back to IMVO Group</Link>
-                </div>
-              </div>
-            ) : (
-              <form className={styles.form} onSubmit={handleSubmit}>
-                <div className={styles.honeypot} aria-hidden="true">
-                  <label htmlFor="domicile-company">Company</label>
-                  <input
-                    id="domicile-company"
-                    type="text"
-                    name="company"
-                    value={form.botcheck}
-                    onChange={(event) => updateField("botcheck", event.target.value)}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                <div className={styles.formProgress}>
-                  {[1, 2, 3].map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      className={`${styles.progressItem} ${step === item ? styles.progressActive : ""} ${step > item ? styles.progressDone : ""}`}
-                      onClick={() => {
-                        if (item < step) setStep(item);
-                      }}
-                    >
-                      <span>{item}</span>
-                      <small>{item === 1 ? "Property" : item === 2 ? "Contact" : "Details"}</small>
-                    </button>
-                  ))}
-                </div>
-
-                {step === 1 ? (
-                  <div className={styles.formStep}>
-                    <p className={styles.formEyebrow}>Step 1 of 3</p>
-                    <h3>About the property</h3>
-                    <p className={styles.formLead}>Give us the basics so we know what kind of conversation to have with you.</p>
-
-                    <fieldset>
-                      <legend>Property type</legend>
-                      <div className={styles.choiceGrid}>
-                        {propertyTypes.map((item) => (
-                          <button
-                            type="button"
-                            key={item}
-                            className={form.propertyType === item ? styles.choiceSelected : ""}
-                            onClick={() => updateField("propertyType", item)}
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    </fieldset>
-
-                    <label>
-                      <span>Property location</span>
-                      <input
-                        value={form.location}
-                        onChange={(event) => updateField("location", event.target.value)}
-                        placeholder="e.g. Kacyiru, Kigali"
-                      />
-                    </label>
-
-                    <label>
-                      <span>What would you like help with?</span>
-                      <select value={form.helpWith} onChange={(event) => updateField("helpWith", event.target.value)}>
-                        <option value="">Select an option</option>
-                        {helpOptions.map((item) => <option key={item}>{item}</option>)}
-                      </select>
-                    </label>
-                  </div>
-                ) : null}
-
-                {step === 2 ? (
-                  <div className={styles.formStep}>
-                    <p className={styles.formEyebrow}>Step 2 of 3</p>
-                    <h3>How should we reach you?</h3>
-                    <p className={styles.formLead}>These details are only used to respond to this enquiry.</p>
-                    <div className={styles.formRow}>
-                      <label>
-                        <span>Full name</span>
-                        <input value={form.name} onChange={(event) => updateField("name", event.target.value)} placeholder="Your name" />
-                      </label>
-                      <label>
-                        <span>Phone / WhatsApp</span>
-                        <input type="tel" value={form.phone} onChange={(event) => updateField("phone", event.target.value)} placeholder="+250 ..." />
-                      </label>
-                    </div>
-                    <label>
-                      <span>Email</span>
-                      <input type="email" value={form.email} onChange={(event) => updateField("email", event.target.value)} placeholder="you@example.com" />
-                    </label>
-                  </div>
-                ) : null}
-
-                {step === 3 ? (
-                  <div className={styles.formStep}>
-                    <p className={styles.formEyebrow}>Step 3 of 3</p>
-                    <h3>Anything else we should know?</h3>
-                    <p className={styles.formLead}>A short description is enough. We will discuss the details with you afterwards.</p>
-                    <label>
-                      <span>Message</span>
-                      <textarea
-                        rows={6}
-                        value={form.message}
-                        onChange={(event) => updateField("message", event.target.value)}
-                        placeholder="Tell us briefly what is happening or what you would like DŌMICILE to manage."
-                      />
-                    </label>
-                    <div className={styles.reviewCard}>
-                      <span>Enquiry summary</span>
-                      <dl>
-                        <div><dt>Property</dt><dd>{form.propertyType}</dd></div>
-                        <div><dt>Location</dt><dd>{form.location}</dd></div>
-                        <div><dt>Need</dt><dd>{form.helpWith}</dd></div>
-                        <div><dt>Contact</dt><dd>{form.name} · {form.phone}</dd></div>
-                      </dl>
-                    </div>
-                  </div>
-                ) : null}
-
-                {error ? <p className={styles.formError}>{error}</p> : null}
-
-                <div className={styles.formControls}>
-                  {step > 1 ? (
-                    <button className={styles.backButton} type="button" onClick={previousStep}>← Back</button>
-                  ) : <span />}
-
-                  {step < 3 ? (
-                    <button
-                      className={styles.nextButton}
-                      type="button"
-                      onClick={nextStep}
-                      disabled={step === 1 ? !stepOneReady : !stepTwoReady}
-                    >
-                      Continue <span>→</span>
-                    </button>
-                  ) : (
-                    <button className={styles.submitButton} type="submit" disabled={!stepThreeReady || isSubmitting}>
-                      {isSubmitting ? "Sending…" : "Send to DŌMICILE"}<span>→</span>
-                    </button>
-                  )}
-                </div>
-
-                <p className={styles.privacyNote}>
-                  By sending this form, you consent to IMVO Group using the information you provide to respond to your enquiry. See our <Link href="/privacy-policy">Privacy Policy</Link>.
-                </p>
-              </form>
-            )}
-          </div>
+        <div className={styles.contactIntro}>
+          <Image src="/domicile/domicile-black-no-tagline.svg" alt="DŌMICILE" width={1495} height={292} />
+          <p className={styles.kicker}>Start with a conversation</p>
+          <h2>Tell us about your property.</h2>
+          <p>This is an enquiry, not a registration. We will contact you to understand the property and what you need.</p>
+          <div className={styles.contactDetails}><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a><span>Existing clients: care@imvogroup.com</span><span>Kigali, Rwanda</span></div>
         </div>
+        <form className={styles.contactForm} onSubmit={handleSubmit}>
+          {isSubmitted ? <div className={styles.successBox}><small>Enquiry received</small><h3>Thank you. DŌMICILE has your message.</h3><p>Our team will review the property need and contact you using the details provided.</p><button type="button" onClick={() => setIsSubmitted(false)}>Send another enquiry</button></div> : <>
+            <div className={styles.formHead}><small>Property enquiry</small><h3>What should we know?</h3><p>A short description is enough. We can discuss the details afterwards.</p></div>
+            <input className={styles.honeypot} value={form.botcheck} onChange={(e) => setForm((v) => ({ ...v, botcheck: e.target.value }))} tabIndex={-1} autoComplete="off" aria-hidden="true" />
+            <div className={styles.formGrid}>
+              <label><span>Full name</span><input value={form.name} onChange={(e) => setForm((v) => ({ ...v, name: e.target.value }))} placeholder="Your name" /></label>
+              <label><span>Phone / WhatsApp</span><input value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} placeholder="+250 …" /></label>
+              <label><span>Email</span><input type="email" value={form.email} onChange={(e) => setForm((v) => ({ ...v, email: e.target.value }))} placeholder="you@example.com" /></label>
+              <label><span>Property location</span><input value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} placeholder="e.g. Kacyiru, Kigali" /></label>
+              <label><span>Property type</span><select value={form.propertyType} onChange={(e) => setForm((v) => ({ ...v, propertyType: e.target.value }))}><option value="">Select property type</option>{propertyTypes.map((item) => <option key={item}>{item}</option>)}</select></label>
+              <label><span>What do you need help with?</span><select value={form.helpWith} onChange={(e) => setForm((v) => ({ ...v, helpWith: e.target.value }))}><option value="">Select what you need</option>{helpOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
+              <label className={styles.messageField}><span>Message</span><textarea value={form.message} onChange={(e) => setForm((v) => ({ ...v, message: e.target.value }))} placeholder="Tell us what the property needs…" /></label>
+            </div>
+            {error && <div className={styles.errorBox}>{error}</div>}
+            <div className={styles.formFooter}><p>By sending this form, you consent to IMVO Group using the information you provide to respond to your enquiry. <Link href="/privacy-policy">Privacy Policy</Link>.</p><button type="submit" disabled={!formReady || isSubmitting}>{isSubmitting ? "Sending…" : "Send to DŌMICILE"}<span>→</span></button></div>
+          </>}
+        </form>
       </section>
 
       <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          <div>
-            <Image
-              src="/domicile/domicile-white-no-tagline.svg"
-              alt="DŌMICILE"
-              width={1495}
-              height={292}
-              className={styles.footerWordmark}
-            />
-            <p>Property Management by IMVO Group</p>
-          </div>
-          <div className={styles.footerLinks}>
-            <a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a>
-            <a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a>
-            <Link href="/">Back to IMVO Group →</Link>
-          </div>
-        </div>
+        <div className={styles.footerBrand}><Image src="/domicile/domicile-white-no-tagline.svg" alt="DŌMICILE" width={1495} height={292} /><p>Property Management by IMVO Group</p></div>
+        <div className={styles.footerLinks}><div><b>Care</b><a href="#properties">Properties under care</a><a href="#in-action">DŌMICILE in action</a><a href="#services">Services</a></div><div><b>Company</b><Link href="/">IMVO Group</Link><a href="#faq">FAQ</a><a href="#talk-to-us">Contact</a></div><div><b>Reach us</b><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a><span>Kigali, Rwanda</span></div></div>
+        <div className={styles.footerBottom}><span>© 2026 DŌMICILE by IMVO Group.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div></div>
       </footer>
+
+      <div className={styles.imvoReturn} onMouseEnter={() => setImvoOpen(true)} onMouseLeave={() => setImvoOpen(false)}>
+        <Link href="/" aria-label="Back to IMVO Group"><span className={styles.imvoBadge}>IMVO</span><span className={`${styles.imvoLabel} ${imvoOpen ? styles.floatOpen : ""}`}>Back to IMVO Group</span></Link>
+      </div>
+
+      <div className={styles.assistant} onMouseEnter={() => setAssistantOpen(true)} onMouseLeave={() => setAssistantOpen(false)}>
+        <div className={`${styles.assistantPanel} ${assistantOpen ? styles.floatOpen : ""}`}><small>DŌMICILE</small><strong>Got a property to look after?</strong><p>Tell us what it needs.</p><a href="#talk-to-us">Ask DŌMICILE <span>→</span></a></div>
+        <button type="button" className={styles.assistantButton} onClick={() => setAssistantOpen((open) => !open)} aria-expanded={assistantOpen} aria-label="Open DŌMICILE assistant"><Image src="/domicile/logo-icon-white.webp" alt="" width={253} height={320} /></button>
+      </div>
     </main>
   );
 }

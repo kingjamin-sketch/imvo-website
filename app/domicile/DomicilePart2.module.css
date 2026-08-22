@@ -1,0 +1,47 @@
+.nav {justify-self: center; display: flex; align-items: center; gap: 28px;}
+.nav a {font-size: 12px; font-weight: 750; color: #4f4f4c; position: relative;}
+.nav a::after {content: ""; position: absolute; left: 0; right: 100%; bottom: -8px; height: 1px; background: #111; transition: right .22s ease;}
+.nav a:hover::after {right: 0;}
+.hero {width: min(1480px, calc(100% - 32px));
+  min-height: 720px;
+  margin: 16px auto 0;
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 24px 70px rgba(0,0,0,.08);}
+.heroCopy {color: #fff; max-width: 720px;}
+.hero h1 {margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(66px, 7.4vw, 112px); line-height: .88; letter-spacing: -.055em; font-weight: 500;}
+.trustStrip {width: min(1400px, calc(100% - 64px)); margin: 28px auto 0; background: #fff; border: 1px solid #e2e2de; border-radius: 18px; display: grid; grid-template-columns: repeat(4,1fr); box-shadow: 0 14px 50px rgba(0,0,0,.035);}
+.trustStrip div {min-height: 82px; padding: 18px 24px; display: flex; align-items: center; gap: 14px; border-right: 1px solid #e7e7e2;}
+.trustStrip div:last-child {border-right: 0;}
+.trustStrip b {color: #aaa9a3; font-size: 10px; letter-spacing: .1em;}
+.trustStrip span {font-size: 12px; font-weight: 800;}
+.processSection {width: min(1400px, calc(100% - 64px)); margin: 110px auto 0;}
+.status {width: fit-content; padding: 8px 10px; border-radius: 999px; font-size: 9px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase;}
+.activityPanel {display: grid; grid-template-columns: .8fr 1.2fr; gap: 14px;}
+.engagementGrid article > span {color: #a8a69f; font-size: 10px; font-weight: 900; letter-spacing: .12em;}
+.engagementGrid h3 {margin: auto 0 10px; font-size: 24px; line-height: 1.05; letter-spacing: -.035em;}
+.engagementGrid p {margin: 0; color: #6c6c67; font-size: 13px; line-height: 1.65;}
+.dashboardTabs {display: flex; gap: 4px; overflow-x: auto; padding: 12px 14px; border-bottom: 1px solid #e7e7e2;}
+.dashboardTabs button {flex: 0 0 auto; border: 0; background: transparent; padding: 8px 10px; border-radius: 999px; color: #777770; font-size: 9px; font-weight: 800;}
+.dashboardTabs .tabActive {background: #111; color: #fff;}
+.engagementGrid {margin-top: 36px; display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;}
+.engagementGrid article {min-height: 250px; padding: 28px; border: 1px solid #d9d9d4; border-radius: 18px; background: #fff; display: flex; flex-direction: column;}
+.engagementNote {max-width: 900px; margin: 24px 0 0; color: #74736e; font-size: 12px; line-height: 1.7;}
+.imvoMark {min-height: 170px; border-left: 1px solid #dfdfda; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.imvoMark strong {font-size: 42px; letter-spacing: -.05em;}
+.imvoMark span {color: #8d8b84; font-size: 10px; letter-spacing: .3em;}
+.contactSection {width: min(1480px, calc(100% - 32px)); margin: 110px auto 0; padding: 36px; background: #e9e9e6; border-radius: 28px; display: grid; grid-template-columns: .7fr 1.3fr; gap: 34px;}
+.contactDetails {margin-top: 32px; padding-top: 24px; border-top: 1px solid #d2d2cd; display: flex; flex-direction: column; gap: 11px; font-size: 12px; font-weight: 800;}
+.contactDetails span {color: #74736d; font-weight: 650;}
+.assistantPanel {opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: none; transition: opacity .16s ease, transform .16s ease, visibility .16s ease;}
+.assistantPanel {width: 260px; padding: 20px; background: #fff; color: #111; border: 1px solid #d7d7d2; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.14); transform-origin: bottom right;}
+.assistantPanel small {color: #8b8982; font-size: 8px; font-weight: 900; letter-spacing: .14em;}
+.assistantPanel strong {display: block; margin-top: 7px; font-size: 18px; line-height: 1.1; letter-spacing: -.03em;}
+.assistantPanel p {margin: 8px 0 16px; color: #74736e; font-size: 11px;}
+.assistantPanel a {min-height: 40px; padding: 0 12px; border-radius: 999px; background: #111; color: #fff; display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 850;}
+@media (max-width: 1180px) {.nav {gap: 18px;} .activityPanel {grid-template-columns: 1fr;} .imvoMark {display: none;}}
+@media (max-width: 900px) {.nav {display: none;} .hero {min-height: 880px;} .heroCopy {max-width: 620px;} .trustStrip {grid-template-columns: repeat(2,1fr);} .trustStrip div:nth-child(2) {border-right: 0;} .trustStrip div:nth-child(-n/**/+2) {border-bottom: 1px solid #e7e7e2;} .engagementGrid {grid-template-columns: 1fr 1fr;} .contactSection {grid-template-columns: 1fr;}}
+@media (max-width: 680px) {.hero, .contactSection {width: calc(100% - 16px);} .hero {margin-top: 8px; border-radius: 20px; min-height: 820px;} .hero h1 {font-size: clamp(56px,17vw,82px);} .trustStrip, .processSection {width: calc(100% - 24px);} .trustStrip {margin-top: 14px; grid-template-columns: 1fr;} .trustStrip div {min-height: 60px; border-right: 0; border-bottom: 1px solid #e7e7e2 !important;} .trustStrip div:last-child {border-bottom: 0 !important;} .processSection {margin-top: 78px;} .engagementGrid {grid-template-columns: 1fr;} .contactSection {margin-top: 80px; padding: 14px;} .assistantPanel {width: min(260px, calc(100vw - 80px));}}
+@media (prefers-reduced-motion: reduce) {.assistantPanel {transition: none;}}

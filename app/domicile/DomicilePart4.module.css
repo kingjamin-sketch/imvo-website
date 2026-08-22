@@ -1,0 +1,50 @@
+.headerCta {min-height: 46px; padding: 0 19px; display: inline-flex; align-items: center; gap: 18px; border: 1px solid #111; border-radius: 999px; font-size: 12px; font-weight: 850; background: #111; color: #fff !important; transition: transform .2s ease;}
+.headerCta:hover {transform: translateY(-1px);}
+.kickerLight {margin: 0 0 18px; font-size: 10px; line-height: 1.2; font-weight: 850; letter-spacing: .18em; text-transform: uppercase;}
+.heroLead {max-width: 660px; margin: 28px 0 0; font-size: 20px; line-height: 1.55; color: rgba(255,255,255,.9);}
+.faqSection {width: min(1400px, calc(100% - 64px)); margin: 110px auto 0;}
+.kickerLight {color: rgba(255,255,255,.54);}
+.propertyGrid {display: grid; grid-template-columns: repeat(3,1fr); gap: 18px;}
+.serviceStandard {margin-top: 18px; min-height: 72px; border: 1px solid #deded9; background: #efefec; border-radius: 18px; display: grid; grid-template-columns: repeat(4,1fr);}
+.serviceStandard span {padding: 18px; display: grid; place-items: center; text-align: center; border-right: 1px solid #d9d9d4; font-size: 11px; font-weight: 800;}
+.serviceStandard span:last-child {border-right: 0;}
+.actionIntro h2 {margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(40px,4vw,62px); line-height: .98; font-weight: 500; letter-spacing: -.04em;}
+.actionIntro > p:not(.kickerLight) {margin: 22px 0 0; color: rgba(255,255,255,.66); font-size: 15px; line-height: 1.7;}
+.activityPulse {position: absolute; top: 24px; left: 24px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center;}
+.activityPulse i {width: 8px; height: 8px; border-radius: 50%; background: #d8b37e; box-shadow: 0 0 0 8px rgba(216,179,126,.09); animation: pulse 2s infinite;}
+@keyframes pulse {0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.72); opacity: .6; }}
+.servicesGrid {display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid #dcdcd7; border-radius: 20px; overflow: hidden; background: #fff;}
+.servicesGrid article {min-height: 230px; padding: 28px; border-right: 1px solid #e1e1dd; border-bottom: 1px solid #e1e1dd; display: flex; flex-direction: column; justify-content: space-between;}
+.servicesGrid article:nth-child(3n) {border-right: 0;}
+.servicesGrid article:nth-child(n/**/+4) {border-bottom: 0;}
+.servicesGrid article > span {color: #a8a69f; font-size: 10px; font-weight: 900; letter-spacing: .12em;}
+.servicesGrid h3 {margin: auto 0 10px; font-size: 24px; line-height: 1.05; letter-spacing: -.035em;}
+.servicesGrid p {margin: 0; color: #6c6c67; font-size: 13px; line-height: 1.65;}
+.dashboardSection {width: min(1480px, calc(100% - 32px)); margin: 110px auto 0; padding: 22px; background: #e8e8e5; border-radius: 28px; display: grid; grid-template-columns: .72fr 1.28fr; gap: 22px;}
+.dashboardBody {min-height: 220px; padding: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 28px;}
+.dashboardBody > div {max-width: 560px;}
+.dashboardBody small {color: #9a9891; font-size: 9px; text-transform: uppercase; font-weight: 900; letter-spacing: .12em;}
+.dashboardBody h3 {margin: 10px 0 9px; font-size: 26px; letter-spacing: -.035em;}
+.dashboardBody p {margin: 0; color: #6e6d68; font-size: 13px; line-height: 1.65;}
+.dashboardBody > button {flex: 0 0 auto; min-height: 44px; padding: 0 14px; border: 1px solid #c9c9c3; border-radius: 999px; background: #fff; display: inline-flex; gap: 16px; align-items: center; font-size: 10px; font-weight: 850;}
+.assuranceGrid {display: grid; grid-template-columns: repeat(3,1fr);}
+.assuranceGrid article {min-height: 300px; padding: 34px; border-right: 1px solid rgba(255,255,255,.11);}
+.assuranceGrid article:last-child {border-right: 0;}
+.assuranceGrid small {color: #b79b78; font-size: 9px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase;}
+.assuranceGrid h3 {margin: 46px 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: 34px; line-height: 1.05; font-weight: 500; letter-spacing: -.03em;}
+.assuranceGrid p {margin: 0; color: rgba(255,255,255,.58); font-size: 13px; line-height: 1.7;}
+.faqGrid {display: grid; grid-template-columns: repeat(2,1fr); gap: 10px;}
+.faqGrid article {border: 1px solid #dcdcd7; border-radius: 14px; background: #fff; overflow: hidden;}
+.faqGrid button {width: 100%; min-height: 62px; padding: 0 18px; border: 0; background: transparent; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; font-size: 12px; font-weight: 800;}
+.faqGrid button b {font-size: 18px; font-weight: 400;}
+.faqGrid article > div {display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease;}
+.faqGrid article > div p {min-height: 0; overflow: hidden; margin: 0; padding: 0 18px; color: #71706a; font-size: 12px; line-height: 1.65; transition: padding .25s ease;}
+.faqGrid .faqOpen > div {grid-template-rows: 1fr;}
+.faqGrid .faqOpen > div p {padding: 0 18px 18px;}
+.footerBrand img {width: 230px; height: auto;}
+.footerBrand p {color: rgba(255,255,255,.48); font-size: 11px; letter-spacing: .08em;}
+.floatOpen {opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important;}
+@media (max-width: 1180px) {.dashboardSection {grid-template-columns: 1fr;}}
+@media (max-width: 900px) {.headerCta {min-height: 42px; padding: 0 14px;} .propertyGrid, .servicesGrid, .assuranceGrid {grid-template-columns: 1fr 1fr;} .servicesGrid article:nth-child(3n) {border-right: 1px solid #e1e1dd;} .servicesGrid article:nth-child(2n) {border-right: 0;} .servicesGrid article:nth-child(4) {border-bottom: 1px solid #e1e1dd;} .assuranceGrid article {border-right: 0; border-bottom: 1px solid rgba(255,255,255,.11);} .assuranceGrid article:last-child {border-bottom: 0;}}
+@media (max-width: 680px) {.dashboardSection {width: calc(100% - 16px);} .headerCta {padding: 0 12px; font-size: 10px; gap: 8px;} .heroLead {font-size: 15px; line-height: 1.55;} .faqSection {width: calc(100% - 24px);} .faqSection {margin-top: 78px;} .propertyGrid, .servicesGrid, .assuranceGrid {grid-template-columns: 1fr;} .serviceStandard {grid-template-columns: 1fr 1fr;} .serviceStandard span:nth-child(2) {border-right: 0;} .serviceStandard span:nth-child(-n/**/+2) {border-bottom: 1px solid #d9d9d4;} .actionIntro h2 {font-size: 40px;} .servicesGrid {display: grid; border-radius: 18px;} .servicesGrid article {border-right: 0 !important; border-bottom: 1px solid #e1e1dd !important; min-height: 200px;} .servicesGrid article:last-child {border-bottom: 0 !important;} .dashboardSection {margin-top: 80px; padding: 10px; border-radius: 20px;} .dashboardBody {align-items: flex-start; flex-direction: column;} .assuranceGrid article {min-height: 240px; padding: 26px 18px;} .assuranceGrid h3 {margin-top: 34px; font-size: 30px;} .faqGrid {grid-template-columns: 1fr;}}
+@media (prefers-reduced-motion: reduce) {.activityPulse i {animation: none;}}
