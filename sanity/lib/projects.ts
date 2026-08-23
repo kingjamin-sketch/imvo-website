@@ -9,6 +9,8 @@ import {
 
 import { sanityClient } from "./client";
 
+const SANITY_PROJECTS_REVALIDATE_SECONDS = 300;
+
 type SanityProjectRecord = {
   id?: string;
   slug?: string;
@@ -198,7 +200,10 @@ async function getSanityProjects(): Promise<Project[]> {
     const records = await sanityClient.fetch<SanityProjectRecord[]>(
       projectsQuery,
       {},
-      { cache: "no-store" },
+      {
+        cache: "force-cache",
+        next: { revalidate: SANITY_PROJECTS_REVALIDATE_SECONDS },
+      },
     );
 
     return records
