@@ -7,14 +7,18 @@ import { usePathname } from "next/navigation";
 
 import BackToTop from "./BackToTop";
 import DomicileWidget from "./DomicileWidget";
-import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
-import IMVOPreviewExperience from "./IMVOPreviewExperience";
-import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 
+const IntroLoader = dynamic(() => import("./IntroLoader"), { ssr: false });
+const IMVOPreviewExperience = dynamic(() => import("./IMVOPreviewExperience"), {
+  ssr: false,
+});
+const IMVOPreviewCorrections = dynamic(() => import("./IMVOPreviewCorrections"), {
+  ssr: false,
+});
 const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
   ssr: false,
 });
@@ -27,6 +31,8 @@ const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
 
 const photographyRoutes = new Set(["/", "/about", "/services", "/contact"]);
 const finalRefinementRoutes = new Set(["/", "/services"]);
+const previewCorrectionRoutes = new Set(["/", "/about", "/services"]);
+const previewExperienceRoutes = new Set(["/", "/about", "/services", "/contact"]);
 
 export default function SiteShell({
   children,
@@ -41,17 +47,20 @@ export default function SiteShell({
     return children;
   }
 
+  const needsPreviewExperience =
+    previewExperienceRoutes.has(pathname) || pathname.startsWith("/projects");
+
   return (
     <MotionConfig reducedMotion="user">
       <SmoothScrollProvider>
         <a className="skipLink" href="#main-content">
           Skip to main content
         </a>
-        <IntroLoader />
+        {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader />
         <DomicileWidget />
-        <IMVOPreviewExperience />
-        <IMVOPreviewCorrections />
+        {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
+        {previewCorrectionRoutes.has(pathname) ? <IMVOPreviewCorrections /> : null}
         <main id="main-content" tabIndex={-1}>
           {children}
           {photographyRoutes.has(pathname) ? <IMVOStudioPhotography /> : null}
