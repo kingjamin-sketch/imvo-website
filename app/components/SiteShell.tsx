@@ -1,8 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
 
+import BackToTop from "./BackToTop";
 import DomicileWidget from "./DomicileWidget";
 import IMVOFinalRefinements from "./IMVOFinalRefinements";
 import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
@@ -29,19 +31,25 @@ export default function SiteShell({
   }
 
   return (
-    <SmoothScrollProvider>
-      <IntroLoader />
-      <SiteHeader />
-      <DomicileWidget />
-      <IMVOPreviewExperience />
-      <IMVOPreviewCorrections />
-      <main>
-        {children}
-        <IMVOStudioPhotography />
-        <IMVOFinalRefinements />
-        <IMVOStudioMetrics />
-      </main>
-      <SiteFooter settings={settings} />
-    </SmoothScrollProvider>
+    <MotionConfig reducedMotion="user">
+      <SmoothScrollProvider>
+        <a className="skipLink" href="#main-content">
+          Skip to main content
+        </a>
+        <IntroLoader />
+        <SiteHeader />
+        <DomicileWidget />
+        <IMVOPreviewExperience />
+        <IMVOPreviewCorrections />
+        <main id="main-content" tabIndex={-1}>
+          {children}
+          <IMVOStudioPhotography />
+          <IMVOFinalRefinements />
+          <IMVOStudioMetrics />
+        </main>
+        <SiteFooter settings={settings} />
+        <BackToTop />
+      </SmoothScrollProvider>
+    </MotionConfig>
   );
 }
