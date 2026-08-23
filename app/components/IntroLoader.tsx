@@ -26,11 +26,11 @@ export default function IntroLoader() {
 
     const finishTimer = window.setTimeout(
       () => setIsFinishing(true),
-      shouldReduceMotion ? 1200 : 4000,
+      shouldReduceMotion ? 450 : 2750,
     );
     const removeTimer = window.setTimeout(
       () => setShow(false),
-      shouldReduceMotion ? 1450 : 4550,
+      shouldReduceMotion ? 700 : 3150,
     );
 
     return () => {
