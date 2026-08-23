@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 
 import BackToTop from "./BackToTop";
 import DomicileWidget from "./DomicileWidget";
-import IMVOFinalRefinements from "./IMVOFinalRefinements";
 import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
 import IMVOPreviewExperience from "./IMVOPreviewExperience";
 import IntroLoader from "./IntroLoader";
@@ -22,8 +21,12 @@ const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
 const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
   ssr: false,
 });
+const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
+  ssr: false,
+});
 
 const photographyRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const finalRefinementRoutes = new Set(["/", "/services"]);
 
 export default function SiteShell({
   children,
@@ -52,7 +55,7 @@ export default function SiteShell({
         <main id="main-content" tabIndex={-1}>
           {children}
           {photographyRoutes.has(pathname) ? <IMVOStudioPhotography /> : null}
-          <IMVOFinalRefinements />
+          {finalRefinementRoutes.has(pathname) ? <IMVOFinalRefinements /> : null}
           {pathname === "/" ? <IMVOStudioMetrics /> : null}
         </main>
         <SiteFooter settings={settings} />
