@@ -1,21 +1,32 @@
 "use client";
 
 import type { ReactNode } from "react";
+import dynamic from "next/dynamic";
 import { MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 import BackToTop from "./BackToTop";
 import DomicileWidget from "./DomicileWidget";
-import IMVOFinalRefinements from "./IMVOFinalRefinements";
 import IMVOPreviewCorrections from "./IMVOPreviewCorrections";
 import IMVOPreviewExperience from "./IMVOPreviewExperience";
-import IMVOStudioMetrics from "./IMVOStudioMetrics";
-import IMVOStudioPhotography from "./IMVOStudioPhotography";
 import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
 import type { SiteSettings } from "@/sanity/types/siteContent";
+
+const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
+  ssr: false,
+});
+const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
+  ssr: false,
+});
+const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
+  ssr: false,
+});
+
+const photographyRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const finalRefinementRoutes = new Set(["/", "/services"]);
 
 export default function SiteShell({
   children,
@@ -43,9 +54,9 @@ export default function SiteShell({
         <IMVOPreviewCorrections />
         <main id="main-content" tabIndex={-1}>
           {children}
-          <IMVOStudioPhotography />
-          <IMVOFinalRefinements />
-          <IMVOStudioMetrics />
+          {photographyRoutes.has(pathname) ? <IMVOStudioPhotography /> : null}
+          {finalRefinementRoutes.has(pathname) ? <IMVOFinalRefinements /> : null}
+          {pathname === "/" ? <IMVOStudioMetrics /> : null}
         </main>
         <SiteFooter settings={settings} />
         <BackToTop />
