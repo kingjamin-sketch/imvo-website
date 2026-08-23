@@ -65,11 +65,26 @@
   transform: translateY(-2px);
 }
 
+/* Improve small editorial copy without flattening the visual hierarchy. */
+.projects-index-meta {
+  color: rgba(255, 255, 255, 0.68) !important;
+  font-size: 11px !important;
+}
+
+.projects-index-summary {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
 @media (max-width: 980px) {
   .mobileMenuBtn,
-  .backToTop {
-    min-width: 48px;
-    min-height: 48px;
+  .backToTop,
+  .projects-index-filter,
+  .projectsEditorialFilters button,
+  .portfolioEditorialControls button,
+  .portfolioNav button,
+  .imvo-filter-control-v2 {
+    min-width: 48px !important;
+    min-height: 48px !important;
     touch-action: manipulation;
   }
 
@@ -77,6 +92,24 @@
   select,
   textarea {
     min-height: 44px;
+  }
+
+  footer a[aria-label] {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .imvo-team-grid-v2 {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .imvo-team-card-v2 > div:first-child {
+    aspect-ratio: 4 / 5 !important;
   }
 }
 

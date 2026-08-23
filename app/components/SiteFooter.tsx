@@ -84,7 +84,7 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
               style={{
                 marginTop: 18,
                 maxWidth: 420,
-                color: "rgba(255,255,255,0.45)",
+                color: "rgba(255,255,255,0.72)",
                 lineHeight: 1.7,
                 fontSize: 14,
               }}
@@ -95,9 +95,9 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
               style={{
                 marginTop: 8,
                 maxWidth: 520,
-                color: "rgba(255,255,255,0.32)",
-                lineHeight: 1.6,
-                fontSize: 11,
+                color: "rgba(255,255,255,0.62)",
+                lineHeight: 1.65,
+                fontSize: 12,
               }}
             >
               {settings?.legalNotice || "Regulated professional services and statutory sign-off are undertaken only by appropriately registered practitioners."}
@@ -113,16 +113,16 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 style={{
-                  width: 42,
-                  height: 42,
+                  width: 48,
+                  height: 48,
                   borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.14)",
+                  border: "1px solid rgba(255,255,255,0.18)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "rgba(255,255,255,0.72)",
+                  color: "rgba(255,255,255,0.82)",
                   textDecoration: "none",
-                  background: "rgba(255,255,255,0.03)",
+                  background: "rgba(255,255,255,0.04)",
                   transition: "all 0.25s ease",
                 }}
               >
@@ -142,7 +142,7 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
             borderTop: "1px solid rgba(255,255,255,0.1)",
             paddingTop: 32,
             fontSize: 12,
-            color: "rgba(255,255,255,0.42)",
+            color: "rgba(255,255,255,0.68)",
           }}
         >
           <div>
@@ -152,15 +152,21 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
 
           <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
             {legalLinks.map((item, index) => (
-              <span key={item.href} style={{ display: "inline-flex", gap: 18 }}>
+              <span key={item.href} style={{ display: "inline-flex", gap: 18, alignItems: "center" }}>
                 <Link
                   href={item.href}
-                  style={{ color: "inherit", textDecoration: "none" }}
+                  style={{
+                    color: "inherit",
+                    textDecoration: "none",
+                    minHeight: 44,
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
                 >
                   {item.label}
                 </Link>
                 {index < legalLinks.length - 1 && (
-                  <span style={{ opacity: 0.35 }}>|</span>
+                  <span aria-hidden="true" style={{ opacity: 0.55 }}>|</span>
                 )}
               </span>
             ))}
