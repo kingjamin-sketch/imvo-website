@@ -1,7 +1,12 @@
 import ProjectDetailClient from "./ProjectDetailClient";
 import { getAllProjects } from "@/sanity/lib/projects";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({ slug: project.slug }));
+}
 
 export default async function ProjectDetailPage({
   params,
