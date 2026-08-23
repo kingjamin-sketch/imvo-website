@@ -11,6 +11,8 @@ import type {
 } from "../types/siteContent";
 import { sanityClient } from "./client";
 
+const SANITY_CONTENT_REVALIDATE_SECONDS = 300;
+
 const imageProjection = `{
   alt,
   "url": asset->url + "?w=1920&fit=max&auto=format&q=78"
@@ -96,7 +98,8 @@ async function fetchSingleton<T>(
 ): Promise<T | null> {
   try {
     return await sanityClient.fetch<T | null>(query, params, {
-      cache: "no-store",
+      cache: "force-cache",
+      next: { revalidate: SANITY_CONTENT_REVALIDATE_SECONDS },
     });
   } catch (error) {
     if (process.env.NODE_ENV !== "production") {
