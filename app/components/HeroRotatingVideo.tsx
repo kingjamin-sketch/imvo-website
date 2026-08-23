@@ -1,20 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 type HeroRotatingVideoProps = {
   onReady?: () => void;
 };
 
+type NavigatorWithConnection = Navigator & {
+  connection?: {
+    saveData?: boolean;
+  };
+};
+
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
-  const [isReady, setIsReady] = useState(false);
+  const [allowVideo, setAllowVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const hasNotifiedReady = useRef(false);
 
-  const handleReady = () => {
-    if (isReady) return;
+  const notifyReady = () => {
+    if (hasNotifiedReady.current) return;
 
-    setIsReady(true);
+    hasNotifiedReady.current = true;
     onReady?.();
   };
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (navigator as NavigatorWithConnection).connection;
+
+    const updateVideoPreference = () => {
+      setAllowVideo(!motionPreference.matches && connection?.saveData !== true);
+    };
+
+    updateVideoPreference();
+    motionPreference.addEventListener("change", updateVideoPreference);
+
+    return () => motionPreference.removeEventListener("change", updateVideoPreference);
+  }, []);
 
   return (
     <div
@@ -28,26 +51,42 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }}
       aria-hidden="true"
     >
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onCanPlay={handleReady}
-        onLoadedData={handleReady}
+      <Image
+        src="/hero-2.webp"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        onLoad={notifyReady}
+        onError={notifyReady}
         style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
-          opacity: isReady ? 1 : 0,
-          transition: "opacity 700ms ease",
+          filter: "brightness(0.82)",
         }}
-      >
-        <source src="/hero-1.mp4" type="video/mp4" />
-      </video>
+      />
+
+      {allowVideo && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onCanPlay={() => setIsVideoReady(true)}
+          onLoadedData={() => setIsVideoReady(true)}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: isVideoReady ? 1 : 0,
+            transition: "opacity 700ms ease",
+          }}
+        >
+          <source src="/hero-1.mp4" type="video/mp4" />
+        </video>
+      )}
     </div>
   );
 }
