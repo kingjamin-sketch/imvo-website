@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import rwandaLocations from "./rwandaLocations.json";
 import type { ContactPageContent } from "@/sanity/types/siteContent";
 
 const inquiryTypes = [
@@ -94,22 +93,13 @@ const countryOptions = [
 
 type LocationOption = [code: string, name: string];
 type LocationGroups = Record<string, LocationOption[]>;
-
-const rwandaProvinces = rwandaLocations.provinces as unknown as LocationOption[];
-const districtsByProvince = rwandaLocations.districtsByProvince as unknown as LocationGroups;
-const sectorsByDistrict = rwandaLocations.sectorsByDistrict as unknown as LocationGroups;
-const cellsBySector = rwandaLocations.cellsBySector as unknown as LocationGroups;
-const villagesByCell = rwandaLocations.villagesByCell as unknown as LocationGroups;
-
-const locationNames = new Map<string, string>([
-  ...rwandaProvinces,
-  ...Object.values(districtsByProvince).flat(),
-  ...Object.values(sectorsByDistrict).flat(),
-  ...Object.values(cellsBySector).flat(),
-  ...Object.values(villagesByCell).flat(),
-]);
-
-const getLocationName = (code: string) => locationNames.get(code) || "";
+type RwandaLocationData = {
+  provinces: LocationOption[];
+  districtsByProvince: LocationGroups;
+  sectorsByDistrict: LocationGroups;
+  cellsBySector: LocationGroups;
+  villagesByCell: LocationGroups;
+};
 
 const preferredContactOptions = ["WhatsApp", "Phone Call", "Email"];
 
@@ -172,7 +162,6 @@ const FieldError = ({ message }: { message?: string }) =>
       {message}
     </div>
   ) : null;
-
 
 const transition = { duration: 1.4, ease: [0.16, 1, 0.3, 1] as const };
 const fastTransition = { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const };
@@ -601,7 +590,24 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
   const [selectedSector, setSelectedSector] = useState("");
   const [selectedCell, setSelectedCell] = useState("");
   const [selectedVillage, setSelectedVillage] = useState("");
+  const [rwandaLocationData, setRwandaLocationData] = useState<RwandaLocationData | null>(null);
+  const [isRwandaLocationsLoading, setIsRwandaLocationsLoading] = useState(false);
   const successMessageRef = useRef<HTMLDivElement>(null);
+  const projectLocationRef = useRef<HTMLDivElement>(null);
+
+  const loadRwandaLocations = useCallback(async () => {
+    if (rwandaLocationData || isRwandaLocationsLoading) return;
+
+    setIsRwandaLocationsLoading(true);
+    try {
+      const module = await import("./rwandaLocations.json");
+      setRwandaLocationData(module.default as unknown as RwandaLocationData);
+    } catch (error) {
+      console.error("Rwanda location data failed to load:", error);
+    } finally {
+      setIsRwandaLocationsLoading(false);
+    }
+  }, [isRwandaLocationsLoading, rwandaLocationData]);
 
   useEffect(() => {
     setMounted(true);
@@ -621,6 +627,31 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
   }, [mounted]);
 
   useEffect(() => {
+    if (!mounted || selectedCountry !== "Rwanda" || rwandaLocationData) return;
+
+    const target = projectLocationRef.current;
+    if (!target) return;
+
+    if (!("IntersectionObserver" in window)) {
+      void loadRwandaLocations();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          void loadRwandaLocations();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "700px 0px" },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [loadRwandaLocations, mounted, rwandaLocationData, selectedCountry]);
+
+  useEffect(() => {
     if (!isSuccess) return;
 
     const frameId = window.requestAnimationFrame(() => {
@@ -633,6 +664,12 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
 
     return () => window.cancelAnimationFrame(frameId);
   }, [isSuccess]);
+
+  const rwandaProvinces = rwandaLocationData?.provinces || [];
+  const districtsByProvince = rwandaLocationData?.districtsByProvince || {};
+  const sectorsByDistrict = rwandaLocationData?.sectorsByDistrict || {};
+  const cellsBySector = rwandaLocationData?.cellsBySector || {};
+  const villagesByCell = rwandaLocationData?.villagesByCell || {};
 
   if (!mounted) {
     return <div style={{ background: "#050505", minHeight: "100vh" }} />;
@@ -767,6 +804,18 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
     setFormErrors({});
     setSubmissionError("");
     setIsSubmitting(true);
+
+    const locationNames = new Map<string, string>();
+    if (rwandaLocationData) {
+      [
+        ...rwandaLocationData.provinces,
+        ...Object.values(rwandaLocationData.districtsByProvince).flat(),
+        ...Object.values(rwandaLocationData.sectorsByDistrict).flat(),
+        ...Object.values(rwandaLocationData.cellsBySector).flat(),
+        ...Object.values(rwandaLocationData.villagesByCell).flat(),
+      ].forEach(([code, name]) => locationNames.set(code, name));
+    }
+    const getLocationName = (code: string) => locationNames.get(code) || "";
 
     const firstName = read("firstName");
     const lastName = read("lastName");
@@ -1352,9 +1401,7 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                         marginBottom: 24,
                       }}
                     >
-                      <div
-                        style={{ minWidth: 0 }}
-                      >
+                      <div style={{ minWidth: 0 }}>
                         <input
                           name="firstName"
                           type="text"
@@ -1412,38 +1459,38 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                             gap: 12,
                           }}
                         >
-                        <select
-                          name="countryCode"
-                          value={selectedPhoneCode}
-                          onChange={(event) => {
-                            setSelectedPhoneCode(event.target.value);
-                            if (event.target.value !== "OTHER") {
-                              clearFieldErrors(["customCountryCode"]);
-                            }
-                          }}
-                          style={fieldStyle("countryCode", selectStyle)}
-                          aria-label="Phone country code"
-                        >
-                          {phoneCountryCodes.map((item) => (
-                            <option
-                              key={`${item.short}-${item.code}`}
-                              value={item.code}
-                              style={optionStyle}
-                            >
-                              {item.short} {item.code}
-                            </option>
-                          ))}
-                        </select>
+                          <select
+                            name="countryCode"
+                            value={selectedPhoneCode}
+                            onChange={(event) => {
+                              setSelectedPhoneCode(event.target.value);
+                              if (event.target.value !== "OTHER") {
+                                clearFieldErrors(["customCountryCode"]);
+                              }
+                            }}
+                            style={fieldStyle("countryCode", selectStyle)}
+                            aria-label="Phone country code"
+                          >
+                            {phoneCountryCodes.map((item) => (
+                              <option
+                                key={`${item.short}-${item.code}`}
+                                value={item.code}
+                                style={optionStyle}
+                              >
+                                {item.short} {item.code}
+                              </option>
+                            ))}
+                          </select>
 
-                        <input
-                          name="phone"
-                          type="tel"
-                          placeholder="Phone / WhatsApp *"
-                          autoComplete="tel"
-                          aria-label="Phone or WhatsApp number"
-                          aria-invalid={Boolean(formErrors.phone)}
-                          style={fieldStyle("phone")}
-                        />
+                          <input
+                            name="phone"
+                            type="tel"
+                            placeholder="Phone / WhatsApp *"
+                            autoComplete="tel"
+                            aria-label="Phone or WhatsApp number"
+                            aria-invalid={Boolean(formErrors.phone)}
+                            style={fieldStyle("phone")}
+                          />
                         </div>
                         <FieldError message={formErrors.phone} />
                       </div>
@@ -1503,6 +1550,7 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                       </div>
 
                       <div
+                        ref={projectLocationRef}
                         style={{
                           gridColumn: "1 / -1",
                           marginTop: 20,
@@ -1550,8 +1598,17 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                         <select
                           name="country"
                           value={selectedCountry}
+                          onFocus={() => {
+                            if (selectedCountry === "Rwanda") {
+                              void loadRwandaLocations();
+                            }
+                          }}
                           onChange={(event) => {
-                            setSelectedCountry(event.target.value);
+                            const nextCountry = event.target.value;
+                            setSelectedCountry(nextCountry);
+                            if (nextCountry === "Rwanda") {
+                              void loadRwandaLocations();
+                            }
                             setSelectedProvince("");
                             setSelectedDistrict("");
                             setSelectedSector("");
@@ -1585,6 +1642,7 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                             <select
                               name="province"
                               value={selectedProvince}
+                              onFocus={() => void loadRwandaLocations()}
                               onChange={(event) => {
                                 setSelectedProvince(event.target.value);
                                 setSelectedDistrict("");
@@ -1593,12 +1651,18 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                                 setSelectedVillage("");
                                 clearFieldErrors(["district", "sector", "cell", "village"]);
                               }}
-                              style={fieldStyle("province", selectStyle)}
+                              disabled={!rwandaLocationData}
+                              style={{
+                                ...fieldStyle("province", selectStyle),
+                                opacity: rwandaLocationData ? 1 : 0.42,
+                              }}
                               aria-label="Province"
                               aria-invalid={Boolean(formErrors.province)}
                             >
                               <option value="" style={optionStyle}>
-                                Province *
+                                {isRwandaLocationsLoading
+                                  ? "Loading Rwanda locations…"
+                                  : "Province *"}
                               </option>
                               {rwandaProvinces.map(([code, name]) => (
                                 <option key={code} value={code} style={optionStyle}>
@@ -1999,24 +2063,24 @@ export default function ContactPageClient({ content }: { content?: ContactPageCo
                     >
                       {content?.successText || "Your inquiry has been received by IMVO Group. Our team will review the project information and contact you through your preferred method with the most appropriate next step."}
                     </p>
-<div
-  style={{
-    marginTop: 18,
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 10,
-    padding: "10px 16px",
-    borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.03)",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: "0.04em",
-    color: "rgba(255,255,255,0.75)",
-  }}
->
-  ⏱ {content?.responseTimeText || "We typically respond within one business day"}
-</div>
+                    <div
+                      style={{
+                        marginTop: 18,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 10,
+                        padding: "10px 16px",
+                        borderRadius: 999,
+                        border: "1px solid rgba(255,255,255,0.12)",
+                        background: "rgba(255,255,255,0.03)",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        letterSpacing: "0.04em",
+                        color: "rgba(255,255,255,0.75)",
+                      }}
+                    >
+                      ⏱ {content?.responseTimeText || "We typically respond within one business day"}
+                    </div>
                     <p
                       style={{
                         marginTop: 16,
