@@ -5,12 +5,11 @@ import type { ContactPageContent } from "@/sanity/types/siteContent";
 
 export default async function ContactPage() {
   const content = await getContactPageContent();
-  const heroImage = content?.heroImage?.url
-    ? content.heroImage
-    : { url: "/contact-hero.webp", alt: "Contact IMVO" };
+  const heroUrl = content?.heroImage?.url || "/contact-hero.webp";
+  const heroAlt = content?.heroImage?.alt || "Contact IMVO";
   const resolvedContent = {
     ...(content || {}),
-    heroImage,
+    heroImage: { url: heroUrl, alt: heroAlt },
   } as ContactPageContent;
 
   return (
@@ -84,7 +83,7 @@ export default async function ContactPage() {
             }}
           >
             <Image
-              src={heroImage.url}
+              src={heroUrl}
               alt=""
               fill
               priority
