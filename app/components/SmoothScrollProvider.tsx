@@ -14,6 +14,12 @@ export default function SmoothScrollProvider({
   const isFirstRoute = useRef(true);
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.5,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -48,7 +54,9 @@ export default function SmoothScrollProvider({
     if (window.location.hash) return;
 
     const resetScroll = () => {
-      lenisRef.current?.scrollTo(0, { immediate: true, force: true });
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true, force: true });
+      }
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     };
 
