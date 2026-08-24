@@ -262,6 +262,9 @@ function EditorialUIEnhancer() {
 
       document.querySelectorAll<HTMLElement>("a, button").forEach((element) => {
         if (element.closest("[data-imvo-testimonial-preview='true']")) return;
+        // SiteHeader already has its final approved CTA geometry. Do not let
+        // the generic editorial enhancer morph the header after hydration.
+        if (element.closest("header")) return;
         if (element.closest(".imvo-project-archive-v2") && element.tagName === "BUTTON") {
           add(element, "imvo-filter-control-v2");
           return;
