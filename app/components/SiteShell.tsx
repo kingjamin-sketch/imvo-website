@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { MotionConfig } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -13,6 +13,9 @@ import SmoothScrollProvider from "./SmoothScrollProvider";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 
 const IntroLoader = dynamic(() => import("./IntroLoader"), { ssr: false });
+const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
+  ssr: false,
+});
 const IMVOPreviewExperience = dynamic(() => import("./IMVOPreviewExperience"), {
   ssr: false,
 });
@@ -29,10 +32,18 @@ const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
   ssr: false,
 });
 
-const photographyRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const photographyRoutes = new Set(["/", "/about", "/services"]);
 const finalRefinementRoutes = new Set(["/", "/services"]);
 const previewCorrectionRoutes = new Set(["/", "/about", "/services"]);
-const previewExperienceRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const previewExperienceRoutes = new Set(["/", "/about", "/services"]);
+
+type IdleWindow = Window & {
+  requestIdleCallback?: (
+    callback: () => void,
+    options?: { timeout: number },
+  ) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
 
 export default function SiteShell({
   children,
@@ -42,6 +53,62 @@ export default function SiteShell({
   settings?: SiteSettings | null;
 }) {
   const pathname = usePathname();
+  const [homeEnhancementsReady, setHomeEnhancementsReady] = useState(false);
+
+  useEffect(() => {
+    if (pathname !== "/" || homeEnhancementsReady) return;
+
+    const idleWindow = window as IdleWindow;
+    let idleHandle: number | undefined;
+    let fallbackTimer = 0;
+    let fallbackActivationTimer = 0;
+    let scheduled = false;
+    let active = true;
+
+    const detachIntentListeners = () => {
+      window.removeEventListener("scroll", scheduleEnhancements);
+      window.removeEventListener("pointerdown", scheduleEnhancements);
+      window.removeEventListener("keydown", scheduleEnhancements);
+      window.removeEventListener("touchstart", scheduleEnhancements);
+    };
+
+    const activate = () => {
+      if (!active) return;
+      setHomeEnhancementsReady(true);
+    };
+
+    function scheduleEnhancements() {
+      if (scheduled) return;
+      scheduled = true;
+      detachIntentListeners();
+      window.clearTimeout(fallbackTimer);
+
+      if (idleWindow.requestIdleCallback) {
+        idleHandle = idleWindow.requestIdleCallback(activate, { timeout: 1200 });
+      } else {
+        fallbackActivationTimer = window.setTimeout(activate, 180);
+      }
+    }
+
+    // These modules only refine content below the opening viewport. Keep them
+    // out of the cold hydration path, then load them when the visitor starts
+    // exploring or after the page has had a generous settling window.
+    window.addEventListener("scroll", scheduleEnhancements, { passive: true });
+    window.addEventListener("pointerdown", scheduleEnhancements, { passive: true });
+    window.addEventListener("keydown", scheduleEnhancements);
+    window.addEventListener("touchstart", scheduleEnhancements, { passive: true });
+    fallbackTimer = window.setTimeout(scheduleEnhancements, 6500);
+
+    return () => {
+      active = false;
+      detachIntentListeners();
+      window.clearTimeout(fallbackTimer);
+      window.clearTimeout(fallbackActivationTimer);
+      if (idleHandle !== undefined) {
+        idleWindow.cancelIdleCallback?.(idleHandle);
+      }
+    };
+  }, [homeEnhancementsReady, pathname]);
 
   if (pathname.startsWith("/studio") || pathname.startsWith("/domicile")) {
     return children;
@@ -49,6 +116,14 @@ export default function SiteShell({
 
   const needsPreviewExperience =
     previewExperienceRoutes.has(pathname) || pathname.startsWith("/projects");
+  const canRunDeferredRouteEnhancement =
+    pathname !== "/" || homeEnhancementsReady;
+  const needsPreviewCorrections =
+    previewCorrectionRoutes.has(pathname) && canRunDeferredRouteEnhancement;
+  const needsPhotography =
+    photographyRoutes.has(pathname) && canRunDeferredRouteEnhancement;
+  const needsFinalRefinements =
+    finalRefinementRoutes.has(pathname) && canRunDeferredRouteEnhancement;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -59,13 +134,14 @@ export default function SiteShell({
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader />
         <DomicileWidget />
+        {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
-        {previewCorrectionRoutes.has(pathname) ? <IMVOPreviewCorrections /> : null}
+        {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
         <main id="main-content" tabIndex={-1}>
           {children}
-          {photographyRoutes.has(pathname) ? <IMVOStudioPhotography /> : null}
-          {finalRefinementRoutes.has(pathname) ? <IMVOFinalRefinements /> : null}
-          {pathname === "/" ? <IMVOStudioMetrics /> : null}
+          {needsPhotography ? <IMVOStudioPhotography /> : null}
+          {needsFinalRefinements ? <IMVOFinalRefinements /> : null}
+          {pathname === "/" && homeEnhancementsReady ? <IMVOStudioMetrics /> : null}
         </main>
         <SiteFooter settings={settings} />
         <BackToTop />
