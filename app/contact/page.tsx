@@ -1,7 +1,32 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import ContactPageClient from "./ContactPageClient";
 import { getContactPageContent } from "@/sanity/lib/siteContent";
 import type { ContactPageContent } from "@/sanity/types/siteContent";
+
+export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Contact IMVO Group in Kigali to discuss built-environment design, feasibility, development consultancy, site coordination, or project direction.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    url: "/contact",
+    title: "Contact IMVO Group",
+    description:
+      "Start a conversation with IMVO Group about your project, site, development, or built-environment needs.",
+    images: [{ url: "/contact-hero.webp", alt: "Contact IMVO Group" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact IMVO Group",
+    description:
+      "Start a conversation with IMVO Group about your project, site, development, or built-environment needs.",
+    images: ["/contact-hero.webp"],
+  },
+};
 
 export default async function ContactPage() {
   const content = await getContactPageContent();

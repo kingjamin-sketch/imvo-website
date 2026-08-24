@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import LegalContentPage from "@/app/components/LegalContentPage";
 import { getLegalPageContent } from "@/sanity/lib/siteContent";
+
+export const metadata: Metadata = {
+  title: "Cookie Policy",
+  description: "How cookies and similar technologies may be used on the IMVO Group website.",
+  alternates: { canonical: "/cookies" },
+};
 
 const fallback = {
   kicker: "Legal",
