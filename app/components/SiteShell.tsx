@@ -13,6 +13,9 @@ import SmoothScrollProvider from "./SmoothScrollProvider";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 
 const IntroLoader = dynamic(() => import("./IntroLoader"), { ssr: false });
+const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
+  ssr: false,
+});
 const IMVOPreviewExperience = dynamic(() => import("./IMVOPreviewExperience"), {
   ssr: false,
 });
@@ -29,10 +32,10 @@ const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
   ssr: false,
 });
 
-const photographyRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const photographyRoutes = new Set(["/", "/about", "/services"]);
 const finalRefinementRoutes = new Set(["/", "/services"]);
 const previewCorrectionRoutes = new Set(["/", "/about", "/services"]);
-const previewExperienceRoutes = new Set(["/", "/about", "/services", "/contact"]);
+const previewExperienceRoutes = new Set(["/", "/about", "/services"]);
 
 export default function SiteShell({
   children,
@@ -59,6 +62,7 @@ export default function SiteShell({
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader />
         <DomicileWidget />
+        {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {previewCorrectionRoutes.has(pathname) ? <IMVOPreviewCorrections /> : null}
         <main id="main-content" tabIndex={-1}>
