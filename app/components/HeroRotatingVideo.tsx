@@ -59,14 +59,13 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }
 
       // Start fetching the motion hero while the IMVO intro still covers the
-      // viewport. The previous multi-second delay caused the poster to become
-      // visible after the intro before the MP4 was ready.
+      // viewport. Slow loading now stays on the dark fallback surface until
+      // the MP4 is actually playing; it never swaps to a still image.
       delayTimer = window.setTimeout(() => {
         if (!cancelled) {
           setAllowVideo(true);
         }
       }, 180);
-
     };
 
     applyPreference();
