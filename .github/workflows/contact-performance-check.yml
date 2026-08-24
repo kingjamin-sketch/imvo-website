@@ -1,0 +1,95 @@
+name: Contact Performance Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Start production server
+        shell: bash
+        run: |
+          npm start > /tmp/imvo-next.log 2>&1 &
+          echo $! > /tmp/imvo-next.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/contact > /tmp/contact.html; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/imvo-next.log
+          exit 1
+
+      - name: Verify Contact first paint
+        shell: bash
+        run: |
+          grep -q 'contactFirstPaint' /tmp/contact.html
+          grep -q 'contact-hero.webp' /tmp/contact.html
+          echo 'Server-first Contact hero is present in initial HTML.'
+
+      - name: Install Lighthouse CI
+        run: npm install --global @lhci/cli@0.15.1
+
+      - name: Audit local Contact route
+        shell: bash
+        run: |
+          rm -rf .lighthouseci
+          lhci collect \
+            --url=http://127.0.0.1:3000/contact \
+            --numberOfRuns=2 \
+            --settings.chromeFlags="--headless --no-sandbox"
+
+      - name: Print Contact performance result
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const dir = '.lighthouseci';
+          const reports = fs.readdirSync(dir)
+            .filter((file) => file.endsWith('.json'))
+            .map((file) => JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')))
+            .filter((report) => report?.categories?.performance && report?.audits);
+
+          const median = (values) => {
+            const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+            const middle = Math.floor(sorted.length / 2);
+            return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+          };
+
+          const scores = reports.map((r) => r.categories.performance.score * 100);
+          const lcps = reports.map((r) => r.audits['largest-contentful-paint'].numericValue);
+          const fcps = reports.map((r) => r.audits['first-contentful-paint'].numericValue);
+          const tbts = reports.map((r) => r.audits['total-blocking-time'].numericValue);
+          const bytes = reports.map((r) => r.audits['total-byte-weight'].numericValue);
+          const cls = reports.map((r) => r.audits['cumulative-layout-shift'].numericValue);
+          const element = reports[0]?.audits?.['largest-contentful-paint-element']?.details?.items?.[0]?.items?.[0]?.node?.snippet || 'n/a';
+
+          console.log(`Performance median: ${median(scores).toFixed(0)}/100`);
+          console.log(`FCP median: ${median(fcps).toFixed(0)} ms`);
+          console.log(`LCP median: ${median(lcps).toFixed(0)} ms`);
+          console.log(`TBT median: ${median(tbts).toFixed(0)} ms`);
+          console.log(`CLS median: ${median(cls).toFixed(3)}`);
+          console.log(`Total byte weight median: ${median(bytes).toFixed(0)} bytes`);
+          console.log(`LCP element: ${element}`);
+          NODE
