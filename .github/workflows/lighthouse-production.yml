@@ -1,6 +1,9 @@
 name: Temporary Homepage Motion Refactor
 
 on:
+  push:
+    branches:
+      - improve/phase-2-home-motion-lazy
   workflow_dispatch:
 
 permissions:
