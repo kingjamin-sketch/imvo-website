@@ -13,78 +13,90 @@ type NavigatorWithConnection = Navigator & {
   };
 };
 
-type IdleWindow = Window & {
-  requestIdleCallback?: (
-    callback: () => void,
-    options?: { timeout: number },
-  ) => number;
-  cancelIdleCallback?: (handle: number) => void;
-};
+const HERO_READY_EVENT = "imvo:hero-ready";
 
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const [allowVideo, setAllowVideo] = useState(false);
+  const [expectsVideo, setExpectsVideo] = useState<boolean | null>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const hasNotifiedReady = useRef(false);
+  const posterReadyRef = useRef(false);
+  const expectsVideoRef = useRef<boolean | null>(null);
 
   const notifyReady = () => {
     if (hasNotifiedReady.current) return;
 
     hasNotifiedReady.current = true;
+    document.documentElement.dataset.imvoHeroReady = "true";
+    window.dispatchEvent(new Event(HERO_READY_EVENT));
     onReady?.();
+  };
+
+  const handlePosterReady = () => {
+    posterReadyRef.current = true;
+
+    // The poster is only the final hero for reduced-motion / data-saver users.
+    // Normal motion visitors wait for the actual video so there is no
+    // intro -> still image -> video handoff.
+    if (expectsVideoRef.current === false) {
+      notifyReady();
+    }
+  };
+
+  const handleVideoReady = () => {
+    setIsVideoReady(true);
+    notifyReady();
+  };
+
+  const handleVideoError = () => {
+    expectsVideoRef.current = false;
+    setExpectsVideo(false);
+    setAllowVideo(false);
+
+    if (posterReadyRef.current) {
+      notifyReady();
+    }
   };
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mobileViewport = window.matchMedia("(max-width: 768px)");
     const connection = (navigator as NavigatorWithConnection).connection;
-    const idleWindow = window as IdleWindow;
     let delayTimer = 0;
-    let idleHandle: number | undefined;
     let cancelled = false;
 
     const videoIsAllowed = () =>
       !motionPreference.matches && connection?.saveData !== true;
 
-    const enableVideo = () => {
-      if (!cancelled && videoIsAllowed()) {
-        setAllowVideo(true);
-      }
-    };
+    const applyPreference = () => {
+      const allowed = videoIsAllowed();
+      expectsVideoRef.current = allowed;
+      setExpectsVideo(allowed);
 
-    const scheduleVideo = () => {
-      if (!videoIsAllowed()) {
+      if (!allowed) {
         setAllowVideo(false);
+        if (posterReadyRef.current) {
+          notifyReady();
+        }
         return;
       }
 
-      if (idleWindow.requestIdleCallback) {
-        idleHandle = idleWindow.requestIdleCallback(enableVideo, { timeout: 2000 });
-      } else {
-        enableVideo();
-      }
+      // Start fetching the motion hero while the IMVO intro still covers the
+      // viewport. The previous multi-second delay caused the poster to become
+      // visible after the intro before the MP4 was ready.
+      delayTimer = window.setTimeout(() => {
+        if (!cancelled) {
+          setAllowVideo(true);
+        }
+      }, 180);
     };
 
-    const updateVideoPreference = () => {
-      if (!videoIsAllowed()) {
-        setAllowVideo(false);
-      }
-    };
-
-    // Keep the poster as the entire cold-load hero. Mobile devices get a
-    // longer quiet window so video decode/playback cannot compete with the
-    // initial hydration and interaction work measured by Core Web Vitals.
-    // Desktop retains the existing faster transition to motion.
-    const initialVideoDelay = mobileViewport.matches ? 12000 : 3800;
-    delayTimer = window.setTimeout(scheduleVideo, initialVideoDelay);
-    motionPreference.addEventListener("change", updateVideoPreference);
+    applyPreference();
+    motionPreference.addEventListener("change", applyPreference);
 
     return () => {
       cancelled = true;
       window.clearTimeout(delayTimer);
-      if (idleHandle !== undefined) {
-        idleWindow.cancelIdleCallback?.(idleHandle);
-      }
-      motionPreference.removeEventListener("change", updateVideoPreference);
+      motionPreference.removeEventListener("change", applyPreference);
     };
   }, []);
 
@@ -106,11 +118,13 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
         fill
         priority
         sizes="100vw"
-        onLoad={notifyReady}
-        onError={notifyReady}
+        onLoad={handlePosterReady}
+        onError={handlePosterReady}
         style={{
           objectFit: "cover",
           filter: "brightness(0.82)",
+          opacity: expectsVideo === true ? 0 : 1,
+          transition: "opacity 220ms ease",
         }}
       />
 
@@ -120,9 +134,10 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
           muted
           loop
           playsInline
-          preload="metadata"
-          onCanPlay={() => setIsVideoReady(true)}
-          onLoadedData={() => setIsVideoReady(true)}
+          preload="auto"
+          onCanPlay={handleVideoReady}
+          onLoadedData={handleVideoReady}
+          onError={handleVideoError}
           style={{
             position: "absolute",
             inset: 0,
@@ -130,7 +145,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
             height: "100%",
             objectFit: "cover",
             opacity: isVideoReady ? 1 : 0,
-            transition: "opacity 700ms ease",
+            transition: "opacity 420ms ease",
           }}
         >
           <source src="/hero-1.mp4" type="video/mp4" />
