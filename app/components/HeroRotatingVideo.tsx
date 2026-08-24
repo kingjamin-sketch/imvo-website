@@ -62,12 +62,16 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as NavigatorWithConnection).connection;
     let delayTimer = 0;
+    let fallbackTimer = 0;
     let cancelled = false;
 
     const videoIsAllowed = () =>
       !motionPreference.matches && connection?.saveData !== true;
 
     const applyPreference = () => {
+      window.clearTimeout(delayTimer);
+      window.clearTimeout(fallbackTimer);
+
       const allowed = videoIsAllowed();
       expectsVideoRef.current = allowed;
       setExpectsVideo(allowed);
@@ -88,6 +92,17 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
           setAllowVideo(true);
         }
       }, 180);
+
+      // If playback never actually begins, stop trying to hand off to motion.
+      // The fallback still can appear, but it becomes the final hero for this
+      // visit instead of flashing briefly before a delayed video.
+      fallbackTimer = window.setTimeout(() => {
+        if (!cancelled && !hasNotifiedReady.current) {
+          expectsVideoRef.current = false;
+          setExpectsVideo(false);
+          setAllowVideo(false);
+        }
+      }, 5600);
     };
 
     applyPreference();
@@ -96,6 +111,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     return () => {
       cancelled = true;
       window.clearTimeout(delayTimer);
+      window.clearTimeout(fallbackTimer);
       motionPreference.removeEventListener("change", applyPreference);
     };
   }, []);
@@ -112,21 +128,21 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }}
       aria-hidden="true"
     >
-      <Image
-        src="/hero-2.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        onLoad={handlePosterReady}
-        onError={handlePosterReady}
-        style={{
-          objectFit: "cover",
-          filter: "brightness(0.82)",
-          opacity: expectsVideo === true ? 0 : 1,
-          transition: "opacity 220ms ease",
-        }}
-      />
+      {expectsVideo === false && (
+        <Image
+          src="/hero-2.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          onLoad={handlePosterReady}
+          onError={handlePosterReady}
+          style={{
+            objectFit: "cover",
+            filter: "brightness(0.82)",
+          }}
+        />
+      )}
 
       {allowVideo && (
         <video
@@ -135,8 +151,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
           loop
           playsInline
           preload="auto"
-          onCanPlay={handleVideoReady}
-          onLoadedData={handleVideoReady}
+          onPlaying={handleVideoReady}
           onError={handleVideoError}
           style={{
             position: "absolute",

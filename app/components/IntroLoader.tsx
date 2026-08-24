@@ -24,6 +24,8 @@ export default function IntroLoader() {
   useEffect(() => {
     if (!isDirectHomeEntry) return;
 
+    delete document.documentElement.dataset.imvoIntroComplete;
+
     let heroReady =
       document.documentElement.dataset.imvoHeroReady === "true";
     let minimumElapsed = false;
@@ -100,8 +102,15 @@ export default function IntroLoader() {
     return restoreOverflow;
   }, [isDirectHomeEntry, pathname, show]);
 
+  const handleIntroExitComplete = () => {
+    if (!isDirectHomeEntry) return;
+
+    document.documentElement.dataset.imvoIntroComplete = "true";
+    window.dispatchEvent(new Event("imvo:intro-complete"));
+  };
+
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={handleIntroExitComplete}>
       {show && (
         <motion.div
           initial={{ opacity: 1 }}
