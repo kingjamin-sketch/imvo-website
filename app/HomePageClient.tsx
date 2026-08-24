@@ -862,7 +862,6 @@ const approachScenes = [
 ];
 
 function CinematicHero({ content }: { content?: HomePageContent | null }) {
-  const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
   const [isHeroContentReady, setIsHeroContentReady] = useState(false);
 
   useEffect(() => {
@@ -900,7 +899,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
         overflow: "hidden",
       }}
     >
-      <HeroRotatingVideo onReady={() => setIsHeroVideoReady(true)} />
+      <HeroRotatingVideo />
       <div
         style={{
           position: "absolute",
