@@ -864,6 +864,23 @@ const approachScenes = [
 function CinematicHero({ content }: { content?: HomePageContent | null }) {
   const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
 
+  const rawHeroKicker = content?.heroKicker?.trim();
+  const rawHeroIntro = content?.heroIntro?.trim();
+  const heroKicker =
+    rawHeroKicker && !/INTELLECTU.*MENS.*VISIO.*ORIGO/i.test(rawHeroKicker)
+      ? rawHeroKicker
+      : "BUILT ENVIRONMENT DESIGN & DEVELOPMENT";
+  const heroIntro =
+    rawHeroIntro &&
+    !rawHeroIntro.startsWith(
+      "IMVO develops residential, commercial, and institutional environments",
+    )
+      ? rawHeroIntro
+      : "We shape enduring environments through design, development strategy, and execution-aware planning.";
+  const heroButtonLabel = (content?.heroButtonLabel || "EXPLORE WORK")
+    .replace(/[↗→]/g, "")
+    .trim();
+
   return (
     <section
       style={{
@@ -880,7 +897,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to top, rgba(5,5,5,0.92), rgba(5,5,5,0.35), rgba(5,5,5,0.05))",
+            "linear-gradient(90deg, rgba(5,5,5,0.80) 0%, rgba(5,5,5,0.52) 38%, rgba(5,5,5,0.14) 68%, rgba(5,5,5,0.02) 100%), linear-gradient(to top, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.20) 54%, rgba(5,5,5,0.03) 100%)",
           pointerEvents: "none",
           opacity: isHeroVideoReady ? 1 : 0,
           transition: "opacity 700ms ease",
@@ -896,7 +913,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
-          paddingBottom: "10vh",
+          paddingBottom: "14vh",
           opacity: isHeroVideoReady ? 1 : 0,
           transition: "opacity 700ms ease",
         }}
@@ -906,14 +923,14 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ ...transition, delay: 0.2 }}
           style={{
-            fontSize: 12,
-            letterSpacing: "0.2em",
+            fontSize: 11,
+            letterSpacing: "0.18em",
             textTransform: "uppercase",
-            fontWeight: 700,
-            opacity: 0.8,
+            fontWeight: 800,
+            color: "rgba(255,255,255,0.72)",
           }}
         >
-          {content?.heroKicker || "INTELLECTU · MENS · VISIO · ORIGO"}
+          {heroKicker}
         </m.div>
 
         <m.h1
@@ -921,37 +938,47 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.4 }}
           style={{
-            marginTop: 24,
-            marginBottom: "1em",
-            maxWidth: 800,
-            fontSize: "clamp(18px, 2vw, 24px)",
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: "rgba(255,255,255,0.82)",
+            marginTop: 20,
+            marginBottom: 0,
+            maxWidth: 740,
+            fontSize: "clamp(22px, 2.15vw, 30px)",
+            fontWeight: 430,
+            lineHeight: 1.45,
+            letterSpacing: "-0.015em",
+            color: "rgba(255,255,255,0.92)",
           }}
         >
-          {content?.heroIntro || "IMVO develops residential, commercial, and institutional environments through built-environment design, development consultancy, site coordination, and execution-aware planning — balancing spatial clarity, contextual sensitivity, technical discipline, and long-term architectural value."}
+          {heroIntro}
         </m.h1>
 
         <m.div
           initial={{ opacity: 0, y: 30 }}
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.6 }}
-          style={{ marginTop: 40 }}
+          style={{ marginTop: 34 }}
         >
           <Link
             href="/projects"
             style={{
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "0.05em",
+              width: 220,
+              minHeight: 56,
+              padding: "0 20px",
+              border: "1px solid rgba(255,255,255,0.96)",
+              borderRadius: 2,
+              background: "rgba(255,255,255,0.98)",
+              color: "#050505",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              fontSize: 12,
+              fontWeight: 850,
+              letterSpacing: "0.075em",
+              textTransform: "uppercase",
               textDecoration: "none",
-              color: "white",
-              borderBottom: "1px solid white",
-              paddingBottom: 4,
+              boxShadow: "0 14px 34px rgba(0,0,0,0.16)",
             }}
           >
-            {content?.heroButtonLabel || "EXPLORE WORK ↗"}
+            {heroButtonLabel}
           </Link>
         </m.div>
       </div>

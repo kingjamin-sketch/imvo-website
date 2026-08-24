@@ -89,19 +89,19 @@ export default function SiteHeader({
           opacity: isStartupReady ? 1 : 0,
           visibility: isStartupReady ? "visible" : "hidden",
           pointerEvents: isStartupReady ? "auto" : "none",
-          padding: isScrolled ? "16px 0" : "20px 0",
+          padding: isScrolled ? "12px 0" : "14px 0",
           background: isScrolled || mobileMenuOpen
-            ? "linear-gradient(to bottom, rgba(5,5,5,0.58), rgba(5,5,5,0.28))"
-            : "linear-gradient(to bottom, rgba(5,5,5,0.2), rgba(5,5,5,0.045))",
+            ? "linear-gradient(to bottom, rgba(18,18,18,0.58), rgba(18,18,18,0.42))"
+            : "linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0.10))",
           backdropFilter: isScrolled || mobileMenuOpen
-            ? "blur(24px) saturate(180%)"
-            : "blur(12px) saturate(135%)",
+            ? "blur(24px) saturate(160%)"
+            : "blur(20px) saturate(145%)",
           WebkitBackdropFilter: isScrolled || mobileMenuOpen
-            ? "blur(24px) saturate(180%)"
-            : "blur(12px) saturate(135%)",
+            ? "blur(24px) saturate(160%)"
+            : "blur(20px) saturate(145%)",
           borderBottom: isScrolled || mobileMenuOpen
-            ? "1px solid rgba(255,255,255,0.08)"
-            : "1px solid rgba(255,255,255,0.035)",
+            ? "1px solid rgba(255,255,255,0.10)"
+            : "1px solid rgba(255,255,255,0.18)",
           boxShadow: isScrolled
             ? "0 12px 40px rgba(0,0,0,0.28)"
             : "none",
@@ -157,7 +157,7 @@ export default function SiteHeader({
                   fontWeight: 700,
                   fontSize: 14,
                   opacity: 0.92,
-                  textShadow: "0 1px 18px rgba(0,0,0,0.35)",
+                  textShadow: "0 1px 8px rgba(0,0,0,0.16)",
                   transition: "opacity 0.2s ease, transform 0.2s ease",
                 }}
                 onMouseEnter={(e) => {
@@ -178,12 +178,12 @@ export default function SiteHeader({
               style={{
                 background: "rgba(255,255,255,0.96)",
                 color: "black",
-                padding: isScrolled ? "10px 24px" : "11px 26px",
-                borderRadius: 99,
+                padding: isScrolled ? "10px 22px" : "11px 24px",
+                borderRadius: 2,
                 fontWeight: 800,
                 fontSize: 14,
                 textDecoration: "none",
-                boxShadow: "0 10px 28px rgba(0,0,0,0.18)",
+                boxShadow: "0 10px 26px rgba(0,0,0,0.14)",
                 transition:
                   "transform 0.2s ease, background 0.2s ease, padding 0.35s ease",
               }}
@@ -269,7 +269,7 @@ export default function SiteHeader({
                   background: "white",
                   color: "black",
                   padding: "16px 36px",
-                  borderRadius: 99,
+                  borderRadius: 2,
                   fontWeight: 800,
                   fontSize: 16,
                   textDecoration: "none",

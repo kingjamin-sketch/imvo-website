@@ -1,7 +1,7 @@
 .widget {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  right: 28px;
+  bottom: 28px;
   z-index: 120;
   display: flex;
   align-items: flex-end;
@@ -9,15 +9,15 @@
   pointer-events: none;
 }
 .icon {
-  width: 60px;
-  height: 60px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,.25);
   background: #050505;
   box-shadow: 0 16px 44px rgba(0,0,0,.24);
   display: grid;
   place-items: center;
-  padding: 11px 14px;
+  padding: 10px 12px;
   cursor: pointer;
   pointer-events: auto;
   transition: transform .18s ease, box-shadow .18s ease;
@@ -30,7 +30,7 @@
   background: rgba(255,255,255,.98);
   color: #111;
   border: 1px solid rgba(17,17,17,.12);
-  border-radius: 16px;
+  border-radius: 2px;
   box-shadow: 0 22px 65px rgba(0,0,0,.18);
   backdrop-filter: blur(18px);
   opacity: 0;
@@ -43,7 +43,7 @@
 .open .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
 .panel strong { display: block; max-width: 250px; font-size: 19px; line-height: 1.1; letter-spacing: -.03em; }
 .panel p { margin: 8px 0 15px; color: #6f6f6b; font-size: 12px; line-height: 1.5; }
-.link { min-height: 42px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; border-radius: 999px; background: #111; color: #fff; font-size: 10px; font-weight: 850; }
+.link { min-height: 42px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; border-radius: 2px; background: #111; color: #fff; font-size: 10px; font-weight: 850; }
 @media (hover: hover) { .widget:hover .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; } }
-@media (max-width: 640px) { .widget { right: 12px; bottom: 12px; } .icon { width: 54px; height: 54px; } .panel { width: min(280px, calc(100vw - 78px)); padding: 18px; } }
+@media (max-width: 640px) { .widget { right: 14px; bottom: 14px; } .icon { width: 48px; height: 48px; padding: 9px 11px; } .panel { width: min(280px, calc(100vw - 74px)); padding: 18px; } }
 @media (prefers-reduced-motion: reduce) { .icon, .panel { transition: none; } }
