@@ -5,6 +5,7 @@ import type { ContactPageContent } from "@/sanity/types/siteContent";
 
 export default async function ContactPage() {
   const content = await getContactPageContent();
+  // Keep the LCP hero in the initial server-rendered HTML before client hydration.
   const heroUrl = content?.heroImage?.url || "/contact-hero.webp";
   const heroAlt = content?.heroImage?.alt || "Contact IMVO";
   const resolvedContent = {
