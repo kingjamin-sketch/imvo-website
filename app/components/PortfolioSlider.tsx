@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const projects = [
   { image: "/chosen/urban-villa.png", title: "Urban Villa", location: "Kamonyi, Southern Province" },
@@ -151,7 +151,7 @@ export default function PortfolioSlider() {
             overflow: "hidden",
           }}
         >
-          <motion.div
+          <m.div
             className="portfolioSliderMedia"
             key={index}
             initial={{ opacity: 0, x: 80, scale: 0.985 }}
@@ -167,7 +167,7 @@ export default function PortfolioSlider() {
             }}
           >
             <Link href="/projects" style={{ display: "block", position: "relative", width: "100%", height: "100%" }}>
-              <motion.div
+              <m.div
                 key={activeProject.image}
                 initial={{ scale: 1.06 }}
                 animate={{ scale: 1 }}
@@ -182,7 +182,7 @@ export default function PortfolioSlider() {
                   sizes="(max-width: 900px) 100vw, 70vw"
                   style={{ objectFit: "cover" }}
                 />
-              </motion.div>
+              </m.div>
 
               <div
                 style={{
@@ -202,7 +202,7 @@ export default function PortfolioSlider() {
                 </p>
               </div>
             </Link>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>
