@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import LegalContentPage from "@/app/components/LegalContentPage";
 import { getLegalPageContent } from "@/sanity/lib/siteContent";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description: "Terms governing use of the IMVO Group website and general information about IMVO Group services and project content.",
+  alternates: { canonical: "/terms" },
+};
 
 const fallback = {
   kicker: "Legal",
