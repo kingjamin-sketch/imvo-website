@@ -1,151 +1,44 @@
-name: Lighthouse Production Baseline
+name: Temporary Homepage Motion Text Repair
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "17 2 * * 1"
-  pull_request:
+  push:
     branches:
-      - main
-    paths:
-      - ".github/workflows/lighthouse-production.yml"
+      - improve/phase-2-home-motion-lazy
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  lighthouse:
-    name: Lighthouse (${{ matrix.device }})
+  repair:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        device:
-          - mobile
-          - desktop
-
     steps:
-      - name: Checkout
+      - name: Checkout target branch
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
 
-      - name: Install Lighthouse CI
-        run: npm install --global @lhci/cli@0.15.1
-
-      - name: Audit production routes
-        env:
-          DEVICE: ${{ matrix.device }}
+      - name: Repair text and restore workflow
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .lighthouseci
+          python <<'PY'
+          from pathlib import Path
+          path = Path("app/HomePageClient.tsx")
+          source = path.read_text()
+          broken = '"Drawings, reviews, and project coordination are in m.",'
+          fixed = '"Drawings, reviews, and project coordination are in motion.",'
+          if broken not in source:
+              raise SystemExit("Expected text repair target was not found")
+          path.write_text(source.replace(broken, fixed, 1))
+          PY
 
-          EXTRA_ARGS=()
-          if [ "$DEVICE" = "desktop" ]; then
-            EXTRA_ARGS+=(--settings.preset=desktop)
-          fi
+          git fetch origin main --depth=1
+          git show FETCH_HEAD:.github/workflows/lighthouse-production.yml > .github/workflows/lighthouse-production.yml
+          git diff --check
 
-          lhci collect \
-            --url=https://www.imvogroup.com/ \
-            --url=https://www.imvogroup.com/projects \
-            --url=https://www.imvogroup.com/contact \
-            --numberOfRuns=2 \
-            --settings.chromeFlags="--headless --no-sandbox" \
-            "${EXTRA_ARGS[@]}"
-
-      - name: Print performance baseline
-        env:
-          DEVICE: ${{ matrix.device }}
-        run: |
-          node <<'NODE'
-          const fs = require('fs');
-          const path = require('path');
-
-          const dir = '.lighthouseci';
-          const files = fs.readdirSync(dir).filter((file) => file.endsWith('.json'));
-          const reports = files
-            .map((file) => JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')))
-            .filter((report) => report?.categories?.performance && report?.audits);
-
-          if (!reports.length) {
-            throw new Error('No Lighthouse result JSON files were found.');
-          }
-
-          const median = (values) => {
-            const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
-            if (!sorted.length) return NaN;
-            const middle = Math.floor(sorted.length / 2);
-            return sorted.length % 2
-              ? sorted[middle]
-              : (sorted[middle - 1] + sorted[middle]) / 2;
-          };
-
-          const metric = (report, id) => report.audits[id]?.numericValue;
-          const grouped = new Map();
-
-          for (const report of reports) {
-            const url = report.finalUrl || report.requestedUrl;
-            const values = grouped.get(url) || [];
-            values.push(report);
-            grouped.set(url, values);
-          }
-
-          console.log(`\n=== IMVO LIGHTHOUSE BASELINE · ${process.env.DEVICE.toUpperCase()} ===`);
-
-          for (const [url, runs] of grouped.entries()) {
-            const result = {
-              performance: median(runs.map((r) => r.categories.performance.score * 100)),
-              fcp: median(runs.map((r) => metric(r, 'first-contentful-paint'))),
-              lcp: median(runs.map((r) => metric(r, 'largest-contentful-paint'))),
-              tbt: median(runs.map((r) => metric(r, 'total-blocking-time'))),
-              cls: median(runs.map((r) => metric(r, 'cumulative-layout-shift'))),
-              speedIndex: median(runs.map((r) => metric(r, 'speed-index'))),
-              bytes: median(runs.map((r) => metric(r, 'total-byte-weight'))),
-            };
-
-            const fmt = (value, digits = 0) => Number.isFinite(value) ? value.toFixed(digits) : 'n/a';
-            console.log(`\nURL: ${url}`);
-            console.log(`Performance: ${fmt(result.performance)}/100`);
-            console.log(`FCP: ${fmt(result.fcp)} ms`);
-            console.log(`LCP: ${fmt(result.lcp)} ms`);
-            console.log(`TBT: ${fmt(result.tbt)} ms`);
-            console.log(`CLS: ${fmt(result.cls, 3)}`);
-            console.log(`Speed Index: ${fmt(result.speedIndex)} ms`);
-            console.log(`Total byte weight: ${fmt(result.bytes)} bytes`);
-
-            const representative = [...runs].sort(
-              (a, b) => Math.abs(a.categories.performance.score * 100 - result.performance) -
-                        Math.abs(b.categories.performance.score * 100 - result.performance),
-            )[0];
-
-            const opportunities = Object.values(representative.audits)
-              .map((audit) => ({
-                title: audit.title,
-                ms: audit.details?.overallSavingsMs || 0,
-                bytes: audit.details?.overallSavingsBytes || 0,
-              }))
-              .filter((item) => item.ms >= 50 || item.bytes >= 25000)
-              .sort((a, b) => (b.ms - a.ms) || (b.bytes - a.bytes))
-              .slice(0, 8);
-
-            if (opportunities.length) {
-              console.log('Top opportunities:');
-              for (const item of opportunities) {
-                console.log(`- ${item.title}: ~${Math.round(item.ms)} ms, ~${Math.round(item.bytes)} bytes`);
-              }
-            }
-          }
-          NODE
-
-      - name: Upload Lighthouse reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-${{ matrix.device }}
-          path: .lighthouseci
-          if-no-files-found: error
-          retention-days: 14
-          include-hidden-files: true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/HomePageClient.tsx .github/workflows/lighthouse-production.yml
+          git commit -m "Fix homepage motion copy after refactor"
+          git push origin HEAD:${{ github.ref_name }}
