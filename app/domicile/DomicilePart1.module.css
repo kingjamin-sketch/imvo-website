@@ -1,4 +1,4 @@
-.heroContrast{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.42) 34%,rgba(0,0,0,.16) 66%,rgba(0,0,0,.24) 100%)}
+.heroContrast{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.54) 0%,rgba(0,0,0,.36) 35%,rgba(0,0,0,.10) 68%,rgba(0,0,0,.14) 100%),linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.18))}
 .kicker{margin:0 0 14px;font-size:10px;line-height:1.2;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#877f72}
 .primaryButton{min-height:50px;padding:0 22px;display:inline-flex;align-items:center;justify-content:space-between;gap:24px;border-radius:2px;font-size:11px;font-weight:900;background:#fff;color:#111!important;border:1px solid rgba(255,255,255,.9)}
 .servicesSection{width:min(1440px,calc(100% - 72px));margin:0 auto;padding:18px 0 88px}
@@ -6,12 +6,12 @@
 .imvoCopy h2,.contactIntro h2{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:clamp(42px,4vw,60px);line-height:.98;letter-spacing:-.045em;font-weight:800}
 .propertyCard{background:#fff;border:1px solid #ddd8cf;border-radius:4px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
 .propertyCard:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.08)}
-.propertyImage{position:relative;aspect-ratio:16/10;background:#ddd;overflow:hidden}
-.propertyImage img{object-fit:cover;filter:none!important;transition:transform .5s ease}
-.propertyCard:hover .propertyImage img{transform:scale(1.025)}
+.propertyImage{position:relative;aspect-ratio:16/11;background:#e7e3db;overflow:hidden}
+.propertyImage img{object-fit:cover;object-position:center;filter:none!important;image-rendering:auto;transition:transform .5s ease}
+.propertyCard:hover .propertyImage img{transform:scale(1.018)}
 .away{background:#e0e9fa;color:#315f92}
 .sampleLabel{display:inline-block;margin-top:24px;padding:8px 10px;border:1px solid rgba(255,255,255,.14);border-radius:999px;color:rgba(255,255,255,.52);font-size:8px;letter-spacing:.1em;text-transform:uppercase}
-.dashboardCard{background:#fff;border:1px solid #ddd8cf;border-radius:4px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.06)}
+.dashboardCard{background:#fff;border:1px solid #d7d1c7;border-radius:4px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.05)}
 .caseStory,.ownerValues{background:#fff;border:1px solid #ddd8cf;border-radius:4px;padding:34px}
 .caseStory>span{display:inline-block;margin-top:8px;padding:7px 9px;border-radius:999px;background:#f1efe9;color:#786f62;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
 .caseStory h2,.ownerValues h2{font:800 40px/1.02 Arial,Helvetica,sans-serif;letter-spacing:-.04em;margin:18px 0}
@@ -24,7 +24,7 @@
 .valueGrid p{font-size:10px;color:#6f6a61;margin:14px 0 0;line-height:1.6}
 .imvoCopy>p:not(.kicker){font-size:12px;color:#6e685f;line-height:1.7}.imvoCopy a{font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:10px;margin-top:18px;color:#8a6731}
 .imvoPillars{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.imvoPillars div{background:#f4f2ed;border:1px solid #ddd8cf;border-radius:4px;padding:18px;min-height:104px}.imvoPillars b{font-size:11px}.imvoPillars span{font-size:9px;color:#777168;display:block;margin-top:7px;line-height:1.45}
-.contactIntro{position:relative;padding:40px;background:#0d0d0d;color:#fff;border-radius:4px;min-height:100%}.contactIntro:before{content:"";display:block;width:210px;height:44px;background:url('/domicile/domicile-white.webp') left center/contain no-repeat;margin-bottom:30px}.contactIntro>img{display:none!important}.contactIntro>p:not(.kicker){font-size:12px;line-height:1.7;color:rgba(255,255,255,.68);max-width:520px}
+.contactIntro{position:relative;padding:44px;background:#0b0b0b;color:#fff;border-radius:4px;min-height:100%;display:flex;flex-direction:column;justify-content:center}.contactIntro:before{content:"";display:block;width:210px;height:44px;background:url('/domicile/domicile-white.webp') left center/contain no-repeat;margin-bottom:30px}.contactIntro>img{display:none!important}.contactIntro>p:not(.kicker){font-size:13px;line-height:1.7;color:rgba(255,255,255,.72);max-width:520px}
 .formFooter{display:flex;justify-content:space-between;gap:24px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid #e1ddd5}.formFooter p{font-size:9px;color:#817b72;max-width:680px;line-height:1.55}.formFooter p a{text-decoration:underline}.formFooter>button{min-height:48px;padding:0 20px;border:0;border-radius:2px;background:#111;color:#fff;font-size:10px;font-weight:900;white-space:nowrap}.formFooter>button:disabled{opacity:.35;cursor:not-allowed}
 .imvoLabel{position:absolute;left:58px;bottom:0;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;transition:.2s;background:#fff;border:1px solid #d6d1c8;border-radius:999px;padding:11px 14px;box-shadow:0 12px 30px rgba(0,0,0,.12);font-size:10px;font-weight:900;white-space:nowrap}
 @media(max-width:980px){.valueGrid{grid-template-columns:1fr}.imvoPillars{grid-template-columns:1fr 1fr}}
