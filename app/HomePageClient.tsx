@@ -253,7 +253,7 @@ const openHourMessages: Record<number, string[]> = {
 ],
 
 14: [
-"Drawings, reviews, and project coordination are in m.",
+"Drawings, reviews, and project coordination are in motion.",
 "Architecture happens through thousands of thoughtful decisions.",
 "The studio is translating ideas into actionable plans.",
 "Design ambition is being matched with technical clarity.",
