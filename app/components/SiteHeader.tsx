@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Brand from "./Brand";
@@ -13,11 +13,42 @@ const primaryNav = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function SiteHeader() {
+type SiteHeaderProps = {
+  deferUntilIntroComplete?: boolean;
+};
+
+export default function SiteHeader({
+  deferUntilIntroComplete = false,
+}: SiteHeaderProps) {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isStartupReady, setIsStartupReady] = useState(
+    !deferUntilIntroComplete,
+  );
+
+  useEffect(() => {
+    if (!deferUntilIntroComplete) {
+      setIsStartupReady(true);
+      return;
+    }
+
+    const html = document.documentElement;
+    const markReady = () => setIsStartupReady(true);
+
+    if (html.dataset.imvoIntroComplete === "true") {
+      markReady();
+      return;
+    }
+
+    setIsStartupReady(false);
+    window.addEventListener("imvo:intro-complete", markReady);
+
+    return () => {
+      window.removeEventListener("imvo:intro-complete", markReady);
+    };
+  }, [deferUntilIntroComplete]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -42,6 +73,7 @@ export default function SiteHeader() {
   return (
     <>
       <motion.header
+        data-imvo-site-header="primary"
         variants={{
           visible: { y: "0%" },
           hidden: { y: "-100%" },
@@ -54,6 +86,9 @@ export default function SiteHeader() {
           left: 0,
           right: 0,
           zIndex: 99999,
+          opacity: isStartupReady ? 1 : 0,
+          visibility: isStartupReady ? "visible" : "hidden",
+          pointerEvents: isStartupReady ? "auto" : "none",
           padding: isScrolled ? "16px 0" : "20px 0",
           background: isScrolled || mobileMenuOpen
             ? "linear-gradient(to bottom, rgba(5,5,5,0.58), rgba(5,5,5,0.28))"
@@ -71,7 +106,7 @@ export default function SiteHeader() {
             ? "0 12px 40px rgba(0,0,0,0.28)"
             : "none",
           transition:
-            "padding 0.35s ease, background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+            "opacity 0.26s ease, padding 0.35s ease, background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
         }}
       >
         <div
