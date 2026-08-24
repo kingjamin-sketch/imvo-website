@@ -132,7 +132,7 @@ export default function SiteShell({
           Skip to main content
         </a>
         {pathname === "/" ? <IntroLoader /> : null}
-        <SiteHeader />
+        <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
