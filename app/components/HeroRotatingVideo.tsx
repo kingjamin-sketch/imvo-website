@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type HeroRotatingVideoProps = {
@@ -17,11 +16,8 @@ const HERO_READY_EVENT = "imvo:hero-ready";
 
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const [allowVideo, setAllowVideo] = useState(false);
-  const [expectsVideo, setExpectsVideo] = useState<boolean | null>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const hasNotifiedReady = useRef(false);
-  const posterReadyRef = useRef(false);
-  const expectsVideoRef = useRef<boolean | null>(null);
 
   const notifyReady = () => {
     if (hasNotifiedReady.current) return;
@@ -32,30 +28,14 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     onReady?.();
   };
 
-  const handlePosterReady = () => {
-    posterReadyRef.current = true;
-
-    // The still image is only a final hero for explicit reduced-motion /
-    // data-saver preferences or a genuine playback error. A slow connection
-    // must never switch the normal experience to a poster before the video.
-    if (expectsVideoRef.current === false) {
-      notifyReady();
-    }
-  };
-
   const handleVideoReady = () => {
     setIsVideoReady(true);
     notifyReady();
   };
 
   const handleVideoError = () => {
-    expectsVideoRef.current = false;
-    setExpectsVideo(false);
     setAllowVideo(false);
-
-    if (posterReadyRef.current) {
-      notifyReady();
-    }
+    notifyReady();
   };
 
   useEffect(() => {
@@ -71,14 +51,10 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       window.clearTimeout(delayTimer);
 
       const allowed = videoIsAllowed();
-      expectsVideoRef.current = allowed;
-      setExpectsVideo(allowed);
 
       if (!allowed) {
         setAllowVideo(false);
-        if (posterReadyRef.current) {
-          notifyReady();
-        }
+        notifyReady();
         return;
       }
 
@@ -115,22 +91,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }}
       aria-hidden="true"
     >
-      {expectsVideo === false && (
-        <Image
-          src="/hero-2.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          onLoad={handlePosterReady}
-          onError={handlePosterReady}
-          style={{
-            objectFit: "cover",
-            filter: "brightness(0.82)",
-          }}
-        />
-      )}
-
       {allowVideo && (
         <video
           autoPlay
