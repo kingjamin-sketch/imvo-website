@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { LazyMotion, m } from "framer-motion";
 import HeroRotatingVideo from "./components/HeroRotatingVideo";
 import PortfolioSlider from "./components/PortfolioSlider";
 import type { Project } from "./projects/projectsData";
 import type { HomePageContent } from "@/sanity/types/siteContent";
+
+const loadHomeMotionFeatures = () =>
+  import("./components/homeMotionFeatures").then((module) => module.default);
 
 const ArchitecturalDrawingLines = () => (
   <div
@@ -36,7 +39,7 @@ const ArchitecturalDrawingLines = () => (
       <rect width="1200" height="700" fill="url(#imvo-team-grid)" />
 
       {[0, 1, 2, 3].map((item) => (
-        <motion.path
+        <m.path
           key={`team-plan-line-${item}`}
           d={`M ${-120 + item * 45} ${150 + item * 86} L ${1320 - item * 70} ${95 + item * 115}`}
           stroke="url(#imvo-line-fade)"
@@ -50,7 +53,7 @@ const ArchitecturalDrawingLines = () => (
         />
       ))}
 
-      <motion.path
+      <m.path
         d="M 150 560 C 330 420 520 458 700 330 S 1040 220 1160 115"
         stroke="rgba(255,255,255,0.22)"
         strokeWidth="1.2"
@@ -62,7 +65,7 @@ const ArchitecturalDrawingLines = () => (
         transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
       />
 
-      <motion.rect
+      <m.rect
         x="780"
         y="120"
         width="250"
@@ -76,7 +79,7 @@ const ArchitecturalDrawingLines = () => (
         transition={{ duration: 8, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.4 }}
       />
 
-      <motion.circle
+      <m.circle
         cx="245"
         cy="255"
         r="118"
@@ -250,7 +253,7 @@ const openHourMessages: Record<number, string[]> = {
 ],
 
 14: [
-"Drawings, reviews, and project coordination are in motion.",
+"Drawings, reviews, and project coordination are in m.",
 "Architecture happens through thousands of thoughtful decisions.",
 "The studio is translating ideas into actionable plans.",
 "Design ambition is being matched with technical clarity.",
@@ -492,7 +495,7 @@ function StudioStatus() {
   const pulse = rotatingLine(brandPulseMessages, minute + 2, hour);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -611,7 +614,7 @@ function StudioStatus() {
           {pulse}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -646,7 +649,7 @@ const ProjectIntelligence = ({ content }: { content?: HomePageContent | null }) 
     />
 
     <div className="containerWide" style={{ position: "relative", zIndex: 2 }}>
-      <motion.div
+      <m.div
         className="mobileStack"
         initial={{ opacity: 0, y: 34 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -698,7 +701,7 @@ const ProjectIntelligence = ({ content }: { content?: HomePageContent | null }) 
         >
           {content?.intelligenceText || "Before drawings, approvals, and construction costs begin, IMVO helps clients understand land, context, feasibility, and project direction so resources are committed with clarity."}
         </p>
-      </motion.div>
+      </m.div>
 
       <div
         style={{
@@ -709,7 +712,7 @@ const ProjectIntelligence = ({ content }: { content?: HomePageContent | null }) 
         }}
       >
         {items.map((item, index) => (
-          <motion.div
+          <m.div
             key={item.title}
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -769,7 +772,7 @@ const ProjectIntelligence = ({ content }: { content?: HomePageContent | null }) 
                 {item.text}
               </p>
             </div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </div>
@@ -898,7 +901,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           transition: "opacity 700ms ease",
         }}
       >
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ ...transition, delay: 0.2 }}
@@ -911,9 +914,9 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           }}
         >
           {content?.heroKicker || "INTELLECTU · MENS · VISIO · ORIGO"}
-        </motion.div>
+        </m.div>
 
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 30 }}
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.4 }}
@@ -928,9 +931,9 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           }}
         >
           {content?.heroIntro || "IMVO develops residential, commercial, and institutional environments through built-environment design, development consultancy, site coordination, and execution-aware planning — balancing spatial clarity, contextual sensitivity, technical discipline, and long-term architectural value."}
-        </motion.h1>
+        </m.h1>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.6 }}
@@ -950,7 +953,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           >
             {content?.heroButtonLabel || "EXPLORE WORK ↗"}
           </Link>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
@@ -978,7 +981,7 @@ const ApproachPrinciples = ({ content }: { content?: HomePageContent | null }) =
     }}
   >
     <div className="containerWide">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -1030,7 +1033,7 @@ const ApproachPrinciples = ({ content }: { content?: HomePageContent | null }) =
         >
           {content?.principlesText || "Design, strategy, and execution work as one — moving every project from early vision toward coordinated, buildable, and enduring outcomes."}
         </p>
-      </motion.div>
+      </m.div>
 
       <div
         style={{
@@ -1041,7 +1044,7 @@ const ApproachPrinciples = ({ content }: { content?: HomePageContent | null }) =
         }}
       >
         {scenes.map((scene, index) => (
-          <motion.div
+          <m.div
             key={scene.label}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1136,7 +1139,7 @@ const ApproachPrinciples = ({ content }: { content?: HomePageContent | null }) =
                 {scene.text}
               </p>
             </div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </div>
@@ -1163,7 +1166,7 @@ const HomeRegionalReachTeaser = ({ content }: { content?: HomePageContent | null
         alignItems: "center",
       }}
     >
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -1222,7 +1225,7 @@ const HomeRegionalReachTeaser = ({ content }: { content?: HomePageContent | null
         >
           EXPLORE THE STUDIO ↗
         </Link>
-      </motion.div>
+      </m.div>
 
       <StudioStatus />
     </div>
@@ -1282,7 +1285,8 @@ export default function HomePageClient({
     : teamMembers;
 
   return (
-    <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>
+    <LazyMotion features={loadHomeMotionFeatures} strict>
+      <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>
       {/* 1. NATIVE STICKY HERO */}
       <CinematicHero content={content} />
       <HomeRegionalReachTeaser content={content} />
@@ -1300,7 +1304,7 @@ export default function HomePageClient({
             gap: "14px",
           }}
         >
-          <motion.div
+          <m.div
             animate={{ x: [0, "-50%"] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
             style={{
@@ -1357,9 +1361,9 @@ export default function HomePageClient({
                 ))}
               </div>
             ))}
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             animate={{ x: ["-50%", 0] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 50 }}
             style={{
@@ -1416,7 +1420,7 @@ export default function HomePageClient({
                 ))}
               </div>
             ))}
-          </motion.div>
+          </m.div>
         </section>
 
         <ProjectIntelligence content={content} />
@@ -1428,7 +1432,7 @@ export default function HomePageClient({
             <div
               style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}
             >
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -1468,9 +1472,9 @@ export default function HomePageClient({
                 >
                   {content?.manifestoText || "IMVO develops environments through disciplined design thinking, technical coordination, and construction awareness."}
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 className="mobileStackCenter"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1543,7 +1547,7 @@ export default function HomePageClient({
                     Regional focus
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </section>
@@ -1561,7 +1565,7 @@ export default function HomePageClient({
           }}
         >
           <div className="containerWide">
-            <motion.div
+            <m.div
               className="mobileStack"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1609,7 +1613,7 @@ export default function HomePageClient({
               >
                 {content?.progressText || "A look at conceptual studies, wireframes, and developments currently taking shape in the studio."}
               </p>
-            </motion.div>
+            </m.div>
 
             <div
               style={{
@@ -1620,7 +1624,7 @@ export default function HomePageClient({
               }}
             >
               {activeProgressProjects.map((project, index) => (
-                <motion.div
+                <m.div
                   key={`${project.href}-${project.title}`}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1711,7 +1715,7 @@ export default function HomePageClient({
                       </p>
                     </div>
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -1723,7 +1727,7 @@ export default function HomePageClient({
           style={{ padding: "96px 0", background: "#0a0a0a" }}
         >
           <div className="containerWide">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -1751,7 +1755,7 @@ export default function HomePageClient({
               >
                 {content?.servicesHeading || "Three pillars from vision to execution."}
               </h2>
-            </motion.div>
+            </m.div>
 
             <div
               style={{
@@ -1762,7 +1766,7 @@ export default function HomePageClient({
               }}
             >
               {activeServices.map(([number, title, text], index) => (
-                <motion.div
+                <m.div
                   key={title}
                   className="mobileStack"
                   initial={{ opacity: 0, y: 40 }}
@@ -1800,11 +1804,11 @@ export default function HomePageClient({
                   >
                     {text}
                   </p>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -1825,14 +1829,14 @@ export default function HomePageClient({
               >
                 Explore Services
               </Link>
-            </motion.div>
+            </m.div>
           </div>
         </section>
 
         {/* 5. TEAM */}
         <section className="mobilePad" style={{ padding: "96px 0" }}>
           <div className="containerWide">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -1861,9 +1865,9 @@ export default function HomePageClient({
                   {content?.teamHeading || "A studio shaped by collaboration,\ntechnical focus, and shared responsibility."}
                 </span>
               </h2>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               className="teamImageFrame"
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -1904,7 +1908,7 @@ export default function HomePageClient({
                   pointerEvents: "none",
                 }}
               />
-            </motion.div>
+            </m.div>
 
             <div
               style={{
@@ -1915,7 +1919,7 @@ export default function HomePageClient({
               }}
             >
               {activeTeamMembers.map((member, index) => (
-                <motion.div
+                <m.div
                   key={member.name}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1981,7 +1985,7 @@ export default function HomePageClient({
                       {member.role}
                     </p>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -2006,7 +2010,7 @@ export default function HomePageClient({
               gap: 40,
             }}
           >
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -2036,8 +2040,8 @@ export default function HomePageClient({
                   {content?.ctaHeading || "Let’s shape an environment that endures."}
                 </span>
               </h2>
-            </motion.div>
-            <motion.div
+            </m.div>
+            <m.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -2058,10 +2062,11 @@ export default function HomePageClient({
               >
                 {content?.ctaButtonLabel || "Request a Quote"}
               </Link>
-            </motion.div>
+            </m.div>
           </div>
         </section>
       </div>
     </div>
+    </LazyMotion>
   );
 }

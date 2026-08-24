@@ -1,84 +1,151 @@
-name: Temporary Homepage Motion Refactor
+name: Lighthouse Production Baseline
 
 on:
-  push:
-    branches:
-      - improve/phase-2-home-motion-lazy
   workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * 1"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/lighthouse-production.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  refactor:
+  lighthouse:
+    name: Lighthouse (${{ matrix.device }})
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout target branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          fetch-depth: 0
+    strategy:
+      fail-fast: false
+      matrix:
+        device:
+          - mobile
+          - desktop
 
-      - name: Apply lightweight Framer Motion path
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Lighthouse CI
+        run: npm install --global @lhci/cli@0.15.1
+
+      - name: Audit production routes
+        env:
+          DEVICE: ${{ matrix.device }}
         shell: bash
         run: |
           set -euo pipefail
-          python <<'PY'
-          from pathlib import Path
+          rm -rf .lighthouseci
 
-          page = Path("app/HomePageClient.tsx")
-          source = page.read_text()
+          EXTRA_ARGS=()
+          if [ "$DEVICE" = "desktop" ]; then
+            EXTRA_ARGS+=(--settings.preset=desktop)
+          fi
 
-          old_import = 'import { motion } from "framer-motion";'
-          new_import = 'import { LazyMotion, m } from "framer-motion";'
-          if old_import not in source:
-              raise SystemExit("Expected Framer Motion import was not found")
-          source = source.replace(old_import, new_import, 1)
+          lhci collect \
+            --url=https://www.imvogroup.com/ \
+            --url=https://www.imvogroup.com/projects \
+            --url=https://www.imvogroup.com/contact \
+            --numberOfRuns=2 \
+            --settings.chromeFlags="--headless --no-sandbox" \
+            "${EXTRA_ARGS[@]}"
 
-          type_import = 'import type { HomePageContent } from "@/sanity/types/siteContent";\n'
-          loader = '''import type { HomePageContent } from "@/sanity/types/siteContent";\n\nconst loadHomeMotionFeatures = () =>\n  import("./components/homeMotionFeatures").then((module) => module.default);\n'''
-          if type_import not in source:
-              raise SystemExit("Expected HomePageContent import was not found")
-          source = source.replace(type_import, loader, 1)
+      - name: Print performance baseline
+        env:
+          DEVICE: ${{ matrix.device }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
 
-          source = source.replace("motion.", "m.")
+          const dir = '.lighthouseci';
+          const files = fs.readdirSync(dir).filter((file) => file.endsWith('.json'));
+          const reports = files
+            .map((file) => JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')))
+            .filter((report) => report?.categories?.performance && report?.audits);
 
-          marker = "export default function HomePageClient"
-          before, sep, after = source.partition(marker)
-          if not sep:
-              raise SystemExit("HomePageClient export was not found")
+          if (!reports.length) {
+            throw new Error('No Lighthouse result JSON files were found.');
+          }
 
-          opening = '  return (\n    <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>'
-          wrapped_opening = '  return (\n    <LazyMotion features={loadHomeMotionFeatures} strict>\n      <div style={{ background: "#050505", color: "white", overflow: "hidden" }}>'
-          if opening not in after:
-              raise SystemExit("HomePageClient root opening was not found")
-          after = after.replace(opening, wrapped_opening, 1)
+          const median = (values) => {
+            const sorted = values.filter(Number.isFinite).sort((a, b) => a - b);
+            if (!sorted.length) return NaN;
+            const middle = Math.floor(sorted.length / 2);
+            return sorted.length % 2
+              ? sorted[middle]
+              : (sorted[middle - 1] + sorted[middle]) / 2;
+          };
 
-          ending = '      </div>\n    </div>\n  );\n}\n'
-          wrapped_ending = '      </div>\n    </div>\n    </LazyMotion>\n  );\n}\n'
-          if not after.endswith(ending):
-              raise SystemExit("HomePageClient root ending was not found")
-          after = after[:-len(ending)] + wrapped_ending
-          source = before + sep + after
+          const metric = (report, id) => report.audits[id]?.numericValue;
+          const grouped = new Map();
 
-          page.write_text(source)
+          for (const report of reports) {
+            const url = report.finalUrl || report.requestedUrl;
+            const values = grouped.get(url) || [];
+            values.push(report);
+            grouped.set(url, values);
+          }
 
-          feature_file = Path("app/components/homeMotionFeatures.ts")
-          feature_file.write_text(
-              'import { domAnimation } from "framer-motion";\n\nexport default domAnimation;\n'
-          )
-          PY
+          console.log(`\n=== IMVO LIGHTHOUSE BASELINE · ${process.env.DEVICE.toUpperCase()} ===`);
 
-          git fetch origin main --depth=1
-          git show FETCH_HEAD:.github/workflows/lighthouse-production.yml > .github/workflows/lighthouse-production.yml
+          for (const [url, runs] of grouped.entries()) {
+            const result = {
+              performance: median(runs.map((r) => r.categories.performance.score * 100)),
+              fcp: median(runs.map((r) => metric(r, 'first-contentful-paint'))),
+              lcp: median(runs.map((r) => metric(r, 'largest-contentful-paint'))),
+              tbt: median(runs.map((r) => metric(r, 'total-blocking-time'))),
+              cls: median(runs.map((r) => metric(r, 'cumulative-layout-shift'))),
+              speedIndex: median(runs.map((r) => metric(r, 'speed-index'))),
+              bytes: median(runs.map((r) => metric(r, 'total-byte-weight'))),
+            };
 
-          git diff --check
-          grep -q 'import { LazyMotion, m } from "framer-motion";' app/HomePageClient.tsx
-          grep -q '<LazyMotion features={loadHomeMotionFeatures} strict>' app/HomePageClient.tsx
-          ! grep -q 'motion\.' app/HomePageClient.tsx
+            const fmt = (value, digits = 0) => Number.isFinite(value) ? value.toFixed(digits) : 'n/a';
+            console.log(`\nURL: ${url}`);
+            console.log(`Performance: ${fmt(result.performance)}/100`);
+            console.log(`FCP: ${fmt(result.fcp)} ms`);
+            console.log(`LCP: ${fmt(result.lcp)} ms`);
+            console.log(`TBT: ${fmt(result.tbt)} ms`);
+            console.log(`CLS: ${fmt(result.cls, 3)}`);
+            console.log(`Speed Index: ${fmt(result.speedIndex)} ms`);
+            console.log(`Total byte weight: ${fmt(result.bytes)} bytes`);
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/HomePageClient.tsx app/components/homeMotionFeatures.ts .github/workflows/lighthouse-production.yml
-          git commit -m "Phase 2: lazy-load homepage motion features"
-          git push origin HEAD:${{ github.ref_name }}
+            const representative = [...runs].sort(
+              (a, b) => Math.abs(a.categories.performance.score * 100 - result.performance) -
+                        Math.abs(b.categories.performance.score * 100 - result.performance),
+            )[0];
+
+            const opportunities = Object.values(representative.audits)
+              .map((audit) => ({
+                title: audit.title,
+                ms: audit.details?.overallSavingsMs || 0,
+                bytes: audit.details?.overallSavingsBytes || 0,
+              }))
+              .filter((item) => item.ms >= 50 || item.bytes >= 25000)
+              .sort((a, b) => (b.ms - a.ms) || (b.bytes - a.bytes))
+              .slice(0, 8);
+
+            if (opportunities.length) {
+              console.log('Top opportunities:');
+              for (const item of opportunities) {
+                console.log(`- ${item.title}: ~${Math.round(item.ms)} ms, ~${Math.round(item.bytes)} bytes`);
+              }
+            }
+          }
+          NODE
+
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.device }}
+          path: .lighthouseci
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
