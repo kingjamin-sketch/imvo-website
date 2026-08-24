@@ -35,6 +35,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 768px)");
     const connection = (navigator as NavigatorWithConnection).connection;
     const idleWindow = window as IdleWindow;
     let delayTimer = 0;
@@ -69,10 +70,12 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }
     };
 
-    // Keep the poster as the entire cold-load hero. The MP4 is deliberately
-    // instantiated only after the intro/initial hydration window has passed,
-    // so it cannot compete with first paint, LCP, or cold-start JavaScript.
-    delayTimer = window.setTimeout(scheduleVideo, 3800);
+    // Keep the poster as the entire cold-load hero. Mobile devices get a
+    // longer quiet window so video decode/playback cannot compete with the
+    // initial hydration and interaction work measured by Core Web Vitals.
+    // Desktop retains the existing faster transition to motion.
+    const initialVideoDelay = mobileViewport.matches ? 12000 : 3800;
+    delayTimer = window.setTimeout(scheduleVideo, initialVideoDelay);
     motionPreference.addEventListener("change", updateVideoPreference);
 
     return () => {
