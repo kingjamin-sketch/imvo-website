@@ -45,5 +45,5 @@
 .panel p { margin: 8px 0 15px; color: #6f6f6b; font-size: 12px; line-height: 1.5; }
 .link { min-height: 42px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; border-radius: 2px; background: #111; color: #fff; font-size: 10px; font-weight: 850; }
 @media (hover: hover) { .widget:hover .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; } }
-@media (max-width: 640px) { .widget { right: 12px; bottom: 12px; } .icon { width: 54px; height: 54px; } .panel { width: min(280px, calc(100vw - 78px)); padding: 18px; } }
+@media (max-width: 640px) { .widget { right: 14px; bottom: 14px; } .icon { width: 48px; height: 48px; padding: 9px 11px; } .panel { width: min(280px, calc(100vw - 74px)); padding: 18px; } }
 @media (prefers-reduced-motion: reduce) { .icon, .panel { transition: none; } }
