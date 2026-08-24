@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 
 import BackToTop from "./BackToTop";
 import DomicileWidget from "./DomicileWidget";
+import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 
-const IntroLoader = dynamic(() => import("./IntroLoader"), { ssr: false });
 const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
   ssr: false,
 });
