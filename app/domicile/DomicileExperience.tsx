@@ -228,7 +228,7 @@ export default function DomicileExperience() {
       </header>
 
       <section className={styles.hero}>
-        <Image src="/casa-vento-2.png" alt="Residential property in Kigali" fill priority sizes="100vw" className={styles.heroImage} />
+        <Image src="/domicile/properties/property-estate.webp" alt="Residential estate under DŌMICILE care in Kigali" fill priority sizes="100vw" className={styles.heroImage} />
         <div className={styles.heroContrast} />
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
@@ -332,7 +332,7 @@ export default function DomicileExperience() {
       </section>
 
       <section className={styles.dashboardSection}>
-        <div className={styles.dashboardImage}><Image src="/virunga-residence-2.png" alt="Residential property in Kigali" fill sizes="(max-width: 900px) 100vw, 42vw" /></div>
+        <div className={styles.dashboardImage}><Image src="/domicile/properties/property-c1.webp" alt="Private residence under DŌMICILE care in Kigali" fill sizes="(max-width: 900px) 100vw, 42vw" /></div>
         <div className={styles.dashboardCopy}>
           <p className={styles.kicker}>Your property, at a glance</p>
           <h2>Visibility without chasing updates.</h2>
