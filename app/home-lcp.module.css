@@ -1,0 +1,13 @@
+/*
+ * Keep the homepage hero copy paintable on the server-rendered first frame.
+ * Framer Motion can still animate translateY, but opacity must not wait for
+ * the client-side poster onLoad callback or the H1 becomes the mobile LCP
+ * render-delay bottleneck.
+ */
+.homePageFirstPaint > div > section:first-child > :global(.containerWide) {
+  opacity: 1 !important;
+}
+
+.homePageFirstPaint > div > section:first-child > :global(.containerWide) > * {
+  opacity: 1 !important;
+}
