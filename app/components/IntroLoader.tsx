@@ -24,17 +24,54 @@ export default function IntroLoader() {
   useEffect(() => {
     if (!isDirectHomeEntry) return;
 
-    const finishTimer = window.setTimeout(
-      () => setIsFinishing(true),
+    let heroReady =
+      document.documentElement.dataset.imvoHeroReady === "true";
+    let minimumElapsed = false;
+    let finishingStarted = false;
+    let removeTimer = 0;
+
+    const maybeFinish = () => {
+      if (finishingStarted || !minimumElapsed || !heroReady) return;
+
+      finishingStarted = true;
+      setIsFinishing(true);
+      removeTimer = window.setTimeout(
+        () => setShow(false),
+        shouldReduceMotion ? 250 : 520,
+      );
+    };
+
+    const handleHeroReady = () => {
+      heroReady = true;
+      maybeFinish();
+    };
+
+    window.addEventListener("imvo:hero-ready", handleHeroReady);
+
+    const minimumTimer = window.setTimeout(
+      () => {
+        minimumElapsed = true;
+        maybeFinish();
+      },
       shouldReduceMotion ? 450 : 2750,
     );
-    const removeTimer = window.setTimeout(
-      () => setShow(false),
-      shouldReduceMotion ? 700 : 3150,
+
+    // Never trap a visitor in the intro if media playback is unavailable.
+    // Normal visitors should reach this point with the video already ready;
+    // if not, the hero stays black until motion is ready rather than flashing
+    // the temporary poster image.
+    const safetyTimer = window.setTimeout(
+      () => {
+        heroReady = true;
+        maybeFinish();
+      },
+      shouldReduceMotion ? 900 : 6500,
     );
 
     return () => {
-      window.clearTimeout(finishTimer);
+      window.removeEventListener("imvo:hero-ready", handleHeroReady);
+      window.clearTimeout(minimumTimer);
+      window.clearTimeout(safetyTimer);
       window.clearTimeout(removeTimer);
     };
   }, [isDirectHomeEntry, shouldReduceMotion]);
