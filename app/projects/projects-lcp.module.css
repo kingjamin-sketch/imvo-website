@@ -1,0 +1,7 @@
+/* Keep the Projects hero H1 paintable on the server-rendered first frame.
+ * Framer Motion still owns the translateY motion; only the opacity gate is
+ * removed so the heading cannot become an intentional LCP render delay.
+ */
+.projectsPageFirstPaint > div > section:first-child > :global(.containerWide) h1 {
+  opacity: 1 !important;
+}
