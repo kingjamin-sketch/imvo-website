@@ -112,21 +112,21 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }}
       aria-hidden="true"
     >
-      <Image
-        src="/hero-2.webp"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        onLoad={handlePosterReady}
-        onError={handlePosterReady}
-        style={{
-          objectFit: "cover",
-          filter: "brightness(0.82)",
-          opacity: expectsVideo === true ? 0 : 1,
-          transition: "opacity 220ms ease",
-        }}
-      />
+      {expectsVideo === false && (
+        <Image
+          src="/hero-2.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          onLoad={handlePosterReady}
+          onError={handlePosterReady}
+          style={{
+            objectFit: "cover",
+            filter: "brightness(0.82)",
+          }}
+        />
+      )}
 
       {allowVideo && (
         <video
@@ -135,8 +135,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
           loop
           playsInline
           preload="auto"
-          onCanPlay={handleVideoReady}
-          onLoadedData={handleVideoReady}
+          onPlaying={handleVideoReady}
           onError={handleVideoError}
           style={{
             position: "absolute",
