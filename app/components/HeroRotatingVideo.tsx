@@ -13,6 +13,14 @@ type NavigatorWithConnection = Navigator & {
   };
 };
 
+type IdleWindow = Window & {
+  requestIdleCallback?: (
+    callback: () => void,
+    options?: { timeout: number },
+  ) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
+
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const [allowVideo, setAllowVideo] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -28,15 +36,53 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as NavigatorWithConnection).connection;
+    const idleWindow = window as IdleWindow;
+    let delayTimer = 0;
+    let idleHandle: number | undefined;
+    let cancelled = false;
 
-    const updateVideoPreference = () => {
-      setAllowVideo(!motionPreference.matches && connection?.saveData !== true);
+    const videoIsAllowed = () =>
+      !motionPreference.matches && connection?.saveData !== true;
+
+    const enableVideo = () => {
+      if (!cancelled && videoIsAllowed()) {
+        setAllowVideo(true);
+      }
     };
 
-    updateVideoPreference();
+    const scheduleVideo = () => {
+      if (!videoIsAllowed()) {
+        setAllowVideo(false);
+        return;
+      }
+
+      if (idleWindow.requestIdleCallback) {
+        idleHandle = idleWindow.requestIdleCallback(enableVideo, { timeout: 2000 });
+      } else {
+        enableVideo();
+      }
+    };
+
+    const updateVideoPreference = () => {
+      if (!videoIsAllowed()) {
+        setAllowVideo(false);
+      }
+    };
+
+    // Keep the poster as the entire cold-load hero. The MP4 is deliberately
+    // instantiated only after the intro/initial hydration window has passed,
+    // so it cannot compete with first paint, LCP, or cold-start JavaScript.
+    delayTimer = window.setTimeout(scheduleVideo, 3800);
     motionPreference.addEventListener("change", updateVideoPreference);
 
-    return () => motionPreference.removeEventListener("change", updateVideoPreference);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(delayTimer);
+      if (idleHandle !== undefined) {
+        idleWindow.cancelIdleCallback?.(idleHandle);
+      }
+      motionPreference.removeEventListener("change", updateVideoPreference);
+    };
   }, []);
 
   return (
