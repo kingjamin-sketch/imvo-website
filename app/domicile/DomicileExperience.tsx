@@ -228,7 +228,7 @@ export default function DomicileExperience() {
       </header>
 
       <section className={styles.hero}>
-        <Image src="/domicile/properties/property-estate.webp" alt="Residential estate under DŌMICILE care in Kigali" fill priority sizes="100vw" className={styles.heroImage} />
+        <Image src="/domicile/properties/property-estate.webp" alt="Residential estate under DŌMICILE care in Kigali" fill priority unoptimized sizes="100vw" className={styles.heroImage} />
         <div className={styles.heroContrast} />
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
@@ -273,7 +273,7 @@ export default function DomicileExperience() {
         <div className={styles.propertyGrid}>
           {managedProperties.map((property) => (
             <article className={styles.propertyCard} key={property.title}>
-              <div className={styles.propertyImage}><Image src={property.image} alt={`${property.title} in ${property.area}`} fill sizes="(max-width: 760px) 100vw, 33vw" /></div>
+              <div className={styles.propertyImage}><Image src={property.image} alt={`${property.title} in ${property.area}`} fill unoptimized sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw" /></div>
               <div className={styles.propertyMeta}>
                 <span className={`${styles.status} ${styles[property.tone]}`}>{property.status}</span>
                 <div><h3>{property.title}</h3><p>{property.area} · {property.note}</p></div>
@@ -332,7 +332,7 @@ export default function DomicileExperience() {
       </section>
 
       <section className={styles.dashboardSection}>
-        <div className={styles.dashboardImage}><Image src="/domicile/properties/property-c1.webp" alt="Private residence under DŌMICILE care in Kigali" fill sizes="(max-width: 900px) 100vw, 42vw" /></div>
+        <div className={styles.dashboardImage}><Image src="/domicile/properties/property-street.webp" alt="Private home under DŌMICILE care in Kigali" fill unoptimized sizes="(max-width: 900px) 100vw, 44vw" /></div>
         <div className={styles.dashboardCopy}>
           <p className={styles.kicker}>Your property, at a glance</p>
           <h2>Visibility without chasing updates.</h2>
@@ -390,7 +390,7 @@ export default function DomicileExperience() {
       <section className={styles.imvoSection}>
         <div className={styles.imvoCopy}><p className={styles.kicker}>Backed by IMVO Group</p><h2>Property care with built-environment thinking behind it.</h2><p>DŌMICILE combines property coordination with IMVO Group's design, technical and built-environment perspective.</p><Link href="/">Visit IMVO Group <ArrowIcon /></Link></div>
         <div className={styles.imvoPillars}><div><b>Local team</b><span>Kigali-based coordination</span></div><div><b>Trusted network</b><span>Appropriate service providers</span></div><div><b>Professional records</b><span>Reports, approvals and history</span></div><div><b>Discretion</b><span>Privacy built into the service</span></div></div>
-        <div className={styles.imvoMark}><strong>IMVO</strong><span>GROUP</span></div>
+        <div className={styles.imvoMark}><Image src="/imvo-black.png" alt="IMVO Group" width={320} height={110} unoptimized /></div>
       </section>
 
       <section className={styles.faqSection} id="faq">
@@ -432,7 +432,7 @@ export default function DomicileExperience() {
       </footer>
 
       <div className={styles.imvoReturn} onMouseEnter={() => setImvoOpen(true)} onMouseLeave={() => setImvoOpen(false)}>
-        <Link href="/" aria-label="Back to IMVO Group"><span className={styles.imvoBadge}>IMVO</span><span className={`${styles.imvoLabel} ${imvoOpen ? styles.floatOpen : ""}`}>Back to IMVO Group</span></Link>
+        <Link href="/" aria-label="Back to IMVO Group"><span className={styles.imvoBadge}><Image src="/imvo-black.png" alt="" width={120} height={42} unoptimized /></span><span className={`${styles.imvoLabel} ${imvoOpen ? styles.floatOpen : ""}`}>Back to IMVO Group</span></Link>
       </div>
 
       <div className={styles.assistant} onMouseEnter={() => setAssistantOpen(true)} onMouseLeave={() => setAssistantOpen(false)}>
