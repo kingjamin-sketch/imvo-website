@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type HeroRotatingVideoProps = {
@@ -17,11 +16,8 @@ const HERO_READY_EVENT = "imvo:hero-ready";
 
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const [allowVideo, setAllowVideo] = useState(false);
-  const [expectsVideo, setExpectsVideo] = useState<boolean | null>(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
   const hasNotifiedReady = useRef(false);
-  const posterReadyRef = useRef(false);
-  const expectsVideoRef = useRef<boolean | null>(null);
 
   const notifyReady = () => {
     if (hasNotifiedReady.current) return;
@@ -32,37 +28,20 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     onReady?.();
   };
 
-  const handlePosterReady = () => {
-    posterReadyRef.current = true;
-
-    // The poster is only the final hero for reduced-motion / data-saver users.
-    // Normal motion visitors wait for the actual video so there is no
-    // intro -> still image -> video handoff.
-    if (expectsVideoRef.current === false) {
-      notifyReady();
-    }
-  };
-
   const handleVideoReady = () => {
     setIsVideoReady(true);
     notifyReady();
   };
 
   const handleVideoError = () => {
-    expectsVideoRef.current = false;
-    setExpectsVideo(false);
     setAllowVideo(false);
-
-    if (posterReadyRef.current) {
-      notifyReady();
-    }
+    notifyReady();
   };
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as NavigatorWithConnection).connection;
     let delayTimer = 0;
-    let fallbackTimer = 0;
     let cancelled = false;
 
     const videoIsAllowed = () =>
@@ -70,39 +49,23 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
 
     const applyPreference = () => {
       window.clearTimeout(delayTimer);
-      window.clearTimeout(fallbackTimer);
 
       const allowed = videoIsAllowed();
-      expectsVideoRef.current = allowed;
-      setExpectsVideo(allowed);
 
       if (!allowed) {
         setAllowVideo(false);
-        if (posterReadyRef.current) {
-          notifyReady();
-        }
+        notifyReady();
         return;
       }
 
       // Start fetching the motion hero while the IMVO intro still covers the
-      // viewport. The previous multi-second delay caused the poster to become
-      // visible after the intro before the MP4 was ready.
+      // viewport. Slow loading now stays on the dark fallback surface until
+      // the MP4 is actually playing; it never swaps to a still image.
       delayTimer = window.setTimeout(() => {
         if (!cancelled) {
           setAllowVideo(true);
         }
       }, 180);
-
-      // If playback never actually begins, stop trying to hand off to motion.
-      // The fallback still can appear, but it becomes the final hero for this
-      // visit instead of flashing briefly before a delayed video.
-      fallbackTimer = window.setTimeout(() => {
-        if (!cancelled && !hasNotifiedReady.current) {
-          expectsVideoRef.current = false;
-          setExpectsVideo(false);
-          setAllowVideo(false);
-        }
-      }, 5600);
     };
 
     applyPreference();
@@ -111,7 +74,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     return () => {
       cancelled = true;
       window.clearTimeout(delayTimer);
-      window.clearTimeout(fallbackTimer);
       motionPreference.removeEventListener("change", applyPreference);
     };
   }, []);
@@ -128,22 +90,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
       }}
       aria-hidden="true"
     >
-      {expectsVideo === false && (
-        <Image
-          src="/hero-2.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          onLoad={handlePosterReady}
-          onError={handlePosterReady}
-          style={{
-            objectFit: "cover",
-            filter: "brightness(0.82)",
-          }}
-        />
-      )}
-
       {allowVideo && (
         <video
           autoPlay
