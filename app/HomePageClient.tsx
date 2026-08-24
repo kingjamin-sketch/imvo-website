@@ -863,6 +863,12 @@ const approachScenes = [
 
 function CinematicHero({ content }: { content?: HomePageContent | null }) {
   const [isHeroVideoReady, setIsHeroVideoReady] = useState(false);
+  const [isHeroContentReady, setIsHeroContentReady] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setIsHeroContentReady(true), 420);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const rawHeroKicker = content?.heroKicker?.trim();
   const rawHeroIntro = content?.heroIntro?.trim();
@@ -870,13 +876,15 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
     rawHeroKicker && !/INTELLECTU.*MENS.*VISIO.*ORIGO/i.test(rawHeroKicker)
       ? rawHeroKicker
       : "BUILT ENVIRONMENT DESIGN & DEVELOPMENT";
-  const heroIntro =
+  const heroLead =
     rawHeroIntro &&
-    !rawHeroIntro.startsWith(
-      "IMVO develops residential, commercial, and institutional environments",
+    !/^(IMVO develops residential, commercial, and institutional environments|We shape enduring environments through design)/i.test(
+      rawHeroIntro,
     )
       ? rawHeroIntro
-      : "We shape enduring environments through design, development strategy, and execution-aware planning.";
+      : "IMVO shapes residential, commercial, and institutional environments through built-environment design, development strategy, site coordination, and execution-aware planning.";
+  const heroSupport =
+    "Guided by spatial clarity, contextual sensitivity, technical discipline, and long-term architectural value.";
   const heroButtonLabel = (content?.heroButtonLabel || "EXPLORE WORK")
     .replace(/[↗→]/g, "")
     .trim();
@@ -887,7 +895,8 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
         position: "relative",
         minHeight: "100vh",
         width: "100%",
-        background: "#050505",
+        background:
+          "radial-gradient(circle at 72% 18%, #1b2330 0%, #0c0f14 38%, #050505 72%)",
         overflow: "hidden",
       }}
     >
@@ -899,7 +908,7 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           background:
             "linear-gradient(90deg, rgba(5,5,5,0.80) 0%, rgba(5,5,5,0.52) 38%, rgba(5,5,5,0.14) 68%, rgba(5,5,5,0.02) 100%), linear-gradient(to top, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.20) 54%, rgba(5,5,5,0.03) 100%)",
           pointerEvents: "none",
-          opacity: isHeroVideoReady ? 1 : 0,
+          opacity: isHeroContentReady ? 1 : 0,
           transition: "opacity 700ms ease",
         }}
       />
@@ -914,13 +923,13 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
           flexDirection: "column",
           justifyContent: "flex-end",
           paddingBottom: "14vh",
-          opacity: isHeroVideoReady ? 1 : 0,
+          opacity: isHeroContentReady ? 1 : 0,
           transition: "opacity 700ms ease",
         }}
       >
         <m.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={isHeroContentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ ...transition, delay: 0.2 }}
           style={{
             fontSize: 11,
@@ -935,27 +944,44 @@ function CinematicHero({ content }: { content?: HomePageContent | null }) {
 
         <m.h1
           initial={{ opacity: 0, y: 30 }}
-          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          animate={isHeroContentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.4 }}
           style={{
             marginTop: 20,
             marginBottom: 0,
-            maxWidth: 740,
-            fontSize: "clamp(22px, 2.15vw, 30px)",
+            maxWidth: 860,
+            fontSize: "clamp(21px, 2vw, 29px)",
             fontWeight: 430,
-            lineHeight: 1.45,
+            lineHeight: 1.46,
             letterSpacing: "-0.015em",
-            color: "rgba(255,255,255,0.92)",
+            color: "rgba(255,255,255,0.94)",
           }}
         >
-          {heroIntro}
+          {heroLead}
         </m.h1>
+
+        <m.p
+          initial={{ opacity: 0, y: 22 }}
+          animate={isHeroContentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
+          transition={{ ...transition, delay: 0.52 }}
+          style={{
+            margin: "16px 0 0",
+            maxWidth: 760,
+            fontSize: "clamp(14px, 1.15vw, 17px)",
+            lineHeight: 1.65,
+            fontWeight: 430,
+            letterSpacing: "-0.008em",
+            color: "rgba(255,255,255,0.68)",
+          }}
+        >
+          {heroSupport}
+        </m.p>
 
         <m.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isHeroVideoReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          animate={isHeroContentReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ ...transition, delay: 0.6 }}
-          style={{ marginTop: 34 }}
+          style={{ marginTop: 30 }}
         >
           <Link
             href="/projects"
