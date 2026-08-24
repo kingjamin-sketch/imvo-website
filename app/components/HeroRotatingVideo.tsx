@@ -35,9 +35,9 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const handlePosterReady = () => {
     posterReadyRef.current = true;
 
-    // The poster is only the final hero for reduced-motion / data-saver users.
-    // Normal motion visitors wait for the actual video so there is no
-    // intro -> still image -> video handoff.
+    // The still image is only a final hero for explicit reduced-motion /
+    // data-saver preferences or a genuine playback error. A slow connection
+    // must never switch the normal experience to a poster before the video.
     if (expectsVideoRef.current === false) {
       notifyReady();
     }
@@ -62,7 +62,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const connection = (navigator as NavigatorWithConnection).connection;
     let delayTimer = 0;
-    let fallbackTimer = 0;
     let cancelled = false;
 
     const videoIsAllowed = () =>
@@ -70,7 +69,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
 
     const applyPreference = () => {
       window.clearTimeout(delayTimer);
-      window.clearTimeout(fallbackTimer);
 
       const allowed = videoIsAllowed();
       expectsVideoRef.current = allowed;
@@ -93,16 +91,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
         }
       }, 180);
 
-      // If playback never actually begins, stop trying to hand off to motion.
-      // The fallback still can appear, but it becomes the final hero for this
-      // visit instead of flashing briefly before a delayed video.
-      fallbackTimer = window.setTimeout(() => {
-        if (!cancelled && !hasNotifiedReady.current) {
-          expectsVideoRef.current = false;
-          setExpectsVideo(false);
-          setAllowVideo(false);
-        }
-      }, 5600);
     };
 
     applyPreference();
@@ -111,7 +99,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     return () => {
       cancelled = true;
       window.clearTimeout(delayTimer);
-      window.clearTimeout(fallbackTimer);
       motionPreference.removeEventListener("change", applyPreference);
     };
   }, []);
