@@ -1,0 +1,74 @@
+/* DŌMICILE photo recovery layer.
+   Keep the intended DŌMICILE asset first; use a confirmed-working architectural
+   image only when that asset cannot render. This prevents empty/broken photo areas. */
+
+/* The Next/Image nodes are hidden here because the parent carries the same
+   intended image as a CSS background with a second-source fallback. */
+img[src*="/domicile/award/estate-main.avif"],
+img[src*="/domicile/award/estate-c1.avif"],
+img[src*="/domicile/award/estate-street.avif"],
+img[src*="/domicile/properties/property-c1.webp"],
+img[src*="/domicile/properties/property-estate.webp"],
+img[src*="/domicile/properties/property-street.webp"] {
+  opacity: 0 !important;
+}
+
+*:has(> img[src*="/domicile/award/estate-main.avif"]) {
+  background-image:
+    url('/domicile/award/estate-main.avif'),
+    url('/chosen/virunga-residence.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src*="/domicile/award/estate-c1.avif"]) {
+  background-image:
+    url('/domicile/award/estate-c1.avif'),
+    url('/chosen/veranda-residence.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src*="/domicile/award/estate-street.avif"]) {
+  background-image:
+    url('/domicile/award/estate-street.avif'),
+    url('/chosen/atria-residence.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src*="/domicile/properties/property-c1.webp"]) {
+  background-image:
+    url('/domicile/properties/property-c1.webp'),
+    url('/chosen/aurelian-villa.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src*="/domicile/properties/property-estate.webp"]) {
+  background-image:
+    url('/domicile/properties/property-estate.webp'),
+    url('/chosen/casa-lumara.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src*="/domicile/properties/property-street.webp"]) {
+  background-image:
+    url('/domicile/properties/property-street.webp'),
+    url('/chosen/casa-palma.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Make the photographs read as photographs rather than dark placeholders. */
+*:has(> img[src*="/domicile/award/"]),
+*:has(> img[src*="/domicile/properties/"]) {
+  background-color: #d8d2c8 !important;
+}
