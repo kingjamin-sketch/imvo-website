@@ -35,9 +35,12 @@ export default function HeroFlipEnhancement() {
       if (!text) return;
 
       target.dataset.imvoFlipMounted = "true";
+      target.style.fontSize = "clamp(13px, 1.15vw, 17px)";
+      target.style.lineHeight = "1.15";
+      target.style.cursor = "default";
       target.textContent = "";
       root = createRoot(target);
-      root.render(<FlipText>{text}</FlipText>);
+      root.render(<FlipText replayOnHover>{text}</FlipText>);
     };
 
     const scheduleInstall = () => {
