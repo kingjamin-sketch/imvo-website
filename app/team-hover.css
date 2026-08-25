@@ -2,7 +2,9 @@
   border: 0 !important;
 }
 
-.teamImageFrame + div > div > div:first-child {
+/* Move the whole visible team unit together: portrait, name and role. */
+.teamImageFrame + div > div > div:first-child,
+.teamImageFrame + div > div > div:last-child {
   border: 0 !important;
   outline: 0;
   transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -16,13 +18,15 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .teamImageFrame + div > div:hover > div:first-child {
+  .teamImageFrame + div > div:hover > div:first-child,
+  .teamImageFrame + div > div:hover > div:last-child {
     transform: translateY(18px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .teamImageFrame + div > div > div:first-child {
+  .teamImageFrame + div > div > div:first-child,
+  .teamImageFrame + div > div > div:last-child {
     transition: none;
     transform: none !important;
   }
