@@ -1,0 +1,24 @@
+/* DŌMICILE direct photo rendering.
+   The AVIF copies are not usable in the browser. Use the direct JPG assets
+   already referenced by the active component, with no rewrite/fallback layer. */
+
+*:has(> img[src="/domicile/exact/estate-hero.jpg"]) {
+  background-image: url('/domicile/exact/estate-hero.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src="/domicile/exact/estate-c1.jpg"]) {
+  background-image: url('/domicile/exact/estate-c1.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+*:has(> img[src="/domicile/exact/estate-street.jpg"]) {
+  background-image: url('/domicile/exact/estate-street.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
