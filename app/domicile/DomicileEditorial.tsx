@@ -17,12 +17,12 @@ const whatsappUrl =
   );
 
 const images = {
-  hero: "/domicile/award/estate-main.avif",
-  c1: "/domicile/award/estate-c1.avif",
-  street: "/domicile/award/estate-street.avif",
-  privateResidence: "/domicile/properties/property-c1.webp",
-  residentialEstate: "/domicile/properties/property-estate.webp",
-  privateHome: "/domicile/properties/property-street.webp",
+  hero: "/domicile/exact/estate-hero.jpg",
+  c1: "/domicile/exact/estate-c1.jpg",
+  street: "/domicile/exact/estate-street.jpg",
+  privateResidence: "/domicile/exact/estate-c1.jpg",
+  residentialEstate: "/domicile/exact/estate-hero.jpg",
+  privateHome: "/domicile/exact/estate-street.jpg",
 };
 
 const explanation = [
@@ -355,14 +355,14 @@ export default function DomicileEditorial() {
           </div>
           <div className={styles.tabs}>
             {tabs.map((tab) => (
-              <button key={tab} type="button" className={activeTab === tab ? styles.activeTab : ""} onClick={() => setActiveTab(tab)}>{tab}</button>
+              <button key={tab} type="button" onClick={() => setActiveTab(tab)} className={activeTab === tab ? styles.activeTab : ""}>{tab}</button>
             ))}
           </div>
           <div className={styles.tabPanel}>
             <span>{activeTab.toUpperCase()}</span>
             <h3>{tabCopy[activeTab].title}</h3>
             <p>{tabCopy[activeTab].text}</p>
-            <button type="button">VIEW LATEST REPORT <span>→</span></button>
+            <button type="button">VIEW LATEST REPORT →</button>
           </div>
         </div>
       </section>
@@ -371,32 +371,32 @@ export default function DomicileEditorial() {
         <div className={styles.propertiesHeading}>
           <span className={styles.sectionTag}>04 / SELECTED PROPERTIES</span>
           <h2>Real homes.<br />Quietly looked after.</h2>
-          <p>Large, legible photography with only the information an owner needs to understand the care status.</p>
+          <p>These visual examples show the kind of residential environments DŌMICILE is designed to care for.</p>
         </div>
         <div className={styles.propertyStories}>
           {propertyStories.map((property, index) => (
-            <article className={styles.propertyStory} key={property.number}>
+            <Reveal key={property.number} className={styles.propertyStory}>
               <div className={styles.propertyPhoto}>
-                <Image src={property.image} alt={property.title} fill unoptimized sizes="(max-width:900px) 100vw, 64vw" />
+                <Image src={property.image} alt={property.title} fill unoptimized sizes="(max-width:900px) 100vw, 68vw" />
               </div>
               <div className={styles.propertyCopy}>
-                <div><span>{property.number}</span><small>{property.status}</small></div>
+                <div><small>{property.status}</small><span>{property.number}</span></div>
                 <h3>{property.title}</h3>
                 <p>{property.copy}</p>
-                <a href="#enquire">DISCUSS A PROPERTY <span>↗</span></a>
+                <a href="#enquire">DISCUSS YOUR PROPERTY <span>↗</span></a>
               </div>
-              {index === 1 ? <div className={styles.propertyQuote}>One home. One record. One accountable point of contact.</div> : null}
-            </article>
+              {index === 0 ? <div className={styles.propertyQuote}>Care should feel quiet because someone responsible is already following through.</div> : null}
+            </Reveal>
           ))}
         </div>
       </section>
 
       <section className={styles.trustFaq} id="faq">
         <div className={styles.trust}>
-          <span className={styles.sectionTag}>05 / BACKED BY IMVO GROUP</span>
+          <span className={styles.sectionTag}>BACKED BY IMVO GROUP</span>
           <h2>Property care with built-environment thinking behind it.</h2>
-          <p>DŌMICILE combines property coordination with IMVO Group’s design, technical and built-environment perspective.</p>
-          <Image src="/imvo-black.png" alt="IMVO Group" width={360} height={124} unoptimized />
+          <p>DŌMICILE combines day-to-day property coordination with IMVO Group’s design, technical and built-environment perspective.</p>
+          <Image src="/logo.png" alt="IMVO Group" width={500} height={180} unoptimized />
           <Link href="/">VISIT IMVO GROUP <span>↗</span></Link>
         </div>
         <div className={styles.faq}>
@@ -405,7 +405,9 @@ export default function DomicileEditorial() {
             {faqItems.map(([question, answer], index) => (
               <article key={question} className={openFaq === index ? styles.faqOpen : ""}>
                 <button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)}>
-                  <span>{String(index + 1).padStart(2, "0")}</span><strong>{question}</strong><b>{openFaq === index ? "−" : "+"}</b>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{question}</strong>
+                  <b>{openFaq === index ? "−" : "+"}</b>
                 </button>
                 <div><p>{answer}</p></div>
               </article>
@@ -415,49 +417,42 @@ export default function DomicileEditorial() {
       </section>
 
       <section className={styles.enquiry} id="enquire">
-        <div className={styles.enquiryPhoto}>
-          <Image src={images.street} alt="DŌMICILE residential street" fill unoptimized sizes="(max-width:900px) 100vw, 42vw" />
-          <div className={styles.enquiryShade} />
+        <div className={styles.enquiryImage}>
+          <Image src={images.street} alt="Residential street cared for by DŌMICILE" fill unoptimized sizes="(max-width:900px) 100vw, 44vw" />
+          <div className={styles.enquiryOverlay} />
           <div className={styles.enquiryIntro}>
             <Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized />
             <span className={styles.sectionTagLight}>START WITH A CONVERSATION</span>
             <h2>Tell us about your property.</h2>
-            <p>Share the essentials. We will contact you personally to understand the property and what you need.</p>
+            <p>This is an enquiry, not a registration. We’ll contact you to understand the property and what you need.</p>
             <div><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a><span>KIGALI · RWANDA</span></div>
           </div>
         </div>
-
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formSide}>
+          <div className={styles.formHeading}><span>PROPERTY ENQUIRY</span><h3>What should we know?</h3><p>A first conversation is enough to start.</p></div>
           {isSubmitted ? (
-            <div className={styles.success}>
-              <span className={styles.sectionTag}>ENQUIRY RECEIVED</span>
-              <h3>Thank you. DŌMICILE has your message.</h3>
-              <p>Our team will review the property need and contact you using the details provided.</p>
-              <button type="button" onClick={() => setIsSubmitted(false)}>SEND ANOTHER ENQUIRY</button>
-            </div>
+            <div className={styles.success}><span>ENQUIRY RECEIVED</span><h3>Thank you.</h3><p>We’ll review the details and contact you directly.</p><button type="button" onClick={() => setIsSubmitted(false)}>SEND ANOTHER ENQUIRY</button></div>
           ) : (
-            <>
-              <div className={styles.formHeader}><span className={styles.sectionTag}>PROPERTY ENQUIRY</span><h3>What should we know?</h3><p>We normally respond personally after reviewing the details.</p></div>
-              <input className={styles.honeypot} value={form.botcheck} onChange={(event) => setForm((value) => ({ ...value, botcheck: event.target.value }))} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-              <div className={styles.formGrid}>
-                <label><span>Full name</span><input value={form.name} onChange={(e) => setForm((v) => ({ ...v, name: e.target.value }))} placeholder="Your name" /></label>
-                <label><span>Phone / WhatsApp</span><input value={form.phone} onChange={(e) => setForm((v) => ({ ...v, phone: e.target.value }))} placeholder="+250 …" /></label>
-                <label><span>Email</span><input type="email" value={form.email} onChange={(e) => setForm((v) => ({ ...v, email: e.target.value }))} placeholder="you@example.com" /></label>
-                <label><span>Property location</span><input value={form.location} onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))} placeholder="e.g. Kacyiru, Kigali" /></label>
-                <label><span>Property type</span><select value={form.propertyType} onChange={(e) => setForm((v) => ({ ...v, propertyType: e.target.value }))}><option value="">Select property type</option><option>House</option><option>Apartment</option><option>Commercial</option><option>Other</option></select></label>
-                <label><span>What do you need?</span><select value={form.helpWith} onChange={(e) => setForm((v) => ({ ...v, helpWith: e.target.value }))}><option value="">Select what you need</option><option>Ongoing property management</option><option>Owner-away care</option><option>Maintenance or repair</option><option>Property inspection</option><option>An urgent property issue</option><option>One-off property support</option><option>Other</option></select></label>
-              </div>
-              <label className={styles.messageField}><span>Message</span><textarea value={form.message} onChange={(e) => setForm((v) => ({ ...v, message: e.target.value }))} placeholder="Tell us what the property needs…" /></label>
-              {error ? <p className={styles.error}>{error}</p> : null}
-              <div className={styles.formFooter}><div><span>PRIVATE BY DEFAULT</span><span>PERSONAL FOLLOW-UP</span></div><button type="submit" disabled={!formReady || isSubmitting}>{isSubmitting ? "SENDING…" : "SEND TO DŌMICILE"} <span>↗</span></button></div>
-            </>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <input className={styles.botcheck} type="checkbox" name="botcheck" value={form.botcheck} onChange={(e) => setForm({ ...form, botcheck: e.target.checked ? "1" : "" })} tabIndex={-1} autoComplete="off" />
+              <label>Full name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your name" /></label>
+              <label>Phone / WhatsApp<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+250 ..." /></label>
+              <label>Email<input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label>
+              <label>Property location<input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Kacyiru, Kigali" /></label>
+              <label>Property type<select value={form.propertyType} onChange={(e) => setForm({ ...form, propertyType: e.target.value })}><option value="">Select property type</option><option>Private residence</option><option>Apartment / condominium</option><option>Residential estate</option><option>Commercial property</option><option>Other</option></select></label>
+              <label>What do you need?<select value={form.helpWith} onChange={(e) => setForm({ ...form, helpWith: e.target.value })}><option value="">Select what you need</option><option>Ongoing property management</option><option>Owner-away care</option><option>Maintenance coordination</option><option>Property inspection</option><option>One-off property support</option><option>Not sure yet</option></select></label>
+              <label className={styles.message}>Message<textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us what the property needs..." /></label>
+              <div className={styles.formFooter}><button type="submit" disabled={!formReady || isSubmitting}>{isSubmitting ? "SENDING..." : "SEND TO DŌMICILE ↗"}</button><span>PRIVATE BY DEFAULT · DIRECT FOLLOW-UP</span></div>
+              {error ? <p className={styles.formError}>{error}</p> : null}
+            </form>
           )}
-        </form>
+        </div>
       </section>
 
       <footer className={styles.footer}>
         <Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized />
-        <div><span>PROPERTY MANAGEMENT BY IMVO GROUP</span><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a><Link href="/">IMVO Group</Link></div>
+        <span>PROPERTY MANAGEMENT BY IMVO GROUP</span>
+        <div><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">WHATSAPP</a><Link href="/">IMVO GROUP</Link></div>
       </footer>
     </main>
   );
