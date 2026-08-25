@@ -16,6 +16,13 @@ import type { SiteSettings } from "@/sanity/types/siteContent";
 const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
   ssr: false,
 });
+const CountryDialogEnhancement = dynamic(
+  () => import("./CountryDialogEnhancement"),
+  { ssr: false },
+);
+const HeroFlipEnhancement = dynamic(() => import("./HeroFlipEnhancement"), {
+  ssr: false,
+});
 const IMVOPreviewExperience = dynamic(() => import("./IMVOPreviewExperience"), {
   ssr: false,
 });
@@ -132,9 +139,11 @@ export default function SiteShell({
           Skip to main content
         </a>
         {pathname === "/" ? <IntroLoader /> : null}
+        {pathname === "/" ? <HeroFlipEnhancement /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
+        {pathname === "/contact" ? <CountryDialogEnhancement /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
         <main id="main-content" tabIndex={-1}>
