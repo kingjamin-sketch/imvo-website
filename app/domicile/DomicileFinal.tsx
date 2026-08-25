@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useMemo, useRef, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import styles from "./DomicileFinal.module.css";
 
 const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_DOMICILE_WEB3FORMS_KEY || "566d4852-a822-4432-83ba-8d522618ee66";
@@ -16,17 +16,17 @@ const properties = [
 ];
 
 const careItems = [
-  { number: "01", title: "Property Oversight", text: "Scheduled checks, readiness, owner-away care and a reliable local presence.", image: "/domicile/properties/property-street.webp", fallback: "/chosen/atria-residence.webp" },
-  { number: "02", title: "Maintenance & Repairs", text: "Issues are scoped, coordinated and followed through instead of being passed from person to person.", image: "/chosen/casa-forma.webp", fallback: "/chosen/casa-palma.webp" },
-  { number: "03", title: "Property Works", text: "Repairs, improvements and technical work with clear owner approval before action.", image: "/domicile/properties/property-estate.webp", fallback: "/chosen/aurelian-villa.webp" },
-  { number: "04", title: "Urgent Response", text: "Detect, contact, confirm authority, coordinate, document and report.", image: "/chosen/brick-vine.webp", fallback: "/chosen/casa-lumara.webp" },
+  { number: "01", title: "Property oversight", text: "Scheduled checks, readiness and a reliable local presence.", image: "/domicile/properties/property-c1.webp", fallback: "/chosen/casa-lumara.webp" },
+  { number: "02", title: "Maintenance & repairs", text: "Scope, coordinate and follow through without passing the owner from person to person.", image: "/domicile/properties/property-estate.webp", fallback: "/chosen/aurelian-villa.webp" },
+  { number: "03", title: "Owner-away care", text: "Local presence when you are not in Kigali, with a clear record of what happened.", image: "/domicile/properties/property-street.webp", fallback: "/chosen/atria-residence.webp" },
+  { number: "04", title: "Property works", text: "Repairs and improvements with clear owner approval before action.", image: "/chosen/casa-forma.webp", fallback: "/chosen/casa-palma.webp" },
 ];
 
 const processSteps = [
-  ["01", "Tell us what needs attention", "Start with the property, the matter and the outcome you need."],
-  ["02", "We agree the care plan", "Access, approvals, reporting and responsibility are made clear first."],
-  ["03", "DŌMICILE coordinates", "Visits, technicians, repairs and owner decisions move through one point of contact."],
-  ["04", "You stay visible", "Photos, reports, approvals and completed matters stay attached to the property record."],
+  ["01", "Tell us what needs attention"],
+  ["02", "Agree the care plan"],
+  ["03", "DŌMICILE coordinates"],
+  ["04", "You stay visible"],
 ];
 
 const faqItems = [
@@ -49,22 +49,22 @@ function SafeImage({ src, fallback, alt, priority = false, sizes = "100vw", clas
 function TextRoll({ children, className = "" }: { children: string; className?: string }) {
   return (
     <motion.span initial="initial" whileHover="hovered" className={`${styles.textRoll} ${className}`}>
-      <span>{children.split("").map((letter, i) => <motion.span key={`a-${i}`} variants={{ initial: { y: 0 }, hovered: { y: "-105%" } }} transition={{ duration: .34, delay: i * .021, ease: [0.33, 1, 0.68, 1] }}>{letter === " " ? "\u00A0" : letter}</motion.span>)}</span>
-      <span className={styles.textRollSecond} aria-hidden="true">{children.split("").map((letter, i) => <motion.span key={`b-${i}`} variants={{ initial: { y: "105%" }, hovered: { y: 0 } }} transition={{ duration: .34, delay: i * .021, ease: [0.33, 1, 0.68, 1] }}>{letter === " " ? "\u00A0" : letter}</motion.span>)}</span>
+      <span>{children.split("").map((letter, i) => <motion.span key={`a-${i}`} variants={{ initial: { y: 0 }, hovered: { y: "-105%" } }} transition={{ duration: .34, delay: i * .02, ease: [0.33, 1, 0.68, 1] }}>{letter === " " ? "\u00A0" : letter}</motion.span>)}</span>
+      <span className={styles.textRollSecond} aria-hidden="true">{children.split("").map((letter, i) => <motion.span key={`b-${i}`} variants={{ initial: { y: "105%" }, hovered: { y: 0 } }} transition={{ duration: .34, delay: i * .02, ease: [0.33, 1, 0.68, 1] }}>{letter === " " ? "\u00A0" : letter}</motion.span>)}</span>
     </motion.span>
   );
 }
 
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <motion.div className={className} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: .72, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>;
+function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return <motion.div className={className} initial={{ opacity: 0, y: 26 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-70px" }} transition={{ duration: .72, ease: [0.16, 1, 0.3, 1] }}>{children}</motion.div>;
 }
 
 export default function DomicileFinal() {
   const heroRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroScale = useSpring(useTransform(scrollYProgress, [0, 1], [1, 1.055]), { stiffness: 85, damping: 24 });
-  const heroY = useSpring(useTransform(scrollYProgress, [0, 1], [0, 55]), { stiffness: 85, damping: 24 });
+  const heroScale = useSpring(useTransform(scrollYProgress, [0, 1], [1, 1.07]), { stiffness: 85, damping: 24 });
+  const heroY = useSpring(useTransform(scrollYProgress, [0, 1], [0, 54]), { stiffness: 85, damping: 24 });
   const [activeTab, setActiveTab] = useState("Overview");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [form, setForm] = useState<FormState>(initialForm);
@@ -99,53 +99,48 @@ export default function DomicileFinal() {
         <motion.div className={styles.heroMedia} style={reduceMotion ? undefined : { scale: heroScale, y: heroY }}><SafeImage src="/domicile/properties/property-estate.webp" fallback="/chosen/aurelian-villa.webp" alt="Residential property under DŌMICILE care" priority /></motion.div>
         <div className={styles.heroShade} />
         <div className={styles.heroInner}>
-          <div className={styles.heroKicker}>PROPERTIES UNDER CARE · KIGALI</div>
+          <div className={styles.heroKicker}>PROPERTY MANAGEMENT · KIGALI</div>
           <h1><TextRoll>Your property,</TextRoll><br /><TextRoll>handled.</TextRoll></h1>
-          <p>One dependable local point of contact for property oversight, maintenance, owner-away care and follow-through.</p>
-          <div className={styles.askBar}><span>What needs attention at your property?</span><a href="#enquire">ASK DŌMICILE <b>↗</b></a></div>
+          <p>One dependable local point of contact for the care, maintenance and coordination of your property.</p>
+          <div className={styles.heroActions}><a href="#enquire">START AN ENQUIRY <span>↗</span></a><a href="#care">SEE HOW CARE WORKS <span>↓</span></a></div>
         </div>
-        <motion.div className={`${styles.heroFloat} ${styles.heroFloatOne}`} animate={reduceMotion ? undefined : { y: [0, -8, 0], rotate: [-2.5, -1, -2.5] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}><SafeImage src="/domicile/properties/property-c1.webp" fallback="/chosen/casa-lumara.webp" alt="Routine property care" sizes="220px" /><span>ROUTINE CARE</span></motion.div>
-        <motion.div className={`${styles.heroFloat} ${styles.heroFloatTwo}`} animate={reduceMotion ? undefined : { y: [0, 7, 0], rotate: [3, 1.5, 3] }} transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}><SafeImage src="/domicile/properties/property-street.webp" fallback="/chosen/atria-residence.webp" alt="Owner-away property care" sizes="190px" /><span>OWNER AWAY</span></motion.div>
-        <div className={styles.heroFooter}><div><Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized /><span>Property management by IMVO Group</span></div><div><b>PRIVATE BY DEFAULT</b><span>Your home is not marketing material.</span></div></div>
+        <motion.div className={`${styles.floatCard} ${styles.floatOne}`} animate={reduceMotion ? undefined : { y: [0, -8, 0], rotate: [-2.5, -1, -2.5] }} transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }}><SafeImage src="/domicile/properties/property-c1.webp" fallback="/chosen/casa-lumara.webp" alt="Routine property care" sizes="240px" /><div><small>ROUTINE CARE</small><strong>Private residence</strong></div></motion.div>
+        <motion.div className={`${styles.floatCard} ${styles.floatTwo}`} animate={reduceMotion ? undefined : { y: [0, 9, 0], rotate: [3, 1.5, 3] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}><SafeImage src="/domicile/properties/property-street.webp" fallback="/chosen/atria-residence.webp" alt="Owner-away property care" sizes="210px" /><div><small>OWNER AWAY</small><strong>Local presence</strong></div></motion.div>
+        <div className={styles.heroMeta}><span>PRIVATE BY DEFAULT</span><span>BACKED BY IMVO GROUP</span><span>24/7 REQUEST CAPTURE</span></div>
       </section>
 
-      <section className={styles.overview}>
-        <Reveal className={styles.overviewCopy}><small>OVERVIEW</small><h2>Property care that feels calm because someone is actually following through.</h2><p>DŌMICILE handles the local coordination behind the scenes while the owner stays informed, approves what matters and keeps a clear record of the property.</p><div className={styles.facts}><div><span>LOCATION</span><b>Kigali, Rwanda</b></div><div><span>MODEL</span><b>One responsible contact</b></div><div><span>PRIVACY</span><b>Private by default</b></div></div></Reveal>
-        <Reveal className={styles.overviewPhoto}><SafeImage src="/domicile/properties/property-c1.webp" fallback="/chosen/casa-lumara.webp" alt="Private residence under care" sizes="(max-width: 900px) 100vw, 48vw" /><div><small>PRIVATE RESIDENCE</small><strong>Routine care active</strong></div></Reveal>
-        <blockquote>“You should not need six conversations to know what happened at your own property.”</blockquote>
+      <section className={styles.promise}>
+        <Reveal className={styles.promiseCopy}><small>ONE PROPERTY. ONE RESPONSIBLE CONTACT.</small><h2>Someone local is actually following through.</h2><p>DŌMICILE handles the coordination behind the scenes while you stay informed, approve what matters and keep a clear record of the property.</p><div className={styles.factRow}><span>KIGALI, RWANDA</span><span>PRIVATE BY DEFAULT</span><span>OWNER VISIBILITY</span></div></Reveal>
+        <Reveal className={styles.promisePhoto}><SafeImage src="/domicile/properties/property-c1.webp" fallback="/chosen/casa-lumara.webp" alt="Private residence under DŌMICILE care" sizes="(max-width:900px) 100vw, 54vw" /><div className={styles.photoStatus}><small>PRIVATE RESIDENCE</small><strong>Routine care active</strong></div><blockquote>“You should not need six conversations to know what happened at your own property.”</blockquote></Reveal>
       </section>
 
-      <section className={styles.visualWorld}>
-        <div className={styles.visualHeading}><small>RESIDENTIAL CONTEXT</small><h2>Homes worth looking after well.</h2></div>
-        <div className={styles.visualStack}>
-          <Reveal className={`${styles.visualCard} ${styles.visualMain}`}><SafeImage src="/chosen/aurelian-villa.webp" fallback="/chosen/casa-forma.webp" alt="Residential architectural context" sizes="60vw" /></Reveal>
-          <Reveal className={`${styles.visualCard} ${styles.visualLeft}`}><SafeImage src="/chosen/casa-lumara.webp" fallback="/chosen/casa-palma.webp" alt="Residence detail" sizes="32vw" /></Reveal>
-          <Reveal className={`${styles.visualCard} ${styles.visualRight}`}><SafeImage src="/chosen/atria-residence.webp" fallback="/chosen/brick-vine.webp" alt="Residential context" sizes="30vw" /></Reveal>
-        </div>
-      </section>
-
-      <section className={styles.care} id="care">
-        <div className={styles.sectionHead}><small>WHAT WE HANDLE</small><h2>Care in layers, not in scattered calls.</h2></div>
-        <div className={styles.careGrid}>{careItems.map((item, index) => <motion.article key={item.title} whileHover={reduceMotion ? undefined : { y: -7 }} className={index === 1 ? styles.careDark : ""}><SafeImage src={item.image} fallback={item.fallback} alt={item.title} sizes="(max-width: 800px) 100vw, 50vw" /><div className={styles.careShade} /><span>{item.number}</span><h3><TextRoll>{item.title}</TextRoll></h3><p>{item.text}</p></motion.article>)}</div>
-      </section>
-
-      <section className={styles.process}>
-        <div className={styles.processIntro}><small>HOW IT WORKS</small><h2>Clear from first message to ongoing care.</h2></div>
-        <div className={styles.processList}>{processSteps.map(([number, title, text], index) => <motion.article key={number} initial={{ opacity: 0, x: 26 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: .55, delay: index * .05 }}><span>{number}</span><h3>{title}</h3><p>{text}</p><b>↗</b></motion.article>)}</div>
+      <section className={styles.careScene} id="care">
+        <div className={styles.careIntro}><small>WHAT WE HANDLE</small><h2>Care, without the scattered calls.</h2><p>Each layer stays connected to the same property record and the same responsible point of contact.</p></div>
+        <div className={styles.careRail}>{careItems.map((item, index) => <motion.article key={item.title} className={styles.careCard} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: .65, delay: index * .06 }} whileHover={reduceMotion ? undefined : { y: -8 }}><SafeImage src={item.image} fallback={item.fallback} alt={item.title} sizes="(max-width:900px) 86vw, 25vw" /><div className={styles.careShade} /><span>{item.number}</span><h3><TextRoll>{item.title}</TextRoll></h3><p>{item.text}</p></motion.article>)}</div>
+        <div className={styles.processStrip}>{processSteps.map(([number, title]) => <div key={number}><span>{number}</span><strong>{title}</strong></div>)}</div>
       </section>
 
       <section className={styles.ownerView} id="owner-view">
-        <Reveal className={styles.ownerPhoto}><SafeImage src="/domicile/properties/property-street.webp" fallback="/chosen/casa-palma.webp" alt="Private home under DŌMICILE care" sizes="(max-width: 900px) 100vw, 48vw" /><div className={styles.reportChip}><small>LATEST CHECK</small><strong>All good · today 09:42</strong></div></Reveal>
-        <Reveal className={styles.ownerCopy}><small>YOUR PROPERTY, AT A GLANCE</small><h2>Visibility without chasing updates.</h2><div className={styles.dashboard}><div className={styles.dashboardTop}><Image src="/domicile/logo-icon-black.svg" alt="" width={28} height={36} /><span>OWNER VIEW</span><b>PROPERTY ACTIVE</b></div><div className={styles.metrics}><div><small>STATUS</small><strong>ALL GOOD</strong></div><div><small>LAST CHECK</small><strong>TODAY · 09:42</strong></div><div><small>OPEN</small><strong>01</strong></div><div><small>NEXT VISIT</small><strong>27 AUG</strong></div></div><div className={styles.tabs}>{["Overview", "Photos", "Reports", "Approvals", "Maintenance"].map(tab => <button key={tab} type="button" className={activeTab === tab ? styles.activeTab : ""} onClick={() => setActiveTab(tab)}>{tab}</button>)}</div><div className={styles.tabBody}><small>{activeTab.toUpperCase()}</small><h3>{activeTab === "Overview" ? "Everything important, in one place." : `${activeTab} stay attached to the property record.`}</h3><p>See what happened, what needs approval, what comes next and what has already been closed.</p><button type="button">VIEW LATEST REPORT <span>→</span></button></div></div></Reveal>
+        <div className={styles.ownerBackdrop}><SafeImage src="/domicile/properties/property-street.webp" fallback="/chosen/casa-palma.webp" alt="Private home under DŌMICILE care" sizes="100vw" /></div>
+        <div className={styles.ownerShade} />
+        <Reveal className={styles.ownerHeadline}><small>YOUR PROPERTY, AT A GLANCE</small><h2>Visibility without chasing updates.</h2><p>See what happened, what needs approval and what comes next.</p></Reveal>
+        <Reveal className={styles.dashboard}><div className={styles.dashboardTop}><Image src="/domicile/logo-icon-black.svg" alt="" width={28} height={36} /><span>OWNER VIEW</span><b>PROPERTY ACTIVE</b></div><div className={styles.metrics}><div><small>STATUS</small><strong>ALL GOOD</strong></div><div><small>LAST CHECK</small><strong>TODAY · 09:42</strong></div><div><small>OPEN</small><strong>01</strong></div><div><small>NEXT VISIT</small><strong>27 AUG</strong></div></div><div className={styles.tabs}>{["Overview", "Photos", "Reports", "Approvals", "Maintenance"].map(tab => <button key={tab} type="button" className={activeTab === tab ? styles.activeTab : ""} onClick={() => setActiveTab(tab)}>{tab}</button>)}</div><div className={styles.tabBody}><small>{activeTab.toUpperCase()}</small><h3>{activeTab === "Overview" ? "Everything important, in one place." : `${activeTab} stay attached to the property record.`}</h3><p>Photos, notes, approvals and completed matters remain visible without chasing multiple people.</p><button type="button">VIEW LATEST REPORT <span>→</span></button></div></Reveal>
       </section>
 
-      <section className={styles.properties} id="properties"><div className={styles.sectionHead}><small>SELECTED PROPERTIES UNDER CARE</small><h2>Real homes. Quietly looked after.</h2></div><div className={styles.propertyGrid}>{properties.map((property, index) => <motion.article key={property.title} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: .6, delay: index * .07 }}><SafeImage src={property.image} fallback={property.fallback} alt={property.title} sizes="(max-width: 800px) 100vw, 33vw" /><div className={styles.propertyShade} /><span>{property.status}</span><div><h3>{property.title}</h3><p>{property.meta}</p></div></motion.article>)}</div></section>
+      <section className={styles.properties} id="properties">
+        <div className={styles.propertiesHead}><small>SELECTED PROPERTIES UNDER CARE</small><h2>Real homes.<br />Quietly looked after.</h2></div>
+        <div className={styles.propertyList}>{properties.map((property, index) => <motion.article key={property.title} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: .7, delay: index * .05 }}><div className={styles.propertyImage}><SafeImage src={property.image} fallback={property.fallback} alt={property.title} sizes="(max-width:900px) 100vw, 62vw" /></div><div className={styles.propertyInfo}><span>{property.status}</span><h3>{property.title}</h3><p>{property.meta}</p><b>0{index + 1}</b></div></motion.article>)}</div>
+      </section>
 
-      <section className={styles.imvoBacked}><div><small>BACKED BY IMVO GROUP</small><h2>Property care with built-environment thinking behind it.</h2><p>DŌMICILE combines property coordination with IMVO Group’s design, technical and built-environment perspective.</p><Link href="/">VISIT IMVO GROUP <span>↗</span></Link></div><Image src="/imvo-black.png" alt="IMVO Group" width={360} height={124} unoptimized /></section>
+      <section className={styles.trustFaq} id="faq">
+        <div className={styles.imvoBlock}><small>BACKED BY IMVO GROUP</small><h2>Built-environment thinking behind the care.</h2><p>DŌMICILE combines property coordination with IMVO Group’s design, technical and built-environment perspective.</p><Image src="/imvo-black.png" alt="IMVO Group" width={360} height={124} unoptimized /><Link href="/">VISIT IMVO GROUP <span>↗</span></Link></div>
+        <div className={styles.faqBlock}><small>FREQUENTLY ASKED QUESTIONS</small><div className={styles.faqList}>{faqItems.map(([q, a], index) => <article key={q} className={openFaq === index ? styles.faqOpen : ""}><button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)}><span>{String(index + 1).padStart(2, "0")}</span><strong>{q}</strong><b>{openFaq === index ? "−" : "+"}</b></button><div><p>{a}</p></div></article>)}</div></div>
+      </section>
 
-      <section className={styles.faq} id="faq"><div className={styles.sectionHead}><small>FREQUENTLY ASKED QUESTIONS</small><h2>Know how the care works.</h2></div><div className={styles.faqList}>{faqItems.map(([q, a], index) => <article key={q} className={openFaq === index ? styles.faqOpen : ""}><button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)}><span>{String(index + 1).padStart(2, "0")}</span><strong>{q}</strong><b>{openFaq === index ? "−" : "+"}</b></button><div><p>{a}</p></div></article>)}</div></section>
-
-      <section className={styles.enquiry} id="enquire"><div className={styles.enquiryIntro}><Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized /><small>START WITH A CONVERSATION</small><h2>Tell us about your property.</h2><p>This is an enquiry, not a registration. We will contact you to understand the property and what you need.</p><div><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a><span>KIGALI · RWANDA</span></div></div><form onSubmit={handleSubmit} className={styles.form}>{isSubmitted ? <div className={styles.success}><small>ENQUIRY RECEIVED</small><h3>Thank you. DŌMICILE has your message.</h3><p>Our team will review the property need and contact you using the details provided.</p><button type="button" onClick={() => setIsSubmitted(false)}>SEND ANOTHER ENQUIRY</button></div> : <><input className={styles.honeypot} value={form.botcheck} onChange={e => setForm(v => ({ ...v, botcheck: e.target.value }))} tabIndex={-1} autoComplete="off" aria-hidden="true" /><div className={styles.formGrid}><label><span>Full name</span><input value={form.name} onChange={e => setForm(v => ({ ...v, name: e.target.value }))} placeholder="Your name" /></label><label><span>Phone / WhatsApp</span><input value={form.phone} onChange={e => setForm(v => ({ ...v, phone: e.target.value }))} placeholder="+250 …" /></label><label><span>Email</span><input type="email" value={form.email} onChange={e => setForm(v => ({ ...v, email: e.target.value }))} placeholder="you@example.com" /></label><label><span>Property location</span><input value={form.location} onChange={e => setForm(v => ({ ...v, location: e.target.value }))} placeholder="e.g. Kacyiru, Kigali" /></label><label><span>Property type</span><select value={form.propertyType} onChange={e => setForm(v => ({ ...v, propertyType: e.target.value }))}><option value="">Select property type</option><option>House</option><option>Apartment</option><option>Commercial</option><option>Other</option></select></label><label><span>What do you need?</span><select value={form.helpWith} onChange={e => setForm(v => ({ ...v, helpWith: e.target.value }))}><option value="">Select what you need</option><option>Ongoing property management</option><option>Owner-away care</option><option>Maintenance or repair</option><option>Property inspection</option><option>An urgent property issue</option><option>One-off property support</option><option>Other</option></select></label></div><label className={styles.message}><span>Message</span><textarea value={form.message} onChange={e => setForm(v => ({ ...v, message: e.target.value }))} placeholder="Tell us what the property needs…" /></label>{error ? <p className={styles.error}>{error}</p> : null}<button className={styles.submit} disabled={!formReady || isSubmitting}>{isSubmitting ? "SENDING…" : "SEND TO DŌMICILE"} <span>↗</span></button></>}</form></section>
+      <section className={styles.enquiry} id="enquire">
+        <div className={styles.enquiryIntro}><Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized /><small>START WITH A CONVERSATION</small><h2>Tell us about your property.</h2><p>This is an enquiry, not a registration. We will contact you to understand the property and what you need.</p><div><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">+250 799 409 409</a><span>KIGALI · RWANDA</span></div></div>
+        <form onSubmit={handleSubmit} className={styles.form}>{isSubmitted ? <div className={styles.success}><small>ENQUIRY RECEIVED</small><h3>Thank you. DŌMICILE has your message.</h3><p>Our team will review the property need and contact you using the details provided.</p><button type="button" onClick={() => setIsSubmitted(false)}>SEND ANOTHER ENQUIRY</button></div> : <><input className={styles.honeypot} value={form.botcheck} onChange={e => setForm(v => ({ ...v, botcheck: e.target.value }))} tabIndex={-1} autoComplete="off" aria-hidden="true" /><div className={styles.formGrid}><label><span>Full name</span><input value={form.name} onChange={e => setForm(v => ({ ...v, name: e.target.value }))} placeholder="Your name" /></label><label><span>Phone / WhatsApp</span><input value={form.phone} onChange={e => setForm(v => ({ ...v, phone: e.target.value }))} placeholder="+250 …" /></label><label><span>Email</span><input type="email" value={form.email} onChange={e => setForm(v => ({ ...v, email: e.target.value }))} placeholder="you@example.com" /></label><label><span>Property location</span><input value={form.location} onChange={e => setForm(v => ({ ...v, location: e.target.value }))} placeholder="e.g. Kacyiru, Kigali" /></label><label><span>Property type</span><select value={form.propertyType} onChange={e => setForm(v => ({ ...v, propertyType: e.target.value }))}><option value="">Select property type</option><option>House</option><option>Apartment</option><option>Commercial</option><option>Other</option></select></label><label><span>What do you need?</span><select value={form.helpWith} onChange={e => setForm(v => ({ ...v, helpWith: e.target.value }))}><option value="">Select what you need</option><option>Ongoing property management</option><option>Owner-away care</option><option>Maintenance or repair</option><option>Property inspection</option><option>An urgent property issue</option><option>One-off property support</option><option>Other</option></select></label></div><label className={styles.message}><span>Message</span><textarea value={form.message} onChange={e => setForm(v => ({ ...v, message: e.target.value }))} placeholder="Tell us what the property needs…" /></label>{error ? <p className={styles.error}>{error}</p> : null}<button className={styles.submit} disabled={!formReady || isSubmitting}>{isSubmitting ? "SENDING…" : "SEND TO DŌMICILE"} <span>↗</span></button></>}</form>
+      </section>
 
       <footer className={styles.footer}><Image src="/domicile/domicile-white.webp" alt="DŌMICILE" width={1495} height={376} unoptimized /><div><span>PROPERTY MANAGEMENT BY IMVO GROUP</span><a href="mailto:domicile@imvogroup.com">domicile@imvogroup.com</a><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a><Link href="/">IMVO Group</Link></div></footer>
     </main>
