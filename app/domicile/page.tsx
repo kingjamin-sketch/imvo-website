@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     locale: "en_RW",
     images: [
       {
-        url: "/domicile/award/estate-main.avif",
+        url: "/domicile/estate/estate-hero.webp",
         alt: "DŌMICILE property management in Kigali",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "DŌMICILE | Your property, handled.",
     description:
       "Property management by IMVO Group for property owners in Kigali, Rwanda.",
-    images: ["/domicile/award/estate-main.avif"],
+    images: ["/domicile/estate/estate-hero.webp"],
   },
 };
 
