@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import DomicileCinematic from "./DomicileCinematic";
+import DomicileCinematicRich from "./DomicileCinematicRich";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
@@ -44,5 +44,5 @@ export const metadata: Metadata = {
 };
 
 export default function DomicilePage() {
-  return <DomicileCinematic />;
+  return <DomicileCinematicRich />;
 }
