@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import "./globals.css";
 import "./accessibility.css";
+import "./team-hover.css";
 
 import ImageCopyProtection from "./components/ImageCopyProtection";
 import SiteShell from "./components/SiteShell";
