@@ -1,23 +1,25 @@
-/* DŌMICILE direct photo rendering.
-   The AVIF copies are not usable in the browser. Use the direct JPG assets
-   already referenced by the active component, with no rewrite/fallback layer. */
+/* DŌMICILE exact estate photography.
+   The active component still references the legacy JPG slot names, but the
+   actual visible photography is served from the verified PNG exports below.
+   This keeps the page structure untouched while making the PNGs the single
+   visual source of truth. */
 
 *:has(> img[src="/domicile/exact/estate-hero.jpg"]) {
-  background-image: url('/domicile/exact/estate-hero.jpg') !important;
+  background-image: url('/domicile/exact/estate-hero.png') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
 
 *:has(> img[src="/domicile/exact/estate-c1.jpg"]) {
-  background-image: url('/domicile/exact/estate-c1.jpg') !important;
+  background-image: url('/domicile/exact/estate-c1.png') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
 
 *:has(> img[src="/domicile/exact/estate-street.jpg"]) {
-  background-image: url('/domicile/exact/estate-street.jpg') !important;
+  background-image: url('/domicile/exact/estate-street.png') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
