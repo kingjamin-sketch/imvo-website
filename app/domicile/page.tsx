@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import DomicileEditorial from "./DomicileEditorial";
+import "./photo-recovery.css";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
