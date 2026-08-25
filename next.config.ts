@@ -54,6 +54,11 @@ const lightweightFallbackRewrites = [
   ["/project-23.png", "/project-23.webp"],
   ["/project-46.jpg", "/project-46.webp"],
   ["/project-30.jpg", "/project-30.webp"],
+  // DŌMICILE: keep the stable public URLs used by the component, but serve
+  // the verified estate AVIF assets already committed to the repository.
+  ["/domicile/exact/estate-hero.jpg", "/domicile/award/estate-main.avif"],
+  ["/domicile/exact/estate-c1.jpg", "/domicile/award/estate-c1.avif"],
+  ["/domicile/exact/estate-street.jpg", "/domicile/award/estate-street.avif"],
 ] as const;
 
 const nextConfig: NextConfig = {
