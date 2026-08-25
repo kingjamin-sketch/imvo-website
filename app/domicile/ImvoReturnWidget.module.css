@@ -1,0 +1,49 @@
+.widget {
+  position: fixed;
+  left: 28px;
+  bottom: 28px;
+  z-index: 1200;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.24);
+  background: #080808;
+  box-shadow: 0 16px 44px rgba(0,0,0,.28);
+  display: grid;
+  place-items: center;
+  padding: 13px 9px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.icon:hover { transform: translateY(-2px); box-shadow: 0 20px 52px rgba(0,0,0,.34); }
+.icon img { width: 100%; height: auto; object-fit: contain; }
+.panel {
+  width: min(310px, calc(100vw - 102px));
+  padding: 20px;
+  background: rgba(255,255,255,.98);
+  color: #111;
+  border: 1px solid rgba(17,17,17,.12);
+  border-radius: 2px;
+  box-shadow: 0 22px 65px rgba(0,0,0,.18);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(.985);
+  transform-origin: bottom left;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+.open .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+.panel strong { display: block; max-width: 260px; font-size: 19px; line-height: 1.1; letter-spacing: -.03em; }
+.panel p { margin: 8px 0 15px; color: #6f6f6b; font-size: 12px; line-height: 1.5; }
+.link { min-height: 42px; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; border-radius: 2px; background: #111; color: #fff; font-size: 10px; font-weight: 850; }
+@media (hover: hover) { .widget:hover .panel { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; } }
+@media (max-width: 640px) { .widget { left: 14px; bottom: 14px; } .icon { width: 48px; height: 48px; padding: 11px 8px; } .panel { width: min(280px, calc(100vw - 74px)); padding: 18px; } }
+@media (prefers-reduced-motion: reduce) { .icon, .panel { transition: none; } }
