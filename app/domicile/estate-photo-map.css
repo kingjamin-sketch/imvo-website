@@ -1,0 +1,38 @@
+/* DŌMICILE estate photo map — exact three supplied estate photographs only. */
+
+/* Hero + Residential Estate */
+*:has(> img[src*="/domicile/award/estate-main.avif"]),
+*:has(> img[src*="/domicile/properties/property-estate.webp"]) {
+  background-image: url('/domicile/estate/estate-hero.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* DŌMICILE Explained + Owner View + Private Residence */
+*:has(> img[src*="/domicile/award/estate-c1.avif"]),
+*:has(> img[src*="/domicile/properties/property-c1.webp"]) {
+  background-image: url('/domicile/estate/estate-c1.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Care in Practice + Private Home + Enquiry */
+*:has(> img[src*="/domicile/award/estate-street.avif"]),
+*:has(> img[src*="/domicile/properties/property-street.webp"]) {
+  background-image: url('/domicile/estate/estate-street.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Hide only the stale image element itself so the exact mapped estate image is visible. */
+img[src*="/domicile/award/estate-main.avif"],
+img[src*="/domicile/award/estate-c1.avif"],
+img[src*="/domicile/award/estate-street.avif"],
+img[src*="/domicile/properties/property-c1.webp"],
+img[src*="/domicile/properties/property-estate.webp"],
+img[src*="/domicile/properties/property-street.webp"] {
+  opacity: 0 !important;
+}
