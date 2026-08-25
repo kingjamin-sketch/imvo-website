@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import DomicileEditorial from "./DomicileEditorial";
 import ImvoReturnWidget from "./ImvoReturnWidget";
-import "./estate-photo-map.css";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
     locale: "en_RW",
     images: [
       {
-        url: "/domicile/estate/estate-hero.webp",
+        url: "/domicile/exact/estate-hero.jpg",
         alt: "DŌMICILE property management in Kigali",
       },
     ],
@@ -41,7 +40,7 @@ export const metadata: Metadata = {
     title: "DŌMICILE | Your property, handled.",
     description:
       "Property management by IMVO Group for property owners in Kigali, Rwanda.",
-    images: ["/domicile/estate/estate-hero.webp"],
+    images: ["/domicile/exact/estate-hero.jpg"],
   },
 };
 
