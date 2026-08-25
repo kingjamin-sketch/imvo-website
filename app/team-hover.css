@@ -11,16 +11,21 @@
   will-change: transform;
 }
 
-/* Keep the existing IMVO team cards clean: no dark reveal panel, only motion. */
+/* Restore the existing member description as the hover reveal. */
 .teamImageFrame + div > div > div:first-child > div {
   opacity: 0 !important;
   pointer-events: none !important;
+  transition: opacity 280ms ease !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .teamImageFrame + div > div:hover > div:first-child,
   .teamImageFrame + div > div:hover > div:last-child {
     transform: translateY(18px);
+  }
+
+  .teamImageFrame + div > div:hover > div:first-child > div {
+    opacity: 1 !important;
   }
 }
 
