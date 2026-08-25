@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import DomicileEditorial from "./DomicileEditorial";
 import ImvoReturnWidget from "./ImvoReturnWidget";
-import "./photo-recovery.css";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
