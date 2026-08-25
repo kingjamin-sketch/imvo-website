@@ -1,0 +1,29 @@
+.teamImageFrame {
+  border: 0 !important;
+}
+
+.teamImageFrame + div > div > div:first-child {
+  border: 0 !important;
+  outline: 0;
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Keep the existing IMVO team cards clean: no dark reveal panel, only motion. */
+.teamImageFrame + div > div > div:first-child > div {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .teamImageFrame + div > div:hover > div:first-child {
+    transform: translateY(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .teamImageFrame + div > div > div:first-child {
+    transition: none;
+    transform: none !important;
+  }
+}
