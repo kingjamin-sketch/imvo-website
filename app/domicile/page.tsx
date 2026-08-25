@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import DomicileFinal from "./DomicileFinal";
+import DomicileAward from "./DomicileAward";
 
 export const metadata: Metadata = {
   title: "DŌMICILE | Property Management",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     locale: "en_RW",
     images: [
       {
-        url: "/chosen/aurelian-villa.webp",
-        alt: "DŌMICILE property management by IMVO Group",
+        url: "/domicile/award/estate-main.avif",
+        alt: "DŌMICILE property management in Kigali",
       },
     ],
   },
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
     title: "DŌMICILE | Your property, handled.",
     description:
       "Property management by IMVO Group for property owners in Kigali, Rwanda.",
-    images: ["/chosen/aurelian-villa.webp"],
+    images: ["/domicile/award/estate-main.avif"],
   },
 };
 
 export default function DomicilePage() {
-  return <DomicileFinal />;
+  return <DomicileAward />;
 }
