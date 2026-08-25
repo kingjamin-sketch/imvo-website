@@ -20,6 +20,9 @@ const images = {
   hero: "/domicile/award/estate-main.avif",
   c1: "/domicile/award/estate-c1.avif",
   street: "/domicile/award/estate-street.avif",
+  privateResidence: "/domicile/properties/property-c1.webp",
+  residentialEstate: "/domicile/properties/property-estate.webp",
+  privateHome: "/domicile/properties/property-street.webp",
 };
 
 const explanation = [
@@ -50,21 +53,21 @@ const propertyStories = [
     number: "01",
     title: "Private residence",
     status: "ROUTINE CARE ACTIVE",
-    image: images.c1,
+    image: images.privateResidence,
     copy: "Scheduled checks, issue follow-through and one clear local contact for the owner.",
   },
   {
     number: "02",
     title: "Residential estate",
     status: "INSPECTION SCHEDULED",
-    image: images.hero,
+    image: images.residentialEstate,
     copy: "Property readiness, maintenance coordination and owner visibility kept in one place.",
   },
   {
     number: "03",
     title: "Private home",
     status: "OWNER-AWAY CARE",
-    image: images.street,
+    image: images.privateHome,
     copy: "Local presence while the owner is away, with private reporting and direct escalation when needed.",
   },
 ];
