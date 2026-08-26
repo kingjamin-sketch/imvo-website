@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import DomicileEditorial from "./DomicileEditorial";
+import DomicileFormAccessibility from "./DomicileFormAccessibility";
 import ImvoReturnWidget from "./ImvoReturnWidget";
 import "./direct-photo-fix.css";
 
@@ -49,6 +50,7 @@ export default function DomicilePage() {
   return (
     <>
       <DomicileEditorial />
+      <DomicileFormAccessibility />
       <ImvoReturnWidget />
     </>
   );
