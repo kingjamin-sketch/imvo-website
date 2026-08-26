@@ -1,5 +1,6 @@
 import { aboutPageType } from "./aboutPage";
 import { contactPageType } from "./contactPage";
+import { domicilePageType } from "./domicilePage";
 import { homePageType } from "./homePage";
 import { legalPageType } from "./legalPage";
 import { projectType } from "./project";
@@ -12,6 +13,7 @@ export const schemaTypes = [
   aboutPageType,
   servicesPageType,
   contactPageType,
+  domicilePageType,
   legalPageType,
   projectType,
 ];
