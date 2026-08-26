@@ -1,60 +1,60 @@
-IMVO FULL-SITE CMS UPDATE
-=========================
+IMVO FULL-SITE CMS — OPERATIONS HANDOFF
+=======================================
 
-This update adds editable Studio sections for:
+STATUS
+------
+The full-site Sanity CMS is already integrated in the IMVO repository and is
+not a ZIP/manual-install step anymore. Do not copy an old CMS package over the
+current website.
+
+Canonical operating blueprint:
+  docs/IMVO-CMS-BLUEPRINT.md
+
+CURRENT STUDIO CONTENT
+----------------------
+The Studio contains:
 - Site Settings
 - Homepage
 - About Page
 - Services Page
 - Contact Page
 - Terms, Privacy and Cookie pages
-- Projects (already working)
+- Projects
 
-It does not change the visual design, form delivery logic, Rwanda location
-database, animations, project media, or existing project documents.
-
-INSTALL ON WINDOWS
-------------------
-1. Close the local development server.
-2. Extract this ZIP.
-3. Copy all extracted items into:
-     C:\Users\Hp\imvo-website
-   Choose "Replace" when Windows asks about files with the same name.
-4. Open PowerShell in C:\Users\Hp\imvo-website and run:
-
-     npm install
-     npm run build
-
-5. If the build succeeds, deploy through GitHub/Vercel:
-
-     git add app sanity scripts sanity.config.ts FULL-SITE-CMS-INSTALL.txt
-     git commit -m "Add full-site IMVO CMS editing"
-     git push origin main
-
-6. Wait for the Vercel deployment to finish.
-
-CREATE THE CURRENT PAGE CONTENT IN STUDIO
------------------------------------------
-Run this once from C:\Users\Hp\imvo-website:
-
-     npx sanity exec scripts/seed-site-content.ts --with-user-token -- --commit
-
-If Sanity asks you to sign in, use the same account that opens /studio.
-
-The command creates only missing page documents. It will not overwrite the
-project you already created or any existing page document.
-
-EDITING AFTER DEPLOYMENT
-------------------------
+EDITING
+-------
 Open:
   https://www.imvogroup.com/studio
 
-Choose the page on the left, edit its wording or images, and click Publish.
-The public website normally refreshes within 60 seconds.
+Use an authorized Sanity account, edit the relevant document and click Publish.
+Drafts are not public.
+
+The public site currently caches CMS reads with a 300-second revalidation
+window. A normal published change can therefore take up to about five minutes
+to appear without a website redeploy.
+
+SEED MISSING PAGE DOCUMENTS ONLY
+--------------------------------
+If a singleton page document is missing, the repository includes the approved
+seed script:
+
+  npx sanity exec scripts/seed-site-content.ts --with-user-token -- --commit
+
+The seed step is recovery/bootstrap tooling, not the normal editing workflow.
+Do not use it to overwrite approved Studio content.
+
+CODE CHANGES
+------------
+Changes to schemas, GROQ queries, Studio structure, rendering logic, routing or
+fallback behavior are code changes. Make them on a branch, build/test, review,
+then merge and deploy through the normal GitHub/Vercel release flow.
 
 SAFETY
 ------
-- Blank CMS fields use the current coded content as a fallback.
-- Drafts do not appear publicly until Publish is clicked.
-- Projects remain independent from the page documents.
-- Never paste a Sanity token into website code or Vercel.
+- Do not paste Sanity write tokens into website source code or NEXT_PUBLIC_ vars.
+- Keep /studio out of search indexing.
+- Keep drafts private until Publish.
+- Projects stay independent from page singleton documents.
+- Preserve coded fallbacks where they already protect the public site.
+- Do not put DŌMICILE private operational data in the public website CMS.
+- Do not recreate a second CMS/Studio for content already covered by Sanity.
