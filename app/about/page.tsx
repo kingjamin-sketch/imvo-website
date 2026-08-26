@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AboutPageClient from "./AboutPageClient";
+import AboutTestimonialsController from "./AboutTestimonialsController";
 import { getAboutPageContent } from "@/sanity/lib/siteContent";
 import { getSeoEntry, getTeamMembers, getTestimonials } from "@/sanity/lib/cmsBackend";
 import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
@@ -41,20 +42,24 @@ export default async function AboutPage() {
     getTestimonials(),
   ]);
 
-  const resolvedContent: AboutPageContent | null =
-    structuredTeam.length || structuredTestimonials.length
-      ? {
-          ...(content || {}),
-          teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
-          testimonials: structuredTestimonials.length
-            ? structuredTestimonials.map((item) => ({
-                text: item.quote,
-                author: item.author,
-                date: item.source || item.date,
-              }))
-            : content?.testimonials,
-        }
-      : content;
+  const testimonials = structuredTestimonials.map((item) => ({
+    text: item.quote,
+    author: item.author,
+    date: [item.role, item.company, item.source || item.date]
+      .filter(Boolean)
+      .join(" · "),
+  }));
 
-  return <AboutPageClient content={resolvedContent} />;
+  const resolvedContent: AboutPageContent = {
+    ...(content || {}),
+    teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
+    testimonials,
+  };
+
+  return (
+    <>
+      <AboutPageClient content={resolvedContent} />
+      <AboutTestimonialsController hasTestimonials={testimonials.length > 0} />
+    </>
+  );
 }
