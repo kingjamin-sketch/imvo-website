@@ -28,6 +28,10 @@ const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
 const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
   ssr: false,
 });
+const StudioStatusLiveEnhancement = dynamic(
+  () => import("./StudioStatusLiveEnhancement"),
+  { ssr: false },
+);
 const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
   ssr: false,
 });
@@ -138,7 +142,12 @@ export default function SiteShell({
           {children}
           {needsPhotography ? <IMVOStudioPhotography /> : null}
           {needsFinalRefinements ? <IMVOFinalRefinements /> : null}
-          {pathname === "/" && homeEnhancementsReady ? <IMVOStudioMetrics /> : null}
+          {pathname === "/" && homeEnhancementsReady ? (
+            <>
+              <IMVOStudioMetrics />
+              <StudioStatusLiveEnhancement />
+            </>
+          ) : null}
         </main>
         <SiteFooter settings={settings} />
         <BackToTop />
