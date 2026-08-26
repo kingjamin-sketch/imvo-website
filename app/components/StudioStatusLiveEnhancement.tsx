@@ -152,19 +152,22 @@ function StudioLiveLayer() {
         }
 
         .imvo-studio-live-layer {
-          position: relative;
+          position: absolute;
           z-index: 4;
-          width: 100%;
+          top: 0;
+          right: 0;
+          width: min(47%, 430px);
+          min-width: 360px;
           pointer-events: none;
         }
 
         .imvo-studio-scan {
           position: absolute;
           z-index: 0;
-          top: -340px;
-          bottom: -30px;
-          width: 34%;
-          left: 0;
+          top: -18px;
+          bottom: -24px;
+          width: 42%;
+          left: -8%;
           transform: skewX(-12deg);
           background: linear-gradient(
             90deg,
@@ -180,9 +183,9 @@ function StudioLiveLayer() {
         .imvo-studio-live-rail {
           position: relative;
           z-index: 2;
-          margin-top: 18px;
-          padding-top: 15px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          margin-top: 0;
+          padding: 4px 0 0 24px;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .imvo-studio-signal-row {
@@ -237,8 +240,8 @@ function StudioLiveLayer() {
 
         .imvo-studio-live-copy {
           position: relative;
-          min-height: 46px;
-          margin-top: 13px;
+          min-height: 42px;
+          margin-top: 12px;
           overflow: hidden;
         }
 
@@ -264,20 +267,20 @@ function StudioLiveLayer() {
           margin-top: 4px;
           color: rgba(255, 255, 255, 0.49);
           font-size: 11px;
-          line-height: 1.45;
+          line-height: 1.4;
         }
 
         .imvo-studio-live-grid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          margin-top: 11px;
+          margin-top: 9px;
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .imvo-studio-live-grid > div {
           min-width: 0;
-          padding: 10px 9px 10px 0;
+          padding: 9px 8px 9px 0;
           display: grid;
           grid-template-columns: 7px 1fr;
           column-gap: 6px;
@@ -286,7 +289,7 @@ function StudioLiveLayer() {
         }
 
         .imvo-studio-live-grid > div:not(:first-child) {
-          padding-left: 9px;
+          padding-left: 8px;
         }
 
         .imvo-studio-live-grid > div:last-child {
@@ -336,7 +339,7 @@ function StudioLiveLayer() {
         .imvo-studio-progress {
           position: relative;
           height: 1px;
-          margin-top: 12px;
+          margin-top: 10px;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.07);
         }
@@ -356,6 +359,30 @@ function StudioLiveLayer() {
           }
           50% {
             box-shadow: inset 0 0 34px rgba(255, 255, 255, 0.018), 0 0 28px rgba(255, 255, 255, 0.018);
+          }
+        }
+
+        @media (max-width: 900px) {
+          .imvo-studio-live-layer {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: 100%;
+            min-width: 0;
+          }
+
+          .imvo-studio-scan {
+            top: -340px;
+            bottom: -30px;
+            width: 34%;
+            left: 0;
+          }
+
+          .imvo-studio-live-rail {
+            margin-top: 18px;
+            padding: 15px 0 0;
+            border-left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
           }
         }
 
