@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import AboutPageClient from "./AboutPageClient";
+import AboutTestimonialsController from "./AboutTestimonialsController";
 import { getAboutPageContent } from "@/sanity/lib/siteContent";
-import { getSeoEntry, getTeamMembers, getTestimonials } from "@/sanity/lib/cmsBackend";
+import { getSeoEntry, getTeamMembers } from "@/sanity/lib/cmsBackend";
 import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 import type { AboutPageContent } from "@/sanity/types/siteContent";
 
@@ -35,26 +36,46 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [content, structuredTeam, structuredTestimonials] = await Promise.all([
+  const [content, structuredTeam] = await Promise.all([
     getAboutPageContent(),
     getTeamMembers(),
-    getTestimonials(),
   ]);
 
-  const resolvedContent: AboutPageContent | null =
-    structuredTeam.length || structuredTestimonials.length
-      ? {
-          ...(content || {}),
-          teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
-          testimonials: structuredTestimonials.length
-            ? structuredTestimonials.map((item) => ({
-                text: item.quote,
-                author: item.author,
-                date: item.source || item.date,
-              }))
-            : content?.testimonials,
-        }
-      : content;
+  const testimonials = (content?.testimonials || [])
+    .map((item, index) => ({ ...item, __index: index }))
+    .filter((item) => item.active !== false)
+    .sort((a, b) => {
+      const featuredDelta = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+      if (featuredDelta) return featuredDelta;
+      const orderDelta = (a.order ?? 100) - (b.order ?? 100);
+      return orderDelta || a.__index - b.__index;
+    })
+    .map((item) => ({
+      text: item.text,
+      author: item.author,
+      date: [item.role, item.company, item.source || item.date]
+        .filter(Boolean)
+        .join(" · "),
+    }));
 
-  return <AboutPageClient content={resolvedContent} />;
+  // AboutPageClient has a historical hard-coded fallback when its testimonials
+  // array is empty. Supply one blank item only in the zero-review state so
+  // those legacy quotes never reappear in rendered HTML; the controller then
+  // hides the entire Client Perspectives section.
+  const renderedTestimonials = testimonials.length
+    ? testimonials
+    : [{ text: "", author: "", date: "" }];
+
+  const resolvedContent: AboutPageContent = {
+    ...(content || {}),
+    teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
+    testimonials: renderedTestimonials,
+  };
+
+  return (
+    <>
+      <AboutPageClient content={resolvedContent} />
+      <AboutTestimonialsController hasTestimonials={testimonials.length > 0} />
+    </>
+  );
 }
