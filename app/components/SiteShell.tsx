@@ -11,7 +11,6 @@ import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
-import WhatsAppCTA from "./WhatsAppCTA";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 import type { StudioStatusContent } from "@/sanity/types/cmsBackend";
 
@@ -30,6 +29,10 @@ const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
 const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
   ssr: false,
 });
+const StudioStatusLiveEnhancement = dynamic(
+  () => import("./StudioStatusLiveEnhancement"),
+  { ssr: false },
+);
 const CmsStudioStatus = dynamic(() => import("./CmsStudioStatus"), {
   ssr: false,
 });
@@ -138,7 +141,6 @@ export default function SiteShell({
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
-        <WhatsAppCTA />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
@@ -149,7 +151,11 @@ export default function SiteShell({
           {pathname === "/" && homeEnhancementsReady ? (
             <>
               <IMVOStudioMetrics />
-              <CmsStudioStatus content={studioStatus} />
+              {studioStatus ? (
+                <CmsStudioStatus content={studioStatus} />
+              ) : (
+                <StudioStatusLiveEnhancement />
+              )}
             </>
           ) : null}
         </main>
