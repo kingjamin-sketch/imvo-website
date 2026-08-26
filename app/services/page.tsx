@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ServicesPageClient from "./ServicesPageClient";
+import ServiceDetailLinks from "./ServiceDetailLinks";
 import { getServicesPageContent } from "@/sanity/lib/siteContent";
 
 export const revalidate = 300;
@@ -28,5 +29,10 @@ export const metadata: Metadata = {
 
 export default async function ServicesPage() {
   const content = await getServicesPageContent();
-  return <ServicesPageClient content={content} />;
+  return (
+    <>
+      <ServicesPageClient content={content} />
+      <ServiceDetailLinks />
+    </>
+  );
 }
