@@ -10,6 +10,7 @@ const primaryNav = [
   { label: "Services", href: "/services" },
   { label: "DŌMICILE", href: "/domicile" },
   { label: "About", href: "/about" },
+  { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -337,7 +338,7 @@ export default function SiteHeader({
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.64 }}
+              transition={{ delay: 0.24 + primaryNav.length * 0.08 }}
             >
               <Link
                 href="/contact#quote"
