@@ -183,11 +183,45 @@ function withCanonicalTeamFallbacks<T extends { teamMembers?: TeamMember[] }>(
   } as T;
 }
 
+const LEGACY_GENESIS_TEXT =
+  "Before form comes context. Our foundation is built on analyzing the regional landscape, the history of the site, and the operational ambition of the client. Through advanced BIM modeling and photorealistic visualization, we translate this raw data into technical documentation that guarantees sustainability, function, and long-term architectural value.";
+const SAFE_GENESIS_TEXT =
+  "Before form comes context. Our foundation is built on analyzing the regional landscape, the history of the site, and the operational ambition of the client. Through advanced BIM modeling and photorealistic visualization, we translate this raw data into technical documentation that supports sustainability, functionality, and long-term architectural value.";
+const LEGACY_HANDOVER_TEXT =
+  "Final delivery of the built environment ensuring absolute client satisfaction.";
+const SAFE_HANDOVER_TEXT =
+  "Final delivery and a clear, professionally coordinated handover.";
+
+function migrateExactLegacyAboutCopy(
+  content: AboutPageContent | null,
+): AboutPageContent | null {
+  if (!content) return content;
+
+  return {
+    ...content,
+    genesisText:
+      content.genesisText === LEGACY_GENESIS_TEXT
+        ? SAFE_GENESIS_TEXT
+        : content.genesisText,
+    stages: content.stages?.map((stage) => ({
+      ...stage,
+      description:
+        stage.description === LEGACY_HANDOVER_TEXT
+          ? SAFE_HANDOVER_TEXT
+          : stage.description,
+    })),
+  };
+}
+
 export const getSiteSettings = () => fetchSingleton<SiteSettings>(siteSettingsQuery);
 export const getHomePageContent = async () =>
   withCanonicalTeamFallbacks(await fetchSingleton<HomePageContent>(homePageQuery));
 export const getAboutPageContent = async () =>
-  withCanonicalTeamFallbacks(await fetchSingleton<AboutPageContent>(aboutPageQuery));
+  withCanonicalTeamFallbacks(
+    migrateExactLegacyAboutCopy(
+      await fetchSingleton<AboutPageContent>(aboutPageQuery),
+    ),
+  );
 export const getServicesPageContent = () => fetchSingleton<ServicesPageContent>(servicesPageQuery);
 export const getContactPageContent = () => fetchSingleton<ContactPageContent>(contactPageQuery);
 export const getLegalPageContent = (kind: "terms" | "privacy" | "cookies") =>
