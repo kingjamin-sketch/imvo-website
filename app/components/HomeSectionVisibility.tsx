@@ -23,6 +23,32 @@ function setSectionVisibility(label: string | undefined, visible: boolean | unde
   section.setAttribute("data-cms-visibility", visible ? "shown" : "hidden");
 }
 
+function setStudioStatusVisibility(visible: boolean | undefined) {
+  if (visible === undefined) return;
+
+  const cmsMount = document.querySelector<HTMLElement>("[data-cms-studio-status]");
+  let card = cmsMount?.parentElement || null;
+
+  if (!card) {
+    const statusLabel = Array.from(
+      document.querySelectorAll<HTMLElement>("div,span,p"),
+    ).find((element) => normalize(element.textContent) === "studio status");
+
+    // The legacy Studio Status label sits inside the card's content layer.
+    // Target the card itself rather than the closest section so the toggle
+    // can never hide unrelated homepage content that shares that section.
+    card = statusLabel?.parentElement?.parentElement || null;
+  }
+
+  if (!(card instanceof HTMLElement)) return;
+
+  card.hidden = !visible;
+  card.setAttribute(
+    "data-cms-visibility",
+    visible ? "shown" : "hidden",
+  );
+}
+
 export default function HomeSectionVisibility({
   controls,
   content,
@@ -42,20 +68,7 @@ export default function HomeSectionVisibility({
       setSectionVisibility(content?.servicesHeading, controls.showServices);
       setSectionVisibility(content?.teamHeading, controls.showTeam);
       setSectionVisibility(content?.ctaHeading, controls.showFinalCta);
-
-      if (controls.showStudioStatus !== undefined) {
-        const statusLabel = Array.from(
-          document.querySelectorAll<HTMLElement>("div,span,p"),
-        ).find((element) => normalize(element.textContent) === "studio status");
-        const statusSection = statusLabel?.closest<HTMLElement>("section") || statusLabel?.parentElement?.parentElement;
-        if (statusSection instanceof HTMLElement) {
-          statusSection.hidden = !controls.showStudioStatus;
-          statusSection.setAttribute(
-            "data-cms-visibility",
-            controls.showStudioStatus ? "shown" : "hidden",
-          );
-        }
-      }
+      setStudioStatusVisibility(controls.showStudioStatus);
     };
 
     apply();
