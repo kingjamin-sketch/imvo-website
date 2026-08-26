@@ -21,6 +21,9 @@ export type SiteSettings = {
   legalNotice?: string;
   copyright?: string;
   motto?: string;
+  navigationLinks?: Array<{ label?: string; href?: string }>;
+  quoteLabel?: string;
+  quoteHref?: string;
   generalEmail?: string;
   projectsEmail?: string;
   phone?: string;
