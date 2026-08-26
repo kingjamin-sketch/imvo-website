@@ -8,6 +8,7 @@ import "./team-hover.css";
 import ImageCopyProtection from "./components/ImageCopyProtection";
 import SiteShell from "./components/SiteShell";
 import { getSiteSettings } from "@/sanity/lib/siteContent";
+import { getStudioStatusContent } from "@/sanity/lib/cmsBackend";
 
 const siteUrl = "https://www.imvogroup.com";
 
@@ -151,7 +152,10 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, studioStatus] = await Promise.all([
+    getSiteSettings(),
+    getStudioStatusContent(),
+  ]);
 
   return (
     <html lang="en">
@@ -168,7 +172,9 @@ export default async function RootLayout({
           }}
         />
         <ImageCopyProtection />
-        <SiteShell settings={settings}>{children}</SiteShell>
+        <SiteShell settings={settings} studioStatus={studioStatus}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );
