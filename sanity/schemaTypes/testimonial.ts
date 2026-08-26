@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const testimonialType = defineType({
   name: "testimonial",
-  title: "Testimonial",
+  title: "Client Testimonial",
   type: "document",
   fields: [
     defineField({
@@ -10,6 +10,7 @@ export const testimonialType = defineType({
       title: "Testimonial",
       type: "text",
       rows: 6,
+      description: "The exact review text to display on the website.",
       validation: (rule) => rule.required().min(20).max(1200),
     }),
     defineField({
@@ -21,23 +22,32 @@ export const testimonialType = defineType({
     defineField({ name: "role", title: "Role", type: "string", validation: (rule) => rule.max(120) }),
     defineField({ name: "company", title: "Company / organisation", type: "string", validation: (rule) => rule.max(160) }),
     defineField({ name: "date", title: "Date", type: "date" }),
-    defineField({ name: "source", title: "Source / context", type: "string", validation: (rule) => rule.max(160) }),
+    defineField({
+      name: "source",
+      title: "Source / context",
+      type: "string",
+      description: "Optional context such as Google Review, project name, or client review.",
+      validation: (rule) => rule.max(160),
+    }),
     defineField({
       name: "featured",
       title: "Feature prominently",
       type: "boolean",
+      description: "Featured reviews are shown before the normal display order.",
       initialValue: false,
     }),
     defineField({
       name: "active",
       title: "Show on the website",
       type: "boolean",
+      description: "Turn this off to keep the review in Studio without displaying it publicly.",
       initialValue: true,
     }),
     defineField({
       name: "order",
       title: "Display order",
       type: "number",
+      description: "Lower numbers appear first after featured reviews.",
       initialValue: 100,
       validation: (rule) => rule.integer().min(0).max(9999),
     }),
