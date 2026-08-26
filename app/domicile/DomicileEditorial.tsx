@@ -195,19 +195,20 @@ export default function DomicileEditorial() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const formReady = useMemo(
-    () =>
-      Boolean(
-        form.name.trim() &&
-          form.phone.trim() &&
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-          form.location.trim() &&
-          form.propertyType &&
-          form.helpWith &&
-          form.message.trim().length >= 5
-      ),
-    [form]
-  );
+  const formReady = useMemo(() => {
+    const email = form.email.trim();
+    const emailValid = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const hasContact = Boolean(form.phone.trim() || email);
+
+    return Boolean(
+      form.name.trim() &&
+        hasContact &&
+        emailValid &&
+        form.location.trim() &&
+        form.propertyType &&
+        form.helpWith
+    );
+  }, [form]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -223,14 +224,14 @@ export default function DomicileEditorial() {
           access_key: WEB3FORMS_ACCESS_KEY,
           subject: `New DŌMICILE enquiry — ${form.name} — ${form.location}`,
           from_name: "DŌMICILE by IMVO Group",
-          replyto: form.email,
+          replyto: form.email || undefined,
           name: form.name,
-          phone_whatsapp: form.phone,
-          email: form.email,
+          phone_whatsapp: form.phone || "Not provided",
+          email: form.email || "Not provided",
           property_location: form.location,
           property_type: form.propertyType,
           help_with: form.helpWith,
-          message: form.message,
+          message: form.message.trim() || "No additional message provided.",
           botcheck: "",
         }),
       });
@@ -429,19 +430,19 @@ export default function DomicileEditorial() {
           </div>
         </div>
         <div className={styles.formSide}>
-          <div className={styles.formHeading}><span>PROPERTY ENQUIRY</span><h3>What should we know?</h3><p>A first conversation is enough to start.</p></div>
+          <div className={styles.formHeading}><span>PROPERTY ENQUIRY</span><h3>What should we know?</h3><p>A first conversation is enough to start. Phone or email is enough.</p></div>
           {isSubmitted ? (
             <div className={styles.success}><span>ENQUIRY RECEIVED</span><h3>Thank you.</h3><p>We’ll review the details and contact you directly.</p><button type="button" onClick={() => setIsSubmitted(false)}>SEND ANOTHER ENQUIRY</button></div>
           ) : (
             <form className={styles.form} onSubmit={handleSubmit}>
               <input className={styles.botcheck} type="checkbox" name="botcheck" value={form.botcheck} onChange={(e) => setForm({ ...form, botcheck: e.target.checked ? "1" : "" })} tabIndex={-1} autoComplete="off" />
               <label>Full name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your name" /></label>
-              <label>Phone / WhatsApp<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+250 ..." /></label>
-              <label>Email<input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label>
+              <label>Phone / WhatsApp (or email)<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+250 ..." /></label>
+              <label>Email (or phone)<input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label>
               <label>Property location<input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="e.g. Kacyiru, Kigali" /></label>
               <label>Property type<select value={form.propertyType} onChange={(e) => setForm({ ...form, propertyType: e.target.value })}><option value="">Select property type</option><option>Private residence</option><option>Apartment / condominium</option><option>Residential estate</option><option>Commercial property</option><option>Other</option></select></label>
               <label>What do you need?<select value={form.helpWith} onChange={(e) => setForm({ ...form, helpWith: e.target.value })}><option value="">Select what you need</option><option>Ongoing property management</option><option>Owner-away care</option><option>Maintenance coordination</option><option>Property inspection</option><option>One-off property support</option><option>Not sure yet</option></select></label>
-              <label className={styles.message}>Message<textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us what the property needs..." /></label>
+              <label className={styles.message}>Message (optional)<textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us what the property needs, if there is anything else we should know..." /></label>
               <div className={styles.formFooter}><button type="submit" disabled={!formReady || isSubmitting}>{isSubmitting ? "SENDING..." : "SEND TO DŌMICILE ↗"}</button><span>PRIVATE BY DEFAULT · DIRECT FOLLOW-UP</span></div>
               {error ? <p className={styles.formError}>{error}</p> : null}
             </form>
