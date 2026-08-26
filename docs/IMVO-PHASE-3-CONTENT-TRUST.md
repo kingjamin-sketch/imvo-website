@@ -53,13 +53,12 @@ The existing Contact page already contained a direct IMVO WhatsApp conversation 
 
 The global CTA:
 
-- uses the CMS Site Settings phone when it contains a usable number;
-- falls back to the existing IMVO WhatsApp number used by the Contact page;
+- uses the same explicit WhatsApp destination already published by the Contact experience rather than assuming the general Site Settings phone is WhatsApp-enabled;
 - opens a prefilled project/service conversation;
 - sits on the lower-left so it does not compete with the DŌMICILE widget on the lower-right;
 - respects reduced-motion preferences.
 
-Each individual service page also includes service-specific WhatsApp CTAs.
+Each individual service page also includes service-specific WhatsApp CTAs to that same verified destination.
 
 ## Trust rules
 
@@ -74,7 +73,7 @@ The code and conversion implementation is complete when:
 
 - all three individual service URLs build and return successfully;
 - `/services` links to them;
-- the global WhatsApp CTA resolves to a valid IMVO number;
+- the global WhatsApp CTA resolves to the existing verified IMVO WhatsApp destination;
 - existing testimonials and collaborator logos remain intact;
 - sitemap includes all three service pages;
 - no DŌMICILE behavior is changed.
