@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Selected Built Environment Projects",
   description:
     "Explore selected IMVO Group residential, commercial, institutional, hospitality, and urban design work across Rwanda and East Africa.",
@@ -13,7 +15,18 @@ export const metadata: Metadata = {
       "Built environments developed through context, proportion, technical coordination, and execution-aware thinking.",
     images: ["/chosen/verdea-hotel.png"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Selected Projects | IMVO Group",
+    description:
+      "Built environments developed through context, proportion, technical coordination, and execution-aware thinking.",
+    images: ["/chosen/verdea-hotel.png"],
+  },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return mergeCmsMetadata(fallbackMetadata, await getSeoEntry("/projects"), "/projects");
+}
 
 export default function ProjectsLayout({ children }: { children: ReactNode }) {
   return (

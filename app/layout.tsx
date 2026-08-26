@@ -5,10 +5,11 @@ import "./globals.css";
 import "./accessibility.css";
 import "./team-hover.css";
 
+import ConsentAnalytics from "./components/ConsentAnalytics";
 import ImageCopyProtection from "./components/ImageCopyProtection";
 import SiteShell from "./components/SiteShell";
 import { getSiteSettings } from "@/sanity/lib/siteContent";
-import { getSeoEntry, getStudioStatusContent } from "@/sanity/lib/cmsBackend";
+import { getGrowthSettings, getSeoEntry, getStudioStatusContent } from "@/sanity/lib/cmsBackend";
 
 const siteUrl = "https://www.imvogroup.com";
 
@@ -72,15 +73,25 @@ const defaultMetadata: Metadata = {
   },
 };
 
+function normalizeGoogleVerification(value?: string) {
+  if (!value?.trim()) return undefined;
+  const trimmed = value.trim();
+  const contentMatch = trimmed.match(/content=["']([^"']+)["']/i);
+  return (contentMatch?.[1] || trimmed).trim();
+}
+
 export async function generateMetadata(): Promise<Metadata> {
-  const [settings, routeSeo] = await Promise.all([
+  const [settings, routeSeo, growth] = await Promise.all([
     getSiteSettings(),
     getSeoEntry("/"),
+    getGrowthSettings(),
   ]);
   const title = routeSeo?.title || settings?.seoTitle || "IMVO Group | Built Environment Design & Development";
   const description = routeSeo?.description || settings?.seoDescription || defaultMetadata.description;
   const shareImage = routeSeo?.shareImage?.url || settings?.shareImage?.url || "/about-hero.png";
   const shareImageAlt = routeSeo?.shareImage?.alt || settings?.shareImage?.alt || "IMVO Group";
+  const globalNoIndex = growth?.siteIndexingEnabled === false;
+  const googleVerification = normalizeGoogleVerification(growth?.googleSiteVerification);
 
   return {
     ...defaultMetadata,
@@ -89,7 +100,11 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${settings?.companyName || "IMVO Group"}`,
     },
     description,
-    robots: routeSeo?.noIndex ? { index: false, follow: true } : defaultMetadata.robots,
+    robots:
+      globalNoIndex || routeSeo?.noIndex
+        ? { index: false, follow: true }
+        : defaultMetadata.robots,
+    verification: googleVerification ? { google: googleVerification } : undefined,
     openGraph: {
       ...defaultMetadata.openGraph,
       title,
@@ -157,9 +172,10 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const [settings, studioStatus] = await Promise.all([
+  const [settings, studioStatus, growth] = await Promise.all([
     getSiteSettings(),
     getStudioStatusContent(),
+    getGrowthSettings(),
   ]);
 
   return (
@@ -180,6 +196,7 @@ export default async function RootLayout({
         <SiteShell settings={settings} studioStatus={studioStatus}>
           {children}
         </SiteShell>
+        <ConsentAnalytics growth={growth} />
       </body>
     </html>
   );

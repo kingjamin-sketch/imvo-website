@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import LegalContentPage from "@/app/components/LegalContentPage";
 import { getLegalPageContent } from "@/sanity/lib/siteContent";
+import { getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Terms & Conditions",
   description: "Terms governing use of the IMVO Group website and general information about IMVO Group services and project content.",
   alternates: { canonical: "/terms" },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return mergeCmsMetadata(fallbackMetadata, await getSeoEntry("/terms"), "/terms");
+}
 
 const fallback = {
   kicker: "Legal",
