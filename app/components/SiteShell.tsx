@@ -13,6 +13,7 @@ import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
 import WhatsAppCTA from "./WhatsAppCTA";
 import type { SiteSettings } from "@/sanity/types/siteContent";
+import type { StudioStatusContent } from "@/sanity/types/cmsBackend";
 
 const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
   ssr: false,
@@ -29,10 +30,9 @@ const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
 const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
   ssr: false,
 });
-const StudioStatusLiveEnhancement = dynamic(
-  () => import("./StudioStatusLiveEnhancement"),
-  { ssr: false },
-);
+const CmsStudioStatus = dynamic(() => import("./CmsStudioStatus"), {
+  ssr: false,
+});
 const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
   ssr: false,
 });
@@ -53,9 +53,11 @@ type IdleWindow = Window & {
 export default function SiteShell({
   children,
   settings,
+  studioStatus,
 }: {
   children: ReactNode;
   settings?: SiteSettings | null;
+  studioStatus?: StudioStatusContent | null;
 }) {
   const pathname = usePathname();
   const [homeEnhancementsReady, setHomeEnhancementsReady] = useState(false);
@@ -147,7 +149,7 @@ export default function SiteShell({
           {pathname === "/" && homeEnhancementsReady ? (
             <>
               <IMVOStudioMetrics />
-              <StudioStatusLiveEnhancement />
+              <CmsStudioStatus content={studioStatus} />
             </>
           ) : null}
         </main>
