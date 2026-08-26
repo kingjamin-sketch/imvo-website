@@ -30,21 +30,8 @@ export const studioStatusType = defineType({
       scheduleDay("saturday", "Saturday", false),
       scheduleDay("sunday", "Sunday", false),
     ],
-    dateOverrides: [
-      { _key: "2026-01-01", date: "2026-01-01", status: "closed", label: "New Year's Day" },
-      { _key: "2026-01-02", date: "2026-01-02", status: "closed", label: "New Year Holiday" },
-      { _key: "2026-02-02", date: "2026-02-02", status: "closed", label: "National Heroes Day" },
-      { _key: "2026-04-03", date: "2026-04-03", status: "closed", label: "Good Friday" },
-      { _key: "2026-04-06", date: "2026-04-06", status: "closed", label: "Easter Monday" },
-      { _key: "2026-04-07", date: "2026-04-07", status: "closed", label: "Genocide against the Tutsi Memorial Day" },
-      { _key: "2026-05-01", date: "2026-05-01", status: "closed", label: "Labour Day" },
-      { _key: "2026-07-01", date: "2026-07-01", status: "closed", label: "Independence Day" },
-      { _key: "2026-07-04", date: "2026-07-04", status: "closed", label: "Liberation Day" },
-      { _key: "2026-08-01", date: "2026-08-01", status: "closed", label: "Umuganura Day" },
-      { _key: "2026-08-16", date: "2026-08-16", status: "closed", label: "Assumption Day" },
-      { _key: "2026-12-25", date: "2026-12-25", status: "closed", label: "Christmas Day" },
-      { _key: "2026-12-26", date: "2026-12-26", status: "closed", label: "Boxing Day" },
-    ],
+    dateOverrides: [],
+    specialNotices: [],
     openMessages: [
       "The Kigali studio is open and project conversations are welcome.",
       "Design, planning and coordination are active across the studio.",
@@ -114,6 +101,7 @@ export const studioStatusType = defineType({
     defineField({
       name: "dateOverrides",
       title: "Holidays / day-off / special-day overrides",
+      description: "Add only dates the studio has reviewed and intends to observe. These overrides are operational content, not an automatic legal holiday calendar.",
       type: "array",
       group: "overrides",
       of: [
