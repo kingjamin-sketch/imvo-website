@@ -11,6 +11,7 @@ import IntroLoader from "./IntroLoader";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 import SmoothScrollProvider from "./SmoothScrollProvider";
+import WhatsAppCTA from "./WhatsAppCTA";
 import type { SiteSettings } from "@/sanity/types/siteContent";
 
 const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
@@ -135,6 +136,7 @@ export default function SiteShell({
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
+        <WhatsAppCTA phone={settings?.phone} />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
