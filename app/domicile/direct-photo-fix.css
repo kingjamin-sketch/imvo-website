@@ -1,24 +1,62 @@
-/* DŌMICILE exact estate photography.
-   The active component still references the legacy JPG slot names, but the
-   actual visible photography is served from the verified PNG exports below.
-   This keeps the page structure untouched while making the PNGs the single
-   visual source of truth. */
+/* DŌMICILE exact PNG photography.
+   The CSS module currently hides the image elements and paints legacy AVIF
+   backgrounds. Override those section containers directly with the user's PNG
+   exports so the visible page no longer depends on the broken AVIF/JPG files. */
 
-*:has(> img[src="/domicile/exact/estate-hero.jpg"]) {
+[class*="heroPhoto"] {
   background-image: url('/domicile/exact/estate-hero.png') !important;
   background-size: cover !important;
-  background-position: center center !important;
+  background-position: center 52% !important;
   background-repeat: no-repeat !important;
 }
 
-*:has(> img[src="/domicile/exact/estate-c1.jpg"]) {
+[class*="explainedPhoto"] {
   background-image: url('/domicile/exact/estate-c1.png') !important;
   background-size: cover !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
 
-*:has(> img[src="/domicile/exact/estate-street.jpg"]) {
+[class*="essayPhotoMain"] {
+  background-image: url('/domicile/exact/estate-street.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+[class*="essayPhotoTall"] {
+  background-image: url('/domicile/exact/estate-hero.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+[class*="ownerPhoto"] {
+  background-image: url('/domicile/exact/estate-c1.png') !important;
+  background-size: cover !important;
+  background-position: center 52% !important;
+  background-repeat: no-repeat !important;
+}
+
+[class*="propertyStory"]:nth-child(1) [class*="propertyPhoto"] {
+  background-image: url('/domicile/exact/estate-c1.png') !important;
+}
+
+[class*="propertyStory"]:nth-child(2) [class*="propertyPhoto"] {
+  background-image: url('/domicile/exact/estate-hero.png') !important;
+}
+
+[class*="propertyStory"]:nth-child(3) [class*="propertyPhoto"] {
+  background-image: url('/domicile/exact/estate-street.png') !important;
+}
+
+[class*="propertyPhoto"] {
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+[class*="enquiryImage"] {
   background-image: url('/domicile/exact/estate-street.png') !important;
   background-size: cover !important;
   background-position: center center !important;
