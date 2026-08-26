@@ -108,7 +108,13 @@ export type ServicesPageContent = {
   positioningKicker?: string;
   positioningHeading?: string;
   positioningParagraphs?: string[];
-  servicePillars?: Array<{ number?: string; title?: string; description?: string; services?: string[] }>;
+  servicePillars?: Array<{
+    number?: string;
+    title?: string;
+    description?: string;
+    services?: string[];
+    image?: CmsImage;
+  }>;
   coordinationHeading?: string;
   coordinationText?: string;
   coordinationImage?: CmsImage;
