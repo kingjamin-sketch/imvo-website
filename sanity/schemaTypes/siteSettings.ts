@@ -45,6 +45,40 @@ export const siteSettingsType = defineType({
       group: "seo",
       fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
     }),
+    defineField({
+      name: "seoPages",
+      title: "Page-level SEO overrides",
+      description: "Optional overrides for public routes. Leave a field blank to keep the page's safe coded fallback.",
+      type: "array",
+      group: "seo",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "routePath",
+              title: "Route",
+              description: "Use the public path, for example /about, /services or /contact.",
+              type: "string",
+              validation: (rule) => rule.required().regex(/^\//, { name: "leading slash" }),
+            }),
+            defineField({ name: "title", title: "Google / sharing title", type: "string", validation: (rule) => rule.max(65) }),
+            defineField({ name: "description", title: "Google / sharing description", type: "text", rows: 3, validation: (rule) => rule.max(170) }),
+            defineField({
+              name: "shareImage",
+              title: "Social sharing image",
+              type: "image",
+              options: { hotspot: true },
+              fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
+            }),
+            defineField({ name: "noIndex", title: "Hide this route from search engines", type: "boolean", initialValue: false }),
+          ],
+          preview: {
+            select: { title: "routePath", subtitle: "title" },
+          },
+        }),
+      ],
+    }),
   ],
   preview: { prepare: () => ({ title: "Site Settings", subtitle: "Shared identity, contact and SEO" }) },
 });
