@@ -15,6 +15,18 @@ export type TeamMember = {
   image?: CmsImage;
 };
 
+export type AboutTestimonial = {
+  text?: string;
+  author?: string;
+  role?: string;
+  company?: string;
+  date?: string;
+  source?: string;
+  featured?: boolean;
+  active?: boolean;
+  order?: number;
+};
+
 export type SiteSettings = {
   companyName?: string;
   tagline?: string;
@@ -90,7 +102,7 @@ export type AboutPageContent = {
   teamHeading?: string;
   teamMembers?: TeamMember[];
   reviewsHeading?: string;
-  testimonials?: Array<{ text?: string; author?: string; date?: string }>;
+  testimonials?: AboutTestimonial[];
   ctaHeading?: string;
   ctaText?: string;
   ctaPrimaryLabel?: string;

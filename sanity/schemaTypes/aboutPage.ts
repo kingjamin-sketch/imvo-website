@@ -82,7 +82,76 @@ export const aboutPageType = defineType({
       title: "Reviews heading",
       type: "string",
       group: "team",
-      description: "Manage the review cards themselves under Collections → Testimonials.",
+    }),
+    defineField({
+      name: "testimonials",
+      title: "Testimonials / Client Reviews",
+      type: "array",
+      group: "team",
+      description: "Add, edit, remove, reorder, feature, or temporarily hide the client reviews shown on the About page.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "text",
+              title: "Testimonial",
+              type: "text",
+              rows: 5,
+              validation: (rule) => rule.required().min(10).max(1200),
+            }),
+            defineField({
+              name: "author",
+              title: "Client / author name",
+              type: "string",
+              validation: (rule) => rule.required().max(120),
+            }),
+            defineField({ name: "role", title: "Role", type: "string", validation: (rule) => rule.max(120) }),
+            defineField({ name: "company", title: "Company / organisation", type: "string", validation: (rule) => rule.max(160) }),
+            defineField({
+              name: "date",
+              title: "Date / display label",
+              type: "string",
+              description: "Can be a date or an existing label such as “6 months ago”.",
+              validation: (rule) => rule.max(120),
+            }),
+            defineField({
+              name: "source",
+              title: "Source / context",
+              type: "string",
+              description: "Optional context such as Google Review or a project name.",
+              validation: (rule) => rule.max(160),
+            }),
+            defineField({
+              name: "featured",
+              title: "Feature prominently",
+              type: "boolean",
+              description: "Featured reviews are displayed first.",
+              initialValue: false,
+            }),
+            defineField({
+              name: "active",
+              title: "Show on the website",
+              type: "boolean",
+              description: "Turn this off to hide a review without deleting it.",
+              initialValue: true,
+            }),
+            defineField({
+              name: "order",
+              title: "Display order",
+              type: "number",
+              description: "Optional. Lower numbers appear first after featured reviews; otherwise the array order is respected.",
+              validation: (rule) => rule.integer().min(0).max(9999),
+            }),
+          ],
+          preview: {
+            select: { title: "author", company: "company", subtitle: "text" },
+            prepare({ title, company, subtitle }) {
+              return { title, subtitle: [company, subtitle].filter(Boolean).join(" · ") };
+            },
+          },
+        }),
+      ],
     }),
     defineField({ name: "ctaHeading", title: "CTA heading", type: "string", group: "cta" }),
     defineField({ name: "ctaText", title: "CTA description", type: "text", rows: 3, group: "cta" }),

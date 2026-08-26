@@ -59,6 +59,7 @@ const aboutPageQuery = defineQuery(`
     coordinationHeading, coordinationCards[]{title, text},
     teamHeading, teamMembers[]{name, role, description, image${imageProjection}},
     reviewsHeading,
+    testimonials[]{text, author, role, company, date, source, featured, active, order},
     ctaHeading, ctaText, ctaPrimaryLabel, ctaProjectsLabel, deckLabel
   }
 `);
