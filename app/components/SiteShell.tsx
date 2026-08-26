@@ -136,7 +136,7 @@ export default function SiteShell({
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
-        <WhatsAppCTA phone={settings?.phone} />
+        <WhatsAppCTA />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
