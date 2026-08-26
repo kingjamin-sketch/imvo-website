@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Brand from "./Brand";
+import type { SiteSettings } from "@/sanity/types/siteContent";
 
-const primaryNav = [
+const defaultPrimaryNav = [
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
   { label: "DŌMICILE", href: "/domicile" },
@@ -15,6 +16,7 @@ const primaryNav = [
 
 type SiteHeaderProps = {
   deferUntilIntroComplete?: boolean;
+  settings?: SiteSettings | null;
 };
 
 function HeaderRoll({ children }: { children: string }) {
@@ -78,6 +80,7 @@ function HeaderRoll({ children }: { children: string }) {
 
 export default function SiteHeader({
   deferUntilIntroComplete = false,
+  settings,
 }: SiteHeaderProps) {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
@@ -86,6 +89,13 @@ export default function SiteHeader({
   const [isStartupReady, setIsStartupReady] = useState(
     !deferUntilIntroComplete,
   );
+
+  const configuredNavigation = settings?.navigationLinks
+    ?.filter((item): item is { label: string; href: string } => Boolean(item.label?.trim() && item.href?.trim()))
+    .map((item) => ({ label: item.label.trim(), href: item.href.trim() }));
+  const primaryNav = configuredNavigation?.length ? configuredNavigation : defaultPrimaryNav;
+  const quoteLabel = settings?.quoteLabel?.trim() || "Request a Quote";
+  const quoteHref = settings?.quoteHref?.trim() || "/contact#quote";
 
   useEffect(() => {
     if (!deferUntilIntroComplete) {
@@ -128,6 +138,16 @@ export default function SiteHeader({
 
   const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMenu = () => setMobileMenuOpen(false);
+
+  const handleQuoteClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.location.pathname === "/contact" && quoteHref.startsWith("/contact") && quoteHref.includes("#quote")) {
+      event.preventDefault();
+      document.getElementById("quote")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   return (
     <>
@@ -214,7 +234,7 @@ export default function SiteHeader({
           >
             {primaryNav.map((item) => (
               <Link
-                key={item.label}
+                key={`${item.label}-${item.href}`}
                 href={item.href}
                 style={{
                   color: "white",
@@ -230,7 +250,7 @@ export default function SiteHeader({
             ))}
 
             <a
-              href="/contact#quote"
+              href={quoteHref}
               style={{
                 background: "rgba(255,255,255,0.96)",
                 color: "black",
@@ -243,15 +263,7 @@ export default function SiteHeader({
                 transition:
                   "transform 0.2s ease, background 0.2s ease, padding 0.35s ease",
               }}
-              onClick={(e) => {
-                if (window.location.pathname === "/contact") {
-                  e.preventDefault();
-                  document.getElementById("quote")?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
-              }}
+              onClick={handleQuoteClick}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.045)";
                 e.currentTarget.style.background = "white";
@@ -261,7 +273,7 @@ export default function SiteHeader({
                 e.currentTarget.style.background = "rgba(255,255,255,0.96)";
               }}
             >
-              Request a Quote
+              {quoteLabel}
             </a>
           </nav>
 
@@ -315,7 +327,7 @@ export default function SiteHeader({
           >
             {primaryNav.map((item, i) => (
               <motion.div
-                key={item.label}
+                key={`${item.label}-${item.href}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.08 }}
@@ -340,7 +352,7 @@ export default function SiteHeader({
               transition={{ delay: 0.64 }}
             >
               <Link
-                href="/contact#quote"
+                href={quoteHref}
                 onClick={closeMenu}
                 style={{
                   background: "white",
@@ -352,7 +364,7 @@ export default function SiteHeader({
                   textDecoration: "none",
                 }}
               >
-                Request a Quote
+                {quoteLabel}
               </Link>
             </motion.div>
           </motion.div>
