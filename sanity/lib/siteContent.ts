@@ -3,6 +3,7 @@ import { defineQuery } from "next-sanity";
 import type {
   AboutPageContent,
   ContactPageContent,
+  DomicilePageContent,
   HomePageContent,
   LegalPageContent,
   ServicesPageContent,
@@ -85,6 +86,29 @@ const contactPageQuery = defineQuery(`
     formKicker, formHeading, formIntro, submitLabel,
     successKicker, successHeading, successText, responseTimeText,
     locationKicker, locationHeading, locationText, mapUrl
+  }
+`);
+
+const domicilePageQuery = defineQuery(`
+  *[_id == "domicilePage"][0]{
+    heroEyebrow, heroHeading, heroLead, primaryCtaLabel, secondaryCtaLabel,
+    heroImage${imageProjection}, heroFacts,
+    explainedTag, explainedHeading, explainedLead, explainedQuote,
+    explainedPhotoLabel, explainedPhotoStatus, explainedImage${imageProjection},
+    explanationSteps[]{title, text},
+    careTag, careHeading, careIntro,
+    carePrimaryImage${imageProjection}, careSecondaryImage${imageProjection},
+    careItems[]{label, text},
+    ownerTag, ownerHeading, ownerIntro, ownerImage${imageProjection},
+    propertiesTag, propertiesHeading, propertiesIntro,
+    properties[]{status, title, copy, image${imageProjection}},
+    trustTag, trustHeading, trustText, faqTag,
+    faqs[]{question, answer},
+    enquiryTag, enquiryHeading, enquiryIntro, enquiryImage${imageProjection},
+    email, phoneLabel, whatsappUrl, locationLabel,
+    formKicker, formHeading, formIntro, submitLabel,
+    successKicker, successHeading, successText, footerDescriptor,
+    seoTitle, seoDescription, shareImage${imageProjection}
   }
 `);
 
@@ -313,5 +337,6 @@ export const getAboutPageContent = async () => {
 };
 export const getServicesPageContent = () => fetchSingleton<ServicesPageContent>(servicesPageQuery);
 export const getContactPageContent = () => fetchSingleton<ContactPageContent>(contactPageQuery);
+export const getDomicilePageContent = () => fetchSingleton<DomicilePageContent>(domicilePageQuery);
 export const getLegalPageContent = (kind: "terms" | "privacy" | "cookies") =>
   fetchSingleton<LegalPageContent>(legalPageQuery, { id: `legal-${kind}` });
