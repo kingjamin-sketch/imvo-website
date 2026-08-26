@@ -77,16 +77,13 @@ export const aboutPageType = defineType({
       ],
       preview: { select: { title: "name", subtitle: "role", media: "image" } },
     })] }),
-    defineField({ name: "reviewsHeading", title: "Reviews heading", type: "string", group: "team" }),
-    defineField({ name: "testimonials", title: "Client reviews", type: "array", group: "team", of: [defineArrayMember({
-      type: "object",
-      fields: [
-        defineField({ name: "text", title: "Review", type: "text", rows: 5 }),
-        defineField({ name: "author", title: "Client name", type: "string" }),
-        defineField({ name: "date", title: "Date / source", type: "string" }),
-      ],
-      preview: { select: { title: "author", subtitle: "date" } },
-    })] }),
+    defineField({
+      name: "reviewsHeading",
+      title: "Reviews heading",
+      type: "string",
+      group: "team",
+      description: "Manage the review cards themselves under Collections → Testimonials.",
+    }),
     defineField({ name: "ctaHeading", title: "CTA heading", type: "string", group: "cta" }),
     defineField({ name: "ctaText", title: "CTA description", type: "text", rows: 3, group: "cta" }),
     defineField({ name: "ctaPrimaryLabel", title: "Primary button", type: "string", group: "cta" }),
