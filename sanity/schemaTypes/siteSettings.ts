@@ -6,6 +6,7 @@ export const siteSettingsType = defineType({
   type: "document",
   groups: [
     { name: "identity", title: "Identity", default: true },
+    { name: "navigation", title: "Header & navigation" },
     { name: "contact", title: "Contact" },
     { name: "social", title: "Social links" },
     { name: "seo", title: "Google & sharing" },
@@ -16,6 +17,24 @@ export const siteSettingsType = defineType({
     defineField({ name: "legalNotice", title: "Professional-services notice", type: "text", rows: 3, group: "identity" }),
     defineField({ name: "copyright", title: "Copyright line", type: "string", group: "identity" }),
     defineField({ name: "motto", title: "Brand motto", type: "string", group: "identity" }),
+    defineField({
+      name: "navigationLinks",
+      title: "Header navigation",
+      description: "Edit labels, links and order. Keep the list concise so the approved header layout remains intact.",
+      type: "array",
+      group: "navigation",
+      of: [defineArrayMember({
+        type: "object",
+        fields: [
+          defineField({ name: "label", title: "Label", type: "string", validation: (rule) => rule.required() }),
+          defineField({ name: "href", title: "Link", type: "string", validation: (rule) => rule.required() }),
+        ],
+        preview: { select: { title: "label", subtitle: "href" } },
+      })],
+      validation: (rule) => rule.max(7),
+    }),
+    defineField({ name: "quoteLabel", title: "Header CTA label", type: "string", group: "navigation" }),
+    defineField({ name: "quoteHref", title: "Header CTA link", type: "string", group: "navigation" }),
     defineField({ name: "generalEmail", title: "General email", type: "email", group: "contact" }),
     defineField({ name: "projectsEmail", title: "Projects email", type: "email", group: "contact" }),
     defineField({ name: "phone", title: "Phone / WhatsApp", type: "string", group: "contact" }),
@@ -46,5 +65,16 @@ export const siteSettingsType = defineType({
       fields: [defineField({ name: "alt", title: "Alternative text", type: "string" })],
     }),
   ],
-  preview: { prepare: () => ({ title: "Site Settings", subtitle: "Shared identity, contact and SEO" }) },
+  initialValue: {
+    navigationLinks: [
+      { _key: "nav-projects", label: "Projects", href: "/projects" },
+      { _key: "nav-services", label: "Services", href: "/services" },
+      { _key: "nav-domicile", label: "DŌMICILE", href: "/domicile" },
+      { _key: "nav-about", label: "About", href: "/about" },
+      { _key: "nav-contact", label: "Contact", href: "/contact" },
+    ],
+    quoteLabel: "Request a Quote",
+    quoteHref: "/contact#quote",
+  },
+  preview: { prepare: () => ({ title: "Site Settings", subtitle: "Shared identity, navigation, contact and SEO" }) },
 });
