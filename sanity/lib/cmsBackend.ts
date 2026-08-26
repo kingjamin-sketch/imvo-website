@@ -3,6 +3,7 @@ import { defineQuery } from "next-sanity";
 import type {
   CareerContent,
   DomicilePageContent,
+  GrowthSettings,
   HomeHeroMedia,
   HomeSectionControls,
   SeoEntry,
@@ -92,6 +93,22 @@ const seoEntryQuery = defineQuery(`
   }
 `);
 
+const growthSettingsQuery = defineQuery(`
+  *[_id == "siteSettings"][0]{
+    siteIndexingEnabled,
+    googleSiteVerification,
+    analyticsEnabled,
+    gaMeasurementId,
+    cookieConsentEnabled,
+    cookieConsentTitle,
+    cookieConsentText,
+    cookieAcceptLabel,
+    cookieRejectLabel,
+    cookiePolicyLabel,
+    seoPages[]{routePath, noIndex}
+  }
+`);
+
 async function fetchCached<T>(
   query: string,
   params: Record<string, string | boolean> = {},
@@ -148,3 +165,6 @@ export const getHomeHeroMedia = () => fetchCached<HomeHeroMedia>(homeHeroMediaQu
 
 export const getSeoEntry = (routePath: string) =>
   fetchCached<SeoEntry>(seoEntryQuery, { routePath });
+
+export const getGrowthSettings = () =>
+  fetchCached<GrowthSettings>(growthSettingsQuery);

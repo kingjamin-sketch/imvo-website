@@ -159,3 +159,20 @@ export type SeoEntry = {
   shareImage?: CmsImage;
   noIndex?: boolean;
 };
+
+export type GrowthSettings = {
+  siteIndexingEnabled?: boolean;
+  googleSiteVerification?: string;
+  analyticsEnabled?: boolean;
+  gaMeasurementId?: string;
+  cookieConsentEnabled?: boolean;
+  cookieConsentTitle?: string;
+  cookieConsentText?: string;
+  cookieAcceptLabel?: string;
+  cookieRejectLabel?: string;
+  cookiePolicyLabel?: string;
+  seoPages?: Array<{
+    routePath?: string;
+    noIndex?: boolean;
+  }>;
+};
