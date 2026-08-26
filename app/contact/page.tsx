@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import ContactPageClient from "./ContactPageClient";
 import { getContactPageContent } from "@/sanity/lib/siteContent";
+import { getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 import type { ContactPageContent } from "@/sanity/types/siteContent";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Contact",
   description:
     "Contact IMVO Group in Kigali to discuss built-environment design, feasibility, development consultancy, site coordination, or project direction.",
@@ -27,6 +29,11 @@ export const metadata: Metadata = {
     images: ["/contact-hero.webp"],
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoEntry("/contact");
+  return mergeCmsMetadata(fallbackMetadata, seo, "/contact");
+}
 
 export default async function ContactPage() {
   const content = await getContactPageContent();
