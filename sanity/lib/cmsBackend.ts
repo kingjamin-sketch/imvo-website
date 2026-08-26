@@ -28,9 +28,10 @@ const teamQuery = defineQuery(`
 `);
 
 const testimonialQuery = defineQuery(`
-  *[_type == "testimonial" && active != false] | order(coalesce(order, 100) asc, date desc) {
-    _id, quote, author, role, company, date, source, featured, active, order
-  }
+  *[_type == "testimonial" && active != false]
+    | order(coalesce(featured, false) desc, coalesce(order, 100) asc, date desc) {
+      _id, quote, author, role, company, date, source, featured, active, order
+    }
 `);
 
 const faqQuery = defineQuery(`
