@@ -1,12 +1,8 @@
 "use client";
 
-function normalizeWhatsAppNumber(phone?: string | null) {
-  const digits = phone?.replace(/\D/g, "") || "";
-  return digits.length >= 9 ? digits : "250787349257";
-}
+const IMVO_WHATSAPP_NUMBER = "250787349257";
 
-export default function WhatsAppCTA({ phone }: { phone?: string | null }) {
-  const number = normalizeWhatsAppNumber(phone);
+export default function WhatsAppCTA() {
   const message = encodeURIComponent(
     "Hello IMVO, I would like to discuss a project or service.",
   );
@@ -14,7 +10,7 @@ export default function WhatsAppCTA({ phone }: { phone?: string | null }) {
   return (
     <a
       className="imvo-whatsapp-cta"
-      href={`https://wa.me/${number}?text=${message}`}
+      href={`https://wa.me/${IMVO_WHATSAPP_NUMBER}?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Start a WhatsApp conversation with IMVO Group"
