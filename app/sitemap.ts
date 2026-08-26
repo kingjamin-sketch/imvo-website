@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map((entry) => entry.routePath as string),
   );
 
-  const coreRoutes: MetadataRoute.Sitemap = [
+  const coreRouteCandidates: MetadataRoute.Sitemap = [
     { url: siteUrl, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/projects`, changeFrequency: "weekly", priority: 0.95 },
     { url: `${siteUrl}/services`, changeFrequency: "monthly", priority: 0.9 },
@@ -29,7 +29,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/about`, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/careers`, changeFrequency: "weekly", priority: 0.65 },
-  ].filter((entry) => {
+  ];
+
+  const coreRoutes = coreRouteCandidates.filter((entry) => {
     const path = new URL(entry.url).pathname || "/";
     return !hiddenRoutes.has(path);
   });
