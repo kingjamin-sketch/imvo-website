@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { sanityClient } from "@/sanity/lib/client";
 
 type HeroRotatingVideoProps = {
   onReady?: () => void;
@@ -12,11 +13,19 @@ type NavigatorWithConnection = Navigator & {
   };
 };
 
+type HeroMedia = {
+  videoUrl?: string;
+  posterUrl?: string;
+};
+
 const HERO_READY_EVENT = "imvo:hero-ready";
+const FALLBACK_VIDEO = "/hero-1.mp4";
 
 export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   const [allowVideo, setAllowVideo] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [videoSrc, setVideoSrc] = useState(FALLBACK_VIDEO);
+  const [posterSrc, setPosterSrc] = useState<string | undefined>();
   const hasNotifiedReady = useRef(false);
 
   const notifyReady = () => {
@@ -34,9 +43,32 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
   };
 
   const handleVideoError = () => {
+    if (videoSrc !== FALLBACK_VIDEO) {
+      setIsVideoReady(false);
+      setVideoSrc(FALLBACK_VIDEO);
+      return;
+    }
     setAllowVideo(false);
     notifyReady();
   };
+
+  useEffect(() => {
+    let active = true;
+    sanityClient
+      .fetch<HeroMedia>(`*[_id == "homePage"][0]{"videoUrl": heroVideo.asset->url, "posterUrl": heroPoster.asset->url}`)
+      .then((media) => {
+        if (!active || !media) return;
+        if (media.videoUrl) setVideoSrc(media.videoUrl);
+        if (media.posterUrl) setPosterSrc(media.posterUrl);
+      })
+      .catch(() => {
+        // The coded production asset remains the safe fallback when Sanity is unavailable.
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -58,9 +90,6 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
         return;
       }
 
-      // Start fetching the motion hero while the IMVO intro still covers the
-      // viewport. Slow loading now stays on the dark fallback surface until
-      // the MP4 is actually playing; it never swaps to a still image.
       delayTimer = window.setTimeout(() => {
         if (!cancelled) {
           setAllowVideo(true);
@@ -92,11 +121,13 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
     >
       {allowVideo && (
         <video
+          key={videoSrc}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
+          poster={posterSrc}
           onPlaying={handleVideoReady}
           onError={handleVideoError}
           style={{
@@ -109,7 +140,7 @@ export default function HeroRotatingVideo({ onReady }: HeroRotatingVideoProps) {
             transition: "opacity 420ms ease",
           }}
         >
-          <source src="/hero-1.mp4" type="video/mp4" />
+          <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
         </video>
       )}
     </div>
