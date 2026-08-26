@@ -16,9 +16,6 @@ import type { SiteSettings } from "@/sanity/types/siteContent";
 const ContactEnhancements = dynamic(() => import("./ContactEnhancements"), {
   ssr: false,
 });
-const HeroFlipEnhancement = dynamic(() => import("./HeroFlipEnhancement"), {
-  ssr: false,
-});
 const IMVOPreviewExperience = dynamic(() => import("./IMVOPreviewExperience"), {
   ssr: false,
 });
@@ -132,7 +129,6 @@ export default function SiteShell({
           Skip to main content
         </a>
         {pathname === "/" ? <IntroLoader /> : null}
-        {pathname === "/" ? <HeroFlipEnhancement /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
         <DomicileWidget />
         {pathname === "/contact" ? <ContactEnhancements /> : null}
