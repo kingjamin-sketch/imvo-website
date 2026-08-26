@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import ServicesPageClient from "./ServicesPageClient";
 import ServiceDetailLinks from "./ServiceDetailLinks";
 import { getServicesPageContent } from "@/sanity/lib/siteContent";
+import { getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "Services",
   description:
     "Explore IMVO Group services in built-environment design, feasibility and development consultancy, and site coordination across Rwanda and East Africa.",
@@ -26,6 +28,11 @@ export const metadata: Metadata = {
     images: ["/services-hero.png"],
   },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoEntry("/services");
+  return mergeCmsMetadata(fallbackMetadata, seo, "/services");
+}
 
 export default async function ServicesPage() {
   const content = await getServicesPageContent();

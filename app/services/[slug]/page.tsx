@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getServicesPageContent } from "@/sanity/lib/siteContent";
+import { getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { getServicePillarMedia } from "@/sanity/lib/serviceMedia";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
 import ServiceDetailPage from "../ServiceDetailPage";
 import {
   SERVICE_SLUGS,
   getServiceDetail,
   isServiceSlug,
+  type ServiceDetail,
 } from "../serviceDetails";
 
 export const revalidate = 300;
@@ -16,6 +20,19 @@ const siteUrl = "https://www.imvogroup.com";
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.map((slug) => ({ slug }));
+}
+
+function applyCmsMedia(
+  detail: ServiceDetail,
+  media: Awaited<ReturnType<typeof getServicePillarMedia>>,
+): ServiceDetail {
+  const image = media.find((item) => item.index === detail.index)?.image;
+  if (!image?.url) return detail;
+  return {
+    ...detail,
+    image: image.url,
+    imageAlt: image.alt || detail.imageAlt,
+  };
 }
 
 export async function generateMetadata({
@@ -32,13 +49,17 @@ export async function generateMetadata({
     };
   }
 
-  const content = await getServicesPageContent();
-  const detail = getServiceDetail(slug, content);
+  const [content, media, routeSeo] = await Promise.all([
+    getServicesPageContent(),
+    getServicePillarMedia(),
+    getSeoEntry(`/services/${slug}`),
+  ]);
+  const detail = applyCmsMedia(getServiceDetail(slug, content), media);
   const canonical = `/services/${slug}`;
   const title = detail.title;
   const description = detail.description;
 
-  return {
+  const fallback: Metadata = {
     title,
     description,
     alternates: { canonical },
@@ -56,6 +77,8 @@ export async function generateMetadata({
       images: [detail.image],
     },
   };
+
+  return mergeCmsMetadata(fallback, routeSeo, canonical);
 }
 
 export default async function IndividualServicePage({
@@ -66,8 +89,11 @@ export default async function IndividualServicePage({
   const { slug } = await params;
   if (!isServiceSlug(slug)) notFound();
 
-  const content = await getServicesPageContent();
-  const detail = getServiceDetail(slug, content);
+  const [content, media] = await Promise.all([
+    getServicesPageContent(),
+    getServicePillarMedia(),
+  ]);
+  const detail = applyCmsMedia(getServiceDetail(slug, content), media);
   const serviceUrl = `${siteUrl}/services/${slug}`;
 
   const structuredData = {

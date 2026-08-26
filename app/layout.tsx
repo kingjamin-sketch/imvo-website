@@ -8,6 +8,7 @@ import "./team-hover.css";
 import ImageCopyProtection from "./components/ImageCopyProtection";
 import SiteShell from "./components/SiteShell";
 import { getSiteSettings } from "@/sanity/lib/siteContent";
+import { getSeoEntry, getStudioStatusContent } from "@/sanity/lib/cmsBackend";
 
 const siteUrl = "https://www.imvogroup.com";
 
@@ -72,10 +73,14 @@ const defaultMetadata: Metadata = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
-  const title = settings?.seoTitle || "IMVO Group | Built Environment Design & Development";
-  const description = settings?.seoDescription || defaultMetadata.description;
-  const shareImage = settings?.shareImage?.url || "/about-hero.png";
+  const [settings, routeSeo] = await Promise.all([
+    getSiteSettings(),
+    getSeoEntry("/"),
+  ]);
+  const title = routeSeo?.title || settings?.seoTitle || "IMVO Group | Built Environment Design & Development";
+  const description = routeSeo?.description || settings?.seoDescription || defaultMetadata.description;
+  const shareImage = routeSeo?.shareImage?.url || settings?.shareImage?.url || "/about-hero.png";
+  const shareImageAlt = routeSeo?.shareImage?.alt || settings?.shareImage?.alt || "IMVO Group";
 
   return {
     ...defaultMetadata,
@@ -84,11 +89,12 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s | ${settings?.companyName || "IMVO Group"}`,
     },
     description,
+    robots: routeSeo?.noIndex ? { index: false, follow: true } : defaultMetadata.robots,
     openGraph: {
       ...defaultMetadata.openGraph,
       title,
       description: typeof description === "string" ? description : undefined,
-      images: [{ url: shareImage, alt: settings?.shareImage?.alt || "IMVO Group" }],
+      images: [{ url: shareImage, alt: shareImageAlt }],
     },
     twitter: {
       ...defaultMetadata.twitter,
@@ -151,7 +157,10 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, studioStatus] = await Promise.all([
+    getSiteSettings(),
+    getStudioStatusContent(),
+  ]);
 
   return (
     <html lang="en">
@@ -168,7 +177,9 @@ export default async function RootLayout({
           }}
         />
         <ImageCopyProtection />
-        <SiteShell settings={settings}>{children}</SiteShell>
+        <SiteShell settings={settings} studioStatus={studioStatus}>
+          {children}
+        </SiteShell>
       </body>
     </html>
   );

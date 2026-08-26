@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cms:migrate": "sanity exec scripts/migrate-cms-backend.ts --with-user-token"
   },
   "dependencies": {
     "@sanity/orderable-document-list": "^2.0.14",

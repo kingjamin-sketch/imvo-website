@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import DomicileEditorial from "./DomicileEditorial";
+import DomicileCmsHydratorSafe from "./DomicileCmsHydratorSafe";
 import ImvoReturnWidget from "./ImvoReturnWidget";
+import { getDomicilePageContent, getFaqs, getSeoEntry } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
+import type { SeoEntry } from "@/sanity/types/cmsBackend";
 import "./direct-photo-fix.css";
 
-export const metadata: Metadata = {
+export const revalidate = 300;
+
+const fallbackMetadata: Metadata = {
   title: "DŌMICILE | Property Management",
   description:
     "DŌMICILE is property management by IMVO Group for owners who want one reliable point of contact for the ongoing care, maintenance and coordination of their property in Kigali, Rwanda.",
@@ -45,10 +51,39 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DomicilePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const [content, routeSeo] = await Promise.all([
+    getDomicilePageContent(),
+    getSeoEntry("/domicile"),
+  ]);
+
+  const domicileSeo: SeoEntry | null = content
+    ? {
+        routePath: "/domicile",
+        title: content.seoTitle,
+        description: content.seoDescription,
+        shareImage: content.shareImage,
+        noIndex: content.noIndex,
+      }
+    : null;
+
+  return mergeCmsMetadata(
+    fallbackMetadata,
+    routeSeo || domicileSeo,
+    "https://www.imvogroup.com/domicile",
+  );
+}
+
+export default async function DomicilePage() {
+  const [content, faqs] = await Promise.all([
+    getDomicilePageContent(),
+    getFaqs("domicile"),
+  ]);
+
   return (
     <>
       <DomicileEditorial />
+      <DomicileCmsHydratorSafe content={content} faqs={faqs} />
       <ImvoReturnWidget />
     </>
   );

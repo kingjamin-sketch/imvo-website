@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import AboutPageClient from "./AboutPageClient";
 import { getAboutPageContent } from "@/sanity/lib/siteContent";
+import { getSeoEntry, getTeamMembers, getTestimonials } from "@/sanity/lib/cmsBackend";
+import { mergeCmsMetadata } from "@/app/lib/cmsMetadata";
+import type { AboutPageContent } from "@/sanity/types/siteContent";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+const fallbackMetadata: Metadata = {
   title: "About",
   description:
     "Meet IMVO Group, a Kigali-based built-environment design and development consultancy working across Rwanda and East Africa.",
@@ -26,7 +29,32 @@ export const metadata: Metadata = {
   },
 };
 
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getSeoEntry("/about");
+  return mergeCmsMetadata(fallbackMetadata, seo, "/about");
+}
+
 export default async function AboutPage() {
-  const content = await getAboutPageContent();
-  return <AboutPageClient content={content} />;
+  const [content, structuredTeam, structuredTestimonials] = await Promise.all([
+    getAboutPageContent(),
+    getTeamMembers(),
+    getTestimonials(),
+  ]);
+
+  const resolvedContent: AboutPageContent | null =
+    structuredTeam.length || structuredTestimonials.length
+      ? {
+          ...(content || {}),
+          teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
+          testimonials: structuredTestimonials.length
+            ? structuredTestimonials.map((item) => ({
+                text: item.quote,
+                author: item.author,
+                date: item.source || item.date,
+              }))
+            : content?.testimonials,
+        }
+      : content;
+
+  return <AboutPageClient content={resolvedContent} />;
 }
