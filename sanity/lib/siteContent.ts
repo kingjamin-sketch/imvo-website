@@ -22,6 +22,7 @@ const imageProjection = `{
 const siteSettingsQuery = defineQuery(`
   *[_id == "siteSettings"][0]{
     companyName, tagline, legalNotice, copyright, motto,
+    navigationLinks[]{label, href}, quoteLabel, quoteHref,
     generalEmail, projectsEmail, phone, location, mapUrl,
     socialLinks[]{label, url},
     seoTitle, seoDescription,
