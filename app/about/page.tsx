@@ -50,7 +50,7 @@ export default async function AboutPage() {
       const orderDelta = (a.order ?? 100) - (b.order ?? 100);
       return orderDelta || a.__index - b.__index;
     })
-    .map(({ __index: _index, ...item }) => ({
+    .map((item) => ({
       text: item.text,
       author: item.author,
       date: [item.role, item.company, item.source || item.date]
@@ -58,10 +58,18 @@ export default async function AboutPage() {
         .join(" · "),
     }));
 
+  // AboutPageClient has a historical hard-coded fallback when its testimonials
+  // array is empty. Supply one blank item only in the zero-review state so
+  // those legacy quotes never reappear in rendered HTML; the controller then
+  // hides the entire Client Perspectives section.
+  const renderedTestimonials = testimonials.length
+    ? testimonials
+    : [{ text: "", author: "", date: "" }];
+
   const resolvedContent: AboutPageContent = {
     ...(content || {}),
     teamMembers: structuredTeam.length ? structuredTeam : content?.teamMembers,
-    testimonials,
+    testimonials: renderedTestimonials,
   };
 
   return (
