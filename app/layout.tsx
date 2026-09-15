@@ -128,7 +128,7 @@ const structuredData = (settings: Awaited<ReturnType<typeof getSiteSettings>>) =
       "@id": `${siteUrl}/#website`,
       url: `${siteUrl}/`,
       name: settings?.companyName || "IMVO Group",
-      alternateName: "IMVO Design Group",
+      alternateName: "IMVO",
       publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
