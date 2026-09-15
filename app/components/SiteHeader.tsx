@@ -10,9 +10,7 @@ import PracticeSwitcher from "./PracticeSwitcher";
 const studioNav = [
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
-  { label: "DŌMICILE", href: "/domicile" },
   { label: "About", href: "/about" },
-  { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -315,9 +313,28 @@ export default function SiteHeader({
             aria-controls="mobile-navigation"
             style={{ color: foreground }}
           >
-            <span style={{ background: foreground, transform: mobileMenuOpen ? "rotate(45deg) translate(5px, 6px)" : "none" }} />
-            <span style={{ background: foreground, opacity: mobileMenuOpen ? 0 : 1 }} />
-            <span style={{ background: foreground, transform: mobileMenuOpen ? "rotate(-45deg) translate(5px, -6px)" : "none" }} />
+            <span
+              style={{
+                background: foreground,
+                transform: mobileMenuOpen
+                  ? "rotate(45deg) translate(5px, 6px)"
+                  : "none",
+              }}
+            />
+            <span
+              style={{
+                background: foreground,
+                opacity: mobileMenuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                background: foreground,
+                transform: mobileMenuOpen
+                  ? "rotate(-45deg) translate(5px, -6px)"
+                  : "none",
+              }}
+            />
           </button>
         </div>
       </motion.header>
@@ -353,10 +370,24 @@ export default function SiteHeader({
                 fontWeight: 800,
               }}
             >
-              <Link href="/" onClick={closeMenu} style={{ color: isApplied ? "#666" : "rgba(255,255,255,.62)", textDecoration: "none" }}>
+              <Link
+                href="/"
+                onClick={closeMenu}
+                style={{
+                  color: isApplied ? "#666" : "rgba(255,255,255,.62)",
+                  textDecoration: "none",
+                }}
+              >
                 Studio
               </Link>
-              <Link href="/applied" onClick={closeMenu} style={{ color: isApplied ? "#0a0a0a" : "white", textDecoration: "none" }}>
+              <Link
+                href="/applied"
+                onClick={closeMenu}
+                style={{
+                  color: isApplied ? "#0a0a0a" : "white",
+                  textDecoration: "none",
+                }}
+              >
                 Applied
               </Link>
             </div>
