@@ -5,6 +5,18 @@ export const metadata: Metadata = {
   title: "IMVO Applied | Technology & Product Engineering",
   description:
     "IMVO Applied is the technology and product-engineering practice of IMVO Group, building digital products, software systems, operational platforms, and applied intelligence.",
+  keywords: [
+    "IMVO Applied",
+    "technology company Kigali",
+    "software development Rwanda",
+    "product engineering Rwanda",
+    "custom software Rwanda",
+    "mobile app development Rwanda",
+    "business systems Rwanda",
+    "AI automation Rwanda",
+    "digital product development East Africa",
+  ],
+  category: "Technology & Product Engineering",
   alternates: {
     canonical: "/applied",
   },
@@ -14,6 +26,12 @@ export const metadata: Metadata = {
       "Digital products, software systems, operational platforms, and applied intelligence by IMVO Group.",
     url: "/applied",
     type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "IMVO Applied | Technology & Product Engineering",
+    description:
+      "Digital products, software systems, operational platforms, and applied intelligence by IMVO Group.",
   },
 };
 
