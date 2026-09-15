@@ -4,12 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./PracticeSwitcher.module.css";
 
-export default function PracticeSwitcher() {
+export default function PracticeSwitcher({
+  variant = "light",
+}: {
+  variant?: "light" | "dark";
+}) {
   const pathname = usePathname();
   const isApplied = pathname.startsWith("/applied");
 
   return (
-    <nav className={styles.switcher} aria-label="IMVO practices">
+    <nav
+      className={`${styles.switcher} ${variant === "dark" ? styles.dark : styles.light}`}
+      aria-label="IMVO practices"
+    >
       <Link
         href="/"
         className={`${styles.link} ${!isApplied ? styles.active : ""}`}
