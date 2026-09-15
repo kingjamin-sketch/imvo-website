@@ -120,6 +120,11 @@
   letter-spacing: 0.18em;
 }
 
+.appliedSection,
+.appliedClosing {
+  scroll-margin-top: 84px;
+}
+
 .appliedSection {
   padding: clamp(84px, 10vw, 150px) 0;
   border-top: 1px solid var(--applied-rule);
@@ -270,6 +275,20 @@
 .appliedClientsInner > div > p {
   max-width: 620px;
   margin-top: 28px;
+}
+
+.appliedClientList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  margin-top: 38px;
+  padding-top: 26px;
+  border-top: 1px solid var(--applied-rule);
+}
+
+.appliedClientList span {
+  font-size: clamp(18px, 2vw, 28px);
+  letter-spacing: -0.025em;
 }
 
 .appliedClosing {
