@@ -64,6 +64,7 @@ export default function SiteShell({
 }) {
   const pathname = usePathname();
   const [homeEnhancementsReady, setHomeEnhancementsReady] = useState(false);
+  const isApplied = pathname.startsWith("/applied");
 
   useEffect(() => {
     if (pathname !== "/" || homeEnhancementsReady) return;
@@ -140,7 +141,7 @@ export default function SiteShell({
         </a>
         {pathname === "/" ? <IntroLoader /> : null}
         <SiteHeader deferUntilIntroComplete={pathname === "/"} />
-        <DomicileWidget />
+        {!isApplied ? <DomicileWidget /> : null}
         {pathname === "/contact" ? <ContactEnhancements /> : null}
         {needsPreviewExperience ? <IMVOPreviewExperience /> : null}
         {needsPreviewCorrections ? <IMVOPreviewCorrections /> : null}
