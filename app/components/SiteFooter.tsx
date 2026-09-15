@@ -36,7 +36,16 @@ const legalLinks = [
   { label: "Cookie Policy", href: "/cookies" },
 ];
 
-export default function SiteFooter({ settings }: { settings?: SiteSettings | null }) {
+type SiteFooterProps = {
+  settings?: SiteSettings | null;
+  variant?: "studio" | "applied";
+};
+
+export default function SiteFooter({
+  settings,
+  variant = "studio",
+}: SiteFooterProps) {
+  const isApplied = variant === "applied";
   const activeSocials = settings?.socialLinks?.length
     ? settings.socialLinks
         .filter((item): item is { label: string; url: string } => Boolean(item.label && item.url))
@@ -46,6 +55,15 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
           icon: socialIconFor(item.label),
         }))
     : socials;
+
+  const footerTagline = isApplied
+    ? "Technology & Product Engineering"
+    : settings?.tagline || "A built-environment design and development consultancy";
+
+  const footerNote = isApplied
+    ? "Digital products, software systems, operational platforms, and applied intelligence for real-world business needs."
+    : settings?.legalNotice ||
+      "Regulated professional services and statutory sign-off are undertaken only by appropriately registered practitioners.";
 
   return (
     <footer
@@ -80,16 +98,30 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
         >
           <div>
             <Brand size="lg" variant="light" />
+            {isApplied ? (
+              <p
+                style={{
+                  margin: "16px 0 0",
+                  fontSize: 11,
+                  fontWeight: 800,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.52)",
+                }}
+              >
+                IMVO / APPLIED
+              </p>
+            ) : null}
             <p
               style={{
-                marginTop: 18,
+                marginTop: isApplied ? 12 : 18,
                 maxWidth: 420,
                 color: "rgba(255,255,255,0.72)",
                 lineHeight: 1.7,
                 fontSize: 14,
               }}
             >
-              {settings?.tagline || "A built-environment design and development consultancy"}
+              {footerTagline}
             </p>
             <p
               style={{
@@ -100,8 +132,39 @@ export default function SiteFooter({ settings }: { settings?: SiteSettings | nul
                 fontSize: 12,
               }}
             >
-              {settings?.legalNotice || "Regulated professional services and statutory sign-off are undertaken only by appropriately registered practitioners."}
+              {footerNote}
             </p>
+            <div
+              style={{
+                display: "flex",
+                gap: 18,
+                flexWrap: "wrap",
+                marginTop: 22,
+                fontSize: 12,
+                fontWeight: 800,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+              }}
+            >
+              <Link
+                href="/"
+                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
+              >
+                Studio
+              </Link>
+              <Link
+                href="/applied"
+                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
+              >
+                Applied
+              </Link>
+              <Link
+                href="/contact"
+                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
+              >
+                Contact
+              </Link>
+            </div>
           </div>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
