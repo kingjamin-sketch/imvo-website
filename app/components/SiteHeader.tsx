@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Brand from "./Brand";
+import PracticeSwitcher from "./PracticeSwitcher";
 
-const primaryNav = [
+const studioNav = [
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
   { label: "DŌMICILE", href: "/domicile" },
@@ -14,11 +16,23 @@ const primaryNav = [
   { label: "Contact", href: "/contact" },
 ];
 
+const appliedNav = [
+  { label: "Capabilities", href: "/applied#capabilities" },
+  { label: "Approach", href: "/applied#approach" },
+  { label: "Contact", href: "/applied#contact" },
+];
+
 type SiteHeaderProps = {
   deferUntilIntroComplete?: boolean;
 };
 
-function HeaderRoll({ children }: { children: string }) {
+function HeaderRoll({
+  children,
+  color = "white",
+}: {
+  children: string;
+  color?: string;
+}) {
   const letters = children.split("");
 
   return (
@@ -30,7 +44,7 @@ function HeaderRoll({ children }: { children: string }) {
         display: "inline-block",
         overflow: "hidden",
         lineHeight: 1.08,
-        color: "white",
+        color,
       }}
     >
       <span style={{ display: "flex" }}>
@@ -43,7 +57,7 @@ function HeaderRoll({ children }: { children: string }) {
               delay: index * 0.015,
               ease: [0.33, 1, 0.68, 1],
             }}
-            style={{ display: "inline-block", color: "white" }}
+            style={{ display: "inline-block", color }}
           >
             {character === " " ? "\u00A0" : character}
           </motion.span>
@@ -55,7 +69,7 @@ function HeaderRoll({ children }: { children: string }) {
           position: "absolute",
           inset: 0,
           display: "flex",
-          color: "white",
+          color,
         }}
       >
         {letters.map((character, index) => (
@@ -67,7 +81,7 @@ function HeaderRoll({ children }: { children: string }) {
               delay: index * 0.015,
               ease: [0.33, 1, 0.68, 1],
             }}
-            style={{ display: "inline-block", color: "white" }}
+            style={{ display: "inline-block", color }}
           >
             {character === " " ? "\u00A0" : character}
           </motion.span>
@@ -80,6 +94,10 @@ function HeaderRoll({ children }: { children: string }) {
 export default function SiteHeader({
   deferUntilIntroComplete = false,
 }: SiteHeaderProps) {
+  const pathname = usePathname();
+  const isApplied = pathname.startsWith("/applied");
+  const currentNav = isApplied ? appliedNav : studioNav;
+  const foreground = isApplied ? "#0a0a0a" : "white";
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,6 +128,10 @@ export default function SiteHeader({
     };
   }, [deferUntilIntroComplete]);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
 
@@ -129,6 +151,16 @@ export default function SiteHeader({
 
   const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMenu = () => setMobileMenuOpen(false);
+  const quoteHref = isApplied ? "/contact?practice=applied" : "/contact#quote";
+  const quoteLabel = isApplied ? "Start a Project" : "Request a Quote";
+
+  const headerBackground = isApplied
+    ? isScrolled || mobileMenuOpen
+      ? "rgba(247,247,244,0.96)"
+      : "rgba(247,247,244,0.90)"
+    : isScrolled || mobileMenuOpen
+      ? "linear-gradient(to bottom, rgba(18,18,18,0.58), rgba(18,18,18,0.42))"
+      : "linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0.10))";
 
   return (
     <>
@@ -150,10 +182,7 @@ export default function SiteHeader({
           visibility: isStartupReady ? "visible" : "hidden",
           pointerEvents: isStartupReady ? "auto" : "none",
           padding: isScrolled ? "12px 0" : "14px 0",
-          background:
-            isScrolled || mobileMenuOpen
-              ? "linear-gradient(to bottom, rgba(18,18,18,0.58), rgba(18,18,18,0.42))"
-              : "linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0.10))",
+          background: headerBackground,
           backdropFilter:
             isScrolled || mobileMenuOpen
               ? "blur(24px) saturate(160%)"
@@ -162,12 +191,15 @@ export default function SiteHeader({
             isScrolled || mobileMenuOpen
               ? "blur(24px) saturate(160%)"
               : "blur(20px) saturate(145%)",
-          borderBottom:
-            isScrolled || mobileMenuOpen
+          borderBottom: isApplied
+            ? "1px solid rgba(10,10,10,0.10)"
+            : isScrolled || mobileMenuOpen
               ? "1px solid rgba(255,255,255,0.10)"
               : "1px solid rgba(255,255,255,0.18)",
           boxShadow: isScrolled
-            ? "0 12px 40px rgba(0,0,0,0.28)"
+            ? isApplied
+              ? "0 12px 40px rgba(0,0,0,0.08)"
+              : "0 12px 40px rgba(0,0,0,0.28)"
             : "none",
           transition:
             "opacity 0.26s ease, padding 0.35s ease, background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease",
@@ -177,8 +209,9 @@ export default function SiteHeader({
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.045), transparent 65%)",
+            background: isApplied
+              ? "none"
+              : "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.045), transparent 65%)",
             pointerEvents: "none",
           }}
         />
@@ -206,46 +239,50 @@ export default function SiteHeader({
               }
             }}
           >
-            <Brand size="lg" variant="light" />
+            <Brand size="lg" variant={isApplied ? "dark" : "light"} />
           </Link>
+
+          <PracticeSwitcher variant={isApplied ? "dark" : "light"} />
 
           <nav
             className="desktopNav"
             style={{ display: "flex", alignItems: "center", gap: 28 }}
           >
-            {primaryNav.map((item) => (
+            {currentNav.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 style={{
-                  color: "white",
+                  color: foreground,
                   textDecoration: "none",
                   fontWeight: 700,
                   fontSize: 14,
                   opacity: 0.92,
-                  textShadow: "0 1px 8px rgba(0,0,0,0.16)",
+                  textShadow: isApplied ? "none" : "0 1px 8px rgba(0,0,0,0.16)",
                 }}
               >
-                <HeaderRoll>{item.label}</HeaderRoll>
+                <HeaderRoll color={foreground}>{item.label}</HeaderRoll>
               </Link>
             ))}
 
-            <a
-              href="/contact#quote"
+            <Link
+              href={quoteHref}
               style={{
-                background: "rgba(255,255,255,0.96)",
-                color: "black",
+                background: isApplied ? "#0a0a0a" : "rgba(255,255,255,0.96)",
+                color: isApplied ? "white" : "black",
                 padding: isScrolled ? "10px 22px" : "11px 24px",
                 borderRadius: 2,
                 fontWeight: 800,
                 fontSize: 14,
                 textDecoration: "none",
-                boxShadow: "0 10px 26px rgba(0,0,0,0.14)",
+                boxShadow: isApplied
+                  ? "0 10px 26px rgba(0,0,0,0.08)"
+                  : "0 10px 26px rgba(0,0,0,0.14)",
                 transition:
                   "transform 0.2s ease, background 0.2s ease, padding 0.35s ease",
               }}
               onClick={(e) => {
-                if (window.location.pathname === "/contact") {
+                if (!isApplied && window.location.pathname === "/contact") {
                   e.preventDefault();
                   document.getElementById("quote")?.scrollIntoView({
                     behavior: "smooth",
@@ -255,15 +292,17 @@ export default function SiteHeader({
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.045)";
-                e.currentTarget.style.background = "white";
+                e.currentTarget.style.background = isApplied ? "#242424" : "white";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.96)";
+                e.currentTarget.style.background = isApplied
+                  ? "#0a0a0a"
+                  : "rgba(255,255,255,0.96)";
               }}
             >
-              Request a Quote
-            </a>
+              {quoteLabel}
+            </Link>
           </nav>
 
           <button
@@ -274,22 +313,11 @@ export default function SiteHeader({
             }
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-navigation"
+            style={{ color: foreground }}
           >
-            <span
-              style={{
-                transform: mobileMenuOpen
-                  ? "rotate(45deg) translate(5px, 6px)"
-                  : "none",
-              }}
-            />
-            <span style={{ opacity: mobileMenuOpen ? 0 : 1 }} />
-            <span
-              style={{
-                transform: mobileMenuOpen
-                  ? "rotate(-45deg) translate(5px, -6px)"
-                  : "none",
-              }}
-            />
+            <span style={{ background: foreground, transform: mobileMenuOpen ? "rotate(45deg) translate(5px, 6px)" : "none" }} />
+            <span style={{ background: foreground, opacity: mobileMenuOpen ? 0 : 1 }} />
+            <span style={{ background: foreground, transform: mobileMenuOpen ? "rotate(-45deg) translate(5px, -6px)" : "none" }} />
           </button>
         </div>
       </motion.header>
@@ -306,15 +334,34 @@ export default function SiteHeader({
               position: "fixed",
               inset: 0,
               zIndex: 99998,
-              background: "#050505",
+              background: isApplied ? "#f4f4f1" : "#050505",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: 34,
+              gap: 30,
             }}
           >
-            {primaryNav.map((item, i) => (
+            <div
+              style={{
+                display: "flex",
+                gap: 22,
+                marginBottom: 10,
+                textTransform: "uppercase",
+                letterSpacing: "0.14em",
+                fontSize: 11,
+                fontWeight: 800,
+              }}
+            >
+              <Link href="/" onClick={closeMenu} style={{ color: isApplied ? "#666" : "rgba(255,255,255,.62)", textDecoration: "none" }}>
+                Studio
+              </Link>
+              <Link href="/applied" onClick={closeMenu} style={{ color: isApplied ? "#0a0a0a" : "white", textDecoration: "none" }}>
+                Applied
+              </Link>
+            </div>
+
+            {currentNav.map((item, i) => (
               <motion.div
                 key={item.label}
                 initial={{ opacity: 0, y: 20 }}
@@ -325,7 +372,7 @@ export default function SiteHeader({
                   href={item.href}
                   onClick={closeMenu}
                   style={{
-                    color: "white",
+                    color: foreground,
                     textDecoration: "none",
                     fontSize: 32,
                     fontWeight: 900,
@@ -338,14 +385,14 @@ export default function SiteHeader({
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.24 + primaryNav.length * 0.08 }}
+              transition={{ delay: 0.24 + currentNav.length * 0.08 }}
             >
               <Link
-                href="/contact#quote"
+                href={quoteHref}
                 onClick={closeMenu}
                 style={{
-                  background: "white",
-                  color: "black",
+                  background: isApplied ? "#0a0a0a" : "white",
+                  color: isApplied ? "white" : "black",
                   padding: "16px 36px",
                   borderRadius: 2,
                   fontWeight: 800,
@@ -353,7 +400,7 @@ export default function SiteHeader({
                   textDecoration: "none",
                 }}
               >
-                Request a Quote
+                {quoteLabel}
               </Link>
             </motion.div>
           </motion.div>
