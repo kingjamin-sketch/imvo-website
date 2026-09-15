@@ -1,0 +1,389 @@
+.appliedPage {
+  --applied-bg: #f4f4f1;
+  --applied-ink: #0a0a0a;
+  --applied-muted: #696969;
+  --applied-rule: rgba(10, 10, 10, 0.16);
+  background: var(--applied-bg);
+  color: var(--applied-ink);
+}
+
+.appliedPage .containerWide {
+  width: min(1440px, calc(100% - 64px));
+  margin-inline: auto;
+}
+
+.appliedHero {
+  min-height: 100svh;
+  display: flex;
+  align-items: stretch;
+  padding-top: 92px;
+  background:
+    radial-gradient(circle at 82% 30%, rgba(0, 0, 0, 0.07), transparent 0 24%, transparent 43%),
+    linear-gradient(135deg, #f7f7f4 0%, #efefeb 58%, #e8e8e3 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.appliedHero::after {
+  content: "";
+  position: absolute;
+  right: 5vw;
+  top: 18%;
+  width: min(32vw, 500px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5vw rgba(0, 0, 0, 0.018), 0 0 0 10vw rgba(0, 0, 0, 0.012);
+  pointer-events: none;
+}
+
+.appliedHeroInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(80px, 11vh, 150px) 52px;
+}
+
+.appliedEyebrow,
+.appliedSectionLabel,
+.appliedSectionHead > p,
+.appliedClosing > div > p {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.appliedEyebrow {
+  margin-bottom: 28px;
+}
+
+.appliedHero h1 {
+  margin: 0;
+  max-width: 930px;
+  font-size: clamp(64px, 9vw, 142px);
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  font-weight: 800;
+}
+
+.appliedDescriptor {
+  margin: 34px 0 0;
+  font-size: clamp(18px, 2vw, 30px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.appliedLead {
+  max-width: 620px;
+  margin: 30px 0 0;
+  color: #363636;
+  font-size: clamp(17px, 1.45vw, 22px);
+  line-height: 1.55;
+}
+
+.appliedPrimaryCta,
+.appliedClosing a {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  color: white;
+  background: #0a0a0a;
+  padding: 15px 20px;
+  margin-top: 34px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.appliedPrimaryCta:hover,
+.appliedClosing a:hover {
+  transform: translateY(-2px);
+  background: #1f1f1f;
+}
+
+.appliedHeroMeta {
+  margin-top: auto;
+  padding-top: 72px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #555;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.appliedSection,
+.appliedClosing {
+  scroll-margin-top: 84px;
+}
+
+.appliedSection {
+  padding: clamp(84px, 10vw, 150px) 0;
+  border-top: 1px solid var(--applied-rule);
+}
+
+.appliedSectionHead {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.7fr) 2fr;
+  gap: clamp(30px, 7vw, 120px);
+  align-items: start;
+  margin-bottom: 70px;
+}
+
+.appliedSectionHead.compact {
+  margin-bottom: 48px;
+}
+
+.appliedSectionHead > p,
+.appliedSectionLabel {
+  margin: 7px 0 0;
+  color: #545454;
+}
+
+.appliedSectionHead h2,
+.appliedStatement h2,
+.appliedClients h2,
+.appliedClosing h2 {
+  margin: 0;
+  max-width: 900px;
+  font-size: clamp(42px, 5.8vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  font-weight: 600;
+}
+
+.appliedPillarGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--applied-rule);
+  border-bottom: 1px solid var(--applied-rule);
+}
+
+.appliedPillarCard {
+  padding: 32px 28px 36px 0;
+  min-height: 300px;
+}
+
+.appliedPillarCard + .appliedPillarCard {
+  border-left: 1px solid var(--applied-rule);
+  padding-left: 28px;
+}
+
+.appliedPillarCard > span,
+.appliedProcess article > span {
+  display: block;
+  margin-bottom: 64px;
+  color: #777;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.appliedPillarCard h3,
+.appliedProcess h3 {
+  margin: 0 0 18px;
+  font-size: 25px;
+  letter-spacing: -0.035em;
+}
+
+.appliedPillarCard p,
+.appliedProcess p,
+.appliedStatementGrid > div > p,
+.appliedClientsInner > div > p {
+  margin: 0;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.appliedStatement {
+  background: #0b0b0b;
+  color: white;
+}
+
+.appliedStatementGrid {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.7fr) 2fr;
+  gap: clamp(30px, 7vw, 120px);
+}
+
+.appliedStatement .appliedSectionLabel {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.appliedStatementGrid > div > p {
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 720px;
+  margin-top: 34px;
+  font-size: 19px;
+}
+
+.appliedCapabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--applied-rule);
+}
+
+.appliedCapabilityGrid > div {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--applied-rule);
+  font-size: clamp(21px, 2.5vw, 38px);
+  letter-spacing: -0.035em;
+}
+
+.appliedCapabilityGrid > div:nth-child(odd) {
+  padding-right: 40px;
+}
+
+.appliedCapabilityGrid > div:nth-child(even) {
+  padding-left: 40px;
+  border-left: 1px solid var(--applied-rule);
+}
+
+.appliedProcess {
+  background: #ecece7;
+}
+
+.appliedProcessGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--applied-rule);
+}
+
+.appliedProcess article {
+  padding: 30px 26px 20px 0;
+}
+
+.appliedProcess article + article {
+  border-left: 1px solid var(--applied-rule);
+  padding-left: 26px;
+}
+
+.appliedClientsInner {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.7fr) 2fr;
+  gap: clamp(30px, 7vw, 120px);
+}
+
+.appliedClientsInner > div > p {
+  max-width: 620px;
+  margin-top: 28px;
+}
+
+.appliedClientList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  margin-top: 38px;
+  padding-top: 26px;
+  border-top: 1px solid var(--applied-rule);
+}
+
+.appliedClientList span {
+  font-size: clamp(18px, 2vw, 28px);
+  letter-spacing: -0.025em;
+}
+
+.appliedClosing {
+  padding: clamp(110px, 14vw, 210px) 0;
+  background: #0a0a0a;
+  color: white;
+}
+
+.appliedClosingInner > p {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.appliedClosing h2 {
+  margin-top: 22px;
+  max-width: none;
+  font-size: clamp(58px, 9vw, 138px);
+}
+
+.appliedClosing a {
+  margin-top: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+@media (max-width: 900px) {
+  .appliedPage .containerWide {
+    width: min(100% - 36px, 720px);
+  }
+
+  .appliedHero {
+    padding-top: 76px;
+  }
+
+  .appliedHero::after {
+    width: 56vw;
+    right: -24vw;
+    top: 15%;
+  }
+
+  .appliedSectionHead,
+  .appliedStatementGrid,
+  .appliedClientsInner {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .appliedPillarGrid,
+  .appliedProcessGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .appliedPillarCard:nth-child(3),
+  .appliedProcess article:nth-child(3) {
+    border-left: 0;
+  }
+
+  .appliedPillarCard:nth-child(n + 3),
+  .appliedProcess article:nth-child(n + 3) {
+    border-top: 1px solid var(--applied-rule);
+  }
+
+  .appliedHeroMeta {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 620px) {
+  .appliedHero h1 {
+    font-size: clamp(54px, 18vw, 82px);
+  }
+
+  .appliedPillarGrid,
+  .appliedProcessGrid,
+  .appliedCapabilityGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .appliedPillarCard,
+  .appliedPillarCard + .appliedPillarCard,
+  .appliedProcess article,
+  .appliedProcess article + article,
+  .appliedCapabilityGrid > div,
+  .appliedCapabilityGrid > div:nth-child(odd),
+  .appliedCapabilityGrid > div:nth-child(even) {
+    border-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .appliedPillarCard + .appliedPillarCard,
+  .appliedProcess article + article {
+    border-top: 1px solid var(--applied-rule);
+  }
+
+  .appliedPillarCard > span,
+  .appliedProcess article > span {
+    margin-bottom: 38px;
+  }
+}
