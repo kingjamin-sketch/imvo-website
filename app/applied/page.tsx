@@ -60,6 +60,9 @@ const process = [
   ["04", "Evolve", "Support, measure, and improve."],
 ] as const;
 
+// Add approved public client names here when ready to publish.
+const clients: string[] = [];
+
 export default function AppliedPage() {
   return (
     <div className="appliedPage">
@@ -82,7 +85,11 @@ export default function AppliedPage() {
         </div>
       </section>
 
-      <section className="appliedSection appliedPillars" aria-labelledby="applied-what-we-do">
+      <section
+        id="what-we-do"
+        className="appliedSection appliedPillars"
+        aria-labelledby="applied-what-we-do"
+      >
         <div className="containerWide">
           <div className="appliedSectionHead">
             <p>WHAT WE DO</p>
@@ -100,7 +107,7 @@ export default function AppliedPage() {
         </div>
       </section>
 
-      <section className="appliedSection appliedStatement">
+      <section id="approach" className="appliedSection appliedStatement">
         <div className="containerWide appliedStatementGrid">
           <p className="appliedSectionLabel">OUR APPROACH</p>
           <div>
@@ -113,7 +120,11 @@ export default function AppliedPage() {
         </div>
       </section>
 
-      <section className="appliedSection" aria-labelledby="applied-capabilities">
+      <section
+        id="capabilities"
+        className="appliedSection"
+        aria-labelledby="applied-capabilities"
+      >
         <div className="containerWide">
           <div className="appliedSectionHead compact">
             <p>CAPABILITIES</p>
@@ -145,20 +156,27 @@ export default function AppliedPage() {
         </div>
       </section>
 
-      <section className="appliedSection appliedClients" aria-labelledby="applied-clients">
-        <div className="containerWide appliedClientsInner">
-          <p className="appliedSectionLabel">SELECTED CLIENTS</p>
-          <div>
-            <h2 id="applied-clients">Built for real businesses.</h2>
-            <p>
-              Selected client names will appear here as the public Applied
-              portfolio is approved for display.
-            </p>
+      {clients.length > 0 ? (
+        <section
+          id="clients"
+          className="appliedSection appliedClients"
+          aria-labelledby="applied-clients"
+        >
+          <div className="containerWide appliedClientsInner">
+            <p className="appliedSectionLabel">SELECTED CLIENTS</p>
+            <div>
+              <h2 id="applied-clients">Built for real businesses.</h2>
+              <div className="appliedClientList">
+                {clients.map((client) => (
+                  <span key={client}>{client}</span>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      <section className="appliedClosing">
+      <section id="contact" className="appliedClosing">
         <div className="containerWide appliedClosingInner">
           <p>HAVE SOMETHING TO BUILD?</p>
           <h2>Let&apos;s make it work.</h2>
