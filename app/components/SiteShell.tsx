@@ -160,7 +160,10 @@ export default function SiteShell({
             </>
           ) : null}
         </main>
-        <SiteFooter settings={settings} />
+        <SiteFooter
+          settings={settings}
+          variant={isApplied ? "applied" : "studio"}
+        />
         <BackToTop />
       </SmoothScrollProvider>
     </MotionConfig>
