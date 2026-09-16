@@ -1,41 +1,26 @@
-export default function Brand({ 
-  size = "md", 
-  variant = "dark" 
-}: { 
-  size?: "sm" | "md" | "lg", 
-  variant?: "dark" | "light"
+export default function Brand({
+  size = "md",
+  variant = "dark",
+}: {
+  size?: "sm" | "md" | "lg";
+  variant?: "dark" | "light";
 }) {
-  const isWhite = variant === "light";
-  
+  const widths = { sm: 190, md: 255, lg: 330 } as const;
+
   return (
-    <div style={{ 
-      display: "flex", 
-      alignItems: "center", 
-      gap: 16, 
-      color: isWhite ? "white" : "black",
-      transition: "color 0.3s ease",
-      userSelect: "none"
-    }}>
-      <span style={{ 
-        fontWeight: 900, 
-        fontSize: size === "lg" ? 32 : 24,
-        lineHeight: 1,
-        letterSpacing: "-0.02em"
-      }}>
-        IMVO
-      </span>
-      
-      {/* Motto permanently rendered beside the logo */}
-      <span style={{ 
-        fontSize: 11, 
-        letterSpacing: "0.25em", 
-        textTransform: "uppercase",
-        fontWeight: 700,
-        opacity: 0.8,
-        marginTop: 2
-      }}>
-        INTELLECTU · MENS · VISIO · ORIGO
-      </span>
-    </div>
+    <img
+      src="/brand/imvo-main.svg"
+      alt="IMVO — Intellectu. Mens. Visio. Origo."
+      draggable={false}
+      style={{
+        display: "block",
+        width: widths[size],
+        maxWidth: "42vw",
+        height: "auto",
+        filter: variant === "light" ? "invert(1)" : "none",
+        transition: "filter 0.3s ease, opacity 0.3s ease",
+        userSelect: "none",
+      }}
+    />
   );
 }
