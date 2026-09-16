@@ -24,17 +24,17 @@ export default function TrustedLogoMarquee({
       <style>{`
         @keyframes imvo-logo-marquee-scroll {
           from { transform: translateX(0); }
-          to { transform: translateX(calc(-50% - 40px)); }
+          to { transform: translateX(calc(-50% - 36px)); }
         }
 
         @keyframes imvo-logo-marquee-scroll-mobile {
           from { transform: translateX(0); }
-          to { transform: translateX(calc(-50% - 20px)); }
+          to { transform: translateX(calc(-50% - 18px)); }
         }
 
         .imvo-trusted-logo-section {
           width: 100%;
-          padding: 80px 0;
+          padding: 68px 0 74px;
           overflow: hidden;
           position: relative;
           background: #000;
@@ -42,7 +42,7 @@ export default function TrustedLogoMarquee({
         }
 
         .imvo-trusted-logo-shell {
-          width: min(1200px, calc(100% - 48px));
+          width: min(1480px, calc(100% - 64px));
           margin: 0 auto;
           position: relative;
           z-index: 2;
@@ -52,8 +52,9 @@ export default function TrustedLogoMarquee({
           position: relative;
           display: flex;
           overflow: hidden;
-          mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-          -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+          padding: 12px 0 16px;
+          mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
         }
 
         .imvo-trusted-logo-track {
@@ -61,8 +62,8 @@ export default function TrustedLogoMarquee({
           display: flex;
           flex-shrink: 0;
           align-items: center;
-          gap: 80px;
-          animation: imvo-logo-marquee-scroll 30s linear infinite;
+          gap: 72px;
+          animation: imvo-logo-marquee-scroll 32s linear infinite;
           will-change: transform;
         }
 
@@ -71,23 +72,33 @@ export default function TrustedLogoMarquee({
         }
 
         .imvo-trusted-logo-item {
-          height: 32px;
+          height: clamp(56px, 4vw, 72px);
           width: auto;
-          max-width: 180px;
+          max-width: 260px;
           flex-shrink: 0;
           object-fit: contain;
           filter: brightness(0) invert(1);
-          opacity: 0.6;
-          transition: opacity 300ms ease;
+          opacity: 0.78;
+          transform: scale(1.08);
+          transform-origin: center;
+          transition: opacity 300ms ease, transform 300ms ease;
         }
 
-        .imvo-trusted-logo-item:hover { opacity: 1; }
+        .imvo-trusted-logo-item:hover {
+          opacity: 1;
+          transform: scale(1.13);
+        }
 
         @media (max-width: 768px) {
-          .imvo-trusted-logo-shell { width: min(100% - 32px, 1200px); }
+          .imvo-trusted-logo-section { padding: 54px 0 58px; }
+          .imvo-trusted-logo-shell { width: min(100% - 28px, 1200px); }
           .imvo-trusted-logo-track {
-            gap: 40px;
-            animation: imvo-logo-marquee-scroll-mobile 20s linear infinite;
+            gap: 38px;
+            animation: imvo-logo-marquee-scroll-mobile 22s linear infinite;
+          }
+          .imvo-trusted-logo-item {
+            height: 46px;
+            max-width: 190px;
           }
         }
 
@@ -103,10 +114,10 @@ export default function TrustedLogoMarquee({
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           style={{
-            margin: "0 0 60px",
+            margin: "0 0 42px",
             color: "white",
             textAlign: "center",
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: 500,
             lineHeight: 1.4,
           }}
