@@ -86,7 +86,7 @@ const process = [
 ] as const;
 
 const selectedBrands = Array.from({ length: 9 }, (_, index) => ({
-  name: `Selected brand ${index + 1}`,
+  name: `Client or collaborator ${index + 1}`,
   src: `/partners/partner-${index + 1}.png`,
 }));
 
@@ -97,6 +97,39 @@ const qonicCapabilities = [
   "Tailored software solutions",
   "Scalable product delivery",
   "Cross-market technology delivery",
+];
+
+const qonicWork = [
+  {
+    index: "01",
+    name: "Leazi",
+    category: "Property Technology",
+    credit: "Developed by Qonics Inc",
+    description:
+      "A property-management application for lease visibility, rent and lease workflows, landlord and tenant responsibilities, and maintenance-request tracking.",
+    href: "https://play.google.com/store/apps/details?id=com.qonics.leazi",
+    tag: "PROPERTY / MOBILE",
+  },
+  {
+    index: "02",
+    name: "UNILAK MIS",
+    category: "Education Technology",
+    credit: "Developed by Qonics Inc",
+    description:
+      "A university mobile system supporting marksheets, available classes, attendance, payment-invoice generation, and staff exam-attendance workflows.",
+    href: "https://play.google.com/store/apps/details?id=com.mis.unilak",
+    tag: "EDUCATION / MIS",
+  },
+  {
+    index: "03",
+    name: "IHMS",
+    category: "Healthcare Technology",
+    credit: "Iwacu Hub Ltd in partnership with Qonics Inc Ltd",
+    description:
+      "A healthcare-management system for recording, treatment, billing, reporting, and operational workflows across health facilities, with multiple system modules.",
+    href: "https://ihms.iwacuhub.com/",
+    tag: "HEALTHCARE / SYSTEMS",
+  },
 ];
 
 export default function AppliedPage() {
@@ -212,6 +245,49 @@ export default function AppliedPage() {
                 </div>
               </div>
 
+              <div className="appliedPartnerWork" aria-labelledby="qonics-work-title">
+                <div className="appliedPartnerWorkHead">
+                  <span>SELECTED ENGINEERING WORK</span>
+                  <h3 id="qonics-work-title">Working systems, not just capability statements.</h3>
+                  <p>
+                    Publicly documented products and platforms delivered by Qonics, or with Qonics as a named technology partner.
+                  </p>
+                </div>
+
+                <div className="appliedPartnerWorkGrid">
+                  {qonicWork.map((item) => (
+                    <a
+                      key={item.name}
+                      className="appliedPartnerProject"
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="appliedPartnerProjectVisual" aria-hidden="true">
+                        <div className="appliedPartnerProjectTopline">
+                          <span>{item.tag}</span>
+                          <b>{item.index}</b>
+                        </div>
+                        <div className="appliedPartnerProjectMock">
+                          <i />
+                          <i />
+                          <i />
+                          <div><i /><i /><i /></div>
+                        </div>
+                        <strong>{item.name}</strong>
+                      </div>
+                      <div className="appliedPartnerProjectCopy">
+                        <small>{item.category}</small>
+                        <h4>{item.name}</h4>
+                        <p>{item.description}</p>
+                        <em>{item.credit}</em>
+                        <span>View product ↗</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <div className="appliedPartnerPresence">
                 <div>
                   <span>KIGALI / RWANDA</span>
@@ -227,7 +303,7 @@ export default function AppliedPage() {
 
           <TrustedLogoMarquee
             logos={selectedBrands}
-            heading="Selected brands we’ve worked with"
+            heading="Selected clients & collaborators"
           />
 
           <div className="appliedDeviceFooter" id="method">
