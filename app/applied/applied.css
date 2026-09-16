@@ -148,7 +148,8 @@
 .appliedOverviewFeature > span,
 .appliedOverviewDark > span,
 .appliedWorkHead span,
-.appliedDeviceFooter > div > span {
+.appliedDeviceFooter > div > span,
+.appliedPartner span {
   font-size: 9px;
   font-weight: 850;
   letter-spacing: .16em;
@@ -317,6 +318,157 @@
   line-height: 1.5;
 }
 
+.appliedPartner {
+  margin-top: clamp(72px, 8vw, 122px);
+  padding: clamp(34px, 4.2vw, 68px);
+  border-radius: 28px;
+  background: #111;
+  color: #fff;
+}
+
+.appliedPartnerIntro {
+  display: grid;
+  grid-template-columns: .55fr 1.45fr;
+  column-gap: 54px;
+  align-items: start;
+}
+
+.appliedPartnerIntro > span {
+  color: rgba(255,255,255,.45);
+  grid-column: 1;
+}
+
+.appliedPartnerName {
+  grid-column: 1;
+  margin-top: 18px;
+  font-size: clamp(42px, 6vw, 92px);
+  line-height: .9;
+  font-weight: 900;
+  letter-spacing: -.07em;
+}
+
+.appliedPartnerIntro h2 {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(42px, 5.3vw, 84px);
+  line-height: .92;
+  letter-spacing: -.065em;
+}
+
+.appliedPartnerIntro p {
+  grid-column: 2;
+  margin: 30px 0 0;
+  max-width: 700px;
+  color: rgba(255,255,255,.68);
+  font-size: 15px;
+  line-height: 1.68;
+}
+
+.appliedPartnerIntro a {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex;
+  margin-top: 24px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0a0a0a;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.appliedPartnerStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: clamp(46px, 5vw, 76px);
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.appliedPartnerStats > div {
+  padding: 28px 24px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+.appliedPartnerStats > div:last-child {
+  border-right: 0;
+}
+
+.appliedPartnerStats b {
+  display: block;
+  font-size: clamp(30px, 3.3vw, 54px);
+  line-height: 1;
+  letter-spacing: -.055em;
+}
+
+.appliedPartnerStats span {
+  display: block;
+  margin-top: 9px;
+  color: rgba(255,255,255,.48);
+}
+
+.appliedPartnerCapabilities {
+  margin-top: 44px;
+}
+
+.appliedPartnerCapabilities > span {
+  color: rgba(255,255,255,.45);
+}
+
+.appliedPartnerCapabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-left: 1px solid rgba(255,255,255,.12);
+}
+
+.appliedPartnerCapabilityGrid > div {
+  min-height: 130px;
+  padding: 22px;
+  border-right: 1px solid rgba(255,255,255,.12);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.appliedPartnerCapabilityGrid small {
+  display: block;
+  color: rgba(255,255,255,.35);
+  font-size: 9px;
+}
+
+.appliedPartnerCapabilityGrid strong {
+  display: block;
+  margin-top: 26px;
+  max-width: 280px;
+  font-size: clamp(18px, 1.7vw, 28px);
+  line-height: 1.02;
+  letter-spacing: -.04em;
+}
+
+.appliedPartnerPresence {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.appliedPartnerPresence > div {
+  padding: 24px 0 0;
+}
+
+.appliedPartnerPresence span {
+  color: rgba(255,255,255,.46);
+}
+
+.appliedPartnerPresence p {
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.82);
+  font-size: 14px;
+}
+
 .appliedPage .logoMarqueeSection {
   margin: 0;
 }
@@ -417,6 +569,39 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .appliedPartnerIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .appliedPartnerIntro > span,
+  .appliedPartnerName,
+  .appliedPartnerIntro h2,
+  .appliedPartnerIntro p,
+  .appliedPartnerIntro a {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .appliedPartnerIntro h2 {
+    margin-top: 30px;
+  }
+
+  .appliedPartnerStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .appliedPartnerStats > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .appliedPartnerStats > div:nth-child(-n+2) {
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+
+  .appliedPartnerCapabilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .appliedDeviceFooter {
     grid-template-columns: 1fr 1fr;
   }
@@ -509,6 +694,40 @@
 
   .appliedWorkImage {
     aspect-ratio: 16 / 10;
+  }
+
+  .appliedPartner {
+    margin-top: 58px;
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+
+  .appliedPartnerName {
+    font-size: 54px;
+  }
+
+  .appliedPartnerIntro h2 {
+    font-size: 42px;
+  }
+
+  .appliedPartnerStats,
+  .appliedPartnerCapabilityGrid,
+  .appliedPartnerPresence {
+    grid-template-columns: 1fr;
+  }
+
+  .appliedPartnerStats > div,
+  .appliedPartnerStats > div:nth-child(2) {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+
+  .appliedPartnerStats > div:last-child {
+    border-bottom: 0;
+  }
+
+  .appliedPartnerCapabilityGrid > div {
+    min-height: auto;
   }
 
   .appliedDeviceFooter {
