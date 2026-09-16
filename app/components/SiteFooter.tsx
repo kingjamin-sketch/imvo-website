@@ -98,23 +98,23 @@ export default function SiteFooter({
         >
           <div>
             <Brand size="lg" variant="light" />
-            {isApplied ? (
-              <p
-                style={{
-                  margin: "16px 0 0",
-                  fontSize: 11,
-                  fontWeight: 800,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.52)",
-                }}
-              >
-                IMVO / APPLIED
-              </p>
-            ) : null}
+            <img
+              src={isApplied ? "/brand/imvo-applied.svg" : "/brand/imvo-studio.svg"}
+              alt={isApplied ? "IMVO Applied" : "IMVO Studio"}
+              draggable={false}
+              style={{
+                display: "block",
+                width: isApplied ? 190 : 185,
+                maxWidth: "60vw",
+                height: "auto",
+                marginTop: 22,
+                filter: "invert(1)",
+                opacity: 0.82,
+              }}
+            />
             <p
               style={{
-                marginTop: isApplied ? 12 : 18,
+                marginTop: 16,
                 maxWidth: 420,
                 color: "rgba(255,255,255,0.72)",
                 lineHeight: 1.7,
@@ -146,22 +146,13 @@ export default function SiteFooter({
                 textTransform: "uppercase",
               }}
             >
-              <Link
-                href="/"
-                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
-              >
+              <Link href="/" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Studio
               </Link>
-              <Link
-                href="/applied"
-                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
-              >
+              <Link href="/applied" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Applied
               </Link>
-              <Link
-                href="/contact"
-                style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}
-              >
+              <Link href="/contact" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Contact
               </Link>
             </div>
@@ -228,9 +219,7 @@ export default function SiteFooter({
                 >
                   {item.label}
                 </Link>
-                {index < legalLinks.length - 1 && (
-                  <span aria-hidden="true" style={{ opacity: 0.55 }}>|</span>
-                )}
+                {index < legalLinks.length - 1 && <span aria-hidden="true" style={{ opacity: 0.55 }}>|</span>}
               </span>
             ))}
           </div>
