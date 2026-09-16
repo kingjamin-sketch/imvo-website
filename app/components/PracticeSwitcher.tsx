@@ -23,15 +23,22 @@ export default function PracticeSwitcher({
         aria-current={!isApplied ? "page" : undefined}
         aria-label="IMVO Studio"
       >
-        <img className={styles.logo} src="/brand/imvo-studio.svg" alt="IMVO Studio" />
+        <span className={`${styles.logoCrop} ${styles.studioMark}`} aria-hidden="true">
+          <img src="/brand/imvo-studio.svg" alt="" draggable={false} />
+        </span>
       </Link>
+
+      <span className={styles.divider} aria-hidden="true" />
+
       <Link
         href="/applied"
         className={`${styles.link} ${isApplied ? styles.active : ""}`}
         aria-current={isApplied ? "page" : undefined}
         aria-label="IMVO Applied"
       >
-        <img className={styles.logo} src="/brand/imvo-applied.svg" alt="IMVO Applied" />
+        <span className={`${styles.logoCrop} ${styles.appliedMark}`} aria-hidden="true">
+          <img src="/brand/imvo-applied.svg" alt="" draggable={false} />
+        </span>
       </Link>
     </nav>
   );
