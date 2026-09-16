@@ -90,6 +90,15 @@ const selectedBrands = Array.from({ length: 9 }, (_, index) => ({
   src: `/partners/partner-${index + 1}.png`,
 }));
 
+const qonicCapabilities = [
+  "Custom enterprise platforms",
+  "Modern web applications",
+  "Mobile applications",
+  "Tailored software solutions",
+  "Scalable product delivery",
+  "Cross-market technology delivery",
+];
+
 export default function AppliedPage() {
   return (
     <div className="appliedPage">
@@ -168,6 +177,52 @@ export default function AppliedPage() {
                 ))}
               </div>
             </div>
+
+            <section className="appliedPartner" aria-labelledby="qonics-title">
+              <div className="appliedPartnerIntro">
+                <span>ENGINEERING DELIVERY PARTNER</span>
+                <div className="appliedPartnerName">QONICS</div>
+                <h2 id="qonics-title">Additional engineering depth, inside the Applied delivery network.</h2>
+                <p>
+                  Qonics is a global software development company with operations in Kigali and Austin.
+                  The team works across custom enterprise platforms and modern web and mobile applications,
+                  extending the engineering capacity available around selected IMVO Applied engagements.
+                </p>
+                <a href="https://qonics.com/" target="_blank" rel="noopener noreferrer">
+                  Visit Qonics ↗
+                </a>
+              </div>
+
+              <div className="appliedPartnerStats" aria-label="Qonics company profile">
+                <div><b>2019</b><span>Founded</span></div>
+                <div><b>20+</b><span>Projects delivered</span></div>
+                <div><b>30+</b><span>Clients</span></div>
+                <div><b>5+</b><span>Countries served</span></div>
+              </div>
+
+              <div className="appliedPartnerCapabilities">
+                <span>DELIVERY CAPABILITY</span>
+                <div className="appliedPartnerCapabilityGrid">
+                  {qonicCapabilities.map((item, index) => (
+                    <div key={item}>
+                      <small>{String(index + 1).padStart(2, "0")}</small>
+                      <strong>{item}</strong>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="appliedPartnerPresence">
+                <div>
+                  <span>KIGALI / RWANDA</span>
+                  <p>African operations centre</p>
+                </div>
+                <div>
+                  <span>AUSTIN / USA</span>
+                  <p>Global headquarters</p>
+                </div>
+              </div>
+            </section>
           </div>
 
           <TrustedLogoMarquee
