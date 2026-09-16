@@ -98,23 +98,9 @@ export default function SiteFooter({
         >
           <div>
             <Brand size="lg" variant="light" />
-            <img
-              src={isApplied ? "/brand/imvo-applied.svg" : "/brand/imvo-studio.svg"}
-              alt={isApplied ? "IMVO Applied" : "IMVO Studio"}
-              draggable={false}
-              style={{
-                display: "block",
-                width: isApplied ? 270 : 255,
-                maxWidth: "72vw",
-                height: "auto",
-                marginTop: 24,
-                filter: "invert(1)",
-                opacity: 0.94,
-              }}
-            />
             <p
               style={{
-                marginTop: 18,
+                marginTop: 22,
                 maxWidth: 420,
                 color: "rgba(255,255,255,0.72)",
                 lineHeight: 1.7,
