@@ -29,13 +29,6 @@ const IMVOStudioPhotography = dynamic(() => import("./IMVOStudioPhotography"), {
 const IMVOStudioMetrics = dynamic(() => import("./IMVOStudioMetrics"), {
   ssr: false,
 });
-const StudioStatusLiveEnhancement = dynamic(
-  () => import("./StudioStatusLiveEnhancement"),
-  { ssr: false },
-);
-const CmsStudioStatus = dynamic(() => import("./CmsStudioStatus"), {
-  ssr: false,
-});
 const IMVOFinalRefinements = dynamic(() => import("./IMVOFinalRefinements"), {
   ssr: false,
 });
@@ -56,7 +49,7 @@ type IdleWindow = Window & {
 export default function SiteShell({
   children,
   settings,
-  studioStatus,
+  studioStatus: _studioStatus,
 }: {
   children: ReactNode;
   settings?: SiteSettings | null;
@@ -149,16 +142,7 @@ export default function SiteShell({
           {children}
           {needsPhotography ? <IMVOStudioPhotography /> : null}
           {needsFinalRefinements ? <IMVOFinalRefinements /> : null}
-          {pathname === "/" && homeEnhancementsReady ? (
-            <>
-              <IMVOStudioMetrics />
-              {studioStatus ? (
-                <CmsStudioStatus content={studioStatus} />
-              ) : (
-                <StudioStatusLiveEnhancement />
-              )}
-            </>
-          ) : null}
+          {pathname === "/" && homeEnhancementsReady ? <IMVOStudioMetrics /> : null}
         </main>
         <SiteFooter
           settings={settings}
