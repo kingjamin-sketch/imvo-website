@@ -1,12 +1,12 @@
 .switcher {
   position: fixed;
-  top: 14px;
+  top: 13px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100000;
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  gap: 14px;
   pointer-events: auto;
 }
 
@@ -15,45 +15,65 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 7px 0 10px;
+  min-height: 32px;
+  padding: 2px 0 7px;
   text-decoration: none;
-  opacity: 0.46;
+  opacity: 0.48;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.logo {
+.logoCrop {
+  position: relative;
   display: block;
-  width: 98px;
-  height: auto;
+  width: 78px;
+  height: 30px;
+  overflow: hidden;
 }
 
-.light .logo {
+.logoCrop img {
+  position: absolute;
+  top: 0;
+  left: -89px;
+  width: 162px;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+
+.light .logoCrop img {
   filter: invert(1);
 }
 
-.dark .logo {
+.dark .logoCrop img {
   filter: none;
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background: currentColor;
+  opacity: 0.18;
+}
+
+.light {
+  color: white;
+}
+
+.dark {
+  color: #0a0a0a;
 }
 
 .link::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 7px;
+  right: 7px;
   bottom: 0;
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 220ms ease;
-}
-
-.light .link {
-  color: white;
-}
-
-.dark .link {
-  color: #0a0a0a;
 }
 
 .link:hover,
@@ -71,25 +91,37 @@
 
 @media (max-width: 1180px) {
   .switcher {
-    gap: 14px;
+    gap: 10px;
   }
 
-  .logo {
-    width: 84px;
+  .logoCrop {
+    width: 69px;
+    height: 27px;
+  }
+
+  .logoCrop img {
+    width: 146px;
+    left: -80px;
   }
 }
 
 @media (max-width: 900px) {
   .switcher {
-    top: 14px;
+    top: 13px;
     left: auto;
-    right: 64px;
+    right: 62px;
     transform: none;
-    gap: 11px;
+    gap: 8px;
   }
 
-  .logo {
-    width: 72px;
+  .logoCrop {
+    width: 61px;
+    height: 24px;
+  }
+
+  .logoCrop img {
+    width: 130px;
+    left: -71px;
   }
 }
 
