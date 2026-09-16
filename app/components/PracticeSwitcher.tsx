@@ -21,15 +21,17 @@ export default function PracticeSwitcher({
         href="/"
         className={`${styles.link} ${!isApplied ? styles.active : ""}`}
         aria-current={!isApplied ? "page" : undefined}
+        aria-label="IMVO Studio"
       >
-        Studio
+        <img className={styles.logo} src="/brand/imvo-studio.svg" alt="IMVO Studio" />
       </Link>
       <Link
         href="/applied"
         className={`${styles.link} ${isApplied ? styles.active : ""}`}
         aria-current={isApplied ? "page" : undefined}
+        aria-label="IMVO Applied"
       >
-        Applied
+        <img className={styles.logo} src="/brand/imvo-applied.svg" alt="IMVO Applied" />
       </Link>
     </nav>
   );
