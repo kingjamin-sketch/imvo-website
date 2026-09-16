@@ -1,35 +1,38 @@
 .switcher {
   position: fixed;
-  top: 17px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100000;
   display: inline-flex;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   pointer-events: auto;
 }
 
 .link {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 0 10px;
   text-decoration: none;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  line-height: 1;
-  padding: 8px 2px 10px;
-  transition: color 180ms ease, opacity 180ms ease;
+  opacity: 0.46;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.light .link {
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+.logo {
+  display: block;
+  width: 98px;
+  height: auto;
 }
 
-.dark .link {
-  color: rgba(10, 10, 10, 0.56);
-  text-shadow: none;
+.light .logo {
+  filter: invert(1);
+}
+
+.dark .logo {
+  filter: none;
 }
 
 .link::after {
@@ -45,48 +48,52 @@
   transition: transform 220ms ease;
 }
 
-.light .link:hover,
-.light .active {
+.light .link {
   color: white;
 }
 
-.dark .link:hover,
-.dark .active {
+.dark .link {
   color: #0a0a0a;
+}
+
+.link:hover,
+.active {
+  opacity: 1;
+}
+
+.link:hover {
+  transform: translateY(-1px);
 }
 
 .active::after {
   transform: scaleX(1);
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1180px) {
   .switcher {
-    top: 14px;
-    gap: 16px;
+    gap: 14px;
   }
 
-  .link {
-    font-size: 10px;
-    letter-spacing: 0.12em;
+  .logo {
+    width: 84px;
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .switcher {
-    top: 15px;
+    top: 14px;
     left: auto;
     right: 64px;
     transform: none;
-    gap: 12px;
+    gap: 11px;
   }
 
-  .link {
-    font-size: 9px;
-    padding-inline: 0;
+  .logo {
+    width: 72px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 620px) {
   .switcher {
     display: none;
   }
