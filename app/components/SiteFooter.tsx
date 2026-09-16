@@ -104,17 +104,17 @@ export default function SiteFooter({
               draggable={false}
               style={{
                 display: "block",
-                width: isApplied ? 190 : 185,
-                maxWidth: "60vw",
+                width: isApplied ? 270 : 255,
+                maxWidth: "72vw",
                 height: "auto",
-                marginTop: 22,
+                marginTop: 24,
                 filter: "invert(1)",
-                opacity: 0.82,
+                opacity: 0.94,
               }}
             />
             <p
               style={{
-                marginTop: 16,
+                marginTop: 18,
                 maxWidth: 420,
                 color: "rgba(255,255,255,0.72)",
                 lineHeight: 1.7,
