@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import TrustedLogoMarquee from "../components/TrustedLogoMarquee";
 
 export const metadata: Metadata = {
   title: "IMVO Applied | Technology & Product Engineering",
@@ -84,7 +85,10 @@ const process = [
   ["04", "Evolve"],
 ] as const;
 
-const clients: string[] = [];
+const selectedBrands = Array.from({ length: 9 }, (_, index) => ({
+  name: `Selected brand ${index + 1}`,
+  src: `/partners/partner-${index + 1}.png`,
+}));
 
 export default function AppliedPage() {
   return (
@@ -166,6 +170,11 @@ export default function AppliedPage() {
             </div>
           </div>
 
+          <TrustedLogoMarquee
+            logos={selectedBrands}
+            heading="Selected brands we’ve worked with"
+          />
+
           <div className="appliedDeviceFooter" id="method">
             <div>
               <span>METHOD</span>
@@ -197,18 +206,6 @@ export default function AppliedPage() {
           </div>
         </div>
       </section>
-
-      {clients.length > 0 ? (
-        <section className="appliedClients" aria-labelledby="applied-clients">
-          <div className="containerWide">
-            <span>SELECTED CLIENTS</span>
-            <h2 id="applied-clients">Built for real businesses.</h2>
-            <div>
-              {clients.map((client) => <b key={client}>{client}</b>)}
-            </div>
-          </div>
-        </section>
-      ) : null}
     </div>
   );
 }
