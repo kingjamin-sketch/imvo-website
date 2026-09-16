@@ -1,4 +1,3 @@
-// Production deployment trigger for IMVO Applied.
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -18,9 +17,7 @@ export const metadata: Metadata = {
     "digital product development East Africa",
   ],
   category: "Technology & Product Engineering",
-  alternates: {
-    canonical: "/applied",
-  },
+  alternates: { canonical: "/applied" },
   openGraph: {
     title: "IMVO Applied | Technology & Product Engineering",
     description:
@@ -79,6 +76,13 @@ const process = [
   ["04", "Evolve", "Support, measure, and improve."],
 ] as const;
 
+const appliedImages = {
+  hero: "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  workspace: "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  laptop: "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  code: "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=1800",
+};
+
 // Add approved public client names here when ready to publish.
 const clients: string[] = [];
 
@@ -87,20 +91,27 @@ export default function AppliedPage() {
     <div className="appliedPage">
       <section className="appliedHero" aria-labelledby="applied-title">
         <div className="containerWide appliedHeroInner">
-          <div className="appliedEyebrow">IMVO / APPLIED</div>
-          <h1 id="applied-title">Intelligence, applied.</h1>
-          <p className="appliedDescriptor">Technology &amp; Product Engineering</p>
-          <p className="appliedLead">
-            We design and engineer digital products, software systems, and
-            operational technology for businesses with real-world needs.
-          </p>
-          <Link className="appliedPrimaryCta" href="/contact?practice=applied">
-            Start a conversation <span aria-hidden="true">→</span>
-          </Link>
-          <div className="appliedHeroMeta" aria-hidden="true">
-            <span>KIGALI / RW</span>
-            <span>PRODUCT / SOFTWARE / SYSTEMS / AI</span>
+          <div className="appliedHeroCopy">
+            <div className="appliedEyebrow">IMVO / APPLIED</div>
+            <h1 id="applied-title">Intelligence, applied.</h1>
+            <p className="appliedDescriptor">Technology &amp; Product Engineering</p>
+            <p className="appliedLead">
+              We design and engineer digital products, software systems, and
+              operational technology for businesses with real-world needs.
+            </p>
+            <Link className="appliedPrimaryCta" href="/contact?practice=applied">
+              Start a conversation <span aria-hidden="true">→</span>
+            </Link>
+            <div className="appliedHeroMeta" aria-hidden="true">
+              <span>KIGALI / RW</span>
+              <span>PRODUCT / SOFTWARE / SYSTEMS / AI</span>
+            </div>
           </div>
+
+          <figure className="appliedHeroVisual">
+            <img src={appliedImages.hero} alt="Software engineer working across multiple screens" />
+            <figcaption><span>ENGINEERING / REAL SYSTEMS</span><span>01</span></figcaption>
+          </figure>
         </div>
       </section>
 
@@ -122,6 +133,25 @@ export default function AppliedPage() {
                 <p>{pillar.body}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="appliedImageStory" aria-labelledby="applied-work-title">
+        <div className="containerWide">
+          <div className="appliedImageStoryHead">
+            <p>THE WORK</p>
+            <h2 id="applied-work-title">Built by people. Shaped around real operations.</h2>
+          </div>
+          <div className="appliedImageMosaic">
+            <figure className="appliedImageLarge">
+              <img src={appliedImages.workspace} alt="Engineer working at a development workstation" loading="lazy" />
+              <figcaption>BUILD / TEST / REFINE</figcaption>
+            </figure>
+            <figure className="appliedImageTall">
+              <img src={appliedImages.laptop} alt="Developer working with code on a laptop" loading="lazy" />
+              <figcaption>PRODUCT / ENGINEERING</figcaption>
+            </figure>
           </div>
         </div>
       </section>
@@ -157,6 +187,15 @@ export default function AppliedPage() {
         </div>
       </section>
 
+      <section className="appliedImageBreak" aria-label="Applied engineering in practice">
+        <img src={appliedImages.code} alt="Developer writing software on a laptop" loading="lazy" />
+        <div className="appliedImageBreakShade" />
+        <div className="containerWide appliedImageBreakCopy">
+          <span>FROM INTERFACE TO INFRASTRUCTURE</span>
+          <strong>Technology should feel useful before it feels impressive.</strong>
+        </div>
+      </section>
+
       <section className="appliedSection appliedProcess" aria-labelledby="applied-process">
         <div className="containerWide">
           <div className="appliedSectionHead compact">
@@ -186,9 +225,7 @@ export default function AppliedPage() {
             <div>
               <h2 id="applied-clients">Built for real businesses.</h2>
               <div className="appliedClientList">
-                {clients.map((client) => (
-                  <span key={client}>{client}</span>
-                ))}
+                {clients.map((client) => <span key={client}>{client}</span>)}
               </div>
             </div>
           </div>
