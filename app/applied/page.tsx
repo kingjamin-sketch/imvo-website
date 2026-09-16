@@ -52,28 +52,28 @@ const workCards = [
     title: "Digital products",
     body: "Useful customer experiences shaped around real needs.",
     image:
-      "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=900",
+      "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     label: "02 / ENGINEERING",
     title: "Software systems",
     body: "Web, mobile, and custom systems built for dependable use.",
     image:
-      "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=900",
+      "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     label: "03 / SYSTEMS",
     title: "Business operations",
     body: "Tools and integrations that connect how a business works.",
     image:
-      "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=900",
+      "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
   {
     label: "04 / INTELLIGENCE",
     title: "Applied AI",
     body: "Automation and intelligence used where they create value.",
     image:
-      "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=900",
+      "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=1200",
   },
 ];
 
@@ -84,7 +84,6 @@ const process = [
   ["04", "Evolve"],
 ] as const;
 
-// Add approved public client names here when ready to publish.
 const clients: string[] = [];
 
 export default function AppliedPage() {
@@ -92,29 +91,19 @@ export default function AppliedPage() {
     <div className="appliedPage">
       <section className="appliedStage" aria-labelledby="applied-title">
         <div className="appliedDevice">
-          <div className="appliedDeviceTopbar">
-            <Link className="appliedMiniBrand" href="/applied">
-              <span>IMVO</span>
-              <b>Applied</b>
-            </Link>
-            <nav aria-label="Applied page navigation">
-              <a href="#capabilities">Capabilities</a>
-              <a href="#approach">Approach</a>
-              <a href="#method">Method</a>
-            </nav>
-            <Link className="appliedMiniCta" href="/contact?practice=applied">
-              Start a Project
-            </Link>
-          </div>
-
           <div className="appliedHeroPanel">
             <img
-              src="https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1800"
+              src="https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=2000"
               alt="Software engineer working across multiple screens"
             />
             <div className="appliedHeroShade" />
+            <img
+              className="appliedHeroLogo"
+              src="/brand/imvo-applied.svg"
+              alt="IMVO Applied"
+              draggable={false}
+            />
             <div className="appliedHeroCopy">
-              <div className="appliedEyebrow">IMVO / APPLIED</div>
               <h1 id="applied-title">Intelligence,<br />applied.</h1>
               <p>Technology &amp; Product Engineering</p>
               <Link href="/contact?practice=applied">
@@ -200,7 +189,7 @@ export default function AppliedPage() {
               </ul>
             </div>
 
-            <div>
+            <div id="contact">
               <span>START</span>
               <h3>Have something to build?</h3>
               <Link href="/contact?practice=applied">Talk to IMVO Applied ↗</Link>
