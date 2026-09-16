@@ -46,42 +46,43 @@ const capabilities = [
   "Product Design",
 ];
 
-const pillars = [
+const workCards = [
   {
-    number: "01",
-    title: "Product",
-    body: "Digital products, platforms, and customer experiences designed around real business needs.",
+    label: "01 / PRODUCT",
+    title: "Digital products",
+    body: "Useful customer experiences shaped around real needs.",
+    image:
+      "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=900",
   },
   {
-    number: "02",
-    title: "Engineering",
-    body: "Web, mobile, and custom software engineered for dependable day-to-day use.",
+    label: "02 / ENGINEERING",
+    title: "Software systems",
+    body: "Web, mobile, and custom systems built for dependable use.",
+    image:
+      "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=900",
   },
   {
-    number: "03",
-    title: "Systems",
-    body: "Operational tools, integrations, and internal platforms that connect how a business works.",
+    label: "03 / SYSTEMS",
+    title: "Business operations",
+    body: "Tools and integrations that connect how a business works.",
+    image:
+      "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=900",
   },
   {
-    number: "04",
-    title: "Intelligence",
-    body: "Automation, data, and applied AI used where they create practical value.",
+    label: "04 / INTELLIGENCE",
+    title: "Applied AI",
+    body: "Automation and intelligence used where they create value.",
+    image:
+      "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=900",
   },
 ];
 
 const process = [
-  ["01", "Understand", "Business before software."],
-  ["02", "Design", "Define the product, system, and experience."],
-  ["03", "Engineer", "Build for actual use and growth."],
-  ["04", "Evolve", "Support, measure, and improve."],
+  ["01", "Understand"],
+  ["02", "Design"],
+  ["03", "Engineer"],
+  ["04", "Evolve"],
 ] as const;
-
-const appliedImages = {
-  hero: "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  workspace: "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  laptop: "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=1400",
-  code: "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=1800",
-};
 
 // Add approved public client names here when ready to publish.
 const clients: string[] = [];
@@ -89,158 +90,136 @@ const clients: string[] = [];
 export default function AppliedPage() {
   return (
     <div className="appliedPage">
-      <section className="appliedHero" aria-labelledby="applied-title">
-        <div className="containerWide appliedHeroInner">
-          <div className="appliedHeroCopy">
-            <div className="appliedEyebrow">IMVO / APPLIED</div>
-            <h1 id="applied-title">Intelligence, applied.</h1>
-            <p className="appliedDescriptor">Technology &amp; Product Engineering</p>
-            <p className="appliedLead">
-              We design and engineer digital products, software systems, and
-              operational technology for businesses with real-world needs.
-            </p>
-            <Link className="appliedPrimaryCta" href="/contact?practice=applied">
-              Start a conversation <span aria-hidden="true">→</span>
+      <section className="appliedStage" aria-labelledby="applied-title">
+        <div className="appliedDevice">
+          <div className="appliedDeviceTopbar">
+            <Link className="appliedMiniBrand" href="/applied">
+              <span>IMVO</span>
+              <b>Applied</b>
             </Link>
-            <div className="appliedHeroMeta" aria-hidden="true">
-              <span>KIGALI / RW</span>
-              <span>PRODUCT / SOFTWARE / SYSTEMS / AI</span>
+            <nav aria-label="Applied page navigation">
+              <a href="#capabilities">Capabilities</a>
+              <a href="#approach">Approach</a>
+              <a href="#method">Method</a>
+            </nav>
+            <Link className="appliedMiniCta" href="/contact?practice=applied">
+              Start a Project
+            </Link>
+          </div>
+
+          <div className="appliedHeroPanel">
+            <img
+              src="https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1800"
+              alt="Software engineer working across multiple screens"
+            />
+            <div className="appliedHeroShade" />
+            <div className="appliedHeroCopy">
+              <div className="appliedEyebrow">IMVO / APPLIED</div>
+              <h1 id="applied-title">Intelligence,<br />applied.</h1>
+              <p>Technology &amp; Product Engineering</p>
+              <Link href="/contact?practice=applied">
+                Start a conversation <span aria-hidden="true">↗</span>
+              </Link>
             </div>
           </div>
 
-          <figure className="appliedHeroVisual">
-            <img src={appliedImages.hero} alt="Software engineer working across multiple screens" />
-            <figcaption><span>ENGINEERING / REAL SYSTEMS</span><span>01</span></figcaption>
-          </figure>
-        </div>
-      </section>
+          <div className="appliedContentCard">
+            <div className="appliedOverviewGrid">
+              <div className="appliedCapabilityList" id="capabilities">
+                <span>CAPABILITIES</span>
+                {capabilities.slice(0, 6).map((capability) => (
+                  <div key={capability}>{capability}</div>
+                ))}
+              </div>
 
-      <section
-        id="what-we-do"
-        className="appliedSection appliedPillars"
-        aria-labelledby="applied-what-we-do"
-      >
-        <div className="containerWide">
-          <div className="appliedSectionHead">
-            <p>WHAT WE DO</p>
-            <h2 id="applied-what-we-do">Technology built around the business.</h2>
-          </div>
-          <div className="appliedPillarGrid">
-            {pillars.map((pillar) => (
-              <article key={pillar.title} className="appliedPillarCard">
-                <span>{pillar.number}</span>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+              <div className="appliedOverviewFeature">
+                <span>WHAT WE DO</span>
+                <h2>Technology built around the business.</h2>
+                <p>
+                  We design and engineer digital products, software systems,
+                  and operational technology for businesses with real-world needs.
+                </p>
+                <a href="#work">Explore the practice</a>
+              </div>
 
-      <section className="appliedImageStory" aria-labelledby="applied-work-title">
-        <div className="containerWide">
-          <div className="appliedImageStoryHead">
-            <p>THE WORK</p>
-            <h2 id="applied-work-title">Built by people. Shaped around real operations.</h2>
-          </div>
-          <div className="appliedImageMosaic">
-            <figure className="appliedImageLarge">
-              <img src={appliedImages.workspace} alt="Engineer working at a development workstation" loading="lazy" />
-              <figcaption>BUILD / TEST / REFINE</figcaption>
-            </figure>
-            <figure className="appliedImageTall">
-              <img src={appliedImages.laptop} alt="Developer working with code on a laptop" loading="lazy" />
-              <figcaption>PRODUCT / ENGINEERING</figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
+              <div className="appliedOverviewDark" id="approach">
+                <span>OUR APPROACH</span>
+                <h2>Business first. Technology where it matters.</h2>
+                <p>
+                  We begin with the operation, customer journey, and business
+                  problem before defining the technology required to solve it.
+                </p>
+                <a href="#method">How we work</a>
+              </div>
+            </div>
 
-      <section id="approach" className="appliedSection appliedStatement">
-        <div className="containerWide appliedStatementGrid">
-          <p className="appliedSectionLabel">OUR APPROACH</p>
-          <div>
-            <h2>Business first. Technology where it matters.</h2>
-            <p>
-              We begin with the operation, customer journey, and business
-              problem before defining the technology required to solve it.
-            </p>
-          </div>
-        </div>
-      </section>
+            <div className="appliedWork" id="work">
+              <div className="appliedWorkHead">
+                <div>
+                  <span>BUILT TOGETHER</span>
+                  <h2>Products, systems, and intelligence.</h2>
+                </div>
+                <div className="appliedWorkMeta">KIGALI / RW · PRODUCT / SOFTWARE / SYSTEMS / AI</div>
+              </div>
 
-      <section
-        id="capabilities"
-        className="appliedSection"
-        aria-labelledby="applied-capabilities"
-      >
-        <div className="containerWide">
-          <div className="appliedSectionHead compact">
-            <p>CAPABILITIES</p>
-            <h2 id="applied-capabilities">What we can build.</h2>
+              <div className="appliedWorkCards">
+                {workCards.map((card) => (
+                  <article key={card.title}>
+                    <div className="appliedWorkImage">
+                      <img src={card.image} alt="" loading="lazy" />
+                    </div>
+                    <span>{card.label}</span>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="appliedCapabilityGrid">
-            {capabilities.map((capability) => (
-              <div key={capability}>{capability}</div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="appliedImageBreak" aria-label="Applied engineering in practice">
-        <img src={appliedImages.code} alt="Developer writing software on a laptop" loading="lazy" />
-        <div className="appliedImageBreakShade" />
-        <div className="containerWide appliedImageBreakCopy">
-          <span>FROM INTERFACE TO INFRASTRUCTURE</span>
-          <strong>Technology should feel useful before it feels impressive.</strong>
-        </div>
-      </section>
+          <div className="appliedDeviceFooter" id="method">
+            <div>
+              <span>METHOD</span>
+              <h2>From problem to working system.</h2>
+              <div className="appliedMethodDots" aria-label="Applied process">
+                {process.map(([number, title]) => (
+                  <div key={title}>
+                    <b>{number}</b>
+                    <small>{title}</small>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-      <section className="appliedSection appliedProcess" aria-labelledby="applied-process">
-        <div className="containerWide">
-          <div className="appliedSectionHead compact">
-            <p>METHOD</p>
-            <h2 id="applied-process">From problem to working system.</h2>
-          </div>
-          <div className="appliedProcessGrid">
-            {process.map(([number, title, description]) => (
-              <article key={title}>
-                <span>{number}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </article>
-            ))}
+            <div>
+              <span>MORE CAPABILITIES</span>
+              <ul>
+                {capabilities.slice(6).map((capability) => (
+                  <li key={capability}>{capability}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <span>START</span>
+              <h3>Have something to build?</h3>
+              <Link href="/contact?practice=applied">Talk to IMVO Applied ↗</Link>
+            </div>
           </div>
         </div>
       </section>
 
       {clients.length > 0 ? (
-        <section
-          id="clients"
-          className="appliedSection appliedClients"
-          aria-labelledby="applied-clients"
-        >
-          <div className="containerWide appliedClientsInner">
-            <p className="appliedSectionLabel">SELECTED CLIENTS</p>
+        <section className="appliedClients" aria-labelledby="applied-clients">
+          <div className="containerWide">
+            <span>SELECTED CLIENTS</span>
+            <h2 id="applied-clients">Built for real businesses.</h2>
             <div>
-              <h2 id="applied-clients">Built for real businesses.</h2>
-              <div className="appliedClientList">
-                {clients.map((client) => <span key={client}>{client}</span>)}
-              </div>
+              {clients.map((client) => <b key={client}>{client}</b>)}
             </div>
           </div>
         </section>
       ) : null}
-
-      <section id="contact" className="appliedClosing">
-        <div className="containerWide appliedClosingInner">
-          <p>HAVE SOMETHING TO BUILD?</p>
-          <h2>Let&apos;s make it work.</h2>
-          <Link href="/contact?practice=applied">
-            Talk to IMVO Applied <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
