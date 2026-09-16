@@ -1,18 +1,18 @@
 .appliedPage {
-  --applied-bg: #f1ede5;
+  --applied-bg: #fbfaf6;
   --applied-ink: #0a0a0a;
   --applied-muted: #68645e;
   --applied-accent: #ddeaab;
-  background: var(--applied-bg);
+  width: 100%;
+  background: #090909;
   color: var(--applied-ink);
   overflow: hidden;
 }
 
 .appliedStage {
-  padding: 82px 0 0;
-  background:
-    radial-gradient(circle at 12% 10%, rgba(255,255,255,.78), transparent 28%),
-    linear-gradient(135deg, #f6f2eb 0%, #ebe6dc 62%, #f3efe7 100%);
+  width: 100%;
+  padding: 76px 0 0;
+  background: #090909;
 }
 
 .appliedDevice {
@@ -31,8 +31,9 @@
 
 .appliedHeroPanel {
   position: relative;
-  height: clamp(610px, calc(100svh - 82px), 790px);
-  min-height: 610px;
+  width: 100%;
+  height: clamp(620px, calc(100svh - 76px), 860px);
+  min-height: 620px;
   overflow: hidden;
   border-radius: 0;
   background: #151515;
@@ -45,7 +46,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center 43%;
-  filter: saturate(.8) contrast(1.03) brightness(.8);
+  filter: saturate(.8) contrast(1.03) brightness(.78);
   transform: scale(1.01);
 }
 
@@ -53,16 +54,17 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(0,0,0,.86) 0%, rgba(0,0,0,.68) 27%, rgba(0,0,0,.24) 58%, rgba(0,0,0,.08) 100%),
-    linear-gradient(to top, rgba(0,0,0,.44), transparent 58%);
+    linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.67) 30%, rgba(0,0,0,.24) 60%, rgba(0,0,0,.07) 100%),
+    linear-gradient(to top, rgba(0,0,0,.43), transparent 60%);
 }
 
 .appliedHeroLogo {
   position: absolute;
   z-index: 3;
-  top: clamp(40px, 6vh, 62px);
-  left: clamp(30px, 5.5vw, 96px);
-  width: clamp(245px, 22vw, 390px);
+  top: clamp(42px, 6vh, 68px);
+  left: max(30px, calc((100vw - 1500px) / 2 + 42px));
+  width: clamp(250px, 21vw, 350px);
+  max-width: 350px;
   height: auto;
   filter: invert(1);
   opacity: .98;
@@ -71,9 +73,9 @@
 .appliedHeroCopy {
   position: absolute;
   z-index: 3;
-  left: clamp(30px, 5.5vw, 96px);
-  top: 54%;
-  transform: translateY(-38%);
+  left: max(30px, calc((100vw - 1500px) / 2 + 42px));
+  top: 55%;
+  transform: translateY(-34%);
   max-width: 760px;
   color: #fff;
 }
@@ -116,12 +118,12 @@
 .appliedContentCard {
   position: relative;
   z-index: 4;
-  width: min(1500px, calc(100% - 64px));
-  margin: -92px auto 0;
-  padding: clamp(22px, 2.3vw, 36px);
-  border-radius: 34px 34px 0 0;
+  width: 100%;
+  margin: -96px 0 0;
+  padding: clamp(30px, 3.2vw, 52px) max(28px, calc((100vw - 1500px) / 2 + 42px)) clamp(72px, 7vw, 112px);
+  border-radius: 38px 38px 0 0;
   background: #fbfaf6;
-  box-shadow: 0 -16px 54px rgba(0,0,0,.12);
+  box-shadow: 0 -18px 58px rgba(0,0,0,.14);
 }
 
 .appliedOverviewGrid {
@@ -146,8 +148,7 @@
 .appliedOverviewFeature > span,
 .appliedOverviewDark > span,
 .appliedWorkHead span,
-.appliedDeviceFooter > div > span,
-.appliedClients span {
+.appliedDeviceFooter > div > span {
   font-size: 9px;
   font-weight: 850;
   letter-spacing: .16em;
@@ -156,8 +157,7 @@
 
 .appliedCapabilityList > span,
 .appliedOverviewFeature > span,
-.appliedWorkHead span,
-.appliedClients span {
+.appliedWorkHead span {
   color: #77736c;
 }
 
@@ -234,8 +234,8 @@
 }
 
 .appliedWork {
-  margin-top: 44px;
-  padding-top: 34px;
+  margin-top: 54px;
+  padding-top: 42px;
   border-top: 1px solid rgba(10,10,10,.12);
 }
 
@@ -244,7 +244,7 @@
   align-items: end;
   justify-content: space-between;
   gap: 30px;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
 }
 
 .appliedWorkHead h2 {
@@ -267,7 +267,7 @@
 .appliedWorkCards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .appliedWorkCards article {
@@ -317,13 +317,18 @@
   line-height: 1.5;
 }
 
+.appliedPage .logoMarqueeSection {
+  margin: 0;
+}
+
 .appliedDeviceFooter {
   display: grid;
   grid-template-columns: 1.3fr .72fr .72fr;
   gap: 52px;
-  padding: clamp(64px, 7vw, 110px) max(32px, calc((100vw - 1436px) / 2 + 32px));
+  padding: clamp(70px, 7vw, 116px) max(28px, calc((100vw - 1500px) / 2 + 42px));
   color: #fff;
   background: #090909;
+  border-top: 1px solid rgba(255,255,255,.08);
 }
 
 .appliedDeviceFooter > div > span {
@@ -399,40 +404,6 @@
   font-weight: 850;
 }
 
-.appliedClients {
-  padding: 0 32px 90px;
-  background: #090909;
-  color: #fff;
-}
-
-.appliedClients .containerWide {
-  width: min(1436px, 100%);
-  margin: 0 auto;
-  padding: 38px 0;
-  border-top: 1px solid rgba(255,255,255,.12);
-}
-
-.appliedClients span {
-  color: rgba(255,255,255,.44);
-}
-
-.appliedClients h2 {
-  margin: 10px 0 0;
-  font-size: clamp(36px, 4vw, 62px);
-  letter-spacing: -.05em;
-}
-
-.appliedClients .containerWide > div {
-  display: flex;
-  gap: 22px 34px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
-.appliedClients b {
-  font-size: 18px;
-}
-
 @media (max-width: 1100px) {
   .appliedOverviewGrid {
     grid-template-columns: 1fr 1fr;
@@ -457,7 +428,7 @@
 
 @media (max-width: 760px) {
   .appliedStage {
-    padding-top: 72px;
+    padding-top: 68px;
   }
 
   .appliedHeroPanel {
@@ -476,9 +447,9 @@
   }
 
   .appliedHeroLogo {
-    top: 30px;
+    top: 28px;
     left: 22px;
-    width: min(58vw, 270px);
+    width: min(62vw, 270px);
   }
 
   .appliedHeroCopy {
@@ -497,10 +468,10 @@
   }
 
   .appliedContentCard {
-    width: calc(100% - 20px);
-    margin-top: -52px;
-    padding: 14px;
-    border-radius: 24px 24px 0 0;
+    width: 100%;
+    margin-top: -48px;
+    padding: 18px 14px 58px;
+    border-radius: 25px 25px 0 0;
   }
 
   .appliedOverviewGrid {
@@ -543,10 +514,14 @@
   .appliedDeviceFooter {
     grid-template-columns: 1fr;
     gap: 38px;
-    padding: 58px 22px 68px;
+    padding: 58px 22px 70px;
   }
 
   .appliedDeviceFooter > div:first-child {
     grid-column: auto;
+  }
+
+  .appliedDeviceFooter h2 {
+    font-size: 48px;
   }
 }
