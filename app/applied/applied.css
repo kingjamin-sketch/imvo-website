@@ -1,44 +1,44 @@
 .appliedPage {
-  --applied-bg: #eeeae2;
+  --applied-bg: #efebe3;
   --applied-ink: #0a0a0a;
-  --applied-muted: #67645e;
-  --applied-accent: #d9e8a8;
+  --applied-muted: #6d6962;
+  --applied-accent: #ddeaab;
   background: var(--applied-bg);
   color: var(--applied-ink);
 }
 
 .appliedStage {
-  padding: 132px 26px 96px;
+  padding: 112px 28px 92px;
   background:
-    radial-gradient(circle at 18% 18%, rgba(255,255,255,.8), transparent 28%),
-    radial-gradient(circle at 82% 74%, rgba(255,255,255,.52), transparent 26%),
-    linear-gradient(135deg, #f4f0e8, #e9e4da 58%, #f5f2eb);
+    radial-gradient(circle at 17% 18%, rgba(255,255,255,.92), transparent 25%),
+    radial-gradient(circle at 84% 74%, rgba(255,255,255,.58), transparent 25%),
+    linear-gradient(135deg, #f7f4ed 0%, #ebe6dc 56%, #f4f1e9 100%);
 }
 
 .appliedDevice {
-  width: min(1240px, 100%);
+  width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 12px;
+  padding: 10px;
   overflow: hidden;
-  border-radius: 34px;
-  background: #0a0a0a;
-  box-shadow: 0 34px 90px rgba(34, 28, 18, .24);
+  border-radius: 30px;
+  background: #090909;
+  box-shadow: 0 32px 82px rgba(38, 31, 20, .22);
 }
 
 .appliedDeviceTopbar {
-  min-height: 70px;
-  padding: 0 24px;
+  min-height: 58px;
+  padding: 0 20px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   color: #fff;
 }
 
 .appliedMiniBrand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   width: fit-content;
   color: inherit;
   text-decoration: none;
@@ -47,37 +47,37 @@
 .appliedMiniBrand span {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #fff;
   color: #0a0a0a;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 950;
 }
 
 .appliedMiniBrand b {
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: -.025em;
 }
 
 .appliedDeviceTopbar nav {
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: 30px;
 }
 
 .appliedDeviceTopbar nav a,
 .appliedMiniCta {
-  color: rgba(255,255,255,.72);
+  color: rgba(255,255,255,.7);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
 }
 
 .appliedMiniCta {
   justify-self: end;
-  padding: 10px 16px;
+  padding: 9px 15px;
   border-radius: 999px;
   background: #fff;
   color: #0a0a0a;
@@ -85,10 +85,10 @@
 
 .appliedHeroPanel {
   position: relative;
-  height: clamp(450px, 55vw, 610px);
+  height: clamp(350px, 38vw, 430px);
   overflow: hidden;
-  border-radius: 24px 24px 18px 18px;
-  background: #1a1a1a;
+  border-radius: 22px 22px 16px 16px;
+  background: #171717;
 }
 
 .appliedHeroPanel > img {
@@ -97,93 +97,93 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 44%;
-  filter: saturate(.8) contrast(1.03) brightness(.78);
+  object-position: center 45%;
+  filter: saturate(.76) contrast(1.02) brightness(.76);
 }
 
 .appliedHeroShade {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 34%, rgba(0,0,0,.12) 68%, rgba(0,0,0,.04) 100%),
-    linear-gradient(to top, rgba(0,0,0,.46), transparent 62%);
+    linear-gradient(90deg, rgba(0,0,0,.84) 0%, rgba(0,0,0,.58) 34%, rgba(0,0,0,.15) 66%, rgba(0,0,0,.03) 100%),
+    linear-gradient(to top, rgba(0,0,0,.38), transparent 62%);
 }
 
 .appliedHeroCopy {
   position: absolute;
   z-index: 2;
-  left: clamp(34px, 6vw, 82px);
+  left: clamp(30px, 5vw, 64px);
   top: 50%;
   transform: translateY(-50%);
-  max-width: 620px;
+  max-width: 510px;
   color: #fff;
 }
 
 .appliedEyebrow {
-  margin-bottom: 18px;
-  font-size: 10px;
+  margin-bottom: 14px;
+  font-size: 9px;
   font-weight: 850;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.68);
+  color: rgba(255,255,255,.64);
 }
 
 .appliedHeroCopy h1 {
   margin: 0;
-  font-size: clamp(58px, 7vw, 108px);
-  line-height: .86;
-  letter-spacing: -.065em;
-  font-weight: 800;
+  font-size: clamp(50px, 5.3vw, 76px);
+  line-height: .88;
+  letter-spacing: -.058em;
+  font-weight: 820;
 }
 
 .appliedHeroCopy p {
-  margin: 24px 0 0;
-  font-size: clamp(17px, 1.7vw, 24px);
-  color: rgba(255,255,255,.84);
-  letter-spacing: -.03em;
+  margin: 18px 0 0;
+  font-size: clamp(15px, 1.35vw, 19px);
+  color: rgba(255,255,255,.82);
+  letter-spacing: -.025em;
 }
 
 .appliedHeroCopy > a {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
-  margin-top: 28px;
-  padding: 11px 17px;
+  gap: 14px;
+  margin-top: 22px;
+  padding: 10px 16px;
   border-radius: 999px;
   background: var(--applied-accent);
   color: #0a0a0a;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 850;
 }
 
 .appliedContentCard {
   position: relative;
   z-index: 3;
-  width: calc(100% - 72px);
-  margin: -72px auto 0;
-  padding: 26px;
-  border-radius: 28px 28px 22px 22px;
-  background: #faf9f5;
-  box-shadow: 0 -12px 42px rgba(0,0,0,.08);
+  width: calc(100% - 48px);
+  margin: -50px auto 0;
+  padding: 20px;
+  border-radius: 24px 24px 18px 18px;
+  background: #faf9f6;
+  box-shadow: 0 -10px 34px rgba(0,0,0,.075);
 }
 
 .appliedOverviewGrid {
   display: grid;
-  grid-template-columns: .74fr 1.05fr 1.12fr;
-  gap: 16px;
+  grid-template-columns: .74fr 1.04fr 1.06fr;
+  gap: 12px;
   align-items: stretch;
 }
 
 .appliedCapabilityList,
 .appliedOverviewFeature,
 .appliedOverviewDark {
-  border-radius: 18px;
+  border-radius: 15px;
 }
 
 .appliedCapabilityList {
-  padding: 18px 20px;
-  background: #f4f2ec;
+  padding: 15px 16px;
+  background: #f1efe9;
 }
 
 .appliedCapabilityList > span,
@@ -192,7 +192,7 @@
 .appliedWorkHead span,
 .appliedDeviceFooter > div > span,
 .appliedClients span {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 850;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -206,9 +206,9 @@
 }
 
 .appliedCapabilityList > div {
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(10,10,10,.1);
-  font-size: 14px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(10,10,10,.09);
+  font-size: 12px;
   line-height: 1.2;
 }
 
@@ -217,39 +217,39 @@
 }
 
 .appliedOverviewFeature {
-  padding: 22px 24px;
+  padding: 18px 20px;
   background: #fff;
-  border: 1px solid rgba(10,10,10,.09);
+  border: 1px solid rgba(10,10,10,.08);
 }
 
 .appliedOverviewFeature h2,
 .appliedOverviewDark h2 {
-  margin: 20px 0 0;
-  font-size: clamp(28px, 3vw, 44px);
-  line-height: .94;
-  letter-spacing: -.055em;
+  margin: 15px 0 0;
+  font-size: clamp(23px, 2.35vw, 34px);
+  line-height: .96;
+  letter-spacing: -.05em;
 }
 
 .appliedOverviewFeature p,
 .appliedOverviewDark p {
-  margin: 20px 0 0;
-  max-width: 480px;
-  font-size: 13px;
-  line-height: 1.58;
+  margin: 15px 0 0;
+  max-width: 430px;
+  font-size: 11px;
+  line-height: 1.56;
 }
 
 .appliedOverviewFeature p {
-  color: #66625d;
+  color: #68645e;
 }
 
 .appliedOverviewFeature a,
 .appliedOverviewDark a {
   display: inline-block;
-  margin-top: 22px;
-  padding: 9px 13px;
+  margin-top: 16px;
+  padding: 8px 12px;
   border-radius: 999px;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
 }
 
@@ -259,17 +259,17 @@
 }
 
 .appliedOverviewDark {
-  padding: 22px 24px;
+  padding: 18px 20px;
   background: #101010;
   color: #fff;
 }
 
 .appliedOverviewDark > span {
-  color: rgba(255,255,255,.52);
+  color: rgba(255,255,255,.5);
 }
 
 .appliedOverviewDark p {
-  color: rgba(255,255,255,.62);
+  color: rgba(255,255,255,.6);
 }
 
 .appliedOverviewDark a {
@@ -278,37 +278,37 @@
 }
 
 .appliedWork {
-  margin-top: 30px;
+  margin-top: 22px;
 }
 
 .appliedWorkHead {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 28px;
-  margin-bottom: 18px;
+  gap: 24px;
+  margin-bottom: 14px;
 }
 
 .appliedWorkHead h2 {
-  margin: 7px 0 0;
-  font-size: clamp(26px, 3.3vw, 46px);
+  margin: 6px 0 0;
+  font-size: clamp(22px, 2.55vw, 34px);
   line-height: .98;
-  letter-spacing: -.05em;
+  letter-spacing: -.047em;
 }
 
 .appliedWorkMeta {
-  max-width: 420px;
+  max-width: 340px;
   color: #8b877f;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 750;
-  letter-spacing: .11em;
+  letter-spacing: .1em;
   text-align: right;
 }
 
 .appliedWorkCards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .appliedWorkCards article {
@@ -317,9 +317,9 @@
 
 .appliedWorkImage {
   position: relative;
-  aspect-ratio: 1.4;
+  aspect-ratio: 1.45;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 12px;
   background: #ddd;
 }
 
@@ -338,62 +338,62 @@
 
 .appliedWorkCards article > span {
   display: block;
-  margin-top: 10px;
+  margin-top: 8px;
   color: #8a867e;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 850;
-  letter-spacing: .12em;
+  letter-spacing: .11em;
 }
 
 .appliedWorkCards h3 {
-  margin: 5px 0 0;
-  font-size: 15px;
-  letter-spacing: -.025em;
+  margin: 4px 0 0;
+  font-size: 13px;
+  letter-spacing: -.022em;
 }
 
 .appliedWorkCards p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
   color: #77736c;
-  font-size: 10px;
-  line-height: 1.45;
+  font-size: 9px;
+  line-height: 1.42;
 }
 
 .appliedDeviceFooter {
   display: grid;
-  grid-template-columns: 1.25fr .72fr .72fr;
-  gap: 36px;
-  padding: 44px 40px 46px;
+  grid-template-columns: 1.2fr .7fr .7fr;
+  gap: 28px;
+  padding: 32px 30px 34px;
   color: #fff;
 }
 
 .appliedDeviceFooter > div > span {
-  color: rgba(255,255,255,.44);
+  color: rgba(255,255,255,.42);
 }
 
 .appliedDeviceFooter h2 {
-  margin: 15px 0 0;
-  max-width: 470px;
-  font-size: clamp(28px, 3.4vw, 50px);
-  line-height: .96;
-  letter-spacing: -.055em;
+  margin: 12px 0 0;
+  max-width: 390px;
+  font-size: clamp(24px, 2.7vw, 36px);
+  line-height: .98;
+  letter-spacing: -.05em;
 }
 
 .appliedDeviceFooter h3 {
-  margin: 15px 0 0;
-  font-size: 24px;
-  letter-spacing: -.045em;
+  margin: 12px 0 0;
+  font-size: 19px;
+  letter-spacing: -.04em;
 }
 
 .appliedMethodDots {
   display: flex;
-  gap: 8px;
-  margin-top: 28px;
+  gap: 7px;
+  margin-top: 20px;
   flex-wrap: wrap;
 }
 
 .appliedMethodDots > div {
-  min-width: 82px;
-  padding: 10px 12px;
+  min-width: 72px;
+  padding: 8px 10px;
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 999px;
 }
@@ -404,66 +404,66 @@
 }
 
 .appliedMethodDots b {
-  color: rgba(255,255,255,.42);
-  font-size: 8px;
+  color: rgba(255,255,255,.4);
+  font-size: 7px;
 }
 
 .appliedMethodDots small {
-  margin-top: 3px;
+  margin-top: 2px;
   color: rgba(255,255,255,.82);
-  font-size: 9px;
+  font-size: 8px;
 }
 
 .appliedDeviceFooter ul {
-  margin: 16px 0 0;
+  margin: 12px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .appliedDeviceFooter li {
-  padding: 6px 0;
-  color: rgba(255,255,255,.66);
-  font-size: 11px;
+  padding: 5px 0;
+  color: rgba(255,255,255,.64);
+  font-size: 10px;
 }
 
 .appliedDeviceFooter a {
   display: inline-flex;
-  margin-top: 22px;
-  padding: 10px 14px;
+  margin-top: 18px;
+  padding: 9px 12px;
   border-radius: 999px;
   background: #fff;
   color: #0a0a0a;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 850;
 }
 
 .appliedClients {
-  padding: 0 26px 90px;
+  padding: 0 28px 84px;
 }
 
 .appliedClients .containerWide {
-  width: min(1180px, 100%);
+  width: min(1080px, 100%);
   margin: 0 auto;
-  padding: 34px 0;
+  padding: 32px 0;
   border-top: 1px solid rgba(10,10,10,.14);
 }
 
 .appliedClients h2 {
   margin: 10px 0 0;
-  font-size: clamp(34px, 4vw, 62px);
+  font-size: clamp(32px, 4vw, 56px);
   letter-spacing: -.05em;
 }
 
 .appliedClients .containerWide > div {
   display: flex;
-  gap: 22px 32px;
+  gap: 20px 30px;
   flex-wrap: wrap;
-  margin-top: 24px;
+  margin-top: 22px;
 }
 
 .appliedClients b {
-  font-size: 18px;
+  font-size: 17px;
 }
 
 @media (max-width: 980px) {
@@ -478,29 +478,30 @@
 }
 
 @media (max-width: 700px) {
-  .appliedStage { padding: 104px 10px 54px; }
-  .appliedDevice { border-radius: 24px; padding: 8px; }
-  .appliedDeviceTopbar { min-height: 58px; padding: 0 13px; }
+  .appliedStage { padding: 96px 9px 50px; }
+  .appliedDevice { border-radius: 23px; padding: 7px; }
+  .appliedDeviceTopbar { min-height: 54px; padding: 0 12px; }
   .appliedMiniCta { padding: 8px 11px; font-size: 9px; }
-  .appliedHeroPanel { height: 66svh; min-height: 500px; border-radius: 18px 18px 14px 14px; }
-  .appliedHeroPanel > img { object-position: 58% center; }
-  .appliedHeroShade { background: linear-gradient(90deg, rgba(0,0,0,.82), rgba(0,0,0,.34)), linear-gradient(to top, rgba(0,0,0,.48), transparent 60%); }
-  .appliedHeroCopy { left: 24px; right: 24px; max-width: none; }
-  .appliedHeroCopy h1 { font-size: clamp(56px, 18vw, 86px); }
-  .appliedHeroCopy p { font-size: 17px; }
-  .appliedContentCard { width: calc(100% - 16px); margin-top: -48px; padding: 14px; border-radius: 22px; }
+  .appliedHeroPanel { height: 58svh; min-height: 430px; border-radius: 17px 17px 13px 13px; }
+  .appliedHeroPanel > img { object-position: 61% center; }
+  .appliedHeroShade {
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.84), rgba(0,0,0,.35)),
+      linear-gradient(to top, rgba(0,0,0,.46), transparent 60%);
+  }
+  .appliedHeroCopy { left: 22px; right: 22px; max-width: none; }
+  .appliedHeroCopy h1 { font-size: clamp(50px, 16.5vw, 74px); }
+  .appliedHeroCopy p { font-size: 16px; }
+  .appliedContentCard { width: calc(100% - 14px); margin-top: -42px; padding: 12px; border-radius: 20px; }
   .appliedOverviewGrid { grid-template-columns: 1fr; }
   .appliedCapabilityList { grid-row: auto; }
-  .appliedOverviewFeature h2, .appliedOverviewDark h2 { font-size: 35px; }
-  .appliedWorkHead { align-items: start; flex-direction: column; }
+  .appliedOverviewFeature h2,
+  .appliedOverviewDark h2 { font-size: 29px; }
+  .appliedWorkHead { align-items: flex-start; flex-direction: column; }
   .appliedWorkMeta { text-align: left; }
-  .appliedWorkCards { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .appliedWorkCards p { display: none; }
-  .appliedDeviceFooter { grid-template-columns: 1fr; padding: 34px 22px 38px; }
-  .appliedDeviceFooter > div:first-child { grid-column: auto; }
-}
-
-@media (max-width: 460px) {
   .appliedWorkCards { grid-template-columns: 1fr; }
   .appliedWorkImage { aspect-ratio: 16 / 9; }
+  .appliedDeviceFooter { grid-template-columns: 1fr; padding: 30px 20px 32px; }
+  .appliedDeviceFooter > div:first-child { grid-column: auto; }
+  .appliedMethodDots > div { flex: 1 1 calc(50% - 7px); }
 }
