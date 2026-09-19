@@ -10,7 +10,7 @@ export default function PracticeSwitcher({
   variant?: "light" | "dark";
 }) {
   const pathname = usePathname();
-  const isApplied = pathname.startsWith("/applied");
+  const isSystems = pathname.startsWith("/systems");
 
   return (
     <nav
@@ -19,8 +19,8 @@ export default function PracticeSwitcher({
     >
       <Link
         href="/"
-        className={`${styles.link} ${!isApplied ? styles.active : ""}`}
-        aria-current={!isApplied ? "page" : undefined}
+        className={`${styles.link} ${!isSystems ? styles.active : ""}`}
+        aria-current={!isSystems ? "page" : undefined}
         aria-label="IMVO Studio"
       >
         <span className={`${styles.logoCrop} ${styles.studioMark}`} aria-hidden="true">
@@ -31,13 +31,13 @@ export default function PracticeSwitcher({
       <span className={styles.divider} aria-hidden="true" />
 
       <Link
-        href="/applied"
-        className={`${styles.link} ${isApplied ? styles.active : ""}`}
-        aria-current={isApplied ? "page" : undefined}
-        aria-label="IMVO Applied"
+        href="/systems"
+        className={`${styles.link} ${isSystems ? styles.active : ""}`}
+        aria-current={isSystems ? "page" : undefined}
+        aria-label="IMVO Systems"
       >
-        <span className={`${styles.logoCrop} ${styles.appliedMark}`} aria-hidden="true">
-          <img src="/brand/imvo-applied.svg" alt="" draggable={false} />
+        <span className={`${styles.logoCrop} ${styles.systemsMark}`} aria-hidden="true">
+          <img src="/brand/imvo-systems.svg" alt="" draggable={false} />
         </span>
       </Link>
     </nav>
