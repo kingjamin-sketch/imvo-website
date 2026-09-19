@@ -14,10 +14,10 @@ const studioNav = [
   { label: "Contact", href: "/contact" },
 ];
 
-const appliedNav = [
-  { label: "Capabilities", href: "/applied#capabilities" },
-  { label: "Approach", href: "/applied#approach" },
-  { label: "Contact", href: "/applied#contact" },
+const systemsNav = [
+  { label: "Capabilities", href: "/systems#capabilities" },
+  { label: "Approach", href: "/systems#approach" },
+  { label: "Contact", href: "/systems#contact" },
 ];
 
 type SiteHeaderProps = {
@@ -93,9 +93,9 @@ export default function SiteHeader({
   deferUntilIntroComplete = false,
 }: SiteHeaderProps) {
   const pathname = usePathname();
-  const isApplied = pathname.startsWith("/applied");
-  const currentNav = isApplied ? appliedNav : studioNav;
-  const foreground = isApplied ? "#0a0a0a" : "white";
+  const isSystems = pathname.startsWith("/systems");
+  const currentNav = isSystems ? systemsNav : studioNav;
+  const foreground = isSystems ? "#0a0a0a" : "white";
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -149,10 +149,10 @@ export default function SiteHeader({
 
   const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMenu = () => setMobileMenuOpen(false);
-  const quoteHref = isApplied ? "/contact?practice=applied" : "/contact#quote";
-  const quoteLabel = isApplied ? "Start a Project" : "Request a Quote";
+  const quoteHref = isSystems ? "/contact?practice=systems" : "/contact#quote";
+  const quoteLabel = isSystems ? "Start a Project" : "Request a Quote";
 
-  const headerBackground = isApplied
+  const headerBackground = isSystems
     ? isScrolled || mobileMenuOpen
       ? "rgba(247,247,244,0.96)"
       : "rgba(247,247,244,0.90)"
@@ -189,13 +189,13 @@ export default function SiteHeader({
             isScrolled || mobileMenuOpen
               ? "blur(24px) saturate(160%)"
               : "blur(20px) saturate(145%)",
-          borderBottom: isApplied
+          borderBottom: isSystems
             ? "1px solid rgba(10,10,10,0.10)"
             : isScrolled || mobileMenuOpen
               ? "1px solid rgba(255,255,255,0.10)"
               : "1px solid rgba(255,255,255,0.18)",
           boxShadow: isScrolled
-            ? isApplied
+            ? isSystems
               ? "0 12px 40px rgba(0,0,0,0.08)"
               : "0 12px 40px rgba(0,0,0,0.28)"
             : "none",
@@ -207,7 +207,7 @@ export default function SiteHeader({
           style={{
             position: "absolute",
             inset: 0,
-            background: isApplied
+            background: isSystems
               ? "none"
               : "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.045), transparent 65%)",
             pointerEvents: "none",
@@ -237,10 +237,10 @@ export default function SiteHeader({
               }
             }}
           >
-            <Brand size="lg" variant={isApplied ? "dark" : "light"} />
+            <Brand size="lg" variant={isSystems ? "dark" : "light"} />
           </Link>
 
-          <PracticeSwitcher variant={isApplied ? "dark" : "light"} />
+          <PracticeSwitcher variant={isSystems ? "dark" : "light"} />
 
           <nav
             className="desktopNav"
@@ -256,7 +256,7 @@ export default function SiteHeader({
                   fontWeight: 700,
                   fontSize: 14,
                   opacity: 0.92,
-                  textShadow: isApplied ? "none" : "0 1px 8px rgba(0,0,0,0.16)",
+                  textShadow: isSystems ? "none" : "0 1px 8px rgba(0,0,0,0.16)",
                 }}
               >
                 <HeaderRoll color={foreground}>{item.label}</HeaderRoll>
@@ -266,21 +266,21 @@ export default function SiteHeader({
             <Link
               href={quoteHref}
               style={{
-                background: isApplied ? "#0a0a0a" : "rgba(255,255,255,0.96)",
-                color: isApplied ? "white" : "black",
+                background: isSystems ? "#0a0a0a" : "rgba(255,255,255,0.96)",
+                color: isSystems ? "white" : "black",
                 padding: isScrolled ? "10px 22px" : "11px 24px",
                 borderRadius: 2,
                 fontWeight: 800,
                 fontSize: 14,
                 textDecoration: "none",
-                boxShadow: isApplied
+                boxShadow: isSystems
                   ? "0 10px 26px rgba(0,0,0,0.08)"
                   : "0 10px 26px rgba(0,0,0,0.14)",
                 transition:
                   "transform 0.2s ease, background 0.2s ease, padding 0.35s ease",
               }}
               onClick={(e) => {
-                if (!isApplied && window.location.pathname === "/contact") {
+                if (!isSystems && window.location.pathname === "/contact") {
                   e.preventDefault();
                   document.getElementById("quote")?.scrollIntoView({
                     behavior: "smooth",
@@ -290,11 +290,11 @@ export default function SiteHeader({
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.045)";
-                e.currentTarget.style.background = isApplied ? "#242424" : "white";
+                e.currentTarget.style.background = isSystems ? "#242424" : "white";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.background = isApplied
+                e.currentTarget.style.background = isSystems
                   ? "#0a0a0a"
                   : "rgba(255,255,255,0.96)";
               }}
@@ -351,7 +351,7 @@ export default function SiteHeader({
               position: "fixed",
               inset: 0,
               zIndex: 99998,
-              background: isApplied ? "#f4f4f1" : "#050505",
+              background: isSystems ? "#f4f4f1" : "#050505",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -374,21 +374,21 @@ export default function SiteHeader({
                 href="/"
                 onClick={closeMenu}
                 style={{
-                  color: isApplied ? "#666" : "rgba(255,255,255,.62)",
+                  color: isSystems ? "#666" : "rgba(255,255,255,.62)",
                   textDecoration: "none",
                 }}
               >
                 Studio
               </Link>
               <Link
-                href="/applied"
+                href="/systems"
                 onClick={closeMenu}
                 style={{
-                  color: isApplied ? "#0a0a0a" : "white",
+                  color: isSystems ? "#0a0a0a" : "white",
                   textDecoration: "none",
                 }}
               >
-                Applied
+                Systems
               </Link>
             </div>
 
@@ -422,8 +422,8 @@ export default function SiteHeader({
                 href={quoteHref}
                 onClick={closeMenu}
                 style={{
-                  background: isApplied ? "#0a0a0a" : "white",
-                  color: isApplied ? "white" : "black",
+                  background: isSystems ? "#0a0a0a" : "white",
+                  color: isSystems ? "white" : "black",
                   padding: "16px 36px",
                   borderRadius: 2,
                   fontWeight: 800,
