@@ -38,14 +38,14 @@ const legalLinks = [
 
 type SiteFooterProps = {
   settings?: SiteSettings | null;
-  variant?: "studio" | "applied";
+  variant?: "studio" | "systems";
 };
 
 export default function SiteFooter({
   settings,
   variant = "studio",
 }: SiteFooterProps) {
-  const isApplied = variant === "applied";
+  const isSystems = variant === "systems";
   const activeSocials = settings?.socialLinks?.length
     ? settings.socialLinks
         .filter((item): item is { label: string; url: string } => Boolean(item.label && item.url))
@@ -56,12 +56,12 @@ export default function SiteFooter({
         }))
     : socials;
 
-  const footerTagline = isApplied
+  const footerTagline = isSystems
     ? "Technology & Product Engineering"
     : settings?.tagline || "A built-environment design and development consultancy";
 
-  const footerNote = isApplied
-    ? "Digital products, software systems, operational platforms, and applied intelligence for real-world business needs."
+  const footerNote = isSystems
+    ? "Digital products, software systems, operational platforms, and intelligent automation for real-world business needs."
     : settings?.legalNotice ||
       "Regulated professional services and statutory sign-off are undertaken only by appropriately registered practitioners.";
 
@@ -135,8 +135,8 @@ export default function SiteFooter({
               <Link href="/" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Studio
               </Link>
-              <Link href="/applied" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
-                Applied
+              <Link href="/systems" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
+                Systems
               </Link>
               <Link href="/contact" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Contact
