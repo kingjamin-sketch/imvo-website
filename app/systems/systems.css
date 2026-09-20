@@ -1,0 +1,1210 @@
+.systemsSite {
+  --sys-ink: #12100e;
+  --sys-paper: #ffffff;
+  --sys-warm: #f6f1e7;
+  --sys-soft: #ece8df;
+  --sys-gold: #d2a53c;
+  --sys-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Baskerville, Georgia, "Times New Roman", serif;
+  --sys-sans: Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--sys-paper);
+  color: var(--sys-ink);
+  font-family: var(--sys-sans);
+}
+
+.systemsSite *,
+.systemsSite *::before,
+.systemsSite *::after {
+  box-sizing: border-box;
+}
+
+.systemsSite a {
+  color: inherit;
+}
+
+.sysHeroShell {
+  padding: 22px 22px 0;
+  background: #fff;
+}
+
+.sysHero {
+  position: relative;
+  min-height: min(770px, calc(100svh - 44px));
+  overflow: hidden;
+  border-radius: 26px;
+  background: #17120f;
+  color: #fff;
+}
+
+.sysHeroImage,
+.sysCard img,
+.sysBuildMedia img,
+.sysFeaturedFrame > img,
+.sysFaqMedia > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sysHeroImage {
+  position: absolute;
+  inset: 0;
+  filter: saturate(.72) contrast(1.05) brightness(.72);
+  transform: scale(1.015);
+}
+
+.sysHeroShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(11,7,5,.83) 0%, rgba(18,10,7,.42) 47%, rgba(18,10,7,.16) 75%, rgba(8,6,5,.36) 100%),
+    linear-gradient(0deg, rgba(8,6,5,.54), transparent 46%);
+}
+
+.sysHeader {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 28px;
+}
+
+.sysLogoLink {
+  display: inline-flex;
+  justify-self: start;
+  text-decoration: none;
+}
+
+.sysBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  white-space: nowrap;
+  color: #111;
+  line-height: 1;
+}
+
+.sysBrand strong {
+  font-size: 24px;
+  font-weight: 950;
+  letter-spacing: -.075em;
+}
+
+.sysBrand i {
+  display: block;
+  width: 1px;
+  height: 28px;
+  background: currentColor;
+  opacity: .72;
+}
+
+.sysBrand span {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -.055em;
+  text-transform: lowercase;
+}
+
+.sysBrandLight {
+  color: #fff;
+}
+
+.sysPracticeNav {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  background: rgba(22,14,10,.28);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.sysPracticeNav a {
+  padding: 9px 16px;
+  border-radius: 999px;
+  color: rgba(255,255,255,.78);
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: background .2s ease, color .2s ease;
+}
+
+.sysPracticeNav a:hover,
+.sysPracticeNav .active {
+  color: #1a130f;
+  background: rgba(255,255,255,.92);
+}
+
+.sysHeaderActions {
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+}
+
+.sysHeaderActions a {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+  background: rgba(22,14,10,.28);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.sysHeroContent {
+  position: absolute;
+  z-index: 3;
+  left: 38px;
+  right: 38px;
+  top: 50%;
+  transform: translateY(-46%);
+  display: grid;
+  grid-template-columns: 1.12fr .88fr;
+  gap: 64px;
+  align-items: end;
+}
+
+.sysKicker,
+.sysSectionHeading > div > span,
+.sysBuildIntro > span,
+.sysBuildCopy > span,
+.sysFaqContent > span,
+.sysFooterGrid > div > span,
+.sysCardTop span,
+.sysCardTop small,
+.sysFeaturedGlass > span {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.sysKicker {
+  margin: 0 0 10px;
+  color: rgba(255,255,255,.7);
+}
+
+.sysHeroContent h1 {
+  margin: 0;
+  max-width: 700px;
+  font-family: var(--sys-serif);
+  font-size: clamp(86px, 11vw, 172px);
+  font-weight: 400;
+  line-height: .76;
+  letter-spacing: -.065em;
+}
+
+.sysPillLight,
+.sysOutlinePill,
+.sysBuildCopy > a,
+.sysFeaturedGlass > a,
+.sysFooterCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.sysPillLight {
+  margin-top: 34px;
+  padding: 12px 15px 12px 17px;
+  background: #fff;
+  color: #16110e;
+}
+
+.sysPillLight span,
+.sysOutlinePill b,
+.sysBuildCopy > a b,
+.sysFeaturedGlass > a b,
+.sysFooterCta b {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.sysPillLight span {
+  background: #17120f;
+  color: #fff;
+}
+
+.sysHeroAside {
+  justify-self: end;
+  width: min(430px, 100%);
+  padding-bottom: 10px;
+}
+
+.sysHeroAside > p {
+  margin: 0 0 34px auto;
+  max-width: 330px;
+  color: rgba(255,255,255,.84);
+  font-size: 15px;
+  line-height: 1.48;
+  font-style: italic;
+}
+
+.sysHeroGlass {
+  margin-left: auto;
+  width: min(260px, 100%);
+  padding: 17px 18px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 18px;
+  background: rgba(255,255,255,.12);
+  box-shadow: 0 18px 55px rgba(0,0,0,.15);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.sysHeroGlass span,
+.sysHeroGlass strong {
+  display: block;
+}
+
+.sysHeroGlass span {
+  color: rgba(255,255,255,.62);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.sysHeroGlass strong {
+  margin-top: 7px;
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.sysHeroBottom {
+  position: absolute;
+  z-index: 4;
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sysCapabilityChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 740px;
+}
+
+.sysCapabilityChips a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border: 1px solid rgba(255,255,255,.26);
+  border-radius: 999px;
+  background: rgba(18,12,9,.26);
+  color: rgba(255,255,255,.88);
+  text-decoration: none;
+  font-size: 10px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.sysCapabilityChips a span {
+  font-size: 8px;
+}
+
+.sysSocialDots {
+  display: flex;
+  gap: 8px;
+  color: rgba(255,255,255,.66);
+}
+
+.sysSocialDots span {
+  padding: 9px 10px;
+  border: 1px solid rgba(255,255,255,.21);
+  border-radius: 999px;
+  font-size: 8px;
+  letter-spacing: .1em;
+}
+
+.sysSelected {
+  max-width: 1460px;
+  margin: 0 auto;
+  padding: 100px 46px 112px;
+}
+
+.sysSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 38px;
+}
+
+.sysSectionHeading > div > span,
+.sysBuildIntro > span,
+.sysBuildCopy > span,
+.sysFaqContent > span {
+  color: #9a7a30;
+}
+
+.sysSectionHeading h2,
+.sysBuildIntro h2,
+.sysFaqContent h2 {
+  margin: 8px 0 0;
+  font-family: var(--sys-serif);
+  font-weight: 400;
+  letter-spacing: -.055em;
+}
+
+.sysSectionHeading h2 {
+  font-size: clamp(54px, 5.4vw, 86px);
+  line-height: .9;
+}
+
+.sysOutlinePill {
+  padding: 9px 10px 9px 15px;
+  border: 1px solid rgba(18,16,14,.32);
+  color: #15120f;
+}
+
+.sysOutlinePill b {
+  background: #15120f;
+  color: #fff;
+}
+
+.sysCardGrid {
+  display: grid;
+  grid-template-columns: .9fr 1.08fr .68fr;
+  gap: 16px;
+  align-items: end;
+}
+
+.sysCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 17px;
+  background: #161311;
+  color: #fff;
+}
+
+.sysCardTall {
+  height: 470px;
+}
+
+.sysCardWide {
+  height: 520px;
+}
+
+.sysCardCompact {
+  height: 350px;
+}
+
+.sysCard img {
+  position: absolute;
+  inset: 0;
+  filter: saturate(.75) contrast(1.02) brightness(.82);
+  transition: transform .65s cubic-bezier(.16,1,.3,1);
+}
+
+.sysCard:hover img {
+  transform: scale(1.035);
+}
+
+.sysCardShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(7,6,5,.76) 0%, rgba(7,6,5,.12) 48%, rgba(7,6,5,.24) 100%);
+}
+
+.sysCardTop {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: rgba(255,255,255,.7);
+}
+
+.sysCardLabel {
+  position: absolute;
+  z-index: 2;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 14px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 13px;
+  background: rgba(13,11,9,.38);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.sysCardLabel strong {
+  display: block;
+  font-size: 16px;
+}
+
+.sysCardLabel p {
+  margin: 5px 0 0;
+  max-width: 300px;
+  color: rgba(255,255,255,.66);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.sysCardLabel > b {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  color: #12100e;
+  font-size: 11px;
+}
+
+.sysBuild {
+  padding: 94px 46px 106px;
+  background: var(--sys-warm);
+}
+
+.sysBuildIntro {
+  max-width: 760px;
+  margin: 0 auto 72px;
+  text-align: center;
+}
+
+.sysBuildIntro h2 {
+  font-size: clamp(56px, 5.9vw, 94px);
+  line-height: .92;
+}
+
+.sysBuildIntro p {
+  max-width: 650px;
+  margin: 24px auto 0;
+  color: #70675d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sysBuildRows {
+  display: grid;
+  gap: 22px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.sysBuildRow {
+  display: grid;
+  grid-template-columns: 1.18fr .82fr;
+  min-height: 330px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fffdf8;
+}
+
+.sysBuildRow.reverse {
+  grid-template-columns: .82fr 1.18fr;
+}
+
+.sysBuildRow.reverse .sysBuildMedia {
+  order: 2;
+}
+
+.sysBuildMedia {
+  min-height: 330px;
+  overflow: hidden;
+}
+
+.sysBuildMedia img {
+  filter: saturate(.72) contrast(1.02);
+}
+
+.sysBuildCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(34px, 4vw, 66px);
+}
+
+.sysBuildCopy h3 {
+  margin: 14px 0 0;
+  font-family: var(--sys-serif);
+  font-size: clamp(38px, 4vw, 64px);
+  font-weight: 400;
+  line-height: .94;
+  letter-spacing: -.05em;
+}
+
+.sysBuildCopy p {
+  margin: 20px 0 0;
+  color: #71695f;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.sysBuildCopy small {
+  margin-top: 18px;
+  color: #a07d2c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.sysBuildCopy > a {
+  align-self: flex-start;
+  margin-top: 24px;
+  padding: 9px 10px 9px 14px;
+  border: 1px solid rgba(18,16,14,.2);
+  color: #15120f;
+}
+
+.sysBuildCopy > a b {
+  background: #15120f;
+  color: #fff;
+}
+
+.sysMarquee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 3vw, 40px);
+  min-height: 94px;
+  overflow: hidden;
+  background: #171615;
+  color: #f2eee6;
+  font-family: var(--sys-serif);
+  font-size: clamp(28px, 4.2vw, 64px);
+  white-space: nowrap;
+}
+
+.sysMarquee i {
+  color: rgba(255,255,255,.28);
+  font-style: normal;
+}
+
+.sysFeatured {
+  padding: 76px 46px 88px;
+  background: #fff;
+}
+
+.sysFeaturedFrame {
+  position: relative;
+  max-width: 1280px;
+  min-height: 570px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #201a16;
+}
+
+.sysFeaturedFrame > img {
+  position: absolute;
+  inset: 0;
+  filter: saturate(.7) brightness(.82);
+}
+
+.sysFeaturedShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(13,10,8,.12), rgba(13,10,8,.64));
+}
+
+.sysFeaturedGlass {
+  position: absolute;
+  right: 46px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(460px, calc(100% - 92px));
+  padding: 34px;
+  border: 1px solid rgba(255,255,255,.34);
+  border-radius: 22px;
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  box-shadow: 0 20px 80px rgba(0,0,0,.22);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.sysFeaturedGlass > span {
+  color: rgba(255,255,255,.66);
+}
+
+.sysFeaturedGlass h2 {
+  margin: 14px 0 0;
+  font-family: var(--sys-serif);
+  font-size: clamp(50px, 5vw, 78px);
+  font-weight: 400;
+  letter-spacing: -.06em;
+}
+
+.sysFeaturedGlass p {
+  margin: 16px 0 0;
+  color: rgba(255,255,255,.78);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sysFeatureTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 22px;
+}
+
+.sysFeatureTags span {
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  font-size: 8px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.sysFeaturedGlass > a {
+  margin-top: 24px;
+  padding: 9px 10px 9px 14px;
+  background: #fff;
+  color: #16110e;
+}
+
+.sysFeaturedGlass > a b {
+  background: #16110e;
+  color: #fff;
+}
+
+.sysFaq {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 66px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 62px 46px 106px;
+}
+
+.sysFaqMedia {
+  position: relative;
+  min-height: 480px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #181512;
+}
+
+.sysFaqMedia > img {
+  position: absolute;
+  inset: 0;
+  filter: saturate(.72) brightness(.72);
+}
+
+.sysFaqMedia > div {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  padding: 17px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 14px;
+  background: rgba(12,10,8,.4);
+  color: #fff;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.sysFaqMedia span,
+.sysFaqMedia strong {
+  display: block;
+}
+
+.sysFaqMedia span {
+  color: rgba(255,255,255,.58);
+  font-size: 8px;
+  letter-spacing: .13em;
+}
+
+.sysFaqMedia strong {
+  margin-top: 7px;
+  max-width: 330px;
+  font-family: var(--sys-serif);
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.sysFaqContent {
+  padding-top: 8px;
+}
+
+.sysFaqContent h2 {
+  font-size: clamp(54px, 5vw, 82px);
+  line-height: .92;
+}
+
+.sysFaqList {
+  margin-top: 26px;
+  border-top: 1px solid rgba(18,16,14,.14);
+}
+
+.sysFaqList details {
+  border-bottom: 1px solid rgba(18,16,14,.14);
+}
+
+.sysFaqList summary {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sysFaqList summary::-webkit-details-marker {
+  display: none;
+}
+
+.sysFaqList summary span {
+  color: #a07d2c;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.sysFaqList summary strong {
+  font-size: 13px;
+}
+
+.sysFaqList summary b {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(18,16,14,.18);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 400;
+  transition: transform .2s ease;
+}
+
+.sysFaqList details[open] summary b {
+  transform: rotate(45deg);
+}
+
+.sysFaqList details p {
+  margin: -4px 36px 20px 54px;
+  color: #70685e;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.sysFooter {
+  padding: 58px 46px 34px;
+  background: #11110f;
+  color: #fff;
+}
+
+.sysFooterGrid {
+  display: grid;
+  grid-template-columns: .75fr 1fr 1.15fr 1.1fr;
+  gap: 54px;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.sysFooterGrid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sysFooterGrid > div > span {
+  margin-bottom: 16px;
+  color: rgba(255,255,255,.42);
+}
+
+.sysFooterGrid a,
+.sysFooterGrid p {
+  margin: 5px 0;
+  color: rgba(255,255,255,.68);
+  text-decoration: none;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.sysFooterGrid h3 {
+  margin: 0;
+  max-width: 310px;
+  font-family: var(--sys-serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.sysFooterGrid .sysFooterCta {
+  margin-top: 18px;
+  padding: 9px 10px 9px 14px;
+  border: 1px solid rgba(255,255,255,.24);
+  color: #fff;
+}
+
+.sysFooterCta b {
+  background: #fff;
+  color: #11110f;
+}
+
+.sysFooterWordmark {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1380px;
+  margin: 58px auto 0;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.sysFooterWordmark .sysBrand strong {
+  font-size: clamp(48px, 7vw, 108px);
+}
+
+.sysFooterWordmark .sysBrand i {
+  height: clamp(48px, 7vw, 104px);
+}
+
+.sysFooterWordmark .sysBrand span {
+  font-size: clamp(48px, 7vw, 108px);
+  font-family: var(--sys-serif);
+  font-weight: 400;
+}
+
+.sysFooterWordmark > span {
+  color: rgba(255,255,255,.35);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1040px) {
+  .sysHeader {
+    grid-template-columns: 1fr auto;
+  }
+
+  .sysPracticeNav {
+    position: absolute;
+    top: 74px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sysHeroContent {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    top: 47%;
+  }
+
+  .sysHeroAside {
+    justify-self: start;
+    width: min(520px, 100%);
+  }
+
+  .sysHeroAside > p,
+  .sysHeroGlass {
+    margin-left: 0;
+  }
+
+  .sysCardGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sysCardCompact {
+    grid-column: 1 / -1;
+    height: 330px;
+  }
+
+  .sysBuildRow,
+  .sysBuildRow.reverse {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sysFooterGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .sysHeroShell {
+    padding: 10px 10px 0;
+  }
+
+  .sysHero {
+    min-height: 690px;
+    border-radius: 19px;
+  }
+
+  .sysHeader {
+    padding: 18px 16px;
+  }
+
+  .sysBrand {
+    gap: 7px;
+  }
+
+  .sysBrand strong,
+  .sysBrand span {
+    font-size: 18px;
+  }
+
+  .sysBrand i {
+    height: 22px;
+  }
+
+  .sysHeaderActions a {
+    width: 31px;
+    height: 31px;
+  }
+
+  .sysPracticeNav {
+    top: 65px;
+    width: max-content;
+  }
+
+  .sysPracticeNav a {
+    padding: 8px 12px;
+    font-size: 9px;
+  }
+
+  .sysHeroContent {
+    left: 18px;
+    right: 18px;
+    top: 43%;
+    transform: translateY(-38%);
+  }
+
+  .sysHeroContent h1 {
+    font-size: clamp(80px, 25vw, 116px);
+  }
+
+  .sysHeroAside {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .sysHeroAside > p {
+    max-width: 280px;
+    margin-bottom: 18px;
+    font-size: 13px;
+  }
+
+  .sysHeroGlass {
+    width: min(225px, 100%);
+  }
+
+  .sysHeroBottom {
+    left: 14px;
+    right: 14px;
+    bottom: 16px;
+    align-items: flex-end;
+  }
+
+  .sysCapabilityChips {
+    flex-wrap: nowrap;
+    max-width: calc(100vw - 72px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .sysCapabilityChips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sysCapabilityChips a {
+    flex: 0 0 auto;
+    padding: 9px 12px;
+  }
+
+  .sysSocialDots {
+    display: none;
+  }
+
+  .sysSelected {
+    padding: 72px 18px 78px;
+  }
+
+  .sysSectionHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sysSectionHeading h2 {
+    font-size: 58px;
+  }
+
+  .sysCardGrid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+
+  .sysCardGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sysCard {
+    flex: 0 0 78vw;
+    height: 380px;
+  }
+
+  .sysCardWide {
+    flex-basis: 84vw;
+    height: 410px;
+  }
+
+  .sysCardCompact {
+    flex-basis: 72vw;
+    height: 340px;
+  }
+
+  .sysBuild {
+    padding: 70px 14px 76px;
+  }
+
+  .sysBuildIntro {
+    padding: 0 8px;
+    margin-bottom: 46px;
+  }
+
+  .sysBuildIntro h2 {
+    font-size: 60px;
+  }
+
+  .sysBuildRow,
+  .sysBuildRow.reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .sysBuildRow.reverse .sysBuildMedia {
+    order: 0;
+  }
+
+  .sysBuildMedia {
+    min-height: 250px;
+  }
+
+  .sysBuildCopy {
+    padding: 30px 24px 34px;
+  }
+
+  .sysBuildCopy h3 {
+    font-size: 42px;
+  }
+
+  .sysMarquee {
+    justify-content: flex-start;
+    padding: 0 16px;
+    min-height: 74px;
+    font-size: 31px;
+  }
+
+  .sysFeatured {
+    padding: 46px 12px 58px;
+  }
+
+  .sysFeaturedFrame {
+    min-height: 560px;
+    border-radius: 18px;
+  }
+
+  .sysFeaturedGlass {
+    top: auto;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    width: auto;
+    transform: none;
+    padding: 24px;
+  }
+
+  .sysFeaturedGlass h2 {
+    font-size: 54px;
+  }
+
+  .sysFaq {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 34px 18px 76px;
+  }
+
+  .sysFaqMedia {
+    min-height: 320px;
+  }
+
+  .sysFaqContent h2 {
+    font-size: 58px;
+  }
+
+  .sysFaqList details p {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .sysFooter {
+    padding: 46px 20px 28px;
+  }
+
+  .sysFooterGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 38px 24px;
+  }
+
+  .sysFooterWordmark {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 46px;
+  }
+
+  .sysFooterWordmark .sysBrand strong,
+  .sysFooterWordmark .sysBrand span {
+    font-size: 44px;
+  }
+
+  .sysFooterWordmark .sysBrand i {
+    height: 44px;
+  }
+}
+
+@media (max-width: 460px) {
+  .sysFooterGrid {
+    grid-template-columns: 1fr;
+  }
+}

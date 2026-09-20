@@ -1,342 +1,354 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import TrustedLogoMarquee from "../components/TrustedLogoMarquee";
 
 export const metadata: Metadata = {
-  title: "IMVO Systems | Technology & Product Engineering",
+  title: "IMVO Systems | Digital Products, Software & Business Systems",
   description:
-    "IMVO Systems is the technology and product-engineering practice of IMVO Group, building digital products, software systems, operational platforms, and intelligent automation.",
+    "IMVO Systems designs and engineers digital products, software platforms, business systems, integrations, and intelligent automation for real-world operations.",
   keywords: [
     "IMVO Systems",
-    "technology company Kigali",
     "software development Rwanda",
+    "business systems Kigali",
     "product engineering Rwanda",
-    "custom software Rwanda",
     "mobile app development Rwanda",
-    "business systems Rwanda",
+    "web platform development Rwanda",
     "AI automation Rwanda",
     "digital product development East Africa",
   ],
   category: "Technology & Product Engineering",
   alternates: { canonical: "/systems" },
   openGraph: {
-    title: "IMVO Systems | Technology & Product Engineering",
+    title: "IMVO Systems | Digital Products, Software & Business Systems",
     description:
-      "Digital products, software systems, operational platforms, and intelligent automation by IMVO Group.",
+      "Products, platforms, business systems, integrations, and intelligent automation by IMVO Group.",
     url: "/systems",
     type: "website",
   },
   twitter: {
-    card: "summary",
-    title: "IMVO Systems | Technology & Product Engineering",
+    card: "summary_large_image",
+    title: "IMVO Systems | Digital Products, Software & Business Systems",
     description:
-      "Digital products, software systems, operational platforms, and intelligent automation by IMVO Group.",
+      "Products, platforms, business systems, integrations, and intelligent automation by IMVO Group.",
   },
 };
 
-const capabilities = [
-  "Web Platforms",
-  "Mobile Applications",
-  "Custom Software",
-  "Business Systems",
-  "E-commerce",
-  "Hospitality Technology",
-  "Property Technology",
-  "AI & Automation",
-  "Integrations",
-  "Product Design",
-];
-
-const workCards = [
+const systemCards = [
   {
-    label: "01 / PRODUCT",
-    title: "Digital products",
-    body: "Useful customer experiences shaped around real needs.",
+    eyebrow: "PRODUCT / EXPERIENCE",
+    title: "Digital Products",
+    detail: "Web platforms, customer journeys, portals and product experiences.",
     image:
-      "https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    className: "sysCardTall",
   },
   {
-    label: "02 / ENGINEERING",
-    title: "Software systems",
-    body: "Web, mobile, and custom systems built for dependable use.",
+    eyebrow: "OPERATIONS / SOFTWARE",
+    title: "Business Systems",
+    detail: "Custom software that connects teams, workflows, data and daily operations.",
     image:
-      "https://images.pexels.com/photos/19805876/pexels-photo-19805876.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    className: "sysCardWide",
   },
   {
-    label: "03 / SYSTEMS",
-    title: "Business operations",
-    body: "Tools and integrations that connect how a business works.",
-    image:
-      "https://images.pexels.com/photos/1181279/pexels-photo-1181279.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  },
-  {
-    label: "04 / INTELLIGENCE",
+    eyebrow: "INTELLIGENCE / SCALE",
     title: "AI & Automation",
-    body: "Automation and intelligence used where they create value.",
+    detail: "Practical automation and intelligence designed around measurable business value.",
     image:
-      "https://images.pexels.com/photos/7498603/pexels-photo-7498603.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    className: "sysCardCompact",
   },
 ];
 
-const process = [
-  ["01", "Understand"],
-  ["02", "Design"],
-  ["03", "Engineer"],
-  ["04", "Evolve"],
-] as const;
-
-const selectedBrands = Array.from({ length: 9 }, (_, index) => ({
-  name: `Client or collaborator ${index + 1}`,
-  src: `/partners/partner-${index + 1}.png`,
-}));
-
-const qonicCapabilities = [
-  "Custom enterprise platforms",
-  "Modern web applications",
-  "Mobile applications",
-  "Tailored software solutions",
-  "Scalable product delivery",
-  "Cross-market technology delivery",
-];
-
-const qonicWork = [
+const buildRows = [
   {
-    index: "01",
-    name: "Leazi",
-    category: "Property Technology",
-    credit: "Developed by Qonics Inc",
-    description:
-      "A property-management application for lease visibility, rent and lease workflows, landlord and tenant responsibilities, and maintenance-request tracking.",
-    href: "https://play.google.com/store/apps/details?id=com.qonics.leazi",
-    tag: "PROPERTY / MOBILE",
+    eyebrow: "01 / CUSTOMER SYSTEMS",
+    title: "Web & mobile products",
+    copy:
+      "Customer-facing platforms designed to feel effortless while carrying the operational logic required behind the scenes.",
+    link: "Web platforms · Mobile apps · E-commerce",
+    image:
+      "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    index: "02",
-    name: "UNILAK MIS",
-    category: "Education Technology",
-    credit: "Developed by Qonics Inc",
-    description:
-      "A university mobile system supporting marksheets, available classes, attendance, payment-invoice generation, and staff exam-attendance workflows.",
-    href: "https://play.google.com/store/apps/details?id=com.mis.unilak",
-    tag: "EDUCATION / MIS",
+    eyebrow: "02 / OPERATIONS",
+    title: "Systems that run the business",
+    copy:
+      "From order flow and property operations to hospitality, reporting, CRM and internal control rooms — one connected operating layer.",
+    link: "Business systems · Integrations · Dashboards",
+    image:
+      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
-    index: "03",
-    name: "IHMS",
-    category: "Healthcare Technology",
-    credit: "Iwacu Hub Ltd in partnership with Qonics Inc Ltd",
-    description:
-      "A healthcare-management system for recording, treatment, billing, reporting, and operational workflows across health facilities, with multiple system modules.",
-    href: "https://ihms.iwacuhub.com/",
-    tag: "HEALTHCARE / SYSTEMS",
+    eyebrow: "03 / DELIVERY DEPTH",
+    title: "Engineering that can scale",
+    copy:
+      "IMVO Systems leads the product direction and can extend delivery capacity through specialist engineering partners, including Qonics, when a project needs deeper software execution.",
+    link: "Product design · Engineering · Ongoing evolution",
+    image:
+      "https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 ];
+
+const faqs = [
+  [
+    "What does IMVO Systems build?",
+    "Digital products, websites, mobile apps, internal platforms, e-commerce, property and hospitality systems, integrations, dashboards, and intelligent automation.",
+  ],
+  [
+    "Can you take a business from idea to launch?",
+    "Yes. We can shape the product, design the experience, engineer the system, deploy it, document it, and continue supporting it after launch.",
+  ],
+  [
+    "Do you work with existing systems?",
+    "Yes. We can improve, connect, migrate, rebuild, or extend an existing platform without forcing a full restart when that is not necessary.",
+  ],
+  [
+    "Who owns the finished system?",
+    "Ownership, source-code access, hosting, data, credentials, and handover terms are defined clearly for each engagement before launch.",
+  ],
+];
+
+function SystemsBrand({ light = false }: { light?: boolean }) {
+  return (
+    <span className={`sysBrand ${light ? "sysBrandLight" : ""}`} aria-label="IMVO Systems">
+      <strong>IMVO</strong>
+      <i aria-hidden="true" />
+      <span>systems</span>
+    </span>
+  );
+}
 
 export default function SystemsPage() {
   return (
-    <div className="appliedPage">
-      <section className="appliedStage" aria-labelledby="applied-title">
-        <div className="appliedDevice">
-          <div className="appliedHeroPanel">
-            <img
-              src="https://images.pexels.com/photos/19805877/pexels-photo-19805877.jpeg?auto=compress&cs=tinysrgb&w=2000"
-              alt="Software engineer working across multiple screens"
-            />
-            <div className="appliedHeroShade" />
-            <img
-              className="appliedHeroLogo"
-              src="/brand/imvo-systems.svg"
-              alt="IMVO Systems"
-              draggable={false}
-            />
-            <div className="appliedHeroCopy">
-              <h1 id="applied-title">Systems,<br />built to work.</h1>
-              <p>Technology &amp; Product Engineering</p>
-              <Link href="/contact?practice=systems">
-                Start a conversation <span aria-hidden="true">↗</span>
+    <main className="systemsSite" id="main-content">
+      <section className="sysHeroShell">
+        <div className="sysHero">
+          <img
+            className="sysHeroImage"
+            src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=2200"
+            alt=""
+          />
+          <div className="sysHeroShade" />
+
+          <header className="sysHeader">
+            <Link className="sysLogoLink" href="/systems" aria-label="IMVO Systems home">
+              <SystemsBrand light />
+            </Link>
+
+            <nav className="sysPracticeNav" aria-label="IMVO practices">
+              <Link href="/">Studio</Link>
+              <Link className="active" href="/systems" aria-current="page">
+                Systems
+              </Link>
+              <Link href="/domicile">Domicile</Link>
+            </nav>
+
+            <div className="sysHeaderActions">
+              <Link href="/contact?practice=systems" aria-label="Start a project">
+                ↗
+              </Link>
+              <a href="#capabilities" aria-label="Explore capabilities">
+                ☰
+              </a>
+            </div>
+          </header>
+
+          <div className="sysHeroContent">
+            <div>
+              <p className="sysKicker">Technology &amp; Product Engineering</p>
+              <h1>Systems</h1>
+              <Link className="sysPillLight" href="/contact?practice=systems">
+                Start a project <span>↗</span>
               </Link>
             </div>
+
+            <div className="sysHeroAside">
+              <p>
+                Digital products, software and operational platforms built around how
+                the business actually works.
+              </p>
+              <div className="sysHeroGlass">
+                <span>From idea to launch</span>
+                <strong>One connected delivery path</strong>
+              </div>
+            </div>
           </div>
 
-          <div className="appliedContentCard">
-            <div className="appliedOverviewGrid">
-              <div className="appliedCapabilityList" id="capabilities">
-                <span>CAPABILITIES</span>
-                {capabilities.slice(0, 6).map((capability) => (
-                  <div key={capability}>{capability}</div>
-                ))}
-              </div>
-
-              <div className="appliedOverviewFeature">
-                <span>WHAT WE DO</span>
-                <h2>Technology built around the business.</h2>
-                <p>
-                  We design and engineer digital products, software systems,
-                  and operational technology for businesses with real-world needs.
-                </p>
-                <a href="#work">Explore the practice</a>
-              </div>
-
-              <div className="appliedOverviewDark" id="approach">
-                <span>OUR APPROACH</span>
-                <h2>Business first. Technology where it matters.</h2>
-                <p>
-                  We begin with the operation, customer journey, and business
-                  problem before defining the technology required to solve it.
-                </p>
-                <a href="#method">How we work</a>
-              </div>
+          <div className="sysHeroBottom">
+            <div className="sysCapabilityChips">
+              {["Web Platforms", "Mobile Apps", "Business Systems", "Automation", "Integrations"].map(
+                (item) => (
+                  <a key={item} href="#capabilities">
+                    {item} <span>✦</span>
+                  </a>
+                ),
+              )}
             </div>
-
-            <div className="appliedWork" id="work">
-              <div className="appliedWorkHead">
-                <div>
-                  <span>BUILT TOGETHER</span>
-                  <h2>Products, systems, and intelligence.</h2>
-                </div>
-                <div className="appliedWorkMeta">KIGALI / RW · PRODUCT / SOFTWARE / SYSTEMS / AI</div>
-              </div>
-
-              <div className="appliedWorkCards">
-                {workCards.map((card) => (
-                  <article key={card.title}>
-                    <div className="appliedWorkImage">
-                      <img src={card.image} alt="" loading="lazy" />
-                    </div>
-                    <span>{card.label}</span>
-                    <h3>{card.title}</h3>
-                    <p>{card.body}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <section className="appliedPartner" aria-labelledby="qonics-title">
-              <div className="appliedPartnerIntro">
-                <span>ENGINEERING DELIVERY PARTNER</span>
-                <div className="appliedPartnerName">QONICS</div>
-                <h2 id="qonics-title">Additional engineering depth, inside the IMVO Systems delivery network.</h2>
-                <p>
-                  Qonics is a global software development company with operations in Kigali and Austin.
-                  The team works across custom enterprise platforms and modern web and mobile applications,
-                  extending the engineering capacity available around selected IMVO Systems engagements.
-                </p>
-                <a href="https://qonics.com/" target="_blank" rel="noopener noreferrer">
-                  Visit Qonics ↗
-                </a>
-              </div>
-
-              <div className="appliedPartnerStats" aria-label="Qonics company profile">
-                <div><b>2019</b><span>Founded</span></div>
-                <div><b>20+</b><span>Projects delivered</span></div>
-                <div><b>30+</b><span>Clients</span></div>
-                <div><b>5+</b><span>Countries served</span></div>
-              </div>
-
-              <div className="appliedPartnerCapabilities">
-                <span>DELIVERY CAPABILITY</span>
-                <div className="appliedPartnerCapabilityGrid">
-                  {qonicCapabilities.map((item, index) => (
-                    <div key={item}>
-                      <small>{String(index + 1).padStart(2, "0")}</small>
-                      <strong>{item}</strong>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="appliedPartnerWork" aria-labelledby="qonics-work-title">
-                <div className="appliedPartnerWorkHead">
-                  <span>SELECTED ENGINEERING WORK</span>
-                  <h3 id="qonics-work-title">Working systems, not just capability statements.</h3>
-                  <p>
-                    Publicly documented products and platforms delivered by Qonics, or with Qonics as a named technology partner.
-                  </p>
-                </div>
-
-                <div className="appliedPartnerWorkGrid">
-                  {qonicWork.map((item) => (
-                    <a
-                      key={item.name}
-                      className="appliedPartnerProject"
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <div className="appliedPartnerProjectVisual" aria-hidden="true">
-                        <div className="appliedPartnerProjectTopline">
-                          <span>{item.tag}</span>
-                          <b>{item.index}</b>
-                        </div>
-                        <div className="appliedPartnerProjectMock">
-                          <i />
-                          <i />
-                          <i />
-                          <div><i /><i /><i /></div>
-                        </div>
-                        <strong>{item.name}</strong>
-                      </div>
-                      <div className="appliedPartnerProjectCopy">
-                        <small>{item.category}</small>
-                        <h4>{item.name}</h4>
-                        <p>{item.description}</p>
-                        <em>{item.credit}</em>
-                        <span>View product ↗</span>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <div className="appliedPartnerPresence">
-                <div>
-                  <span>KIGALI / RWANDA</span>
-                  <p>African operations centre</p>
-                </div>
-                <div>
-                  <span>AUSTIN / USA</span>
-                  <p>Global headquarters</p>
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <TrustedLogoMarquee
-            logos={selectedBrands}
-            heading="Selected clients & collaborators"
-          />
-
-          <div className="appliedDeviceFooter" id="method">
-            <div>
-              <span>METHOD</span>
-              <h2>From problem to working system.</h2>
-              <div className="appliedMethodDots" aria-label="Systems process">
-                {process.map(([number, title]) => (
-                  <div key={title}>
-                    <b>{number}</b>
-                    <small>{title}</small>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <span>MORE CAPABILITIES</span>
-              <ul>
-                {capabilities.slice(6).map((capability) => (
-                  <li key={capability}>{capability}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div id="contact">
-              <span>START</span>
-              <h3>Have something to build?</h3>
-              <Link href="/contact?practice=systems">Talk to IMVO Systems ↗</Link>
+            <div className="sysSocialDots" aria-label="IMVO Systems locations">
+              <span>KIGALI</span>
+              <span>RWANDA</span>
+              <span>EAST AFRICA</span>
             </div>
           </div>
         </div>
       </section>
-    </div>
+
+      <section className="sysSelected" id="capabilities">
+        <div className="sysSectionHeading">
+          <div>
+            <span>WHAT WE BUILD</span>
+            <h2>Selected Systems</h2>
+          </div>
+          <Link className="sysOutlinePill" href="/contact?practice=systems">
+            START A PROJECT <b>↗</b>
+          </Link>
+        </div>
+
+        <div className="sysCardGrid">
+          {systemCards.map((card) => (
+            <article className={`sysCard ${card.className}`} key={card.title}>
+              <img src={card.image} alt="" loading="lazy" />
+              <div className="sysCardShade" />
+              <div className="sysCardTop">
+                <span>{card.eyebrow}</span>
+                <small>IMVO SYSTEMS</small>
+              </div>
+              <div className="sysCardLabel">
+                <div>
+                  <strong>{card.title}</strong>
+                  <p>{card.detail}</p>
+                </div>
+                <b aria-hidden="true">↗</b>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="sysBuild">
+        <div className="sysBuildIntro">
+          <span>BUILT AROUND THE BUSINESS</span>
+          <h2>Build the right system</h2>
+          <p>
+            We start with the operation, customer journey and business problem —
+            then define the technology required to solve it.
+          </p>
+        </div>
+
+        <div className="sysBuildRows">
+          {buildRows.map((row, index) => (
+            <article className={`sysBuildRow ${index % 2 ? "reverse" : ""}`} key={row.title}>
+              <div className="sysBuildMedia">
+                <img src={row.image} alt="" loading="lazy" />
+              </div>
+              <div className="sysBuildCopy">
+                <span>{row.eyebrow}</span>
+                <h3>{row.title}</h3>
+                <p>{row.copy}</p>
+                <small>{row.link}</small>
+                <Link href="/contact?practice=systems">
+                  Discuss a system <b>↗</b>
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="sysMarquee" aria-hidden="true">
+        <span>PRODUCTS</span><i>/</i>
+        <span>SYSTEMS</span><i>/</i>
+        <span>AUTOMATION</span><i>/</i>
+        <span>INTELLIGENCE</span>
+      </div>
+
+      <section className="sysFeatured">
+        <div className="sysFeaturedFrame">
+          <img src="/domicile/exact/estate-hero.jpg" alt="" loading="lazy" />
+          <div className="sysFeaturedShade" />
+          <div className="sysFeaturedGlass">
+            <span>IMVO PRODUCT / PROPERTY TECHNOLOGY</span>
+            <h2>DŌMICILE</h2>
+            <p>
+              A property-management platform designed to connect owners, properties,
+              maintenance, reporting and IMVO operations in one controlled experience.
+            </p>
+            <div className="sysFeatureTags">
+              <span>Mobile</span>
+              <span>Operations</span>
+              <span>Property</span>
+            </div>
+            <Link href="/domicile">Explore DŌMICILE <b>↗</b></Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="sysFaq">
+        <div className="sysFaqMedia">
+          <img
+            src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1400"
+            alt=""
+            loading="lazy"
+          />
+          <div>
+            <span>IMVO SYSTEMS</span>
+            <strong>Products that stay useful after launch.</strong>
+          </div>
+        </div>
+
+        <div className="sysFaqContent">
+          <span>FREQUENTLY ASKED QUESTIONS</span>
+          <h2>How we work</h2>
+          <div className="sysFaqList">
+            {faqs.map(([question, answer], index) => (
+              <details key={question} open={index === 0}>
+                <summary>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{question}</strong>
+                  <b>+</b>
+                </summary>
+                <p>{answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="sysFooter">
+        <div className="sysFooterGrid">
+          <div>
+            <span>IMVO GROUP</span>
+            <Link href="/">Studio</Link>
+            <Link href="/systems">Systems</Link>
+            <Link href="/domicile">Domicile</Link>
+          </div>
+          <div>
+            <span>CAPABILITIES</span>
+            <a href="#capabilities">Digital Products</a>
+            <a href="#capabilities">Business Systems</a>
+            <a href="#capabilities">AI &amp; Automation</a>
+            <a href="#capabilities">Integrations</a>
+          </div>
+          <div>
+            <span>DELIVERY</span>
+            <p>Kigali, Rwanda</p>
+            <p>Projects across East Africa</p>
+            <p>Extended engineering depth through selected partners</p>
+          </div>
+          <div>
+            <span>START</span>
+            <h3>Have something to build?</h3>
+            <Link className="sysFooterCta" href="/contact?practice=systems">
+              Talk to IMVO Systems <b>↗</b>
+            </Link>
+          </div>
+        </div>
+
+        <div className="sysFooterWordmark">
+          <SystemsBrand light />
+          <span>© {new Date().getFullYear()} IMVO Group</span>
+        </div>
+      </footer>
+    </main>
   );
 }
