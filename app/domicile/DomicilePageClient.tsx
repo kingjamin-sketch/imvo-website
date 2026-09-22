@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import styles from "./DomicilePage.module.css";
+import styles from "./DomicilePage.module.css";\nimport PracticeSwitcher from "../components/PracticeSwitcher";
 
 type FormState = {
   name: string;
@@ -135,11 +135,14 @@ export default function DomicilePageClient() {
             />
           </Link>
 
-          <nav className={styles.nav} aria-label="DŌMICILE navigation">
-            <a href="#what-we-handle">What we handle</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#talk-to-us">Talk to us</a>
-          </nav>
+          <div className={styles.headerCenter}>
+            <PracticeSwitcher placement="inline" variant="light" />
+            <nav className={styles.nav} aria-label="DŌMICILE navigation">
+              <a href="#what-we-handle">What we handle</a>
+              <a href="#how-it-works">How it works</a>
+              <a href="#talk-to-us">Talk to us</a>
+            </nav>
+          </div>
 
           <a className={styles.headerCta} href="#talk-to-us">
             Talk to DŌMICILE

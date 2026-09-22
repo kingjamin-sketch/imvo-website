@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./SystemsPage.module.css";
+import styles from "./SystemsPage.module.css";\nimport PracticeSwitcher from "../components/PracticeSwitcher";
 
 export function SystemsHeader() {
   return (
@@ -10,19 +10,14 @@ export function SystemsHeader() {
           <img src="/brand/imvo-systems.svg" alt="IMVO Systems" />
         </Link>
 
-        <nav className={styles.divisionNav} aria-label="IMVO divisions">
-          <Link href="/" aria-label="IMVO Studio">
-            <img className={styles.divisionStudio} src="/brand/imvo-studio.svg" alt="IMVO Studio" />
-          </Link>
-          <i aria-hidden="true" />
-          <Link href="/systems" className={styles.active} aria-label="IMVO Systems">
-            <img className={styles.divisionSystems} src="/brand/imvo-systems.svg" alt="IMVO Systems" />
-          </Link>
-          <i aria-hidden="true" />
-          <Link href="/domicile" aria-label="DŌMICILE">
-            <img className={styles.divisionDomicile} src="/domicile/domicile-white-no-tagline.svg" alt="DŌMICILE" />
-          </Link>
-        </nav>
+        <div className={styles.headerCenter}>
+          <PracticeSwitcher placement="inline" variant="light" />
+          <nav className={styles.nav} aria-label="IMVO Systems navigation">
+            <Link href="/systems">Overview</Link>
+            <Link href="/systems/about">About</Link>
+            <Link href="/systems/contact">Contact</Link>
+          </nav>
+        </div>
 
         <Link className={styles.headerCta} href="/systems/contact">
           Talk to Systems

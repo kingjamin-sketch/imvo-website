@@ -6,24 +6,19 @@ import styles from "./PracticeSwitcher.module.css";
 
 export default function PracticeSwitcher({
   variant = "light",
+  placement = "fixed",
 }: {
   variant?: "light" | "dark";
+  placement?: "fixed" | "inline";
 }) {
   const pathname = usePathname();
   const isSystems = pathname.startsWith("/systems");
   const isDomicile = pathname.startsWith("/domicile");
   const isStudio = !isSystems && !isDomicile;
 
-  const studioLogo = "/brand/imvo-studio.svg";
-  const systemsLogo = "/brand/imvo-systems.svg";
-  const domicileLogo =
-    variant === "dark"
-      ? "/domicile/domicile-black-no-tagline.svg"
-      : "/domicile/domicile-white-no-tagline.svg";
-
   return (
     <nav
-      className={`${styles.switcher} ${variant === "dark" ? styles.dark : styles.light}`}
+      className={`${styles.switcher} ${placement === "inline" ? styles.inline : styles.fixed} ${variant === "dark" ? styles.dark : styles.light}`}
       aria-label="IMVO divisions"
     >
       <Link
@@ -32,10 +27,8 @@ export default function PracticeSwitcher({
         aria-current={isStudio ? "page" : undefined}
         aria-label="IMVO Studio"
       >
-        <img className={styles.imvoDivisionLogo} src={studioLogo} alt="IMVO Studio" />
+        <img className={styles.imvoLogo} src="/brand/imvo-studio.svg" alt="IMVO Studio" />
       </Link>
-
-      <span className={styles.divider} aria-hidden="true" />
 
       <Link
         href="/systems"
@@ -43,10 +36,8 @@ export default function PracticeSwitcher({
         aria-current={isSystems ? "page" : undefined}
         aria-label="IMVO Systems"
       >
-        <img className={styles.imvoDivisionLogo} src={systemsLogo} alt="IMVO Systems" />
+        <img className={styles.imvoLogo} src="/brand/imvo-systems.svg" alt="IMVO Systems" />
       </Link>
-
-      <span className={styles.divider} aria-hidden="true" />
 
       <Link
         href="/domicile"
@@ -54,7 +45,11 @@ export default function PracticeSwitcher({
         aria-current={isDomicile ? "page" : undefined}
         aria-label="DŌMICILE"
       >
-        <img className={styles.domicileLogo} src={domicileLogo} alt="DŌMICILE" />
+        <img
+          className={styles.domicileLogo}
+          src="/domicile/domicile-black-no-tagline.svg"
+          alt="DŌMICILE"
+        />
       </Link>
     </nav>
   );

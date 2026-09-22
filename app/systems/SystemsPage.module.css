@@ -25,9 +25,9 @@
   min-height: 82px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(190px, 280px) 1fr auto;
+  grid-template-columns: minmax(190px, 260px) 1fr auto;
   align-items: center;
-  gap: 34px;
+  gap: 28px;
 }
 
 .brand {
@@ -38,6 +38,14 @@
 .brand img {
   width: 100%;
   height: auto;
+}
+
+.headerCenter {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
 
 .nav {
@@ -622,7 +630,11 @@
 
 @media (max-width: 1050px) {
   .headerInner {
-    grid-template-columns: minmax(180px, 250px) 1fr;
+    grid-template-columns: minmax(180px, 250px) 1fr auto;
+  }
+
+  .headerCenter {
+    justify-content: center;
   }
 
   .nav {
@@ -694,9 +706,18 @@
   }
 
   .headerInner {
-    min-height: 72px;
+    min-height: 112px;
     grid-template-columns: 1fr auto;
     gap: 16px;
+    align-items: start;
+    padding-top: 14px;
+  }
+
+  .headerCenter {
+    position: absolute;
+    left: 50%;
+    top: 66px;
+    transform: translateX(-50%);
   }
 
   .brand {
@@ -861,4 +882,11 @@
   .subpageHero,.subpageHeroInner{min-height:460px}
   .subpageHeroInner,.subpageGrid{width:min(100% - 32px,1440px)}
   .subpageBody{padding:84px 0}
+}
+
+
+/* Shared IMVO family switcher alignment */
+.headerCenter .nav { flex: 0 1 auto; }
+@media (max-width: 1220px) {
+  .headerCenter .nav { display: none; }
 }
