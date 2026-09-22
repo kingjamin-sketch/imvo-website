@@ -6,7 +6,7 @@
   z-index: 100000;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   pointer-events: auto;
 }
 
@@ -18,7 +18,7 @@
   min-height: 32px;
   padding: 2px 0 7px;
   text-decoration: none;
-  opacity: 0.48;
+  opacity: .46;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
@@ -40,28 +40,33 @@
   display: block;
 }
 
-.light .logoCrop img {
-  filter: invert(1);
+.domicileMark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 82px;
+  height: 30px;
+  overflow: hidden;
 }
 
-.dark .logoCrop img {
-  filter: none;
+.domicileMark img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
+
+.light .logoCrop img { filter: invert(1); }
+.dark .logoCrop img { filter: none; }
 
 .divider {
   width: 1px;
   height: 16px;
   background: currentColor;
-  opacity: 0.18;
+  opacity: .18;
 }
 
-.light {
-  color: white;
-}
-
-.dark {
-  color: #0a0a0a;
-}
+.light { color: white; }
+.dark { color: #0a0a0a; }
 
 .link::after {
   content: "";
@@ -77,32 +82,16 @@
 }
 
 .link:hover,
-.active {
-  opacity: 1;
-}
+.active { opacity: 1; }
 
-.link:hover {
-  transform: translateY(-1px);
-}
-
-.active::after {
-  transform: scaleX(1);
-}
+.link:hover { transform: translateY(-1px); }
+.active::after { transform: scaleX(1); }
 
 @media (max-width: 1180px) {
-  .switcher {
-    gap: 10px;
-  }
-
-  .logoCrop {
-    width: 69px;
-    height: 27px;
-  }
-
-  .logoCrop img {
-    width: 146px;
-    left: -80px;
-  }
+  .switcher { gap: 9px; }
+  .logoCrop { width: 67px; height: 27px; }
+  .logoCrop img { width: 143px; left: -78px; }
+  .domicileMark { width: 70px; height: 27px; }
 }
 
 @media (max-width: 900px) {
@@ -111,22 +100,13 @@
     left: auto;
     right: 62px;
     transform: none;
-    gap: 8px;
+    gap: 7px;
   }
-
-  .logoCrop {
-    width: 61px;
-    height: 24px;
-  }
-
-  .logoCrop img {
-    width: 130px;
-    left: -71px;
-  }
+  .logoCrop { width: 57px; height: 24px; }
+  .logoCrop img { width: 124px; left: -68px; }
+  .domicileMark { width: 61px; height: 24px; }
 }
 
-@media (max-width: 620px) {
-  .switcher {
-    display: none;
-  }
+@media (max-width: 680px) {
+  .switcher { display: none; }
 }
