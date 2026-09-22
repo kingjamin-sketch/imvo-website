@@ -362,33 +362,52 @@ export default function SiteHeader({
             <div
               style={{
                 display: "flex",
-                gap: 22,
-                marginBottom: 10,
-                textTransform: "uppercase",
-                letterSpacing: "0.14em",
-                fontSize: 11,
-                fontWeight: 800,
+                alignItems: "center",
+                gap: 14,
+                marginBottom: 12,
               }}
             >
-              <Link
-                href="/"
-                onClick={closeMenu}
-                style={{
-                  color: isSystems ? "#666" : "rgba(255,255,255,.62)",
-                  textDecoration: "none",
-                }}
-              >
-                Studio
+              <Link href="/" onClick={closeMenu} aria-label="IMVO Studio">
+                <img
+                  src="/brand/imvo-studio.svg"
+                  alt="IMVO Studio"
+                  style={{
+                    display: "block",
+                    width: 96,
+                    height: "auto",
+                    opacity: isSystems ? 0.42 : 1,
+                    filter: isSystems ? "none" : "invert(1) brightness(2)",
+                  }}
+                />
               </Link>
-              <Link
-                href="/systems"
-                onClick={closeMenu}
-                style={{
-                  color: isSystems ? "#0a0a0a" : "white",
-                  textDecoration: "none",
-                }}
-              >
-                Systems
+              <span style={{ width: 1, height: 20, background: foreground, opacity: 0.2 }} />
+              <Link href="/systems" onClick={closeMenu} aria-label="IMVO Systems">
+                <img
+                  src="/brand/imvo-systems.svg"
+                  alt="IMVO Systems"
+                  style={{
+                    display: "block",
+                    width: 96,
+                    height: "auto",
+                    opacity: isSystems ? 1 : 0.52,
+                    filter: isSystems ? "none" : "invert(1) brightness(2)",
+                  }}
+                />
+              </Link>
+              <span style={{ width: 1, height: 20, background: foreground, opacity: 0.2 }} />
+              <Link href="/domicile" onClick={closeMenu} aria-label="DŌMICILE">
+                <img
+                  src={isSystems
+                    ? "/domicile/domicile-black-no-tagline.svg"
+                    : "/domicile/domicile-white-no-tagline.svg"}
+                  alt="DŌMICILE"
+                  style={{
+                    display: "block",
+                    width: 80,
+                    height: "auto",
+                    opacity: 0.62,
+                  }}
+                />
               </Link>
             </div>
 

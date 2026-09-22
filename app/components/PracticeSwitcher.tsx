@@ -14,6 +14,13 @@ export default function PracticeSwitcher({
   const isDomicile = pathname.startsWith("/domicile");
   const isStudio = !isSystems && !isDomicile;
 
+  const studioLogo = "/brand/imvo-studio.svg";
+  const systemsLogo = "/brand/imvo-systems.svg";
+  const domicileLogo =
+    variant === "dark"
+      ? "/domicile/domicile-black-no-tagline.svg"
+      : "/domicile/domicile-white-no-tagline.svg";
+
   return (
     <nav
       className={`${styles.switcher} ${variant === "dark" ? styles.dark : styles.light}`}
@@ -25,9 +32,7 @@ export default function PracticeSwitcher({
         aria-current={isStudio ? "page" : undefined}
         aria-label="IMVO Studio"
       >
-        <span className={`${styles.logoCrop} ${styles.studioMark}`} aria-hidden="true">
-          <img src="/brand/imvo-studio.svg" alt="" draggable={false} />
-        </span>
+        <img className={styles.imvoDivisionLogo} src={studioLogo} alt="IMVO Studio" />
       </Link>
 
       <span className={styles.divider} aria-hidden="true" />
@@ -38,9 +43,7 @@ export default function PracticeSwitcher({
         aria-current={isSystems ? "page" : undefined}
         aria-label="IMVO Systems"
       >
-        <span className={`${styles.logoCrop} ${styles.systemsMark}`} aria-hidden="true">
-          <img src="/brand/imvo-systems.svg" alt="" draggable={false} />
-        </span>
+        <img className={styles.imvoDivisionLogo} src={systemsLogo} alt="IMVO Systems" />
       </Link>
 
       <span className={styles.divider} aria-hidden="true" />
@@ -51,15 +54,7 @@ export default function PracticeSwitcher({
         aria-current={isDomicile ? "page" : undefined}
         aria-label="DŌMICILE"
       >
-        <span className={styles.domicileMark} aria-hidden="true">
-          <img
-            src={variant === "dark"
-              ? "/domicile/domicile-black-no-tagline.svg"
-              : "/domicile/domicile-white-no-tagline.svg"}
-            alt=""
-            draggable={false}
-          />
-        </span>
+        <img className={styles.domicileLogo} src={domicileLogo} alt="DŌMICILE" />
       </Link>
     </nav>
   );

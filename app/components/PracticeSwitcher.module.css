@@ -1,6 +1,6 @@
 .switcher {
   position: fixed;
-  top: 13px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100000;
@@ -8,6 +8,7 @@
   align-items: center;
   gap: 12px;
   pointer-events: auto;
+  white-space: nowrap;
 }
 
 .link {
@@ -15,54 +16,38 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
-  padding: 2px 0 7px;
+  min-height: 38px;
+  padding: 2px 2px 8px;
   text-decoration: none;
-  opacity: .46;
+  opacity: .48;
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.logoCrop {
-  position: relative;
+.imvoDivisionLogo {
   display: block;
-  width: 78px;
-  height: 30px;
-  overflow: hidden;
-}
-
-.logoCrop img {
-  position: absolute;
-  top: 0;
-  left: -89px;
-  width: 162px;
-  max-width: none;
+  width: 108px;
   height: auto;
+}
+
+.domicileLogo {
   display: block;
-}
-
-.domicileMark {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 82px;
-  height: 30px;
-  overflow: hidden;
-}
-
-.domicileMark img {
-  width: 100%;
+  width: 90px;
   height: auto;
-  display: block;
 }
 
-.light .logoCrop img { filter: invert(1); }
-.dark .logoCrop img { filter: none; }
+.light .imvoDivisionLogo {
+  filter: invert(1) brightness(2);
+}
+
+.dark .imvoDivisionLogo {
+  filter: none;
+}
 
 .divider {
   width: 1px;
-  height: 16px;
+  height: 18px;
   background: currentColor;
-  opacity: .18;
+  opacity: .22;
 }
 
 .light { color: white; }
@@ -71,8 +56,8 @@
 .link::after {
   content: "";
   position: absolute;
-  left: 7px;
-  right: 7px;
+  left: 8px;
+  right: 8px;
   bottom: 0;
   height: 1px;
   background: currentColor;
@@ -89,24 +74,22 @@
 
 @media (max-width: 1180px) {
   .switcher { gap: 9px; }
-  .logoCrop { width: 67px; height: 27px; }
-  .logoCrop img { width: 143px; left: -78px; }
-  .domicileMark { width: 70px; height: 27px; }
+  .imvoDivisionLogo { width: 94px; }
+  .domicileLogo { width: 78px; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
   .switcher {
-    top: 13px;
+    top: 12px;
     left: auto;
-    right: 62px;
+    right: 70px;
     transform: none;
-    gap: 7px;
+    gap: 8px;
   }
-  .logoCrop { width: 57px; height: 24px; }
-  .logoCrop img { width: 124px; left: -68px; }
-  .domicileMark { width: 61px; height: 24px; }
+  .imvoDivisionLogo { width: 78px; }
+  .domicileLogo { width: 66px; }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   .switcher { display: none; }
 }

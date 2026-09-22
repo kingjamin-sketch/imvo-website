@@ -138,6 +138,9 @@ export default function SiteFooter({
               <Link href="/systems" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Systems
               </Link>
+              <Link href="/domicile" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
+                Domicile
+              </Link>
               <Link href="/contact" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
                 Contact
               </Link>
