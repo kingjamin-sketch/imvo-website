@@ -111,7 +111,7 @@ export default function SiteShell({
     };
   }, [homeEnhancementsReady, pathname]);
 
-  if (pathname.startsWith("/studio") || pathname.startsWith("/domicile")) {
+  if (pathname.startsWith("/studio") || pathname.startsWith("/systems") || pathname.startsWith("/domicile")) {
     return children;
   }
 
